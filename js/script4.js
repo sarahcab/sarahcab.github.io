@@ -19,8 +19,8 @@ var anneeDef = 2002;
 var etendue = anneeMax - anneeMin;
 var Max = document.getElementById("fix").attributes.width.value- document.getElementById("curs0").attributes.width.value;
 var choix  = "pib_"
-var zp = document.getElementById("zp")
-var zm = document.getElementById("zm")
+// var zp = document.getElementById("zp")
+// var zm = document.getElementById("zm")
 	
 var proj = d3.geo.orthographic()
 	.translate([width / 4, height / 3])
@@ -37,7 +37,7 @@ window.onload = initialize();
 function initialize() {
 	drawMap();
 	dragTime();
-	zoom();
+	// zoom();
 }
 
 function dragTime(){
@@ -380,21 +380,21 @@ function drawMap(){
 	}
 }
 
-function zoom(){
-	zp.onclick = function(){
-		var r = proj.scale()*1.10;
-		d3.select("#lamer").attr("r",r)
-		proj.scale([r])
-		var path = d3.geo.path().projection(proj);
-		d3.select("#map").selectAll(".pays")  
-			.attr("d", path)
-	}
-	zm.onclick = function(){
-		var r = proj.scale()*0.90;
-		d3.select("#lamer").attr("r",r)
-		proj.scale([r])
-		var path = d3.geo.path().projection(proj);
-		d3.select("#map").selectAll(".pays")  
-			.attr("d", path)
-	}
-}
+// function zoom(){
+	// zp.onclick = function(){
+		// var r = proj.scale()*1.10;
+		// d3.select("#lamer").attr("r",r)
+		// proj.scale([r])
+		// var path = d3.geo.path().projection(proj);
+		// d3.select("#map").selectAll(".pays")  
+			// .attr("d", path)
+	// }
+	// zm.onclick = function(){
+		// var r = proj.scale()*0.90;
+		// d3.select("#lamer").attr("r",r)
+		// proj.scale([r])
+		// var path = d3.geo.path().projection(proj);
+		// d3.select("#map").selectAll(".pays")  
+			// .attr("d", path)
+	// }
+// }
