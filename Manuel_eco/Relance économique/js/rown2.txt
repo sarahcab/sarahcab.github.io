@@ -1,0 +1,31 @@
+d3.select("#"+row.n2)
+							.attr("cond", function(){
+								//mise à jour des points disponibls dans le noeud suivant
+								var initial =this.attributes.cond.value;
+								if(row.r=="u"){ // le problème dans ce cas là est que le déjà a déjà été fait et donc aucun flux ne va vers les entreprises
+									//ici voir si 'lon peut augment le truc de façon plus juste
+									var val = parseFloat(initial)+1;
+									if (val>4){
+										coul = nuancier[4];
+									} else {
+										coul = nuancier[val];
+									}
+									
+									if(initial!=val){
+										d3.select(this).attr("cliquable","true");
+									}
+								} else {
+									alert(row.n2)
+									var deja = document.getElementById(id).attributes.deja.value;
+									var val = parseFloat(this.attributes.cond.value) + parseFloat(cap-deja);
+									if (val>4){
+										coul = nuancier[4];
+									} else {
+										coul = nuancier[val];
+									}
+									
+								}
+								
+								condi = val;
+								return val;
+							})

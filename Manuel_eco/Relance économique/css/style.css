@@ -1,0 +1,364 @@
+@font-face {
+    font-family: 'Roboto';
+    src:url("../../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'RobotoBold';
+    src:url("../../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+@font-face {
+    font-family: 'WalbaumgrotBook';
+    src:url("../../ressources/polices/walbaumgroteskbook/WalbaumGroteskBook.otf");
+}
+@font-face {
+    font-family: 'WalbaumGroteskText';
+    src:url("../../ressources/polices/WalbaumGroteskText/WalbaumGroteskText.otf");
+}
+
+@font-face {
+    font-family: 'Minuscule6';
+    src:url("../../ressources/polices/Minuscule6/Minuscule6.otf");
+}
+@font-face {
+    font-family: 'Minuscule6-Italic';
+    src:url("../../ressources/polices/Minuscule6/Minuscule6-Italic.otf");
+}
+
+@font-face {
+    font-family: 'PlutoCondRegular';
+    src:url("../../ressources/polices/Pluto/PlutoCondRegular.otf");
+}
+@font-face {
+    font-family: 'PlutoCondRegular-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondRegular-Italic.otf");
+}
+@font-face {
+    font-family: 'PlutoCondMedium';
+    src:url("../../ressources/polices/Pluto/PlutoCondMedium.otf");
+}
+@font-face {
+    font-family: 'PlutoCondBold';
+    src:url("../../ressources/polices/Pluto/PlutoCondBold.otf");
+}
+@font-face {
+    font-family: 'PlutoCondBlack';
+    src:url("../../ressources/polices/Pluto/PlutoCondBlack.otf");
+}
+@font-face {
+    font-family: 'PlutoCondHeavy';
+    src:url("../../ressources/polices/Pluto/PlutoCondHeavy.otf");
+}
+@font-face {
+    font-family: 'PlutoCondBold-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondBold-Italic.otf");
+}
+@font-face {
+    font-family: 'PlutoBlack';
+    src:url("../../ressources/polices/Pluto/PlutoBlack.otf");
+}
+@font-face {
+    font-family: 'PlutoCondHeavy-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondHeavy-Italic.otf");
+}
+@font-face {
+    font-family: 'PlutoCondMedium-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondMedium-Italic.otf");
+}
+@font-face {
+    font-family: 'PlutoHeavy';
+    src:url("../../ressources/polices/Pluto/PlutoHeavy.otf");
+}
+.adapte{
+	font-size: 13px;
+}
+
+.adapte2{
+	font-size: 16px;
+}
+
+.adapte3{
+	font-size: 25px;
+}
+
+body{
+	font-family: WalbaumgrotBook, Roboto, helvetica, arial, sans-serif;
+}
+
+#anime{
+	position : absolute;
+	margin-top : -2.5%;
+}
+
+
+#bouton_l{
+	border-radius : 20px;
+	width: 45px;
+	height: auto;
+	margin : auto;
+	padding : 4px 7px;
+	border-style : solid;
+	border-width:3px;
+	border-color : #FFFFFF;
+}
+
+#bouton_0{
+	width : 33%;
+	padding-top : 7%;
+	padding-bottom : 7%;
+	margin-top : 20%;
+	position : absolute;
+	border-radius: 80px;
+	border-width:30%;
+	border-color : #FFFFFF;
+	opacity : 0.97;
+}
+
+
+#default{
+	text-align : center;
+	width : 70%;
+	height : 3%;
+	z-index : 1;
+	position : absolute;
+}
+
+
+#rules{
+	display : none;
+	position : absolute;
+	margin-top : 15%;
+	margin-left : 25%;
+	z-index : 0;
+}
+
+
+#rule,#rule2{
+	display : none;
+	text-align : center;
+}
+
+#boutmeca{
+	cursor : pointer;
+	position : absolute;
+	padding : 3px 5px;
+	margin-left : 35.3%;
+	margin-top : 6.8%;
+}
+
+.rob, .noeud{
+	cursor : pointer;
+}
+
+#explications2{
+	text-align : center;
+	margin-top : -4%;
+}
+
+#label_interromp, #soundcontrol{
+	margin-top : 10%;
+}
+
+#soundcontrol{
+	width:70%;
+	margin:auto;
+	border-top : dashed 0.5px #999999;
+	border-bottom : dashed 0.5px #999999;
+}
+
+#pexplis{
+	display : none;
+	margin-top : 12%;
+	padding-top : 7%;
+	border-top : solid 0.5px;
+}
+
+/* #explications2,#explications1{
+	position : absolute;	
+	width : 20%;
+} */
+
+
+#init{
+	overflow : hidden;
+	z-index : 2;
+	margin-left :41%;
+	margin-top :5%;
+	width:12%;
+}
+
+#all{
+	display : flex;
+	opacity : 0.4;
+}
+
+#pop{
+	width : 20%;
+	z-index : 1;
+}
+
+#avert,#avert2,#avert3{
+  	opacity : 0; 
+	display : none; 
+}
+
+ #images{
+	z-index : 0;
+	opacity : 0.1;
+}
+
+.eteint{
+	display : none;
+}
+/* #playy, #pausee, #label_interromp, #label_continue, */ #etape, #etapepause{
+	display:none;
+	margin-bottom : 5%;
+	/* width : 8%;
+	position : absolute;
+	margin-left : 57%;
+	margin-top : 34%; */
+}
+
+
+#noeud{
+	cursor : pointer
+}
+
+
+.boutDebut,#init, #avertson2{
+	display:none;
+}
+
+
+#vol_plus, #vol_moins{
+	cursor : pointer;
+}
+
+#avertson1{
+	position : absolute;
+	width : 6.5%;
+	margin-left : 0.8%;
+	margin-top : 1%;
+}
+
+#avertson2{
+	width : 3.2%;
+	position : absolute;
+	margin-left : 1.3%;
+	margin-top : 1.3%;
+}
+
+#boutmode1{
+	padding-left : 4.2%;
+}
+#boutTout{
+	padding-left : 10%;
+}
+
+
+.bouts, .boutCont, .boutDebut,.boutLegende, #affMode, #bou_ex{
+	padding-left : 0px;
+	border: 0;
+	border-radius: 15px;
+	padding: 5px 7px;
+	background: #f6e9d9;
+	color: #333333;
+	transition-duration:.2s;
+	transition-property: background;
+	-moz-transition-duration:.2s;
+	-moz-transition-property: background;
+	-webkit-transition-duration:.2s;
+	-webkit-transition-property: background;
+	font-family: WalbaumgrotBook, helvetica, arial, sans-serif;
+}
+
+.boutPlus{
+	cursor : pointer;
+}
+#bou_ex{
+	padding: 2px 4px;
+}
+
+.boutCont:hover, .boutDebut:hover, #affMode:hover, .bouts:hover{
+	background: #be2e0d !important;
+	color: #ffffff !important;
+	cursor:pointer !important;
+}
+
+.boutCont{
+	position : absolute;
+}
+
+.boutDebut{
+	margin : 5%;
+}
+
+.on{
+	background: #333333;
+	color: #ffffff;
+}
+
+
+.clignote{
+	animation: cligne 1.5s linear;
+	animation-iteration-count : infinite;
+	width : 100px;
+}
+
+@keyframes cligne {
+	0% {opacity : 1}
+	50% {opacity : 0}
+	100% {opacity : 1}
+}
+
+.debit{
+	stroke-linecap : round ;
+	opacity : 0.2;
+	stroke-dasharray: 0,100;
+	animation: dash 5s linear;
+	stroke-dashoffset: 300;
+	animation-iteration-count : infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.coule1{
+	animation: cool 3s linear;
+	animation-iteration-count : infinite;
+}
+
+.coule2{
+	animation: cool 2s linear;
+	animation-iteration-count : infinite;
+}
+
+.coule3{
+	animation: cool 1s linear;
+	animation-iteration-count : infinite;
+}
+
+.coule4{
+	animation: cool 0.5s linear;
+	animation-iteration-count : infinite;
+}
+
+@keyframes cool {
+	0% {transform: translate(0,0px);
+		opacity : 1;}
+	100% {transform: translate(0,80px);
+		opacity : 0;}
+}
+
+	
+.debitGauche{
+	animation: tourneG 1s linear;
+	animation-iteration-count : infinite;
+}
+
+@keyframes tourneG {
+	from {transform: rotate(0deg);}
+	to   {transform: rotate(-360deg);}
+}

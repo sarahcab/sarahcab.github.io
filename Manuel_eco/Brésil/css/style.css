@@ -1,0 +1,247 @@
+@font-face {
+    font-family: 'Roboto';
+    src:url("../../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'RobotoBold';
+    src:url("../../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+@font-face {
+    font-family: 'WalbaumgrotBook';
+    src:url("../../ressources/polices/walbaumgroteskbook/WalbaumGroteskBook.otf");
+}
+@font-face {
+    font-family: 'WalbaumGroteskText';
+    src:url("../../ressources/polices/WalbaumGroteskText/WalbaumGroteskText.otf");
+}
+
+@font-face {
+    font-family: 'Minuscule6';
+    src:url("../../ressources/polices/Minuscule6/Minuscule6.otf");
+}
+@font-face {
+    font-family: 'Minuscule6-Italic';
+    src:url("../../ressources/polices/Minuscule6/Minuscule6-Italic.otf");
+}
+
+@font-face {
+    font-family: 'PlutoCondRegular';
+    src:url("../../ressources/polices/Pluto/PlutoCondRegular.otf");
+}
+@font-face {
+    font-family: 'PlutoCondRegular-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondRegular-Italic.otf");
+}
+@font-face {
+    font-family: 'PlutoCondMedium';
+    src:url("../../ressources/polices/Pluto/PlutoCondMedium.otf");
+}
+@font-face {
+    font-family: 'PlutoCondBold';
+    src:url("../../ressources/polices/Pluto/PlutoCondBold.otf");
+}
+@font-face {
+    font-family: 'PlutoCondBlack';
+    src:url("../../ressources/polices/Pluto/PlutoCondBlack.otf");
+}
+@font-face {
+    font-family: 'PlutoCondHeavy';
+    src:url("../../ressources/polices/Pluto/PlutoCondHeavy.otf");
+}
+
+@font-face {
+    font-family: 'PlutoCondBold-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondBold-Italic.otf");
+}
+@font-face {
+    font-family: 'PlutoBlack';
+    src:url("../../ressources/polices/Pluto/PlutoBlack.otf");
+}
+@font-face {
+    font-family: 'PlutoCondHeavy-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondHeavy-Italic.otf");
+}
+@font-face {
+    font-family: 'PlutoCondMedium-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondMedium-Italic.otf");
+}
+
+
+body{
+	font-family: WalbaumgrotBook, Roboto, arial, sans-serif;
+}
+ 
+#date_presid, #date_fluxx{
+	margin-top : 5%;
+} 
+
+#presid, #fluxx{
+	text-align : center;
+}
+
+.psurv{
+	cursor:url(../img/cursor2.png) 4 12, auto;
+}
+.couche0{
+	cursor:url(../img/couche1.png) 3 10, auto;
+}
+.couche1{
+	cursor:url(../img/couche2.png) 4 12, auto;
+}
+.couche2{
+	cursor:url(../img/couche0.png) 4 12, auto;
+}
+
+#tout{
+	height : 100%;
+	overflow : hidden;
+}
+
+/* #balance{
+	position : absolute;
+	width :40%;
+	margin-left:60%
+} */
+
+#balance{
+	position : absolute;
+	width :26%;
+	margin-left:63%;
+	margin-top : 2%;
+}
+
+
+.tangue{
+	animation: tangue 2s linear;
+	/* animation-iteration-count : infinite; */
+}
+
+@keyframes tangue {
+	0% {transform: rotate(0deg);}
+	25% {transform: rotate(-10deg);}
+	50% {transform: rotate(0deg);}
+	65% {transform: rotate(5deg);}
+	100% {transform: rotate(0deg);}
+}
+
+#flechefuite_bulles{
+	animation: dash 7s linear;
+	stroke-dashoffset: 0;
+	animation-iteration-count : infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 280;
+  }
+}
+
+#explis{
+	text-align : justify;
+	width : 100%;
+	margin-top : 10%;
+}
+#titreP{
+	text-align : center;
+	width : 100%;
+	margin-top : 10%;
+}
+#date{
+	text-align : center;
+}
+
+
+#change:hover{
+	cursor : pointer;
+	animation: turn 5s linear;
+	transform-origin : 60px 66.2px;
+	animation-iteration-count : infinite;
+}
+
+@keyframes turn {
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(-360deg);}
+}
+.bouts{
+	border-style : solid;
+	border-width : 3px;
+	border-color : #FFFFFF;
+	border-radius: 20px;
+	padding: 6px 8px;
+	background: #f6e9d9;
+	color: #333333;
+	transition-duration:.2s;
+	transition-property: background;
+	-moz-transition-duration:.2s;
+	-moz-transition-property: background;
+	-webkit-transition-duration:.2s;
+	-webkit-transition-property: background;
+	font-family: WalbaumgrotBook, helvetica, arial, sans-serif;
+}
+
+.bouts:hover{
+	background: #be2e0d !important;
+	color: #ffffff !important;
+	cursor:pointer !important;
+}
+#bouton_l{
+	border-radius : 20px;
+	width: 45px;
+	height: auto;
+	margin : auto;
+	padding : 4px 7px;
+}
+
+#bouton_0{
+	width : 33%;
+	padding-top : 7%;
+	padding-bottom : 7%;
+	margin-top : 20%;
+	position : absolute;
+	border-radius: 80px;
+	border-width:30%;
+	border-color : #FFFFFF;
+	opacity : 0.97;
+}
+
+
+.adapte{
+	font-size: 13px;
+}
+
+.adapte2{
+	font-size: 16px;
+}
+
+.adapte3{
+	font-size: 25px;
+}
+	
+
+#default{
+	text-align : center;
+	width : 70%;
+	height : 3%;
+	position : absolute;
+	z-index:1;
+}
+
+#rules{
+	display : none;
+	position : absolute;
+	width : 30%;
+	margin-top : 10%;
+	z-index : 0;
+}
+
+#rule{
+	display : none;
+	margin-top : 170%;
+	z-index : 0;
+	text-align : center;
+}
+
+#rideau:hover{
+	opacity : 1;
+	cursor : grab;
+}

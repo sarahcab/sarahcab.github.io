@@ -1,0 +1,245 @@
+@font-face {
+    font-family: 'Roboto';
+    src:url("../../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'RobotoBold';
+    src:url("../../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+@font-face {
+    font-family: 'WalbaumgrotBook';
+    src:url("../../ressources/polices/walbaumgroteskbook/WalbaumGroteskBook.otf");
+}
+@font-face {
+    font-family: 'WalbaumGroteskText';
+    src:url("../../ressources/polices/WalbaumGroteskText/WalbaumGroteskText.otf");
+}
+
+@font-face {
+    font-family: 'Minuscule6';
+    src:url("../../ressources/polices/Minuscule6/Minuscule6.otf");
+}
+@font-face {
+    font-family: 'Minuscule6-Italic';
+    src:url("../../ressources/polices/Minuscule6/Minuscule6-Italic.otf");
+}
+
+@font-face {
+    font-family: 'PlutoCondRegular';
+    src:url("../../ressources/polices/Pluto/PlutoCondRegular.otf");
+}
+@font-face {
+    font-family: 'PlutoCondRegular-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondRegular-Italic.otf");
+}
+@font-face {
+    font-family: 'PlutoCondMedium';
+    src:url("../../ressources/polices/Pluto/PlutoCondMedium.otf");
+}
+@font-face {
+    font-family: 'PlutoCondBold';
+    src:url("../../ressources/polices/Pluto/PlutoCondBold.otf");
+}
+@font-face {
+    font-family: 'PlutoCondBlack';
+    src:url("../../ressources/polices/Pluto/PlutoCondBlack.otf");
+}
+@font-face {
+    font-family: 'PlutoCondHeavy';
+    src:url("../../ressources/polices/Pluto/PlutoCondHeavy.otf");
+}
+@font-face {
+    font-family: 'PlutoCondBold-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondBold-Italic.otf");
+}
+@font-face {
+    font-family: 'PlutoBlack';
+    src:url("../../ressources/polices/Pluto/PlutoBlack.otf");
+}
+@font-face {
+    font-family: 'PlutoCondHeavy-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondHeavy-Italic.otf");
+}
+@font-face {
+    font-family: 'PlutoCondMedium-Italic';
+    src:url("../../ressources/polices/Pluto/PlutoCondMedium-Italic.otf");
+}
+
+body{
+	font-family: WalbaumgrotBook, Roboto, helvetica, arial, sans-serif;
+
+}
+
+.line{
+	display:flex
+}
+
+#patienter{
+ 	display : none; 
+	position : absolute;
+	width : 130%;
+	text-align : center;
+	margin-top : 35%;
+}
+
+#rules{
+	display : none;
+	position : absolute;
+	margin-top : 10%;
+	margin-left : 25%;
+	z-index : 0;
+}
+
+#default{
+	text-align : center;
+	width : 70%;
+	height : 3%;
+	position : absolute;
+	z-index :1;
+}
+
+#rule{
+	display : none;
+	position : absolute;
+	margin-left:73%;
+	margin-top:1.5%;
+	width : 23%;
+	z-index : 0;
+	text-align : center;
+}
+
+.fleches{
+	cursor : pointer;
+}
+
+#init{
+ 	display: none; 
+}
+
+#init:hover{
+	background: #CCCCCC !important;
+	color: #ffffff !important
+}
+
+#suite:hover,#init:hover{
+	cursor: pointer;
+}
+
+.bouts{
+	border-radius: 40%;
+	padding: 5px 10px;
+	background: #f6e9d9;
+	color: #333333;
+	transition-duration:.2s;
+	transition-property: background;
+	-moz-transition-duration:.2s;
+	-moz-transition-property: background;
+	-webkit-transition-duration:.2s;
+	-webkit-transition-property: background;
+	font-family: WalbaumgrotBook, helvetica, arial, sans-serif;
+}
+
+.bouts:hover{
+	cursor:pointer !important;
+	
+}
+
+.bouts.on{
+	background: #333333;
+	color: #ffffff;
+}
+
+#bouton_l{
+	border-radius : 20px;
+	width: 45px;
+	height: auto;
+	margin : auto;
+	padding : 4px 7px;
+	border-style : solid;
+	border-width:3px;
+	border-color : #FFFFFF;
+}
+#bouton_0{
+	width : 33%;
+	padding-top : 7%;
+	padding-bottom : 7%;
+	margin-top : 20%;
+	position : absolute;
+	border-style : solid;
+	border-radius: 80px;
+	border-width:30%;
+	border-color : #FFFFFF;
+	opacity : 0.97;
+}
+
+#bouton_0:hover,#bouton_l:hover{
+	background: #be2e0d !important;
+	color: #ffffff !important;
+}
+
+.coupeHaut{
+	animation: coupeD 3s linear;
+	animation-iteration-count : infinite;
+	/*transform-origin: 832.605px 329.171px;*/
+}
+
+.coupeBas{
+	animation: coupeG 3s linear;
+	animation-iteration-count : infinite;
+	/*transform-origin: 832.605px 329.171px;*/
+}
+
+.tourne{
+	animation: tourne 8s linear;
+	animation-iteration-count : infinite;
+	/*transform-origin: 832.605px 329.171px;*/
+}
+
+.tourne10{
+	animation: tourne10 1.5s linear;
+	/*transform-origin: 832.605px 329.171px;*/
+}
+
+.debitGauche{
+	animation: tourneG 5s linear;
+	animation-iteration-count : infinite;
+}
+
+
+@keyframes tourneG {
+	from {transform: rotate(0deg);}
+	to   {transform: rotate(-360deg);}
+}
+@keyframes coupeD {
+	0% {transform: rotate(0deg);}
+	25% {transform: rotate(-15deg);}	
+	50% {transform: rotate(0deg);}
+	75% {transform: rotate(15deg);}
+	100% {transform: rotate(0deg);}
+}
+
+@keyframes coupeG {
+	0% {transform: rotate(0deg);}
+	25% {transform: rotate(15deg);}	
+	50% {transform: rotate(0deg);}
+	75% {transform: rotate(-15deg);}
+	100% {transform: rotate(0deg);}
+}
+
+@keyframes tourne {
+	from {transform: rotate(0deg);}
+	to {transform: rotate(360deg);}	
+}
+
+@keyframes tourne10 {
+	from {transform: rotate(-100deg);}
+	to {transform: rotate(0deg);}	
+}
+
+.zoomPlus,.bubu, .zoomIn{
+	cursor : zoom-in;
+}
+
+.zoomMoins, .zoomOut{
+	cursor : zoom-out;
+}
