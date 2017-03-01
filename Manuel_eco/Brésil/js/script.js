@@ -148,7 +148,7 @@ function move(eX){
 		titre = titre +"<p style='margin-bottom:-15px;text-align-center'>"+ val +"<p/>";
 		return val;
 	})
-	d3.select("#titreP").html(titre).style("color",nuancierP[phase]).select("p").style("font-family","WalbaumGroteskText")
+	d3.select("#titreP").html(titre).style("color",nuancierP[phase]).selectAll("p").style("font-family","WalbaumGroteskText")
 	
 	//texte à gauche : paragrapje
 	var explis = listeTextes[phase]; //mise à jour depuis une liste 
