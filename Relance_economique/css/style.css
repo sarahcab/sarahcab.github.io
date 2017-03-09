@@ -1,0 +1,422 @@
+
+/* Caractères
+---------------------------------------------- */
+
+
+/* walbaum sans book, utilisée dans l'interface mais pas pour le texte */
+
+@font-face {
+    font-family: 'Walbaumgrot';
+    src:url('../ressources/peaulisses/walbaumgroteskbook.eot');
+    src:url('../ressources/peaulisses/walbaumgroteskbook.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgroteskbook.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgroteskbook.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgroteskbook.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Walbaumgrot';
+    src:url('../ressources/peaulisses/walbaumgroteskbookitalic.eot');
+    src:url('../ressources/peaulisses/walbaumgroteskbookitalic.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgroteskbookitalic.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgroteskbookitalic.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgroteskbookitalic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+/* walbaum sans text, utilisée pour le texte */
+
+@font-face {
+    font-family: 'Walbaumgrot';
+    src:url('../ressources/peaulisses/walbaumgrotesktext.eot');
+    src:url('../ressources/peaulisses/walbaumgrotesktext.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgrotesktext.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgrotesktext.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgrotesktext.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Walbaumgrot';
+    src:url('../ressources/peaulisses/walbaumgrotesktextitalic.eot');
+    src:url('../ressources/peaulisses/walbaumgrotesktextitalic.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgrotesktextitalic.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgrotesktextitalic.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgrotesktextitalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+
+/* walbaum sans book bold = gras moyens */
+
+@font-face {
+    font-family: 'Walbaumgrot';
+    src:url('../ressources/peaulisses/walbaumgroteskbookbold.eot');
+    src:url('../ressources/peaulisses/walbaumgroteskbookbold.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgroteskbookbold.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgroteskbookbold.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgroteskbookbold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Walbaumgrot';
+    src:url('../ressources/peaulisses/walbaumgroteskbookbolditalic.eot');
+    src:url('../ressources/peaulisses/walbaumgroteskbookbolditalic.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgroteskbookbolditalic.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgroteskbookbolditalic.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgroteskbookbolditalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+/* walbaum sans text bold = gras gras */
+
+@font-face {
+    font-family: 'Walbaumgrot';
+    src:url('../ressources/peaulisses/walbaumgrotesktextbold.eot');
+    src:url('../ressources/peaulisses/walbaumgrotesktextbold.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgrotesktextbold.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgrotesktextbold.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgrotesktextbold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Walbaumgrot';
+    src:url('../ressources/peaulisses/walbaumgrotesktextbolditalic.eot');
+    src:url('../ressources/peaulisses/walbaumgrotesktextbolditalic.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgrotesktextbolditalic.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgrotesktextbolditalic.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgrotesktextbolditalic.ttf') format('truetype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+
+/* walbaum sans black = très gras */
+
+@font-face {
+    font-family: 'Walbaumgrot';
+    src:url('../ressources/peaulisses/walbaumgroteskblack.eot');
+    src:url('../ressources/peaulisses/walbaumgroteskblack.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgroteskblack.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgroteskblack.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgroteskblack.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+text[w="reg"],text[w="it"],tspan[w="reg"],tspan[w="it"]{
+	font-weight : 400;
+}
+text[w="med"],text[w="med_it"],tspan[w="med"],tspan[w="med_it"]{
+	font-weight : 500;
+}
+text[w="bold"],text[w="heavy"],text[w="bold_it"],text[w="heav_it"],tspan[w="bold"],tspan[w="heavy"],tspan[w="bold_it"],tspan[w="heav_it"]{
+	font-weight : 800
+}
+text[w="black"],tspan[w="black"]{
+	font-weight : 900
+}
+text[w="it"],text[w="med_it"],text[w="bold_it"],text[w="heav_it"],tspan[w="it"],tspan[w="med_it"],tspan[w="bold_it"],tspan[w="heav_it"]{
+	font-style : italic;
+}
+
+body{
+	font-family: Walbaumgrot, helvetica, arial, sans-serif;
+}
+
+#all{
+	width:100%;
+	display : flex;
+	opacity : 0.4;
+}
+
+.align{
+	vertical-align : -50%;
+	width : 12%;
+}
+
+#anime{
+	position : absolute;
+	margin-top : -2.5%;
+}
+
+#default{
+	text-align : center;
+	width : 100%;
+	height : 3%;
+	z-index : 1;
+	position : absolute;
+}
+
+#rules{
+	position : absolute;
+	display : block;
+	margin-top : 10%;
+	z-index : 0;
+	width : 100%;
+}
+
+
+#rule,#rule2{
+	display : none;
+	border-bottom : dashed 0.5px #AAAAAA;
+	margin-bottom : 10%;
+}
+
+#boutmeca{
+	cursor : pointer;
+	position : absolute;
+	padding : 3px 5px;
+	margin-left : 35.3%;
+	margin-top : 6.8%;
+}
+
+.rob, .noeud{
+	cursor : pointer;
+}
+
+
+#soundcontrol{
+	width:9%;
+	padding-left:0.5%;
+	margin:auto;
+	display:none;
+	text-align:center;
+}
+
+.interdemo{
+	width:80%;
+	margin-top : 28%;
+	position : absolute;
+	text-align : center;
+}
+.interlibre{
+	width:80%;
+	margin-top : 30%;
+	position : absolute;
+	text-align : center;
+}
+
+#init{
+	overflow : hidden;
+	z-index : 2;
+	margin-top :7%;
+	border-radius: 50%;
+}
+
+
+#pop{
+	width : 21.6%;
+	z-index : 1;
+}
+
+#avert,#avert2,#avert3{
+  	opacity : 0; 
+	display : none; 
+}
+
+ #images{
+	z-index : 0;
+	opacity : 0.1;
+}
+
+.eteint{
+	display : none;
+}
+/* #playy, #pausee, #label_interromp, #label_continue, */ #etape, #etapepause{
+	display:none;
+	margin-bottom : 2%;
+	/* width : 8%;
+	position : absolute;
+	margin-left : 57%;
+	margin-top : 34%; */
+}
+
+
+#noeud{
+	cursor : pointer
+}
+
+
+.boutDebut,#init, #avertson2{
+	display:none;
+}
+
+
+#vol_plus, #vol_moins{
+	cursor : pointer;
+}
+
+#avertson1{
+	position : absolute;
+	width : 4%;
+	margin-left : -5.6%;
+	margin-top : 4.1%;
+}
+
+#avertson2{
+	width: 3.5%;
+	position: absolute;
+	margin-left: 0.5%;
+	margin-top:0.6%;
+}
+
+#boutmode1{
+	padding-left : 2.6%;
+}
+#boutTout{
+	padding-left : 10%;
+}
+
+#term{
+	display: none;
+	background-color : #FFFFFF;
+}
+
+#instant2{
+	background-color : #FFFFFF;
+	width : 26%;
+	margin: auto;
+}
+
+.bouton_l{
+	border-radius:50px;
+	height: auto;
+	padding: 0.5em 1em;
+	font-size: 1.5em;
+	margin : 2%;
+}
+
+#titreBarre{
+	position:absolute;
+	margin-top : 45.5%;
+	font-family:'WalbaumGroteskText';
+	margin-left : 18.5%;
+	display : none;
+}
+
+
+.bouts, .boutCont, .boutDebut,.boutLegende, #affMode, #bou_ex{
+	padding-left : 0px;
+	border: 0;
+	border-radius: 20px;
+	border-style : solid;
+	border-width : 3px;
+	border-color : #FFFFFF;
+	padding: 5px 7px;
+	background: #f6e9d9;
+	color: #333333;
+	transition-duration:.2s;
+	transition-property: background;
+	-moz-transition-duration:.2s;
+	-moz-transition-property: background;
+	-webkit-transition-duration:.2s;
+	-webkit-transition-property: background;
+	font-family: WalbaumgrotBook, helvetica, arial, sans-serif;
+}
+
+.boutPlus{
+	cursor : pointer;
+}
+#bou_ex{
+	padding: 2px 4px;
+}
+
+.boutCont:hover, .boutDebut:hover, #affMode:hover, .bouts:hover{
+	background: #be2e0d !important;
+	color: #ffffff !important;
+	cursor:pointer !important;
+}
+
+.boutCont{
+	position : absolute;
+}
+
+.on{
+	background: #333333;
+	color: #ffffff;
+}
+
+
+.clignote{
+	animation: cligne 1.5s linear;
+	animation-iteration-count : infinite;
+	width : 100px;
+}
+
+@keyframes cligne {
+	0% {opacity : 1}
+	50% {opacity : 0}
+	100% {opacity : 1}
+}
+
+.debit{
+	stroke-linecap : round ;
+	opacity : 0.2;
+	stroke-dasharray: 0,100;
+	animation: dash 5s linear;
+	stroke-dashoffset: 300;
+	animation-iteration-count : infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.coule1{
+	animation: cool 3s linear;
+	animation-iteration-count : infinite;
+}
+
+.coule2{
+	animation: cool 2s linear;
+	animation-iteration-count : infinite;
+}
+
+.coule3{
+	animation: cool 1s linear;
+	animation-iteration-count : infinite;
+}
+
+.coule4{
+	animation: cool 0.5s linear;
+	animation-iteration-count : infinite;
+}
+
+@keyframes cool {
+	0% {transform: translate(0,0px);
+		opacity : 1;}
+	100% {transform: translate(0,80px);
+		opacity : 0;}
+}
+
+	
+.debitGauche{
+	animation: tourneG 1s linear;
+	animation-iteration-count : infinite;
+}
+
+@keyframes tourneG {
+	from {transform: rotate(0deg);}
+	to   {transform: rotate(-360deg);}
+}
