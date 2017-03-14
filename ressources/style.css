@@ -37,10 +37,17 @@ h2{
 	width : auto;
 }
 
+
 .clicks{
-	cursor : pointer;
+	background : #DDDDDD;
+	border : solid #FFFFFF 1px;
 }
 
+.clicks:hover{
+	background : #000000;
+	color: #FFFFFF;
+	cursor : pointer;
+}
 
 #principal{
 	width : 75%;
