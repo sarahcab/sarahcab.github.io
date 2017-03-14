@@ -48,6 +48,8 @@ h2{
 	margin-top: 0%;
 	padding: 20px;
 	background-color : #FFFFFF;
+	opacity : 0.1;
+	position : absolute;
 }
 
 .content{
