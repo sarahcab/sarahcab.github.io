@@ -52,6 +52,13 @@ h2{
 	position : absolute;
 }
 
+#patienter{
+	margin-top : 30%;
+	font-family : RobotoBold;
+	color : #FFFFFF;
+	font-size : 24px;
+}
+
 .content{
 	position : relative;
 	height : 18px;
