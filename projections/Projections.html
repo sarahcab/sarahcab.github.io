@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Projections</title>
+		<meta charset="utf-8">
+		<script src="js/raphael.js"></script>
+		<script src="js/script.js"></script>
+		<link rel= "stylesheet" href = "css/style.css" />
+	</head>
+	
+	<body>
+		<h1>
+		Les Projections Cartographiques
+		</h1>
+		
+		<div id = "article">
+			<h2> L'impérialisme par la cartographie ...(avec les cartes !) 	|	Pablita Faust, 19 juillet 2012, MEDIAPART </h2>
+			
+			<p id = "chapeau">
+			 "J’ai aujourd’hui 27 ans. J’ai suivi l’enseignement public classique : primaire, collège, lycée. Et il y a quelques jours, je viens de me rendre compte que l’on m’a imposé une vision erronée de la géographie de notre planète, sans jamais que l’on m’informe sur la réalité des dimensions du monde. Jamais un professeur de géographie ne m’a mise en garde sur le trucage des cartes du monde que l’on nous présente habituellement. 
+			</p>
+			
+			<p id = "suite">
+				(...) Bigre mais pourquoi donc nous donne-t-on à étudier une carte fausse ? Pour que nous soyons conscients de la grandeur de l’Europe et du monde occidental. Pour qu’inconsciemment les pays dominés acceptent leur domination(...)
+				<br><br>(...) La science cartographique doit prendre en compte notamment: la superficie, les formes et la direction. La projection de Fuller apparue en 1946 semble être celle qui soit le plus neutre possible en écartant les ambigüités politiques et impérialistes.(...)"
+			</p>
+		
+		</div>
+		<div id= "theme">
+			<div id = "explications">
+				<p id = "sarah" >
+					Pablita Faust a raison: les cartes sont des représentations du monde, et la façon dont il est représenté dans nos manuels scolaires traduit des rapports de pouvoirs. Mais il n'existe pas de projection qui soit vraie ou fausse. Les projections sont calculées à partir de formules mathématiques qui transforme un ellipsoïde en plan : la surface du gobe en est forcément déformée. La pertinence du choix de projection dépend de l'objectif de la carte. 
+					<br><br>On les distinguent en trois types : certaines permettent de conserver les surfaces terrestres (projections équivalentes), d'autres conservent localement les angles (projections conformes), d'autres encore les distances (projections aphylactiques). 
+					<br><br>On distingue également trois méthodes : cylindrique, conique et azimutale. 
+					<br><br>Quelques exemples ci-contre (l'animation se déclenche au premier survol de l'image et au clic sur les boutons) :
+				</p>
+				<p id= "ex_bonne" class = "invisible">
+					La projection de Bonne
+					<br><br><br>Il s'agit d'une projection équivalente dont la méthode est pseudo-conique. 
+					<br><br>La longueur du méridien central et de tous les parallèles sont respectés. En outre, le rayon de courbure d'un « parallèle origine » est respecté. Elle est donc équivalente, mais non conforme, sauf au voisinage de son point d'origine.
+					<br><br>Elle fut utilisée au 19ème siècle et au début du 20ème siècle pour des cartes d'atlas de l'Asie, de l'Australie, de l'Europe et de l'Amérique du Nord.
+					<br><br><img class = 'imgexpli' id = "imgBonne" src="img/bonne.png"/>
+					<br><br>Source : ESRI
+				</p>
+				<p id= "ex_azi" class = "invisible">
+					La projection azimutale équidistante
+					<br><br><br>La méthode azimutale permet de projeter une surface plane à partir d'un point quelconque du globe. La projection est dite équidistante car elle possède une échelle radiale constante (les distances augmentent linéairement du centre de projection).
+					<br><br>Contrairement à d'autres projections azimutale, elle a également l'avantage de représenter l'ensemble de la Terre en une seule carte. 
+					<br><br><img class = 'imgexpli' id = "imgAzimuthal" src="img/azim.jpg"/>
+					<br><br>Source : ESRI
+				</p>
+				<p id= "ex_stereo" class= "invisible">
+					La projection azimutale stéréographique
+					<br><br><br>Il s'agit d'une transformation conforme, qui conserve donc les angles. La projection pocède une autre propriété importante : tout cercle sur la sphère, hormis ceux passant par le pôle sud, est transformé en un autre cercle dans le plan équatorial.
+					<br><br>Les méridiens et les parallèles sont tous représentés comme des arcs circulaires ou des lignes droites. Les intersections de graticule sont à 90°. 
+					<br><br><img class = 'imgexpli' id = "imgAzimuthal" src="img/azim.jpg"/>
+					<br><br>Source : ESRI
+				</p>
+			</div>
+			<div id = "block">
+				<div id ="bouttons">
+					<input type="button" id="bonne" value="Projection de Bonne" />
+					<input type="button" id="azi" value="Projection azimutale équidistante" />
+					<input type="button" id="stereo" value="Projection stéréographique" />
+				</div>
+				<div id="carte"></div>
+			</div>	
+		</div>
+		<footer>
+		Sources : 	Fond de carte : Eurostat | Projection des couches : Arcgis |  Généralisation : MapShaper.org | Conversion SVG to JS : readysetraphael.com | Images : Demilked ;<br> Institut National des Sciences Mathématiques et de leurs Intéractions ; Stack Exchange ; Office fédéral de topographie Swisstopo
+		</footer>
+		<div id = "links"> 
+			Sarah Cabarry | 
+			<a href = "http://www.ensg.eu/IMG/pdf/carthageo-programme_enseignement.pdf" >Master 2 Professionnel Carthagéo</a>
+			| 
+			<a href = "http://www.geopolitique.net/formations/master-recherche" >Institut Français de Géopolitique</a>
+		</div>
+	</body>
+		
+		
+</html>
