@@ -37,10 +37,17 @@ h2{
 	width : auto;
 }
 
+
 .clicks{
-	cursor : pointer;
+	background : #DDDDDD;
+	border : solid #FFFFFF 1px;
 }
 
+.clicks:hover{
+	background : #000000;
+	color: #FFFFFF;
+	cursor : pointer;
+}
 
 #principal{
 	width : 75%;
@@ -49,6 +56,15 @@ h2{
 	padding: 20px;
 	background-color : #FFFFFF;
 	opacity : 0.1;
+	position : absolute;
+}
+
+#patienter{
+	margin-top : 10%;
+	font-family : RobotoBold;
+	text-align : center;
+	width : 100%;
+	font-size : 30px;
 	position : absolute;
 }
 
