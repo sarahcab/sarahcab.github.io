@@ -1,0 +1,22 @@
+
+@font-face {
+    font-family: 'Roboto';
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'RobotoBold';
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+
+#vies,#score, #vitesse{
+	margin-left : 25px;
+}
+
+#play,#pause{
+	height : 25px;
+}
+
+#haut:hover,#stop:hover,#bas:hover,#gauche:hover,#droite:hover{
+	cursor : pointer;
+	opacity : 1;
+}
