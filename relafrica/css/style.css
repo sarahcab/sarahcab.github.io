@@ -1,3 +1,7 @@
 .gris{
 	cursor : pointer;
 }
+
+body{
+	width:100%;
+}

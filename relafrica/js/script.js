@@ -1,5 +1,3 @@
-var names = ["longuet","bourgi","bohn"]
-
 window.onload = initialize();
 
 function initialize() {
