@@ -38,6 +38,10 @@ a{
 	text-decoration: underline;
 }
 
+a:hover{
+	text-decoration : none;
+}
+
 .tourne{
 	animation: tourneG 20s linear;
 	transform-origin: 50% 50%;
