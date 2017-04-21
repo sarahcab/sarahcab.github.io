@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+  		<meta charset="utf-8">
+		<title>Africalaxie - FF</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+	</head>		
+	<body>
+		<svg viewBox="0 0 1024 512">
+				<image width="1024" height="512" id="fond" xlink:href="img/fond_fillon.png" >
+				</image>
+
+				<g id="imgs">
+					<image class="bourgi clair" width="136" height="136" x="195" y="240" xlink:href="img/bourgi.png"/>
+					<image class="bourgi gris" it="0"  width="136" height="136"x="195" y="240" xlink:href="img/bourgi_gris.png"/>
+					
+					<image class="debre clair" width="136" height="136" x="316" y="20" xlink:href="img/debre.png"/>
+					<image class="debre gris" it="0"  width="136" height="136" x="316" y="20" xlink:href="img/debre_gris.png"/>
+						
+					<image class="bohn clair" width="136" height="136" x="663" y="190" xlink:href="img/bohn.png"/>
+					<image class="bohn gris" it="0"  width="136" height="136" x="663" y="190" xlink:href="img/bohn_gris.png"/>
+				</g>
+				<g id="txts">
+					<text  id="txt_bourgi" opacity="0" transform="matrix(1 0 0 1 20 223)">
+						<tspan x="0" y="0" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17">Disciple de Jacques Foccard,</tspan>
+						<tspan x="0" y="24" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17">conidéré comme l’un </tspan>
+						<tspan x="0" y="48" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17"> des héritiers de la</tspan>
+						<tspan x="0" y="72" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17">Françafrique</tspan>
+						<tspan x="0" y="96" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17"><a xlink:href="http://urlz.fr/58KM" target="_blank">Pour aller plus loin</a></tspan>
+					</text>
+					
+					<text id="txt_bourgi" opacity="0" transform="matrix(1 0 0 1 5.2801 53.1759)">
+						<tspan x="0" y="0" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17">Disciple de Jacques Foccart,  </tspan>
+						<tspan x="0" y="6" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17">considéré comme l’un </tspan>
+						<tspan x="0" y="12" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17">des héritiers de la </tspan>
+						<tspan x="0" y="18" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17">Françafrique.</tspan>
+						<tspan x="0" y="96" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17"><a xlink:href="http://urlz.fr/58KM" target="_blank">Pour aller plus loin</a></tspan>
+					
+					</text>
+
+					
+					<text id="txt_debre" opacity="0" transform="matrix(1 0 0 1 468 73)">
+						<tspan x="0" y="0" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17">L'ancien ministre de la coopération</tspan>
+						<tspan x="0" y="24" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17">sous François Mitterrand est le Monsieur Afrique </tspan>
+						<tspan x="0" y="48" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17">du candidat de la droite et du centre</tspan>
+						<tspan x="0" y="72" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800"  font-size="17"><a xlink:href="http://urlz.fr/58KK" target="_blank">Pour aller plus loin</a></tspan>
+					
+					</text>
+					<text id="txt_bohn" opacity="0" fill="#FFFFFF" transform="matrix(1 0 0 1 837.8027 256)">
+						<tspan x="0" y="0" font-family="'ZonaPro'" font-weight="800"  font-size="17">Ancien responsable </tspan>
+						<tspan x="-21.9" y="24" font-family="'ZonaPro'" font-weight="800"  font-size="17">Afrique d’EADS, actuel </tspan>
+						<tspan x="-28.4" y="48" font-family="'ZonaPro'" font-weight="800"  font-size="17">vice-président d’Airbus.</tspan>
+						<tspan x="8" y="72" font-family="'ZonaPro'" font-weight="800"  font-size="17"><a xlink:href="http://urlz.fr/58KL" target="_blank">Pour aller plus loin</a></tspan>
+					</text>				
+					
+					<text id="titre_debre" transform="matrix(1 0 0 1 468 100)" transformdef="matrix(1 0 0 1 468 100)" transformaff="matrix(1 0 0 1 468 49)" fill="#49BFA8" font-family="'LemonMilk'" font-size="30">Gerard debre</text>
+					<text id="titre_bourgi" transform="matrix(1 0 0 1 20 228)" transformdef="matrix(1 0 0 1 20 228)" transformaff="matrix(1 0 0 1 20 196)"  fill="#49BFA8" font-family="'LemonMilk'" font-size="30">Robert Bourgi</text>
+					<text id="titre_bohn" transform="matrix(1 0 0 1 805.2266 276)"  transformdef="matrix(1 0 0 1 805.2266 276)"  transformaff="matrix(1 0 0 1 802.2266 234)" fill="#49BFA8" font-family="'LemonMilk'" font-size="30">Philippe BohN</text>
+				
+				</g>
+			</g>
+			
+		</svg>
+		<script type = "text/javascript">
+			var names = ["debre","bourgi","bohn"];
+		</script>
+		<script type = "text/javascript" src="js/script.js"></script>
+	</body>
+</html>

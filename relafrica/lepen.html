@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+  		<meta charset="utf-8">
+		<title>Africalaxie - MLP</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+	</head>		
+	<body>
+		<svg viewBox="0 0 245.8 122.9">
+				<image width="245.8" height="122.9" id="fond" xlink:href="img/fond_lepen.png" >
+				</image>
+				<g id="imgs">
+					<image class="marechal clair" width="32.4" height="32.4" x="9" y="42.2" xlink:href="img/marechal.png"/>
+					<image class="marechal gris" it="0"  width="32.4" height="32.4" x="9" y="42.2" xlink:href="img/marechal_gris.png"/>
+					
+					<image class="ceccaldi clair" width="32.4" height="32.4" x="88.2" y="3.7" xlink:href="img/ceccaldi.png"/>
+					<image class="ceccaldi gris" it="0"  width="32.4" height="32.4" x="88.2" y="3.7" xlink:href="img/ceccaldi_gris.png"/>
+						
+					<image class="viallet clair" width="32.4" height="32.4" x="154.3" y="23.3" xlink:href="img/viallet.png"/>
+					
+					<image class="houdin clair" width="32.4" height="32.4" x="206.9" y="65.9" xlink:href="img/houdin.png"/>
+					<image class="houdin gris" it="0"  width="32.4" height="32.4" x="206.9" y="65.9" xlink:href="img/houdin_gris.png"/>	
+					
+					<image class="aliot clair" width="32.4" height="32.4" x="44.2" y="85.2" xlink:href="img/aliot.png"/>
+					<image class="aliot gris" it="0"  width="32.4" height="32.4" x="44.2" y="85.2"  xlink:href="img/aliot_gris.png"/>	
+					
+				</g>
+				<g id="txts">
+					<text id="txt_ceccaldi" opacity="0" transform="matrix(1 0 0 1 8.4003 19.1854)">
+						<tspan x="0" y="0" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">Avocat de Marine Le Pen qui a conseillé </tspan>
+						<tspan x="0" y="6" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">Laurent Gbagbo et Mouammar Kadhafi.</tspan>
+						<tspan x="0" y="12" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8"><a xlink:href="http://urlz.fr/58Kp" target="_blank">Pour aller plus loin</a></tspan>
+					</text>
+					<text id="txt_viallet" opacity="0" transform="matrix(1 0 0 1 134.8946 14.3848)">
+						<tspan x="0" y="0" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">Président du Comité Mer &amp; Francophonie (COMEF),  </tspan>
+						<tspan x="17.1" y="6" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">il conseille Marine Le Pen sur les questions  </tspan>
+						<tspan x="53.3" y="12" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">liées à la francophonie :</tspan>
+						<tspan x="52.8" y="18" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8"> un point stratégique de  </tspan>
+						<tspan x="54.6" y="24" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">la vision Afrique du FN.</tspan>
+						<tspan x="63" y="30" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-weight="800" font-size="3.8"><a xlink:href="http://urlz.fr/58Kj" target="_blank">Pour aller plus loin</a></tspan>
+					</text>
+					
+					<text id="txt_aliot" opacity="0" transform="matrix(1 0 0 1 5.2801 90)">
+						<tspan x="0" y="0" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">Il est le soutien </tspan>
+						<tspan x="0" y="6" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">très remarqué </tspan>
+						<tspan x="0" y="12" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">de l’opposition </tspan>
+						<tspan x="0" y="18" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">congolaise contre </tspan>
+						<tspan x="0" y="24" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">Sassou Nguesso.</tspan>
+						<tspan x="0" y="30" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8"><a  xlink:href="http://urlz.fr/58Kt" target="_blank">Pour aller plus loin</a></tspan>
+					</text>
+
+					<text id="titre_marechal" transform="matrix(1 0 0 1 40 50)" transformdef="matrix(1 0 0 1 40 50)" transformaff="matrix(1 0 0 1 27.3602 38.3299)" fill="#49B7A4" font-family="'LemonMilk'" font-size="7">Samuel marechal</text>
+					<text id="titre_ceccaldi" transform="matrix(1 0 0 1 23 21.2895)" transformdef="matrix(1 0 0 1 23 21.2895)" transformaff="matrix(1 0 0 1 8.6398 13.6095)" fill="#49B7A4" font-family="'LemonMilk'" font-size="7">Marcel Ceccaldi</text>
+					<text id="titre_viallet" transform="matrix(1 0 0 1 189.5338 41.0899)" transformdef="matrix(1 0 0 1 189.5338 41.0899)" transformaff="matrix(1 0 0 1 187.2004 8.3299)" fill="#49B7A4" font-family="'LemonMilk'" font-size="7">LOup viallet</text>
+					<text id="titre_houdin" transform="matrix(1 0 0 1 152 70)" transformdef="matrix(1 0 0 1 152 70)" transformaff="matrix(1 0 0 1 152.3998 63.7703)" fill="#49B7A4" font-family="'LemonMilk'" font-size="7">Bernard Houdin</text>
+					<text id="titre_aliot" transform="matrix(1 0 0 1 1 102.1696)" transformdef="matrix(1 0 0 1 1 102.1696)" transformaff="matrix(1 0 0 1 5.76 84.8896)" fill="#49B7A4" font-family="'LemonMilk'" font-size="7">Louis Aliot</text>
+	
+				</g>
+				<image x="69.1" y="38.6" fill="#FFFFFF" width="111.8" height="83.7" id="bu" xlink:href="img/lepen_buste.png" >
+				</image>
+				<image width="417" height="63" id="logo_lepen" xlink:href="img/logolepen.png"  transform="matrix(0.24 0 0 0.24 142.8 105.36)">
+				</image>
+				
+				<image class="viallet gris" it="0"  width="32.4" height="32.4" x="154.3" y="23.3" xlink:href="img/viallet_gris.png"/>	
+				<text id="txt_marechal" opacity="0" transform="matrix(1 0 0 1 44.0393 44.3848)">
+					<tspan x="0" y="0" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">Père de Marion Maréchal </tspan>
+					<tspan x="1.6" y="6" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">Le Pen et ami personnel </tspan>
+					<tspan x="-0.1" y="12" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">d’Idriss Déby. Il est marié </tspan>
+					<tspan x="11.1" y="18" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">à une petite fille de </tspan>
+					<tspan x="5.9" y="24" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">l’ex-président ivoirien, </tspan>
+					<tspan x="1" y="30" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8">Félix Houphouët-Boigny.</tspan>
+					<tspan x="12" y="36" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8"><a xlink:href="http://urlz.fr/58Ko" target="_blank">Pour aller plus loin</a></tspan>
+				</text>
+				
+				<text id="txt_houdin" opacity="0" transform="matrix(1 0 0 1 152.1603 69.2561)">
+					<tspan x="0" y="0" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="4">Ancien secrétaire général </tspan>
+					<tspan x="0" y="6" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="4">du GUD, conseiller de </tspan>
+					<tspan x="0" y="12" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="4">l’ancien président ivoirien </tspan>
+					<tspan x="0" y="18" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="4">Laurent Gbagbo.</tspan>
+					<tspan x="0" y="24" fill="#FFFFFF" font-family="'ZonaPro'" font-weight="800" font-size="3.8"><a xlink:href="http://urlz.fr/58Ku" target="_blank">Pour aller plus loin</a></tspan>
+				</text>
+				
+			</g>
+			
+		</svg>
+		<script type = "text/javascript">
+			var names = ["marechal","ceccaldi","viallet","houdin","aliot"];
+		</script>
+		<script type = "text/javascript" src="js/script.js"></script>
+	</body>
+</html>
