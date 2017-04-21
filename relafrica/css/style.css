@@ -1,0 +1,19 @@
+.gris{
+	cursor : pointer;
+}
+
+
+body{
+	width:96%;
+}
+
+.tourne{
+	animation: tourneG 20s linear;
+	transform-origin: 648.8px 123.3px;
+	animation-iteration-count : infinite;
+}
+
+@keyframes tourneG {
+	from {transform: rotate(0deg);}
+	to   {transform: rotate(-360deg);}
+}
