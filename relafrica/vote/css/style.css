@@ -1,0 +1,12 @@
+#slt{
+	opacity : 0.5;
+	cursor : grab;
+}
+
+#slt:hover{
+	opacity : 1;
+}
+
+.boule{
+	cursor : crosshair;
+}
