@@ -826,7 +826,6 @@ function camemberts(nb, abs){
 }
 
 function majCam(valPerc, nb, pays, couleur, centreX, centreY, decal){
-	alert(pays+nb)
 	var angle = (2*Math.PI)*valPerc/100;
 	
 	var ax  = parseFloat(centreX) + (rCam * Math.cos(Math.PI*2));
@@ -834,8 +833,6 @@ function majCam(valPerc, nb, pays, couleur, centreX, centreY, decal){
 	var bx  = parseFloat(centreX) + (rCam * Math.cos(angle)) -ax;
 	var by  = parseFloat(centreY) + (rCam * Math.sin(angle)) -ay;
 	
-	alert(centreX+" "+centreY+" "+ax+" "+bx+" "+ay+" "+by+" "+angle+" "+decal+" "+valPerc)
-	alert("#cam_"+pays)
 	d3.select("#cam_"+pays)
 		.append("path")
 		.attr("d", function(){
