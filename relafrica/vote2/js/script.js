@@ -5,13 +5,13 @@ CX = width/2.6,
 CY = height/1.9,
 nuancier = ["#DFF1FD", "#E2BF9F","#FFFFFF","#CCCCCC","#555555"], //mer,terre,contour,autres,abstention
 // nuancierCand = ["#be2523","#f7a509","#49b7a4","#368cbe","#49bfa8","blue","red","orange","yellow","pink","purple"],
-nuancierCand = ["#be2523","#f7a509","#2344e8","#368cbe","#52b588","#4a5ba5","#eb6109","#7f3011","#654595","#bec531","#c37193"],
+nuancierCand = ["#be2523","#f7a509","#2a2a5e","#368cbe","#52b588","#4a5ba5","#eb6109","#7f3011","#654595","#bec531","#c37193"],
 listeCand = ["melenchon","hamon","lepen","macron","fillon","dupont","arthaud","poutou","cheminade","lassalle","asselineau"],
 listeCandTX = ["Jean-Luc Mélenchon","Benoît Hamon","Marine Lepen","Emmanuel Macron","François Fillon","Nicolas Dupont-Aignan","Nathalie Arthaud","Philippe Poutou","Jacques Cheminade","Jean Lassalle","François Asselineau"],
 listeManquant = [],
 dataVote = [],
-opaFond=0.2,
-lpatt = 20,
+opaFond=0.1,
+lpatt = 30,
 prop = 60,
 seuil100 = 100/prop;
 Nba = 1,
@@ -55,7 +55,7 @@ function drawMap(){
 		.attr("cx", CX).attr("cy", CY)
 		.attr("r", proj.scale())
 		.attr("id","lamer")
-		.attr("opacity",opaFond)
+		.attr("opacity",0.25)
 		.style("fill", nuancier[0]);
 		
 
@@ -156,7 +156,7 @@ function drawMap(){
 
 function drawInter(){
 	var debX = width/1.4,
-	debY = 150,
+	debY = 120,
 	esp = 40;
 	
 	//selecteurs cercles
@@ -184,7 +184,7 @@ function drawInter(){
 		.attr("cy",function(d,i){
 			return i*esp + parseFloat(debY);
 		})
-		.attr("r",10)
+		.attr("r",8)
 		.attr("fill",function(d){
 			return d
 		})
@@ -238,7 +238,7 @@ function drawInter(){
 		
 	//selecteurs bandes
 	debX2 = 170;
-	debY2 = 150,
+	debY2 = 120,
 
 	d3.select("#map")
 		.append("g")
@@ -248,8 +248,8 @@ function drawInter(){
 		.attr("x",debX2-160)
 		.attr("y",debY2-15)
 		.attr("fill","#FFFFFF")
-		.attr("width",135)
-		.attr("height",60)
+		.attr("width",140)
+		.attr("height",70)
 		.attr("opacity",0.7)
 		.on("mouseover",function(){
 			modeBandes();
@@ -289,19 +289,20 @@ function drawInter(){
 			var n = 2*i-1;
 			change(n);
 		})
-	
+		
 	d3.select("#s_bandes")
 		.append("text")
 		.text("1")
 		.attr("id","indic")
 		.attr("x",debX2-144)
 		.attr("font-size",14)
+		.attr("font-weight",800)
 		.attr("y",parseFloat(debY2)+25)
 		
 	//MEP
 		
 	d3.select("#map").selectAll(".titles")
-		.data([["(Survoler les noms)",14,debX-10,0],["Nombre de voix par candidat :",16,debX-10,1],["Pourcentage des votes",16,debX-600,1],["exprimés pour",16,debX-600,0]])
+		.data([["(Survoler les noms des candidats)",14,debX-10,0],["Par nombre de voix :",16,debX-10,1],["En pourcentages des bulletins",16,debX-600,1],["exprimés pour le(s)..",16,debX-600,0]])
 		.enter()
 		.append("text")
 		.text(function(d){
@@ -313,7 +314,6 @@ function drawInter(){
 		.attr("font-weight",800)
 		.attr("y",function(d){
 			return debY-25-20*d[3]
-			
 		})
 		.attr("font-size",function(d){
 			return d[1]
@@ -329,7 +329,7 @@ function drawInter(){
 		.attr("font-weight",800)
 		
 	// legende cercles
-	var debX = 200,
+	var debX = 170,
 	debY = height-170,
 	valeurs = [500,1500,3000,5000];
 	
@@ -394,13 +394,48 @@ function drawInter(){
 			return debY - val;
 		})
 		
-	//pop-up
+	// legende bandes
+	d3.select("#map")
+		.append("g")
+		.attr("id","legendeBandes")
+		.attr("opacity",1)
+	
+	d3.select("#legendeBandes").append("rect")
+		.attr("width",lpatt)
+		.attr("height",lpatt)
+		.attr("x",debX)
+		.attr("y",debY-140)
+		.attr("fill","#999999")
+		
+	d3.select("#legendeBandes").append("rect")
+		.attr("width",lpatt/2)
+		.attr("height",lpatt)
+		.attr("x",parseFloat(debX)+lpatt*1.6)
+		.attr("y",debY-140)
+		.attr("fill","#999999")
+	
+	d3.select("#legendeBandes").selectAll(".labsBA")
+		.data([["100%"],["50%"]])
+		.enter()
+		.append("text")
+		.attr("font-size",12)
+		.attr("fill","#999999")
+		.text(function(d){
+			return d[0]
+		})
+		.attr("x",function(d,i){
+			return parseFloat(debX)+i*lpatt*1.6
+		})
+		.attr("y",debY-143)
+
 	
 	//init
 	d3.select("#legendeCercles").append("circle").attr("cx",debX).attr("cy",debY-3).attr("r",seuil100).attr("opacity",0.6);
 	d3.select("#legendeCercles").append("line").attr("x1",debX).attr("x2",parseFloat(debX)+104).attr("y1",debY-3).attr("y2",debY-3).attr("stroke-width",0.5).attr("stroke","black").attr("opacity",0.6)
 	d3.select("#legendeCercles").append("text").attr("x",parseFloat(debX)+52).attr("y",debY-7).attr("font-size",12).text("Moins de")
 	d3.select("#legendeCercles").append("text").attr("x",parseFloat(debX)+55).attr("y",parseFloat(debY)+10).attr("font-size",12).text("100 voix")
+	d3.select("#moins").style("display","none")
+	
 }
 
 function sortNumber(a,b){
@@ -413,10 +448,11 @@ function modeBandes(){
 		d3.selectAll(".bouleCand").transition().duration(400).attr("opacity",0).transition().style("display","none")
 		
 		d3.select("#legendeCercles").transition().duration(400).attr("opacity",0);
+		d3.select("#legendeBandes").transition().duration(400).attr("opacity",1);
 		d3.select("#fond_cercles").transition().duration(400).attr("opacity",0.4);
 		d3.select("#fond_bandes").transition().duration(400).attr("opacity",0.7);
 		d3.selectAll(".centro").attr("r",0).attr("opacity",0);
-		d3.selectAll(".bouleCand").attr("r",10);
+		d3.selectAll(".bouleCand").attr("r",8);
 		
 		d3.selectAll(".pays")
 			.attr("fill",function(d){
@@ -439,6 +475,7 @@ function modeCercles(){
 		d3.selectAll(".recCand").transition().duration(400).attr("opacity",0).transition().style("display","none")
 		d3.selectAll(".bouleCand").transition().duration(400).attr("opacity",1).transition().style("display","block")
 		d3.select("#legendeCercles").transition().duration(400).attr("opacity",1)
+		d3.select("#legendeBandes").transition().duration(400).attr("opacity",0);
 		d3.select("#fond_cercles").transition().duration(400).attr("opacity",0.7);
 		d3.select("#fond_bandes").transition().duration(400).attr("opacity",0.4);
 		
@@ -449,18 +486,22 @@ function modeCercles(){
 
 function change(i){
 	Nba += i;
-	if(Nba<1){
-		Nba=1;
+	if(Nba==1){
+		// Nba=1;
 		d3.select("#moins").style("display","none")
-	}else if(Nba>9){
-		Nba =10;
+	}else if(Nba==5){
+		// Nba =9;
 		d3.select("#plus").style("display","none")
 	} else {
 		d3.select("#plus").style("display","block")
 		d3.select("#moins").style("display","block")
+	
 	}
 	d3.select("#indic").text(Nba);
 	bandes(Nba);
+	
+	
+	
 }
 
 function bandes(nb){
@@ -583,8 +624,9 @@ function bandes(nb){
 }
 
 function showVote(){
+	modeCercles();
 	d3.selectAll(".centro").attr("r",0).attr("opacity",0);
-	d3.selectAll(".bouleCand").attr("r",10)
+	d3.selectAll(".bouleCand").attr("r",8)
 	var cand = (this.id).split("_")[1];
 	//alert(dataVote.length)
 	for(i=0;i<dataVote.length;i++){
@@ -609,7 +651,7 @@ function showVote(){
 				}
 			})
 	}
-	d3.select("#boul_"+cand).attr("r",15)
+	d3.select("#boul_"+cand).attr("r",13)
 }
 
 function delVote(){

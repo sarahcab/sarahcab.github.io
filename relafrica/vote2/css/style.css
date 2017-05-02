@@ -68,7 +68,7 @@ body{
 
 .afrique:hover{
 	opacity : 0.7;
-	cursor : pointer;
+	cursor : crosshair;
 }
 
 #carte{
