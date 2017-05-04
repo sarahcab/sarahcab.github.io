@@ -574,7 +574,7 @@ function drawInter(){
 		.append("img")
 		.attr("src","img/logo.png")
 		.style("width","22.5%")
-		.style("margin-top","44.5%")
+		.style("margin-top","43%")
 	
 	//source
 	d3.select("#map")
