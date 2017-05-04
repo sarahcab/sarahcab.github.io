@@ -34,20 +34,13 @@ function initialize() {
 function drawMap(){
 	var map = d3.select("#carte") 
 			.append("svg")
-			.attr("width","80%")
+			.attr("width","100%")
 			.attr("viewBox","0 50 "+width+" "+height)
 			.attr("id", "map")
 			.style("position","absolute")
-			
-	// d3.select("#carte") 
-			// .append("svg")
-			// .attr("width","80%")
-			// .attr("viewBox","0 50 "+width+" "+height)
-			// .attr("id", "visible")
-			// .style("position","absolute")
-			// .style("overflow","visible")
+
 	
-	d3.select("#dessin").attr("width","80%").attr("viewBox","0 50 "+width+" "+height)
+	d3.select("#dessin").attr("width","100%").attr("viewBox","0 50 "+width+" "+height)
 	queue()							
 		.defer(d3.json,"data/pays.topojson")
 		.defer(d3.csv,"data/isoAfrique.csv")
