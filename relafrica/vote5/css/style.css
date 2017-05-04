@@ -22,12 +22,10 @@
     font-display: swap;
 }
 
-#principal{
-	width : 98%;
-}
-
 body{
 	font-family: 'ZonaPro';
+	width:98%;
+	position: relative;
 }
 
 
