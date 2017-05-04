@@ -16,7 +16,7 @@
 "EH","732","SAHARA OCCIDENTAL","Sahara occidental","24.0204903472"
 "GA","266","GABON","Gabon","21.4821307205"
 "GH","288","GHANA","Ghana","19.5836045832"
-"GM","324","GUINeE","Guinée","0.872074674273"
+"GM","324","GUINeE","Guinée","20.25"
 "GW","624","GUINeE-BISSAU","Guinée-Bissau","none"
 "KE","404","KENYA","Kenya","47.2461590108"
 "KM","174","COMORES","Comores","0.0761711710842"
@@ -56,3 +56,4 @@
 "ER","232","ERYTHREE","Erythrée","none"
 "ET","231","ETHIOPIE","Ethiopie","93.0586324487"
 "GQ","226","GUINE_EQUA","Guinée Equatoriale","2.22425694856"
+"GM","270","GAMBIE","Gambie","0.87"

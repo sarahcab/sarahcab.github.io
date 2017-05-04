@@ -38,6 +38,14 @@ function drawMap(){
 			.attr("viewBox","0 50 "+width+" "+height)
 			.attr("id", "map")
 			.style("position","absolute")
+			
+	// d3.select("#carte") 
+			// .append("svg")
+			// .attr("width","80%")
+			// .attr("viewBox","0 50 "+width+" "+height)
+			// .attr("id", "visible")
+			// .style("position","absolute")
+			// .style("overflow","visible")
 	
 	d3.select("#dessin").attr("width","80%").attr("viewBox","0 50 "+width+" "+height)
 	queue()							
@@ -52,7 +60,7 @@ function drawMap(){
 		var path = d3.geo.path() 
 			.projection(proj);
 		
-	  map.append("circle")
+	map.append("circle")
 		.attr("cx", CX).attr("cy", CY)
 		.attr("r", proj.scale())
 		.attr("id","lamer")
@@ -192,7 +200,7 @@ function drawInter(){
 		.attr("fill","#FFFFFF")
 		.attr("width",300)
 		.attr("opacity",0.7)
-		.attr("height",listeCand.length*esp+35)
+		.attr("height",listeCand.length*esp+20)
 		// .on("mouseover",function(){
 			// modeCercles();
 		// })
@@ -217,7 +225,7 @@ function drawInter(){
 			return "boul_"+listeCand[i];
 		})
 		.on("mouseover",showVote)
-		// .on("mouseout",delVote)
+		.on("mouseout",delVote)
 		
 	d3.select("#candidats")
 		.selectAll(".recCand")
@@ -256,8 +264,6 @@ function drawInter(){
 			return d
 		})
 		.attr("font-size",14)
-		// .on("mouseover",showVote)
-		// .on("mouseout",delVote)
 	
 		
 	//selecteurs bandes
@@ -276,10 +282,7 @@ function drawInter(){
 		.attr("rx",10)
 		.attr("height",80)
 		.attr("opacity",0.7)
-		// .on("mouseover",function(){
-			// modeBandes();
-		// })
-
+		
 	d3.select("#s_bandes").selectAll(".txBd")
 		.data([["premier(s)"],["candidat(s)"]])
 		.enter()
@@ -327,7 +330,7 @@ function drawInter(){
 	//MEP
 		
 	d3.select("#map").selectAll(".titles")
-		.data([["(Survoler les noms des candidats)",14,debX-10,0],["Par nombre de voix :",16,debX-10,1],["En pourcentage des bulletins",16,debX2-150,1],["",16,debX2-150,0]])
+		.data([["(Survoler le nom des candidats)",14,debX-10,0],["Par nombre de voix :",16,debX-10,1],["En pourcentage des bulletins",16,debX2-150,1],["",16,debX2-150,0]])
 		.enter()
 		.append("text")
 		.text(function(d){
@@ -569,16 +572,24 @@ function drawInter(){
 	
 	
 	// legende bandes
-	// var decal = document.getElementById("bandeau").offsetHeight;
 	d3.select("#legendeBandes")
 		.attr("transform","translate("+(debX-140)+" "+(debY-145)+") scale("+(lpatt/30)+")")
 		.attr("opacity",1)
+		
 	//logo
 	d3.select("#carte")
 		.append("img")
 		.attr("src","img/logo.png")
 		.style("width","17%")
 		.style("margin-top","36%")
+	
+	//source
+	d3.select("#map")
+		.append("text")
+		.attr("x",width-200)
+		.attr("y",1*height+45)
+		.text("Sarah Cabarry                   |                   Source : MAEDI")
+		.attr("font-size",12)
 	
 	
 	//init
@@ -678,10 +689,8 @@ function modeCercles(){
 function change(i){
 	Nba += i;
 	if(Nba==1){
-		// Nba=1;
 		d3.select("#moins").style("display","none")
 	}else if(Nba==5){
-		// Nba =9;
 		d3.select("#plus").style("display","none")
 	} else {
 		d3.select("#plus").style("display","block")
@@ -736,7 +745,6 @@ function bandes(nb,abs){
 			if(val<10){
 				valTxt = "0"+valTxt;
 			}
-			//a voir pour arrondir le pourcentage ca sera moins lourd à trier
 			listeVals.push([valTxt,cand,coul,perc]);
 		}
 		listeVals.sort();
@@ -813,11 +821,9 @@ function bandes(nb,abs){
 }
 
 function showVote(){
-	// modeCercles();
 	d3.selectAll(".centro").attr("r",0).attr("opacity",0);
 	d3.selectAll(".bouleCand").attr("r",8)
 	var cand = (this.id).split("_")[1];
-	//alert(dataVote.length)
 	for(i=0;i<dataVote.length;i++){
 		var val = dataVote[i][cand];
 		var pays = dataVote[i].Code;
@@ -846,20 +852,11 @@ function showVote(){
 }
 
 function delVote(){
-	// var cand = (this.id).split("_")[1];
-	// d3.select("#boul_"+cand).attr("r",10)
-	// d3.selectAll(".centro").attr("r",0).attr("opacity",0)
+	var cand = (this.id).split("_")[1];
+	d3.select("#boul_"+cand).attr("r",10)
+	d3.selectAll(".centro").attr("r",0).attr("opacity",0)
 }
 
-
-function moveLabel(){ //règle la position de la balise d'info par rapport aux coordonnées de l'évènement
-	// var x = d3.event.clientX;
-	// var y = d3.event.clientY-75;
-
-	
-	// d3.select(".infolabel")
-		// .style("margin-left", 50*x/width+"%")
-};
 
 function delData(obj){
 	var pays = obj.attributes.code.value;
@@ -887,7 +884,6 @@ function showData(){
 	var nom = this.attributes.name.value;
 	var areap = this.attributes.area.value;
 	var test =(this.attributes.class.value).split(" ")[1];
-	// var it = this.attributes.it.value;
 	if(test=="afrique"){
 		for(i=0;i<dataVote.length;i++){
 			if(dataVote[i].Code==pays){
@@ -902,14 +898,18 @@ function showData(){
 						if(mode=="cercles"){
 							var val = dataVote[i][cand]
 						} else {
-							var val = parseInt(100*dataVote[i][cand]/dataVote[i]["exprimes"])+"%"
+							if(abs==false){
+								var totalId = "exprimes"
+							} else {
+								var totalId = "inscrits"
+							}
+							var val = parseInt(100*dataVote[i][cand]/dataVote[i][totalId])+"%"
 						}
 						d3.select("#nom_"+cand).text(listeCandTX[j]+" : "+val)
 					}
 					d3.select("#nompays").attr("opacity",1).text(nom);
 					
 					if(mode=="bandes"){
-							//agrandissmeent
 						var centroX = document.getElementById("c"+pays).attributes.cx.value;
 						var centroY = document.getElementById("c"+pays).attributes.cy.value;
 						var pathPays = document.getElementById(pays).attributes.d.value;
@@ -921,6 +921,7 @@ function showData(){
 							.append("svg")
 							.attr("id","use"+pays)
 							.attr("width",1000)
+							.style("overflow","visible")
 							.append("path")
 							.attr("d",pathPays)
 							.attr("stroke",nuancier[2])
@@ -974,7 +975,6 @@ function draaa(){
 					var liste = centre.split(",");
 					return liste[0]
 				} else {
-					//alert(id);
 					return 0;
 				}
 				
@@ -986,7 +986,6 @@ function draaa(){
 					var liste = centre.split(",");
 					return liste[1]
 				} else {
-					//alert(id);
 					return 0;
 				}
 				
