@@ -22,6 +22,10 @@
     font-display: swap;
 }
 
+#principal{
+	width : 98%;
+}
+
 body{
 	font-family: 'ZonaPro';
 }

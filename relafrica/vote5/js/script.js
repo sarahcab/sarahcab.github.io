@@ -573,8 +573,8 @@ function drawInter(){
 	d3.select("#carte")
 		.append("img")
 		.attr("src","img/logo.png")
-		.style("width","17%")
-		.style("margin-top","36%")
+		.style("width","22.5%")
+		.style("margin-top","44.5%")
 	
 	//source
 	d3.select("#map")
