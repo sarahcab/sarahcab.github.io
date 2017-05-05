@@ -1,10 +1,9 @@
-//variables fixes
+//fixes
 var width = 950,
 height = 580,
 CX = width/2.4,
 CY = height/1.7,
 nuancier = ["#DFF1FD", "#E2BF9F","#FFFFFF","#CCCCCC","#030041","red","#DDD1C7"], //mer,terre,contour,boutons,relafrica,red,non-reinseigné
-// nuancierCand = ["#be2523","#f7a509","#49b7a4","#368cbe","#49bfa8","blue",nuancier[4],"orange","yellow","pink","purple"],
 nuancierCand = ["#555555","#000000","#EEEEEE","#be2523","#f7a509","#2a2a5e","#368cbe","#52b588","#4a5ba5","#eb6109","#7f3011","#654595","#bec531","#c37193"],
 listeCand = ["abstention","blancs","nuls","melenchon","hamon","lepen","macron","fillon","dupont","arthaud","poutou","cheminade","lassalle","asselineau"],
 listeCandTX = ["Abstention","Blancs","Nuls","Jean-Luc Mélenchon","Benoît Hamon","Marine Lepen","Emmanuel Macron","François Fillon","Nicolas Dupont-Aignan","Nathalie Arthaud","Philippe Poutou","Jacques Cheminade","Jean Lassalle","François Asselineau"],
@@ -15,15 +14,16 @@ lpatt = 30,
 prop = 72,
 esp = 30,
 seuil100 = 100/prop;
-Nba = 1,
-abs = true,
-mode = "cercles";
-
 var proj = d3.geo.orthographic()
 	.translate([CX, CY])
 	.clipAngle(90)
 	.rotate([-15,-2])
 	.scale(460);
+
+//variables
+Nba = 1,
+abs = true,
+mode = "cercles";
 
 window.onload = initialize();
 
@@ -39,7 +39,6 @@ function drawMap(){
 			.attr("id", "map")
 			.style("position","absolute")
 
-	
 	d3.select("#dessin").attr("width","100%").attr("viewBox","0 50 "+width+" "+height)
 	queue()							
 		.defer(d3.json,"data/countries.topojson")
@@ -53,16 +52,14 @@ function drawMap(){
 		var path = d3.geo.path() 
 			.projection(proj);
 		
-	map.append("circle")
-		.attr("cx", CX).attr("cy", CY)
-		.attr("r", proj.scale())
-		.attr("id","lamer")
-		.attr("opacity",0.25)
-		.style("fill", nuancier[0]);
-		
-
-		
-/////////////////////////////////////////////////////////////////////////////////////////:
+		map.append("circle")
+			.attr("cx", CX).attr("cy", CY)
+			.attr("r", proj.scale())
+			.attr("id","lamer")
+			.attr("opacity",0.25)
+			.style("fill", nuancier[0]);
+	
+/////////////////////////////fond de carte
 		
 		var pays = map.selectAll(".pays")  
 			.data(topojson.feature(dataPays,
@@ -77,10 +74,6 @@ function drawMap(){
 				var centro = path.centroid(d);
 				return centro;
 			})
-			// .attr("code", function(d){
-				// var code = d.properties["iso_a2"];
-				// return code;
-			// })
 			.attr("code", function(d){
 				var code = d.properties["iso_a2"]
 				var val = "";
@@ -105,26 +98,6 @@ function drawMap(){
 				var val = this.attributes.code.value;
 				return val;
 			})
-			// .attr("name", function(d){
-				// var code = d.id;
-				// var val = "";
-				// for(i=0;i<iso.length;i++){
-					// if(iso[i].num==code){
-						// val = iso[i].nameOk;
-					// }
-				// }
-				// return val;
-			// })
-			// .attr("area", function(d){
-				// var code = d.id;
-				// var val = "";
-				// for(i=0;i<iso.length;i++){
-					// if(iso[i].alpha==code){
-						// val = iso[i].area;
-					// }
-				// }
-				// return val;
-			// })
 			.each(function(d,i){
 				var centre = this.attributes.centre.value;
 				var code = this.attributes.code.value;
@@ -149,15 +122,11 @@ function drawMap(){
 					delData(this)
 				}
 			})
-			// .on("mousemove",moveLabel)
-		
-		// d3.select("#indic").html(listeManquant)
+
 		d3.selectAll(".autre").attr("opacity",opaFond)
 		drawInter();
 		abstentionBandes()
 		modeBandes();
-
-		//draaa();
 	}
 
 }
@@ -165,14 +134,8 @@ function drawMap(){
 
 function drawInter(){
 	
-	//images
-	// d3.select("#map").append("image")
-		// .attr("x:href","img/logo.png")
-		// .attr("width",")
-		// .attr("height",100)
-		// .attr("x",0)
-		// .attr("y",0)
-	
+		
+	/////////////////////////////Légende candidats
 	var debX = width/1.34,
 	debY = 120;
 	
@@ -187,9 +150,6 @@ function drawInter(){
 		.attr("width",300)
 		.attr("opacity",0.7)
 		.attr("height",listeCand.length*esp+20)
-		// .on("mouseover",function(){
-			// modeCercles();
-		// })
 		
 	d3.select("#candidats")
 		.selectAll(".bouleCand")
@@ -252,7 +212,7 @@ function drawInter(){
 		.attr("font-size",14)
 	
 		
-	//selecteurs bandes
+	/////////////////////////////Selecteurs carte en bande
 	debX2 = 182;
 	debY2 = 120,
 
@@ -313,7 +273,7 @@ function drawInter(){
 		.attr("font-weight",800)
 		.attr("y",parseFloat(debY2)+16)
 		
-	//MEP
+	/////////////////////////////Titres
 		
 	d3.select("#map").selectAll(".titles")
 		.data([["(Survoler les bulles ci-dessous)",14,debX-10,0],["Par nombre de voix :",16,debX-10,1],["En pourcentage des bulletins",16,debX2-150,1],["",16,debX2-150,0]])
@@ -471,9 +431,7 @@ function drawInter(){
 		.attr("font-size",14)
 		.attr("font-weight",800)
 		
-
-		
-	// legende cercles
+	/////////////////////////////Légende cercles
 	var debX = 200,
 	debY = height-80,
 	valeurs = [500,1500,3000,5000];
@@ -547,8 +505,6 @@ function drawInter(){
 			var val = document.getElementById("CL"+i).attributes.r.value;
 			return debY - val;
 		})
-		
-
 	
 	//moins de 100 voix
 	d3.select("#legendeCercles").append("circle").attr("cx",debX).attr("cy",debY-3).attr("r",seuil100).attr("opacity",0.6);
@@ -581,10 +537,6 @@ function drawInter(){
 	//init
 	d3.select("#moins").style("display","none")
 	
-}
-
-function sortNumber(a,b){
-	return a - b;
 }
 
 function abstentionBandes(){
@@ -713,33 +665,14 @@ function bandes(nb,abs){
 			var val = dataVote[i][cand];
 			var valTxt = val;
 			var perc = val/total;
-			
-			if(val<100000){
-				valTxt = "0"+valTxt;
-			} else {
-				// alert(val+"_"+cand)
-			}
-			if(val<10000){
-				valTxt = "0"+valTxt;
-			}
-			if(val<1000){
-				valTxt = "0"+valTxt;
-			}
-			if(val<100){
-				valTxt = "0"+valTxt;
-			}
-			if(val<10){
-				valTxt = "0"+valTxt;
-			}
-			listeVals.push([valTxt,cand,coul,perc]);
+			listeVals.push([perc,valTxt,cand,coul]);
 		}
 		listeVals.sort();
-		
 		
 		for(k=0;k<nb;k++){
 			listeOk.push(listeVals[listeVals.length-1-k]);
 		}
-		
+
 		var cuml = 0;
 		d3.select("#map")
 			.append("pattern")
@@ -765,7 +698,7 @@ function bandes(nb,abs){
 			.append("rect")
 			.attr("height",90)
 			.attr("width",function(d){
-				return d[3]*90;
+				return d[0]*90;
 			})
 			.attr("class","bande")
 			.attr("id",function(d,i){
@@ -788,7 +721,7 @@ function bandes(nb,abs){
 				
 			})
 			.attr("fill",function(d,i){
-				return d[2]
+				return d[3]
 			})
 			
 		if(pays){
@@ -862,11 +795,9 @@ function delData(obj){
 }
 
 function showData(){
-	//sécurité
 	d3.selectAll("pattern").attr("width",lpatt).attr("height",lpatt)
 	d3.selectAll(".uses").remove();
 	
-	// var Liste = "";
 	var pays = this.attributes.code.value;
 	var nom = this.attributes.name.value;
 	var areap = this.attributes.area.value;
@@ -938,53 +869,4 @@ function showData(){
 	
 	
 
-}
-
-function draaa(){
-	d3.select("#map").append("circle").attr("id","slt")
-		.attr("fill",nuancier[3]).attr("r",15).attr("cx",CX).attr("cy",CY);
-	var drag = d3.behavior.drag() //fonction "drag" veut dire que tu fais bouger l'objet en l'attrapant
-		.on("drag", function(d) {
-			d.x += d3.event.dx;
-			d.y += d3.event.dy;
-			d3.select(this).style("cursor","grabbing").attr("transform", function(d,i){
-				return "translate("+d.x+","+d.y+")"
-			})
-			proj.rotate([d.x,-d.y])
-			var path = d3.geo.path().projection(proj);
-			d3.select("#map").selectAll(".pays")  
-				.attr("d", path)
-				.attr("centre",function(d){
-					var centro = path.centroid(d);
-					return centro;
-				})
-			d3.select("#map").selectAll(".centro").attr("cx",function(){
-				var id = this.attributes.code.value;
-				if(document.getElementById(id)){
-					var centre = document.getElementById(id).attributes.centre.value;
-					var liste = centre.split(",");
-					return liste[0]
-				} else {
-					return 0;
-				}
-				
-			})
-			.attr("cy",function(){
-				var id = this.attributes.code.value;
-				if(document.getElementById(id)){
-					var centre = document.getElementById(id).attributes.centre.value;
-					var liste = centre.split(",");
-					return liste[1]
-				} else {
-					return 0;
-				}
-				
-			})
-		})
-		.on("dragend", function(d){
-			d3.select(this).style("cursor","grab");
-			alert(d.x+" : -"+d.y)
-			
-		})
-	d3.select("#slt").data([{"x":-10,"y":-5}]).call(drag)
 }
