@@ -42,7 +42,7 @@ function drawMap(){
 	
 	d3.select("#dessin").attr("width","100%").attr("viewBox","0 50 "+width+" "+height)
 	queue()							
-		.defer(d3.json,"data/pays.topojson")
+		.defer(d3.json,"data/countries.topojson")
 		.defer(d3.csv,"data/isoAfrique.csv")
 		.defer(d3.csv,"data/premiertourAfrique.csv")
 		.await(callback0); 
@@ -77,61 +77,54 @@ function drawMap(){
 				var centro = path.centroid(d);
 				return centro;
 			})
-			.attr("codeNum", function(d){
-				var code = d.id;
-				return code;
-			})
+			// .attr("code", function(d){
+				// var code = d.properties["iso_a2"];
+				// return code;
+			// })
 			.attr("code", function(d){
-				var code = d.id;
+				var code = d.properties["iso_a2"]
 				var val = "";
+				var nom = "";
+				var zone = "";
 				for(i=0;i<iso.length;i++){
-					if(iso[i].num==code){
-						val = iso[i].alpha;
+					if(iso[i].alpha==code){
+						val = code;
+						nom = iso[i].nameOk;
+						zone = iso[i].area;
 					} 
 				}
 				if(val!=""){
-					d3.select(this).attr("class","pays afrique")
-					return val;
+					d3.select(this).attr("class","pays afrique").attr("name",nom).attr("area",zone)
+					return code;
 				} else {
-					d3.select(this).attr("class","pays autre")
-					return "";
+					d3.select(this).attr("class","pays autre").attr("name",nom).attr("area",zone)
+					return code;
 				}
-				
-			})
-			.attr("name", function(d){
-				var code = d.id;
-				var val = "";
-				for(i=0;i<iso.length;i++){
-					if(iso[i].num==code){
-						val = iso[i].nameOk;
-					}
-				}
-				return val;
-			})
-			.attr("code", function(d){
-				var code = d.id;
-				var val = "";
-				for(i=0;i<iso.length;i++){
-					if(iso[i].num==code){
-						val = iso[i].alpha;
-					}
-				}
-				return val;
-			})
-			.attr("area", function(d){
-				var code = d.id;
-				var val = "";
-				for(i=0;i<iso.length;i++){
-					if(iso[i].num==code){
-						val = iso[i].area;
-					}
-				}
-				return val;
 			})
 			.attr("id", function(){
 				var val = this.attributes.code.value;
 				return val;
 			})
+			// .attr("name", function(d){
+				// var code = d.id;
+				// var val = "";
+				// for(i=0;i<iso.length;i++){
+					// if(iso[i].num==code){
+						// val = iso[i].nameOk;
+					// }
+				// }
+				// return val;
+			// })
+			// .attr("area", function(d){
+				// var code = d.id;
+				// var val = "";
+				// for(i=0;i<iso.length;i++){
+					// if(iso[i].alpha==code){
+						// val = iso[i].area;
+					// }
+				// }
+				// return val;
+			// })
 			.each(function(d,i){
 				var centre = this.attributes.centre.value;
 				var code = this.attributes.code.value;
@@ -579,9 +572,9 @@ function drawInter(){
 	//source
 	d3.select("#map")
 		.append("text")
-		.attr("x",width-200)
+		.attr("x",width-400)
 		.attr("y",1*height+45)
-		.text("Sarah Cabarry                   |                   Source : MAEDI")
+		.text("Sarah Cabarry | Source : MAEDI, Visionscarto.net (fond de carte)")
 		.attr("font-size",12)
 	
 	
