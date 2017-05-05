@@ -118,7 +118,8 @@ function drawMap(){
 			})
 			.on("mouseover",showData)
 			.on("mouseout",function(){
-				if(mode=="cercles"){
+				var test =(this.attributes.class.value).split(" ")[1];
+				if(mode=="cercles" && test=="afrique"){
 					delData(this)
 				}
 			})
@@ -789,7 +790,7 @@ function delData(obj){
 	d3.select("#nompays").text("(...)")
 	
 	d3.select("#patt"+pays+Nba).attr("width",lpatt).attr("height",lpatt)
-	d3.select("#use"+pays).remove()
+	d3.select("#use"+pays).transition().duration(400).attr("transform","")
 	d3.select("#"+pays).attr("opacity",1)
 	d3.selectAll(".afrique").attr("opacity",1)
 }
