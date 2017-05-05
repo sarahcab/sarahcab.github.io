@@ -323,7 +323,7 @@ function drawInter(){
 	//MEP
 		
 	d3.select("#map").selectAll(".titles")
-		.data([["(Survoler le nom des candidats)",14,debX-10,0],["Par nombre de voix :",16,debX-10,1],["En pourcentage des bulletins",16,debX2-150,1],["",16,debX2-150,0]])
+		.data([["(Survoler les bulles ci-dessous)",14,debX-10,0],["Par nombre de voix :",16,debX-10,1],["En pourcentage des bulletins",16,debX2-150,1],["",16,debX2-150,0]])
 		.enter()
 		.append("text")
 		.text(function(d){
