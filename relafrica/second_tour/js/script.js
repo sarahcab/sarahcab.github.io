@@ -23,7 +23,7 @@ var proj = d3.geo.orthographic()
 
 //variables
 Nba = 1,
-abs = true,
+abs = false,
 mode = "cercles";
 
 window.onload = initialize();
