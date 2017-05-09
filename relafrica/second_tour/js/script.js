@@ -4,7 +4,7 @@ height = 580,
 CX = width/2.4,
 CY = height/1.7,
 nuancier = ["#DFF1FD", "#E2BF9F","#FFFFFF","#CCCCCC","#030041","red","#DDD1C7"], //mer,terre,contour,boutons,relafrica,red,non-reinseigné
-nuancierCand = ["#555555","#000000","#EEEEEE","#2a2a5e","#368cbe"],
+nuancierCand = ["#777777","#EEEEEE","#000000","#2a2a5e","#368cbe"],
 listeCand = ["abstention","blancs","nuls","lepen","macron"],
 listeCandTX = ["Abstention","Blancs","Nuls","Marine Lepen","Emmanuel Macron"],
 listeManquant = [],
@@ -232,7 +232,7 @@ function drawInter(){
 		.attr("opacity",0.7)
 		
 	d3.select("#s_bandes").selectAll(".txBd")
-		.data([["candidat(s)"]])
+		.data([["premier(s)"],["score(s)"]])
 		.enter()
 		.append("text")
 		.text(function(d){
@@ -240,7 +240,7 @@ function drawInter(){
 		})
 		.attr("x",debX2-120)
 		.attr("y",function(d,i){
-			return parseFloat(debY2)+15
+			return parseFloat(debY2)+5+i*20;
 		})
 		.attr("class","txBd")
 	
@@ -550,7 +550,7 @@ function abstentionBandes(){
 		d3.select("#vertic").attr("opacity",0)
 		d3.selectAll(".cabstention").attr("opacity",1)
 		d3.selectAll(".eltLeg").transition().duration(700).attr("transform","")
-		maxBandes = 3;
+		maxBandes = 5;
 	} else {
 		abs=false;
 		d3.select("#selectAbs").text("Inscrits")
@@ -631,6 +631,9 @@ function modeCercles(){
 function change(i){
 	// alert(maxBandes)
 	Nba += i;
+	if(Nba>maxBandes){
+		Nba = maxBandes;
+	}
 	if(Nba==1){
 		d3.select("#moins").style("display","none")
 		d3.select("#plus").style("display","block")
