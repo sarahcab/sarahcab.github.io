@@ -153,7 +153,7 @@ function drawInter(){
 		.attr("opacity",0.7)
 		.attr("height",listeCand.length*esp+20)
 		
-	d3.select("#candidats")
+		d3.select("#candidats")
 		.selectAll(".bouleCand")
 		.data(nuancierCand)
 		.enter()
@@ -167,7 +167,11 @@ function drawInter(){
 			return d
 		})
 		.attr("class",function(d,i){
-			return "bouleCand eltLeg c"+listeCand[i];
+			if(i>2){
+				return "bouleCand eltLeg"
+			} else {
+				return "bouleCand eltLeg cabstention"
+			}
 		})
 		.attr("id",function(d,i){
 			return "boul_"+listeCand[i];
@@ -190,7 +194,11 @@ function drawInter(){
 			return d
 		})
 		.attr("class",function(d,i){
-			return "recCand eltLeg c"+listeCand[i];
+			if(i>2){
+				return "recCand eltLeg"
+			} else {
+				return "recCand eltLeg cabstention"
+			}
 		})
 
 	d3.select("#candidats")
@@ -202,7 +210,11 @@ function drawInter(){
 			return "nom_"+listeCand[i];
 		})
 		.attr("class",function(d,i){
-			return "nomsCand eltLeg c"+listeCand[i];
+			if(i>2){
+				return "nomsCand eltLeg"
+			} else {
+				return "nomsCand eltLeg cabstention"
+			}
 		})
 		.attr("x",parseFloat(debX)+15)
 		.attr("y",function(d,i){
@@ -212,6 +224,8 @@ function drawInter(){
 			return d
 		})
 		.attr("font-size",14)
+	
+		
 	
 		
 	/////////////////////////////Selecteurs carte en bande
@@ -549,7 +563,7 @@ function abstentionBandes(){
 		d3.select("#expinsc").text("inscrits")
 		d3.select("#vertic").attr("opacity",0)
 		d3.selectAll(".cabstention").attr("opacity",1)
-		d3.selectAll(".eltLeg").transition().duration(700).attr("transform","")
+		d3.selectAll(".eltLeg").transition().duration(1000).attr("transform","")
 		maxBandes = 5;
 	} else {
 		abs=false;
@@ -558,7 +572,7 @@ function abstentionBandes(){
 		d3.select("#expinsc").text("exprimés")
 		d3.select("#vertic").attr("opacity",1)
 		d3.selectAll(".cabstention").attr("opacity",0)
-		d3.selectAll(".eltLeg").transition().duration(700).attr("transform","translate(0 -"+esp+")")
+		d3.selectAll(".eltLeg").transition().duration(1000).attr("transform","translate(0 -"+esp*3+")")
 		maxBandes = 2;
 	}
 	change(0)
@@ -592,10 +606,10 @@ function modeBandes(){
 			
 		if(abs==false){
 			d3.selectAll(".cabstention").attr("opacity",0)
-			d3.selectAll(".eltLeg").transition().duration(700).attr("transform","translate(0 -"+esp+")")
+			d3.selectAll(".eltLeg").transition().duration(1000).attr("transform","translate(0 -"+esp*3+")")
 		} else {
 			d3.selectAll(".cabstention").attr("opacity",1)
-			d3.selectAll(".eltLeg").transition().duration(700).attr("transform","")
+			d3.selectAll(".eltLeg").transition().duration(1000).attr("transform","")
 		}
 			
 		
@@ -622,7 +636,7 @@ function modeCercles(){
 		})
 		
 		d3.selectAll(".cabstention").attr("opacity",1)
-		d3.selectAll(".eltLeg").transition().duration(700).attr("transform","")
+		d3.selectAll(".eltLeg").transition().duration(1000).attr("transform","")
 		
 	}
 	mode = "cercles";
