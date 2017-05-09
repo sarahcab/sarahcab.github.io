@@ -232,7 +232,7 @@ function drawInter(){
 		.attr("opacity",0.7)
 		
 	d3.select("#s_bandes").selectAll(".txBd")
-		.data([["premier(s)"],["candidat(s)"]])
+		.data([["candidat(s)"]])
 		.enter()
 		.append("text")
 		.text(function(d){
@@ -240,7 +240,7 @@ function drawInter(){
 		})
 		.attr("x",debX2-120)
 		.attr("y",function(d,i){
-			return parseFloat(debY2)+5+i*20
+			return parseFloat(debY2)+15
 		})
 		.attr("class","txBd")
 	
@@ -794,7 +794,7 @@ function delData(obj){
 	d3.select("#nompays").text("(...)")
 	
 	d3.select("#patt"+pays+Nba).attr("width",lpatt).attr("height",lpatt)
-	d3.select("#use"+pays).transition().duration(400).attr("transform","")
+	d3.select("#use"+pays).remove();
 	d3.select("#"+pays).attr("opacity",1)
 	d3.selectAll(".afrique").attr("opacity",1)
 }
