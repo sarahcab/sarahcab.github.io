@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+  		<meta charset="utf-8">
+		<title>Afrique - carte électorale</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="ressources/Bibliotheques/d3.js"></script>
+		<script src="ressources/Bibliotheques/topojson.js"></script>
+		<script src="ressources/Bibliotheques/queue.js"></script>
+	</head>		
+	<body>
+		<div id="principal">
+			<div id="carte">
+				<svg id="dessin">
+					<g id="legendeBandes" opacity="0">
+						<text transform="matrix(1 0 0 1 -10 -10)" font-size="16" font-weight="800">Part des voix</text>
+						<path id="p50" fill="#be2523" d="M19.9,25.9c-4.6,2.2-7.5,5.6-7.5,9.4s2.9,7.2,7.5,9.4c2.2,1,4.7,1.8,7.5,2.2V23.7C24.7,24.1,22.1,24.8,19.9,25.9z"/>
+						<path id="p100" fill="#E2BF9F" d="M32.1,23.3c-1.6,0-3.1,0.1-4.6,0.3V47c1.5,0.2,3,0.3,4.6,0.3c3.8,0,7.4-0.7,10.4-1.8V25.1C39.4,24,35.9,23.3,32.1,23.3z"/>
+						<path id="autre" fill="#be2523" d="M51.7,35.3c0-4.3-3.7-8.1-9.3-10.2v20.3C48,43.4,51.7,39.6,51.7,35.3z"/>
+						
+						<line fill="none" stroke="#000000" stroke-width="0.8" stroke-miterlimit="10" x1="12.4" y1="17.1" x2="12.4" y2="54.3"/>
+						<line fill="none" stroke="#000000" stroke-width="0.8" stroke-miterlimit="10" x1="27.4" y1="17.1" x2="27.4" y2="47"/>
+						<line fill="none" stroke="#000000" stroke-width="0.8" stroke-miterlimit="10" x1="42.4" y1="25.1" x2="42.4" y2="54.3"/>
+						
+						<text transform="matrix(1 0 0 1 7.1073 14.0747)">50 %</text>
+						<text transform="matrix(1 0 0 1 12.1322 68)">100 %</text>
+						<g id="fleche_50">
+							<polygon fill="#010202" points="16.2,21.7 12.4,18.7 16.2,15.7 "/>
+							<polygon fill="#010202" points="23.7,21.7 27.4,18.7 23.7,15.7 "/>
+							<line fill="none" stroke="#010202" stroke-width="0.5" stroke-miterlimit="10" x1="13.9" y1="18.7" x2="26" y2="18.7"/>
+						
+						</g>
+						<g id="fleche_50">
+							<polygon fill="#010202" points="16.2,55.4 12.4,52.4 16.2,49.4 "/>
+							<polygon fill="#010202" points="38.7,55.4 42.4,52.4 38.7,49.4 "/>
+							<line fill="none" stroke="#010202" stroke-width="0.5" stroke-miterlimit="10" x1="13.9" y1="52.4" x2="41" y2="52.4"/>
+						
+						</g>
+						<path id="rond" fill="none" stroke="#010202" stroke-width="1" stroke-miterlimit="10" d="M42.4,25.1c-3-1.2-6.6-1.8-10.4-1.8c-1.6,0-3.1,0.1-4.6,0.3c-2.8,0.4-5.3,1.2-7.5,2.2c-4.6,2.2-7.5,5.6-7.5,9.4s2.9,7.2,7.5,9.4c2.2,1,4.7,1.8,7.5,2.2c1.5,0.2,3,0.3,4.6,0.3c3.8,0,7.4-0.7,10.4-1.8c5.5-2.1,9.3-5.9,9.3-10.2C51.7,31,48,27.2,42.4,25.1z"/>
+						
+						
+					</g>
+				<svg>
+			</div>
+		<!-- 	<div id="bandeau">
+				<div  style="margin-top : 1.5%">
+					<img src = "img/titre.png" width="70%" />
+				</div>
+				<div style="margin-left:1%;margin-top : 36.5%">
+					<img width="22%" src = "img/logo.png"/>
+					
+				</div>
+			</div> -->
+			<div id="div_dessin">
+				
+			</div>
+		</div>
+		<script type = "text/javascript" src="js/script.js"></script>
+	</body>
+</html>
