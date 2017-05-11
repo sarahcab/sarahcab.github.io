@@ -1,0 +1,25 @@
+
+@font-face {
+    font-family: 'Roboto';
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'RobotoBold';
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+
+
+.clignote{
+	animation: cli 0.5s linear;
+	animation-iteration-count : infinite;
+}
+
+@keyframes cli{
+	0%   {opacity : 1;}
+    50%  {opacity : 0;}
+    100% {opacity : 1;}
+}
+
+p{
+	margin-left : 20%;
+}
