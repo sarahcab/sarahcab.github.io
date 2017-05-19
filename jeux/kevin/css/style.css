@@ -8,6 +8,9 @@
     src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
 }
 
+body{
+	overflow:hidden;
+}
 
 .clignote{
 	animation: cli 0.5s linear;
@@ -22,4 +25,20 @@
 
 p{
 	margin-left : 20%;
+}
+
+#jeu{
+	width:100%;
+	overflow:hidden;
+}
+
+
+.mouuve{
+	animation: bouge 30s linear;
+	animation-iteration-count : infinite;
+}
+
+@keyframes bouge{
+	0%   {transform : translate(0);}
+    100% {transform : translate(-50%);}
 }

@@ -1,19 +1,22 @@
 //fixes
 var width = 900,
-height = 380,
-size=20,
-sizeTir = 5,
+height = 300,
+size=30,
+sizeTir = 30,
 border =0,
 sens = [-1,0],
-nuancier = ["#333333","#F4F4F4","yellow","red"], //fond,perso, mechant, tir
+niveau =0,
+scoreNiv =[30,50,100],
+vieInit=30,
+widthBarre =100,
+nuancier = ["#333333","#F4F4F4","yellow","red","blue","purple"], //fond,perso, mechant, tir, barre vie, barre score
 
 
 //mobiles :
-vitM = 500, //déplacement des monstres
+vitM = 600, //déplacement des monstres
 vitA = 3000, //apparition des monstres
-diff = 10000/(vitM*vitA),
 // vitT = 200, //tire
-vies = 30,
+vies = vieInit,
 score = 0,
 itMech = 0;
 
@@ -31,21 +34,34 @@ function initialize() {
 	mechantsMoove();
 	d3.select("#vies").html("Vies : "+vies) ///faire une barre de vie et de score, et de diff
 	d3.select("#score").html("Score : "+score)
-	d3.select("#diff").html("Difficulté : "+diff)
+	
+	d3.select("#barre_vie")
+		.transition()
+		.duration(200)
+		.attr("width",function(){
+			return widthBarre*vies/vieInit;
+		})
+		
+	d3.select("#barre_score")
+		.transition()
+		.duration(200)
+		.attr("width",function(){
+			return widthBarre*score/scoreNiv[niveau];
+		})
 	
 	window.onkeypress = function(e){
-		
 		var touche  = e.keyCode;
-		if(touche=="37"){ //gauche
+		// alert(touche)
+		if(touche=="37"||touche=="52"){ //gauche
 			sens = [-1,0];
-		} else if(touche=="38"){ //haut
+		} else if(touche=="38"||touche=="56"){ //haut
 			sens = [-1,1];
-		} else if(touche=="39"){ //droite
+		} else if(touche=="39"||touche=="54"){ //droite
 			sens = [1,0];
-		} else if(touche=="40"){ //bas
+		} else if(touche=="40"||touche=="50"){ //bas
 			sens = [1,1];
 		} 
-		if(touche=="0"){
+		if(touche=="0"||touche=="32"){
 			tire();
 		} else {
 			moove()
@@ -59,23 +75,34 @@ function reinit(){
 	clearTimeout(c)
 	clearTimeout(t)
 	d3.select("#geom").remove()
-	vitM = 500, //déplacement des monstres
+	vitM = 600, //déplacement des monstres
 	vitA = 3000, //apparition des monstres
-	diff = 10000/(vitM*vitA),
 	// vitT = 200, //tire
-	vies = 30,
+	vies = vieInit,
 	score = 0;
 	
 	initialize();	
 }
 
 function draw(){
+	
+	//fond
+	d3.select("#jeu")
+		.append("img")
+		.style("position","absolute")
+		.attr("src","img/fonds.png")
+		.attr("width","1200%")
+		.attr("class","mouuve")
+		
+
+	
 	d3.select("#jeu").append("svg")
 		.attr("id","geom")
 		.attr("overflow","visible")
 		.attr("width","100%")
+		.style("position","absolute")
 		.attr("viewBox","0 0 "+width+" "+height)
-		.style("background-color","#EEEEEE")
+		// .style("background-color","#EEEEEE")
 	
 	// for(i=0;i<width/size;i++){ ///à virer
 		// for(j=0;j<height/size;j++){
@@ -95,6 +122,63 @@ function draw(){
 				// .attr("class","pix")
 		// }	
 	// }
+	
+	
+	
+	//barres de niveau
+
+	d3.select("#geom").selectAll(".barre")
+		.data([["barre_vie",nuancier[4],widthBarre],["barre_score",nuancier[5],0]])
+		.enter()
+		.append("rect")
+		.attr("id",function(d){
+			return d[0]
+		})
+		.attr("x",function(d,i){
+			return i *200 +200
+		})
+		.attr("y",-20)
+		.attr("width", function(d,i){
+			return d[2]
+		})
+		.attr("height", 10)
+		.attr("fill",function(d){
+			return d[1]
+		})
+		.attr("class","barre")
+		
+	d3.select("#geom").selectAll(".barref")
+		.data([["fond_vie"],["fond_score"]])
+		.enter()
+		.append("rect")
+		.attr("id",function(d){
+			return d[0]
+		})
+		.attr("x",function(d,i){
+			return i *200 +200
+		})
+		.attr("y",-20)
+		.attr("width",widthBarre)
+		.attr("height", 10)
+		.attr("stroke","#000000")
+		.attr("stroke-width",2)
+		.attr("fill","none")
+		.attr("class","barref")
+	
+		
+	d3.select("#geom").selectAll(".barret")
+		.data([["Vie : "],["Score : "]])
+		.enter()
+		.append("text")
+		.text(function(d){
+			return d[0]
+		})
+		.attr("x",function(d,i){
+			return i *200 +200
+		})
+		.attr("y",-25)
+
+	
 }
 
 function makeBlop(){
@@ -161,6 +245,7 @@ function mechants(){
 	t = setTimeout(function(){
 		itMech ++;
 		var Y = getRandomInt(0, height/size);
+		var choix = getRandomInt(0,2)+niveau*3;
 		// d3.select("#geom")
 			// .append("rect")
 			// .attr("x",0)
@@ -180,7 +265,7 @@ function mechants(){
 			// })
 		d3.select("#geom")
 			.append("image")
-			.attr("xlink:href","img/brosse.png")
+			.attr("xlink:href","img/ennemi"+choix+".png")
 			.attr("x",-10)
 			.attr("y",-10)
 			.attr("id","mech"+itMech)
@@ -240,6 +325,12 @@ function touche(mech){
 	},500)
 	vies = vies-force;
 	d3.select("#vies").html("Vies : " + vies);
+	d3.select("#barre_vie")
+		.transition()
+		.duration(200)
+		.attr("width",function(){
+			return widthBarre*vies/vieInit;
+		})
 	if(vies<=0){
 		perdu()
 	}
@@ -275,11 +366,25 @@ function tire(){
 		winn(kill);
 	}
 		
-	d3.select("#geom").append("circle")
-		.attr("cx",size/2)
-		.attr("cy",size/2)
-		.attr("r",sizeTir)
-		.attr("fill",nuancier[3])
+	// d3.select("#geom").append("circle")
+		// .attr("cx",size/2)
+		// .attr("cy",size/2)
+		// .attr("r",sizeTir)
+		// .attr("fill",nuancier[3])
+		// .attr("opacity",1)
+		// .attr("transform","translate("+hori*size+" "+verti*size+")")
+		// .transition()
+		// .duration(vitM)
+		// .attr("transform","translate("+(hori2-1)*size+" "+verti*size+")")
+		// .transition()
+		// .attr("opacity",0)
+
+	d3.select("#geom").append("image")
+		.attr("xlink:href","img/projectile"+niveau+".png")
+		.attr("x",size/2)
+		.attr("y",size/2)
+		.attr("width",sizeTir)
+		.attr("height",sizeTir)
 		.attr("opacity",1)
 		.attr("transform","translate("+hori*size+" "+verti*size+")")
 		.transition()
@@ -295,10 +400,29 @@ function winn(k){
 	score = score*1+force*1;
 	vitA = vitA - force*2;
 	vitM = vitM - force/3;
-	diff = vitM*vitA;
+	if(score>scoreNiv[niveau]){
+		niveau=niveau*1+1;
+		var ni = niveau*1+1*1;
+		if(ni>scoreNiv.length){
+			alert("Gagné!")
+			reinit();
+		} else {
+			score = 0;
+			alert("Niveau "+ni+"!")
+		}
+		
+	}
+	
 	
 	d3.select("#score").html("Score : "+score)
-	d3.select("#diff").html("Difficulté : "+diff)
+			
+	d3.select("#barre_score")
+		.transition()
+		.duration(200)
+		.attr("width",function(){
+			return widthBarre*score/scoreNiv[niveau];
+		})
+	
 }
 
 function perdu(){ ///faire une anim
