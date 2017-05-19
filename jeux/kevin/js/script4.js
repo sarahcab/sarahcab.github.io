@@ -6,8 +6,8 @@ sizeTir = 30,
 border =0,
 sens = [-1,0],
 niveau =0,
-scoreNiv =[30,50,100],
-vieInit=30,
+scoreNiv =[100,150,200],
+vieInit=20,
 widthBarre =100,
 nuancier = ["#333333","#F4F4F4","yellow","red","blue","purple"], //fond,perso, mechant, tir, barre vie, barre score
 
@@ -27,7 +27,7 @@ window.onload = initialize();
 
 function initialize() {
 	
-	alert("Utilises les flèches pour te déplacer, la barre espace pour tirer")
+	alert("Si tu utilises Firefox, appuies sur les flèches du clavier pour de déplacer et la barre espace pour tirer. Sur Chrome, utilise les flèches du clavier numérique (8,4,2,6 - le 5 répète l'action précédente) pour te déplacer et la barre espace pour tirer. Sur IE, va te faire foutre.")
 	draw();
 	makeBlop();
 	mechants();
@@ -245,7 +245,8 @@ function mechants(){
 	t = setTimeout(function(){
 		itMech ++;
 		var Y = getRandomInt(0, height/size);
-		var choix = getRandomInt(0,2)+niveau*3;
+		var choix = getRandomInt(0,3)+niveau*3;
+		alert(choix)
 		// d3.select("#geom")
 			// .append("rect")
 			// .attr("x",0)
