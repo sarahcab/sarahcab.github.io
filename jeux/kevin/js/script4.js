@@ -246,7 +246,6 @@ function mechants(){
 		itMech ++;
 		var Y = getRandomInt(0, height/size);
 		var choix = getRandomInt(0,3)+niveau*3;
-		alert(choix)
 		// d3.select("#geom")
 			// .append("rect")
 			// .attr("x",0)
