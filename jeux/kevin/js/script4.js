@@ -6,15 +6,15 @@ sizeTir = 30,
 border =0,
 sens = [-1,0],
 niveau =0,
-scoreNiv =[100,150,200],
+scoreNiv =[200,300,400],
 vieInit=20,
 widthBarre =100,
 nuancier = ["#333333","#F4F4F4","yellow","red","blue","purple"], //fond,perso, mechant, tir, barre vie, barre score
 
 
 //mobiles :
-vitM = 600, //déplacement des monstres
-vitA = 3000, //apparition des monstres
+vitM = 400, //déplacement des monstres
+vitA = 2000, //apparition des monstres
 // vitT = 200, //tire
 vies = vieInit,
 score = 0,
@@ -75,11 +75,12 @@ function reinit(){
 	clearTimeout(c)
 	clearTimeout(t)
 	d3.select("#geom").remove()
-	vitM = 600, //déplacement des monstres
-	vitA = 3000, //apparition des monstres
+	vitM = 400, //déplacement des monstres
+	vitA = 2000, //apparition des monstres
 	// vitT = 200, //tire
 	vies = vieInit,
-	score = 0;
+	score = 0,
+	niveau = 0;
 	
 	initialize();	
 }
