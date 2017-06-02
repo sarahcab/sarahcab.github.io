@@ -18,7 +18,7 @@ var nuancier = ["#F08300","#E42420","#CCCCCC","#F08300", "#4EBCC2","#2A4A9A"]; /
 var nuancierChoro = ["#BAADCC","#D2CB96","#95916D","#605F42"]; //titres locaux, titres nationaux,contours boules+roues arrières
 var valsChoro = [2,4,6];
 var itDate =0;
-var vitAnim = 1500;
+var vitAnim = 2000;
 
 //variables fixes du graphique (récupérées du SVG)
 var decalFin = 30;
@@ -44,10 +44,8 @@ var listeVilles = new Object();
 var nomsDepts = [];
 var listeDept = new Object();
 
-
 //donnees fictives!!
 var listeDate = [1946,1960,1970,1984,2000,2016];
-
 
 window.onload = initialize();
 
