@@ -98,7 +98,7 @@ function actions(){
 		d3.select("#reculer").attr("class","mdSimple cliquable").attr("opacity",1);
 		var ancDate=date;
 		date = listeDate[itDate];
-		d3.select("#indic_avancer").text(date)
+		d3.select("#date_ind").text(date)
 		calc();
 		majVilles();
 		majDepts();
