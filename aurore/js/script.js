@@ -46,7 +46,7 @@ function dessinDraw(){
 	}
 	d3.select("#soluce")
 		.transition()
-		.duration(1000)
+		.duration(1200)
 		.delay(cumul*8+2000)
 		.attr("transform","")
 }
@@ -59,9 +59,13 @@ function repeatDessin(){
 	},vit*1000)
 }
 
-function choix(){
+function choix(){			
 	for(i=0;i<listeChoix.length;i++){
 		d3.select("#"+listeChoix[i])
+			.attr("animation2",function(){
+				var val = this.style.animation;
+				return val;
+			})
 			.on("click",function(){
 				// document.location.href=this.id+".html"; 
 				affiche(this.id)
@@ -78,11 +82,54 @@ function choix(){
 				})
 			})
 	}
+	d3.select("#accueil")
+		.on("click",function(){
+			d3.select(this)
+				.transition()
+				.duration(1200)
+				.attr("opacity",0)
+				.transition()
+				.style("display","none")
+			
+			d3.selectAll(".bouge")
+				
+				.transition()
+				.duration(1200)
+				.attr("transform","")
+				.attr("opacity",1)
+				.transition()
+				.style("animation",function(){
+					var val = this.attributes.animation2.value;
+					return val;
+				})
+				.attr("opacity2",1)
+			
+			d3.select("#intro")
+				.style("display","block")
+				.transition()
+				.duration(1200)
+				.style("opacity",1)
+			
+			d3.selectAll(".bloc")
+				.transition()
+				.duration(1200)
+				.style("opacity",0)
+				.transition()
+				.style("display","none")
+		})
+			
+
 }
 
 function affiche(ch){
 	// if(ch=="stages"){
-		d3.select("#intro").style("display","none")
+		d3.select("#intro")
+			.transition()
+			.duration(1200)
+			.style("opacity",0)
+			.transition()
+			.style("display","none")
+			
 		d3.selectAll(".bouge")
 			.style("animation","")
 			.attr("opacity2",function(){
@@ -93,7 +140,7 @@ function affiche(ch){
 				}
 			})
 			.transition()
-			.duration(1000)
+			.duration(1200)
 			.attr("transform",function(){
 				var val = this.attributes.transform2.value;
 				return val;
@@ -107,15 +154,24 @@ function affiche(ch){
 			})
 		
 		d3.selectAll(".bloc")
+			.transition()
+			.duration(1200)
+			.style("opacity",0)
+			.transition()
 			.style("display","none")
 		
 		d3.select("#bloc_"+ch)
 			.style("display","block")
 			.transition()
-			.duration(1500)
+			.duration(1200)
 			.style("opacity",1)
 		
-		
+		d3.select("#accueil")
+			.transition()
+			.duration(1200)
+			.attr("opacity",1)
+			.style("display","block")
+			
 	// }
 }
 

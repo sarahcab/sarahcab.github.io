@@ -51,11 +51,11 @@ h2{
 #intro,#choix{
 	text-align : center;
 	position : absolute;
-	
+	opacity : 1;
 	width : 100%;
 }
 
-.bouge{
+.bouge,#accueil{
 	/* animation: moove 10s linear; */
 	/* animation-iteration-count : infinite; */
 	cursor : pointer;
