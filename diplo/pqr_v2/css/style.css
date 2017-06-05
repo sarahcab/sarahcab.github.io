@@ -1,0 +1,64 @@
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 400;
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 800;
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+
+body{
+	font-family : 'Roboto';
+	font-weight : 400;
+	display : flex;
+}
+
+.marge{
+	width : 17%;
+	background-color : #BBBBBB;
+}
+
+.hightlight{
+	fill : #FBCD9D;
+}
+
+#innercarte{
+	width: 66%;
+	position : relative;
+}
+
+#graph{
+	position : absolute;
+	width:100%;
+}
+
+
+.cliquable:hover{
+	cursor:pointer;
+	opacity:0.8;
+}
+
+.active{
+	animation-iteration-count : infinite;
+}
+
+@keyframes tourneG{
+	from {transform: rotate(0deg);}
+
+	to   {transform: rotate(-360deg);}
+}
+
+@keyframes tourneD {
+	from {transform: rotate(0deg);}
+
+	to   {transform: rotate(360deg);}
+}
+
+@keyframes opac {
+	from {opacity:1;}
+
+	to   {opacity:0;}
+}
