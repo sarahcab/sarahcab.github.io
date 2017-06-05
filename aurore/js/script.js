@@ -3,7 +3,7 @@
 var yDeb = 176,
 vit =10;
 listeChoix = ["formation","stages","methode","cours"],
-nuancier = ["green","orange"]
+nuancier = ["#094718","#EAA450"]
 
 window.onload = initialize();
 
