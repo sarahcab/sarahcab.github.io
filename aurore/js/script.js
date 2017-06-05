@@ -116,6 +116,18 @@ function choix(){
 				.style("opacity",0)
 				.transition()
 				.style("display","none")
+			
+			d3.select("#fondfond")
+			.transition()
+			.duration(1000)
+			.attr("transform","")
+
+
+			d3.select("#margedroite")
+				.transition()
+				.duration(1000)
+				.style("opacity",1)
+				.style("display","block")
 		})
 			
 
@@ -171,7 +183,16 @@ function affiche(ch){
 			.duration(1200)
 			.attr("opacity",1)
 			.style("display","block")
-			
+		
+		d3.select("#fondfond")
+			.transition()
+			.duration(1000)
+			.attr("transform","translate(460 0)")
+
+		d3.select("#margedroite")
+			.transition()
+			.duration(1000)
+			.style("opacity",0)
 	// }
 }
 

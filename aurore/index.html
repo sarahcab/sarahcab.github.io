@@ -12,17 +12,18 @@
 		<div id="principal">
 			<div id="margegauche">
 				<h1>Aurore Decosne</h1>
-				<h3>Pédagogue, praticienne agréée</h3>
+				<p>Pédagogue, praticienne agréée</p>
+				<p>Métode Antoine de la Garanderie</p>
 				<img id="photo_pres" src="img/test.jpg" width="100%">
 				<p id="contact">tonadresse@mail.fr</p>
 			</div>
 			<div id="contenu_centre">
-				<svg style="position:absolute" width="100%" viewBox="0 0 1000 1200">
+				<svg id="fondsvg" style="position:absolute;overflow:visible" width="100%" viewBox="0 0 1000 1200">
 					<linearGradient id="grad_or" gradientUnits="userSpaceOnUse">
 						<stop  offset="0.85" style="stop-color:#FFFFFF"/>
 						<stop class="orangespe" offset="1" />
 					</linearGradient>
-					<rect x="0" y="0" width="1000" height="1200" fill="url(#grad_or)"/>
+					<rect id="fondfond" x="0" y="0" width="1000" height="1200" fill="url(#grad_or)"/>
 				</svg>
 				<div id="intro">
 					<h2> Apprendre à apprendre</h2>
@@ -49,8 +50,8 @@
 							</radialGradient>
 						</defs>
 						<g id="accueil" transform="matrix(0.5 0 0 0.5 0 0)" opacity="1" style="display:none">
-							<circle cy="-560" cx="1800" r="75" fill="url(#rad_gr)" />
-							<text transform="matrix(1 0 0 1 1750 -552)" font-weight="800" font-size="30"> Accueil
+							<circle cy="-560" cx="2800" r="75" fill="url(#rad_gr)" />
+							<text transform="matrix(1 0 0 1 2750 -552)" font-weight="800" font-size="30"> Accueil
 							</text>
 						</g>
 						<g id="stages" transform2="matrix(0.5 0 0 0.5 -100 -330)" class="bouge"  opacity="0.8" opacity2="0.8"style="transform-origin:212px 50px;animation: moove 10s linear;animation-iteration-count : infinite;">
@@ -98,9 +99,18 @@
 					<p>Espace Jeunesse Massy, Mairie de Massy, P.E.E.P. 91, école A.Camus Massy, ISP Paris Association Satellite Palaiseau, Collège J. D’Arc Brétigny S/Orge, ND de Sion Evry, Greta92, CCI78, SIPCA,  IP2A, MDS21,  CRP Vivre, Association P. Kohlmann Antony, Atoutform, CNFPT, Forma2L, de nombreux particuliers...</p>
 				</div>
 				<div id="bloc_cours" class="bloc">
-					<p>Tarifs...</p>
-					<p>Exemples...</p>
-					<p>Commentaires...</p>
+					<h2>Accompagnement régulier</h2>
+					<p>Tarifs, commentaires, exemples(...)</p>
+					<h3>Domaines d'intervention</h3>
+					<ul>
+						<li>Méthodologie</li>
+						<li>Apprentissage des leçons</li>
+						<li>Attention</li>
+						<li>Mémorisation</li>
+						<li>Orthographe</li>
+						<li>Grammaire</li>
+						<li>Langues</li>
+					</ul>
 				</div>
 				<div id="bloc_methode" class="bloc">
 					<h2>Réussir ça s’apprend !</h2>
@@ -120,7 +130,15 @@
 				</div>
 			</div>
 			<div id="margedroite">
-				<svg id="geom_droite" width="100%" viewBox="0 0 199.1 328.1" opacity="0">
+				<ul style="border-bottom:dashed #AAAAAA 0.5px;padding-bottom:10%">
+					<li>Enfants, adolescent, étudiants</li>
+					<li>Accompagnement ponctuel ou régulier</li>
+					<li>Intervention à domicile</li>
+					<li>Antony et ses environs</li>
+					<li>Tarification horaire</li>
+					<li>CESU accepté</li>
+				</ul>
+				<svg id="geom_droite" width="100%" viewBox="0 10 199.1 320" opacity="0">
 					<g id="dessin">
 						<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#E3F3F8" points="149.7,217.3 151.8,220.4 153.5,223.6 155.1,226.9  156.4,230.3 157.5,233.9 158.2,237.5 158.7,241.2 158.8,245 158.7,247.7 158.5,250.3 158.1,252.9 157.6,255.4 157,257.9  156.1,260.4 155.2,262.8 154.1,265.2 153.2,266.9 152.3,268.7 151.2,270.4 150.1,272 148.8,273.7 147.6,275.2 146.3,276.8  144.9,278.3 143.4,279.7 141.9,281.2 140.4,282.5 138.8,283.9 137.1,285.1 135.4,286.3 133.6,287.5 131.8,288.6 129.9,289.6  128,290.6 126,291.5 124,292.4 121.9,293.2 119.8,294 117.7,294.7 115.5,295.3 113.3,295.8 111,296.3 108.8,296.7 106.5,297.1  104.1,297.3 101.8,297.5 99.4,297.6 97,297.7 93.8,297.6 90.7,297.4 87.6,297.1 84.6,296.6 81.7,296 78.7,295.3 75.8,294.4  73,293.5 70.3,292.5 67.6,291.3 65.1,290.1 62.6,288.7 60.2,287.2 57.8,285.6 55.5,284 53.4,282.2 51.4,280.4 49.4,278.5  47.6,276.5 45.8,274.5 44.3,272.3 42.8,270.1 41.4,267.8 40.2,265.5 39.1,263.1 38.1,260.7 37.2,258.2 36.6,255.6 36,253  35.6,250.4 35.4,247.7 35.3,245 35.4,242.2 35.6,239.6 36,237 36.6,234.3 37.2,231.8 38.1,229.3 39.1,226.9 40.2,224.4  41.4,222.1 42.8,219.8 44.3,217.6 45.8,215.5 47.6,213.4 49.4,211.4 51.4,209.6 53.4,207.7 55.5,206 57.8,204.3 60.2,202.8  62.6,201.2 65.1,199.9 67.6,198.6 70.3,197.5 73,196.4 75.8,195.5 78.7,194.6 81.7,193.9 84.6,193.3 87.6,192.8 90.7,192.5  93.8,192.3 97,192.2 99.1,192.2 101.2,192.4 103.2,192.5 105.2,192.7 107.3,193 109.2,193.3 111.2,193.6 113.1,194.1 115,194.5  117,195 118.8,195.6 120.6,196.2 122.4,196.9 124.2,197.6 125.9,198.3 127.6,199.1 129.3,200 131,200.9 132.5,201.8 134.1,202.8  135.7,203.8 137.2,204.8 138.6,205.9 140,207.1 141.4,208.2 142.7,209.4 144,210.7 145.2,211.9 146.4,213.3 147.6,214.5  148.6,215.9 149.7,217.3 		"/>
 						<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8C8C8C" points="24.8,295.5 25.3,296.6 25.8,297.8 26.3,299.2  26.9,300.5 27.5,301.8 28.2,302.9 29,303.8 29.8,304.4 30,304.5 30.4,304.5 31,304.6 31.7,304.7 32.5,304.7 33.5,304.8  34.7,304.8 36,304.9 37.4,305 39,305.1 40.7,305.1 42.5,305.2 44.4,305.3 46.4,305.4 48.5,305.4 50.7,305.5 53,305.6 55.3,305.7  57.7,305.8 60.2,305.9 62.8,305.9 65.4,306.1 68.1,306.1 70.8,306.2 73.5,306.3 76.3,306.4 79.1,306.5 81.9,306.5 84.8,306.6  87.6,306.7 90.5,306.8 93.3,306.8 96,306.9 98.5,307 101.1,307 103.6,307.1 106.1,307.1 108.6,307.1 111.1,307.1 113.5,307.2  115.9,307.2 118.2,307.2 120.5,307.2 122.7,307.2 124.9,307.2 126.9,307.2 128.9,307.2 130.9,307.2 132.8,307.2 134.5,307.1  136.2,307.1 137.8,307.1 139.3,307.1 140.7,307.1 142,307 143.2,307 144.3,307 145.2,306.9 146.1,306.9 146.8,306.8 147.3,306.8  147.8,306.7 148.1,306.7 148.3,306.7 149.4,304.4 150.1,300.2 150.3,296.3 150.3,294.5 24.8,295.5 		"/>
@@ -267,9 +285,7 @@
 						<path id="bul_soluce" fill="none" stroke="#000000" stroke-width="0.9" stroke-miterlimit="10" d="M171.6,154.3h-53.5c-6.4,0-11.6,7.7-11.6,17.3 c0,8.5,4.1,15.6,9.5,17l-4.4,9.4l9.3-9.1h50.7c6.4,0,11.6-7.7,11.6-17.3C183.2,162,178,154.3,171.6,154.3z"/>
 					</g>
 				</svg>
-				<h2 style="text-align:center;width:100%">
-					Efficacité scolaire
-				</h2>
+				
 			</div>
 		</div>
 		<script type = "text/javascript" src="js/script.js"></script>

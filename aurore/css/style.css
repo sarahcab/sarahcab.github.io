@@ -18,11 +18,21 @@ h1{
 	font-size : 30px;
 }
 
-h2{
-	font-family : Roboto;
-	font-weight:800;
+h1,h3{
+	font-family : 'Roboto';
 }
 
+h2{
+	font-family : 'Roboto';
+	font-weight:800;
+}
+li{
+	margin-bottom:3%;
+}
+
+ul{
+	list-style-type: square;
+}
 #principal{
 	width : 100%;
 	display : flex;
@@ -32,6 +42,7 @@ h2{
 #margegauche, #margedroite{
 	padding : 2%;
 	width : 22%;
+	z-index:-2;
 }
 
 
@@ -79,5 +90,6 @@ h2{
 	opacity : 0;
 	position : absolute;
 	margin-top:8%;
+	width:125%;
 	padding : 5%;
 }
