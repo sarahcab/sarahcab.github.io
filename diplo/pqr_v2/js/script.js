@@ -720,12 +720,14 @@ function majDepts(){
 
 function buildGraph(){
 	
-	d3.select("#graph")
+	d3.select("#arriere")
 		.append("svg")
 		.attr("id","svgCourbes")
 		.attr("x",xMin)
 		.attr("y",yMax) 
 		.attr("viewBox","0 0 "+w+" "+h)
+		.style("overflow","visible") //a virer si on remet ena ccordéon
+		// .style("z-index","-2")
 		.attr("width",w)
 		.attr("height",h)
 		.attr("transform","translate(0,-20)") //meme décalage que le calque "rep_graph"
@@ -790,6 +792,16 @@ function buildGraph(){
 	}
 	
 	d3.select("#svgCourbes")
+		.append("rect")
+		.attr("id","cache_graph")
+		.attr("x",0)
+		.attr("y",0)
+		.attr("width",w*1.08)
+		.attr("height",h)
+		.attr("fill","#FFFFFF")
+		.attr("opacity",0.7)
+		
+	d3.select("#svgCourbes")
 		.append("line")
 		.attr("id","barre_date")
 		.attr("stroke",nuancier[2])
@@ -811,7 +823,7 @@ function buildGraph(){
 		.attr("cy",function(d){
 			return d[2]
 		})
-		.attr("r",2)
+		.attr("r",2.5)
 		.attr("class","suiv")
 		.attr("fill",function(d){
 			return d[1]
@@ -840,6 +852,12 @@ function majGraph(){
 		.duration(vitAnim)
 		.attr("x1",vB)
 		.attr("x2",vB)
+		
+	d3.select("#cache_graph")
+		.transition()
+		.duration(vitAnim)
+		.attr("width",w*1.09-vB)
+		.attr("x",vB)
 	
 	for(i=0;i<ids.length;i++){
 		d3.select("#ci_"+ids[i])
