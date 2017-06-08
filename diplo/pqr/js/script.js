@@ -621,17 +621,80 @@ function buildGraph(){
 			.attr("stroke","#000000")
 			.attr("stroke-width",1)
 	}
+	d3.select("#svgCourbes")
+		.append("rect")
+		.attr("id","cache_graph")
+		.attr("x",0)
+		.attr("y",0)
+		.attr("width",w*1.08)
+		.attr("height",h)
+		.attr("fill","#FFFFFF")
+		.attr("opacity",0.7)
+		
+	d3.select("#svgCourbes")
+		.append("line")
+		.attr("id","barre_date")
+		.attr("stroke",nuancier[2])
+		.attr("stroke-width",1)
+		.attr("stroke-dasharray","5,5")
+		.attr("x1",0)
+		.attr("x2",0)
+		.attr("y1",0)
+		.attr("y2",h)
+	
+	d3.select("#svgCourbes").selectAll(".suiv")
+		.data([["ci_Lt",nuancier[0],YLt],["ci_Nt",nuancier[1],YNt],["ci_Lr",nuancier[4],YLr],["ci_Nr",nuancier[5],YNr]])
+		.enter()
+		.append("circle")
+		.attr("id",function(d){
+			return d[0]
+		})
+		.attr("cx",0)
+		.attr("cy",function(d){
+			return d[2]
+		})
+		.attr("r",2.5)
+		.attr("class","suiv")
+		.attr("fill",function(d){
+			return d[1]
+		})
 }
 
 function majGraph(){
 	var vB = w*(date-anneeMin)/ampli;
+	var itD = date-1945;
+	var valNt = dataTir[itD].NAT_Nb_titres;
+	var valLt = dataTir[itD].LOC_Nb_titres;
+	var valNr = dataTir[itD].NAT_Tirages;
+	var valLr = dataTir[itD].LOC_Tirages;
+	var listeH= [(h-valLt*echTit),(h-valNt*echTit),(h-valLr*echTir),(h-valNr*echTir)];
+	var ids = ["Lt","Nt","Lr","Nr"];
 	d3.select("#svgCourbes")
+		// .transition()
+		// .duration(vitAnim)
+		.attr("viewBox","0 0 "+w+" "+h)
+		// .attr("width",vB)
+		// .attr("x",w-vB+xMin*1)
+		// .style("overflow","hidden")
+	
+	d3.select("#barre_date")
 		.transition()
 		.duration(vitAnim)
-		.attr("viewBox","0 0 "+vB+" "+h)
-		.attr("width",vB)
-		.attr("x",w-vB+xMin*1)
-		.style("overflow","hidden")
+		.attr("x1",vB)
+		.attr("x2",vB)
+		
+	d3.select("#cache_graph")
+		.transition()
+		.duration(vitAnim)
+		.attr("width",w*1.09-vB)
+		.attr("x",vB)
+	
+	for(i=0;i<ids.length;i++){
+		d3.select("#ci_"+ids[i])
+			.attr("cx",vB)
+			.attr("cy",listeH[i])	
+	}
+	
 		
 }
 
