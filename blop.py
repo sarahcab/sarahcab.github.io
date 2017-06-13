@@ -42,7 +42,7 @@ raster_in= chem +"\\temp\\raster_inter"
 
 ## Champs de vision
 zFactor = 2
-useEarthCurvature = ""
+useEarthCurvature = "CURVED_EARTH"
 refractivityCoefficient = 0.15
 
 ## Valeurs de sortie
@@ -66,7 +66,6 @@ else :
 	b = dscFc.extent.XMin
 	c = dscFc.extent.YMax
 	d = dscFc.extent.YMin
-	arcpy.AddMessage(str(a)+" | "+str(b))
 	raster_in = raster_entree
 
 ###Creation de la grille
@@ -277,8 +276,10 @@ if bool_carto == 1 :
 
 ##Cartographie des couches destinées à la visulation interactive
 if bool_dataviz == 1 :
-	if clear_entites > 0: 
-		
+
+	if clear_entites > 0 :
+		arcpy.AddMessage(clear_entites)
+		arcpy.AddMessage("coucou")
 		##Création du document et du dataframe
 		mxd = arcpy.mapping.MapDocument("CURRENT")
 		dataframe = arcpy.mapping.ListDataFrames(mxd)[0]
@@ -311,8 +312,10 @@ if bool_dataviz == 1 :
 		##Export
 		arcpy.mapping.ExportToSVG(mxd, chem + "\\detail_visuel")
 		del mxd, map_insert, dataframe
-		
-
+	
+	else : 
+		if bool_carto == 0 : 
+			arcpy.AddMessage("Aucun point dans la zone à analyser")
 
 ###Suppression globale
 if intersect_entree : 
