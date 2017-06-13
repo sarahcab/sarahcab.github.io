@@ -2,11 +2,11 @@
 
 #-------------------------------------------------------------------------------
 # Name:		test_params.py
-# Objet:	Calculs de visibilité appliqués à une grille générée automatiquement
+# Objet:	Calculs de visibilité appliqués à un ensemble de points donné
 #
 # Auteur:	  Sarah Cabarry
 #
-# Date de création:	 06/06/2017
+# Date de création:	 01/06/2017
 # Copyright:   (c) scabarry 2017
 # Licence:
 #-------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ arcpy.CheckOutExtension("Spatial")
 ### Variables gloables
 ## Paramètres
 raster_entree = arcpy.GetParameterAsText(0)
-esp = arcpy.GetParameter(1)
+points_param = arcpy.GetParameterAsText(1)
 nbr_entites = arcpy.GetParameter(2)
 intersect_entree = arcpy.GetParameterAsText(3)
 chem = arcpy.GetParameterAsText(4)
@@ -35,9 +35,7 @@ bool_carto = arcpy.GetParameter(8)
 env_lyr = arcpy.GetParameterAsText(9)
 bool_dataviz = arcpy.GetParameter(10)
 
-# arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(spatial)
-
-points_entree = chem+"\\grille_in.shp"
+points_entree = chem+"\\couche_in.shp"
 raster_in= chem +"\\temp\\raster_inter"
 
 ## Champs de vision
@@ -68,46 +66,11 @@ else :
 	d = dscFc.extent.YMin
 	raster_in = raster_entree
 
-###Creation de la grille
-##Calcul des variables
-itX = int(math.ceil((a-b)/esp))
-itY = int(math.ceil((c-d)/esp))
-
-##Création de la couche
-# arcpy.AddMessage("coucou")
-arcpy.CreateFeatureclass_management(chem, "\\grille.shp", "POINT", "", "", "",raster_in)
-arcpy.AddField_management(chem+"\\grille.shp", "coordX", "DOUBLE","","","")
-arcpy.AddField_management(chem+"\\grille.shp", "coordY", "DOUBLE","","","")
-arcpy.AddField_management(chem+"\\grille.shp", "itX", "DOUBLE","","","")
-arcpy.AddField_management(chem+"\\grille.shp", "itY", "DOUBLE","","","")
-arcpy.AddField_management(chem+"\\grille.shp", "sur_vis", "DOUBLE","","","")
-arcpy.AddField_management(chem+"\\grille.shp", "sur_nn", "DOUBLE","","","")
-arcpy.AddField_management(chem+"\\grille.shp", "pourc", "DOUBLE","","","")
-
-##Itération
-for ii in range(itX) :
-	for jj in range(itY) :
-		X = b + ii*esp
-		Y = d +jj*esp
-		rows = arcpy.InsertCursor(chem+"\\grille.shp")
-		pointGeom = arcpy.Point(X,Y)
-
-		newPoint = rows.newRow()
-		newPoint.Shape = pointGeom
-		newPoint.ID = (ii+1)*(jj+1)-1
-		newPoint.coordX = X
-		newPoint.coordY = Y
-		newPoint.itX = ii
-		newPoint.itY = jj
-		rows.insertRow(newPoint)
-
-		del rows
-		
-##Nettoyage
+###Nettoyage de la couche points
 if  intersect_entree :
-	arcpy.Intersect_analysis([chem+"\\grille.shp",intersect_entree],points_entree)
+	arcpy.Intersect_analysis([points_param,intersect_entree],points_entree)
 else :
-	points_entree = chem+"\\grille.shp" 
+	points_entree = points_param #pas de nettoyage : on teste avec le try si le point est bien dans le raster, comme c'est fait avec la grille
 
 ###Prise en compte du nombre de points si non renseigné ou si renseignement non valide
 result = arcpy.GetCount_management(points_entree)
@@ -115,14 +78,13 @@ totalpoints = int(result.getOutput(0))
 
 if nbr_entites > totalpoints or nbr_entites==0 :
 	nbr_entites = int(totalpoints)
-	arcpy.AddMessage("Entités de la grille : "+str(totalpoints))
+	arcpy.AddMessage("Entités de la couche : "+str(totalpoints))
 
 else :
 	arcpy.AddMessage("Entités à analyser : "+str(nbr_entites))
-	arcpy.AddMessage("Entités de la grille : "+str(totalpoints))
-	
-clear_entites = nbr_entites
+	arcpy.AddMessage("Entités de la couche : "+str(totalpoints))
 
+clear_entites = nbr_entites
 ### Calcul par point
 for i in range(nbr_entites):
 	arcpy.AddMessage("Point "+str(i+1)+"/"+str(nbr_entites))
@@ -140,7 +102,7 @@ for i in range(nbr_entites):
 
 	##Extraction du point
 	arcpy.Select_analysis(points_entree, point_cdv, where_clause)
-
+	
 	##Points vides
 	vide = []
 	
@@ -159,7 +121,7 @@ for i in range(nbr_entites):
 		else :
 			polygon_in = polygon
 
-		##Calcul des superficie et des coordonnées
+		##Calcul des superficie
 		arcpy.CalculateAreas_stats(polygon_in,polygon_ar) #disparition des paramètre (????)
 
 		##Statistiques
@@ -181,18 +143,24 @@ for i in range(nbr_entites):
 		##Implémentation des résultats
 		pourc = 100*visible/(visible+nnvisible)
 		liste.append([i,pourc,visible,nnvisible])
-
+	
 	except arcpy.ExecuteError: 
 		arcpy.AddMessage("Le point "+str(i+1)+" se trouve à l'extérieur de la surface analysée")
 		clear_entites = clear_entites - 1
-		liste.append([i,0,"",""])
-	
+		liste.append([i,0,"none","none"])
+
 ###Nouveau nombre d'entités
 arcpy.AddMessage("Entités calculées  : "+str(clear_entites))
-	
+
 ###Ecriture
 ##Dans la couche
 if bool_fc == 1 :
+	##Création des champs
+	arcpy.AddField_management(points_entree, "sur_vis", "DOUBLE","","","")
+	arcpy.AddField_management(points_entree, "sur_nn", "DOUBLE","","","")
+	arcpy.AddField_management(points_entree, "pourc", "DOUBLE","","","")
+
+	##Implémentation
 	rows = arcpy.UpdateCursor(points_entree)
 	i=0
 	for row in rows:
@@ -202,34 +170,29 @@ if bool_fc == 1 :
 			row.setValue("pourc", liste[i][1])
 			rows.updateRow(row)
 		i +=1
-
 	del row,rows
 
-##Dans le csv 
+##Dans le csv - obligatoire
 if bool_csv == 1 :
 	resultats = file(chem+"\\resultats.csv", "w")
 	resultats.write("Identifiant numérique du point;Pourcentage de surface visible;Surface visible;Surface non visible")
 	for j in liste :
 		resultats.write("\r"+str(j[0])+";"+str(j[1])+"%;"+str(j[2])+";"+str(j[3]))
 
-
 ##Cartographie
 if bool_carto == 1 :
 	
 	##Calcul de la valeur maximale
 	valeur_max = 0
-	id_max = ""
-	
 	for val in liste :
-		
-		if val[1] > valeur_max :
+		if val[1] >  valeur_max :
 			valeur_max = val[1]
 			id_max = liste.index(val)
 	
 	if id_max != "": 
 		arcpy.AddMessage("Surface maximale : point "+str(id_max))
 		couche_max = chem +"\\detail\\detail_point"+str(id_max)+".shp"
-		
+
 		if intersect_entree :
 			##fichiers de forme	
 			lyrs = ["s_intersect","s_valMax","p_surfaceAbs","p_pourcentage"]
@@ -238,7 +201,6 @@ if bool_carto == 1 :
 		else : 
 			lyrs = ["s_valMax","p_surfaceAbs","p_pourcentage"]
 			layers = [couche_max,points_entree,points_entree]
-
 
 		##Création du document et du dataframe
 		mxd = arcpy.mapping.MapDocument("CURRENT")
@@ -251,16 +213,16 @@ if bool_carto == 1 :
 		arcpy.mapping.AddLayer(dataframe, map_insert, "AUTO_ARRANGE")
 
 		##Cartographie des couches vectorielles
-		it = 0 
-		for layer in layers :		
+		it = 0
+		for layer in layers :
 			arcpy.MakeFeatureLayer_management(layer, lyrs[it])
 			arcpy.ApplySymbologyFromLayer_management(lyrs[it], env_lyr+"\\"+lyrs[it]+".lyr")
 			map_insert = arcpy.mapping.Layer(lyrs[it])
 			arcpy.mapping.AddLayer(dataframe, map_insert, "AUTO_ARRANGE")
 			del map_insert
 			it += 1
-
-		##export de la carte
+			
+		##Export de la carte
 		arcpy.mapping.ExportToSVG(mxd, chem + "\\resultats")
 		
 		##suppressions ######################a conditionner
@@ -276,56 +238,42 @@ if bool_carto == 1 :
 
 ##Cartographie des couches destinées à la visulation interactive
 if bool_dataviz == 1 :
-
-	if clear_entites > 0 :
-		arcpy.AddMessage(clear_entites)
-		arcpy.AddMessage("coucou")
+	for i in range(nbr_entites):
 		##Création du document et du dataframe
 		mxd = arcpy.mapping.MapDocument("CURRENT")
 		dataframe = arcpy.mapping.ListDataFrames(mxd)[0]
-		
-		##Cartographie du raster
-		arcpy.MakeRasterLayer_management(raster_in, "rast")
-		arcpy.ApplySymbologyFromLayer_management("rast", env_lyr+"\\r_mnt.lyr")
-		map_insert = arcpy.mapping.Layer("rast")
-		arcpy.mapping.AddLayer(dataframe, map_insert, "AUTO_ARRANGE")
 
-		for i in range(nbr_entites):
-			##Cartographie des couches contenant la surface visible
-			polygon_ar = chem +"\\detail\\detail_point"+str(i)+".shp"
-			arcpy.MakeFeatureLayer_management(polygon_ar, "detail"+str(i))
-			if env_lyr:
-				arcpy.ApplySymbologyFromLayer_management("detail"+str(i), env_lyr+"\\s_valMax.lyr")
-			map_insert = arcpy.mapping.Layer("detail"+str(i))
-			arcpy.mapping.AddLayer(dataframe, map_insert, "AUTO_ARRANGE")
-			del map_insert
-		
-		##Cartographie de la couche point et intersect
-		arcpy.MakeFeatureLayer_management(points_entree, "points_carto")
-		map_insert = arcpy.mapping.Layer("points_carto")
+		##Cartographie des couches contenant la surface visible
+		polygon_ar = chem +"\\detail\\detail_point"+str(i)+".shp"
+		arcpy.MakeFeatureLayer_management(polygon_ar, "detail"+str(i))
+		if env_lyr:
+			arcpy.ApplySymbologyFromLayer_management("detail"+str(i), env_lyr+"\\s_valMax.lyr")
+		map_insert = arcpy.mapping.Layer("detail"+str(i))
 		arcpy.mapping.AddLayer(dataframe, map_insert, "AUTO_ARRANGE")
-		if intersect_entree : 
-			arcpy.MakeFeatureLayer_management(intersect_entree, "intersection")
-			inter_insert = arcpy.mapping.Layer("intersection")
-			arcpy.mapping.AddLayer(dataframe, inter_insert, "AUTO_ARRANGE")
-		
-		##Export
-		arcpy.mapping.ExportToSVG(mxd, chem + "\\detail_visuel")
-		del mxd, map_insert, dataframe
+		del map_insert
 	
-	else : 
-		if bool_carto == 0 : 
-			arcpy.AddMessage("Aucun point dans la zone à analyser")
-
+	##Cartographie de la couche point et intersect
+	arcpy.MakeFeatureLayer_management(points_entree, "points_carto")
+	map_insert = arcpy.mapping.Layer("points_carto")
+	arcpy.mapping.AddLayer(dataframe, map_insert, "AUTO_ARRANGE")
+	if intersect_entree : 
+		arcpy.MakeFeatureLayer_management(intersect_entree, "intersection")
+		inter_insert = arcpy.mapping.Layer("intersection")
+		arcpy.mapping.AddLayer(dataframe, inter_insert, "AUTO_ARRANGE")
+	
+	##Export
+	arcpy.mapping.ExportToSVG(mxd, chem + "\\detail_visuel")
+	del mxd, map_insert, dataframe
+	
+		
 ###Suppression globale
 if intersect_entree : 
 	arcpy.Delete_management(raster_in)
-	arcpy.Delete_management(chem+"\\grille.shp")
-if bool_fc == 0 :
-	arcpy.Delete_management(points_entree)
+	if bool_fc == 0 :
+		arcpy.Delete_management(points_entree)
 if bool_detail == 0 :
-	for i in range(clear_entites):
-		if liste[i][2] != "" :
+	for i in range(nbr_entites):
+		if liste[i][2] != "none" :
 			polygon_ar = chem +"\\detail\\detail_point"+str(i)+".shp"
 			arcpy.Delete_management(polygon_ar)
 #shutil.rmtree(chem+"\\temp")
