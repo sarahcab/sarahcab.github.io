@@ -1,27 +1,192 @@
+#Définition de la fonction------------------------------------------------------------------------------------
+def calcul_reseau(roads,point,FID,resultats,valtrouvee) :
+    #Variables ---------------
+    #Array et dictionnaire de construction
+    array= [[FID]] #array s'implémentant à chaque chemin, vidée à chaque nouveau chemin (doit être dans un [] pour supprimer une seule entité de la array. La méthode del (suppression de toutes les entités) marche parce qu'elle supprime ce qui a été ajouté dans la array2
+    cumul = [0] #equivalent pour la distance (effacé au même moment) : il faut récup la bonen valeur
+    array2 = [] #array contenant les arrays
+    vide = [FID] #tous les tronçons qui ont déjà été traversés ne peuvent être à nouveau empruntés pour éviter les risques de répétition (à voir si ça ne bloque pas certains chemins : normalement grâce aux parents on résoud ce problème)
 
-;112;66;195;196;194;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;148;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;41;40;46;45;191;180;178;177;179;185;186;183;187;176;175;182;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;41;40;46;45;191;181;184;48;47;49;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;41;40;46;45;191;181;184;48;47;83;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;144;142;12;19;18;1;2;intersect here
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;144;142;121;68;125;71;70;127;129;69;122;119;120;115;114;116;74;193;222;223;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;144;142;121;68;125;71;70;127;129;69;122;119;120;115;114;116;75;82;81;76;80;79;78;77;51;73;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;144;142;121;68;125;71;70;127;129;69;122;119;120;115;114;116;75;82;81;76;80;79;78;77;51;124;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;144;142;121;68;125;71;70;127;129;69;122;119;120;115;114;116;75;82;81;76;80;79;78;77;123;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;144;142;121;68;125;71;70;127;129;69;122;119;120;115;114;116;118;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;144;142;121;68;125;71;70;127;129;69;122;126;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;144;142;121;68;125;71;70;127;129;128;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;144;142;121;68;125;71;70;127;209;205;204;211;212;210;208;0;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;144;142;121;68;125;71;70;127;209;205;204;211;212;210;208;207;206;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;104;105;111;110;102;103;109;108;143;173;174;113;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;107;50;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;107;106;52;54;53;101;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;107;106;52;54;156;155;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;107;106;52;54;157;140;139;85;86;84;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;44;37;36;42;39;38;43;190;189;188;33;34;35;107;106;52;54;157;221;167;166;165;172;171;170;169;164;161;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;131;132;134;133;138;137;136;135;93;25;130;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;16;10;11;8;9;14;15;3;4;5;6;22;23;24;151;150;147;149;146;153;152;145;220;219;131;132;134;133;138;137;136;135;93;25;141;26;29;28;27;30;31;cul de sac
-;67;202;203;199;200;201;96;97;98;100;99;95;94;17;13;7;intersect here
-;67;202;203;199;200;201;198;197;63;62;60;65;64;61;55;56;57;58;59;cul de sac
-;89;90;91;88;87;92;cul de sac
+    dico_parents = {} #récupère les parents de chaque entité à l'endroit du chemin ou il est (complémentaire de vide)
+    dico_parents[FID] = [] #première valeur nulle : pas d'origine
+    dico_distance = {}
+    dico_distance[FID] = 0
+
+    val_max = [''] #chaque intersection, on donne cette valeur : elle diminue jusqu'à tomber sur le bon intersect
+
+    #Définition de la fonction : attention, fait appel à des variables globales (éviter de déplacer)-----------------
+    def bouclage(tron_src,src,origine) :
+        #emplacement de la couche des entités selectionnées
+        out = tron_src.split(".")[0]+"_enfants.shp"
+
+        #conservation des variables de la boucle pour les supprimer en fin de boucle (pas sûr que ça marche ça)
+        a = tron_src
+        b = out
+
+        #sélection des entités proches
+        arcpy.MakeFeatureLayer_management(tron_src,"tron_src")
+        arcpy.SelectLayerByLocation_management("routes","INTERSECT","tron_src","","NEW_SELECTION")
+
+        #suppression dans la sélection de ce qui touche la couche précédente pour rester dans le meme sens (la condition est due au fait que la première itération n'a pas de source)
+        if origine != 'none':
+            vieu = chem+"\\temp\\tron"+origine+".shp" #on récupère la source du truc précédent
+            arcpy.MakeFeatureLayer_management(vieu,"vieu")
+            arcpy.SelectLayerByLocation_management("routes","INTERSECT","vieu","","REMOVE_FROM_SELECTION")
+
+        #Enregistrement avant la boucle
+        arcpy.CopyFeatures_management("routes",out)
+
+        #Bouclages dans les entités sélectionnée (isolement, test..)
+        rows = arcpy.SearchCursor(out)
+        arcpy.AddMessage(out)
+        resultt = arcpy.GetCount_management(out)
+        rtestt = int(resultt.getOutput(0))
+        print(rtestt)
+        verif = [0] #permet de savoir s'il s'agit du premier élément d'une boucle : permet de voir si une boucle ne sélectionne rien
+        for row in rows :
+            val = row.getValue("IDD")  #identifiant (field séparée du FID qui lui est automatique et serait donc toujours égal à 0
+            sh_len = row.getValue("LONGUEUR") #longueur du tronçon
+            dico_distance[val] = sh_len
+            arcpy.AddMessage("Source  :" + src+" val :"+val)
+            if val not in array[0] and val != FID and cumul < val_max: #exclusion des tronçon déjà testés et empruntés : on ne garde que ceux derrière nous| avant ct 'vide' ou dico_parents[src]
+                print("ok_"+val)
+                verif[0] +=1 #voir 4 lignes avant
+                if verif[0] > 1 : #equivaut a dire if array[0] == [] (voir ligne précédente)
+                    if array[0] == []:
+                        parents = dico_parents[src]
+                        for p in parents :
+                            array[0].append(p)
+                            le = dico_distance[p]
+                            cumul[0] += le
+                    else :
+                        arcpy.AddMessage("haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "+str(src)+" | "+str(val)) #si cette erreur apparaît c'est qu'il y a un gros problème de strucutre
+
+                #Isolement de l'entité sélectionnée avant test d'intersection
+                tron = chem+"\\temp\\tron"+val+".shp"
+                arcpy.Select_analysis(out, tron, '"IDD" LIKE \''+val+'\'')
+                arcpy.MakeFeatureLayer_management(tron,"tron")
+
+                #Test d'intersection avec le point d'arrivée
+                arcpy.SelectLayerByLocation_management("tron","INTERSECT","point")
+                arcpy.CopyFeatures_management("tron",test)
+                result = arcpy.GetCount_management(test)
+                rtest = int(result.getOutput(0))
+                arcpy.Delete_management(test)
+
+
+                if rtest == 0 : #Si le test est négatif, on écrit l'identifiant de la source et on reproduit la fonction pour "continuer le chemin"
+                    arcpy.AddMessage("nouvelle boucle : "+str(src)+" | "+str(val)) #annonce du continu
+
+                    array[0].append(val) #le tronçon sélectionné est ajouté au chemin courant
+                    cumul[0] += sh_len
+
+                    dico_parents[val] = [] #implémentation du dictionnaire lorsqu'un tronçon est sélectionné pour continuer le chemin. Ce qui veut dire que d'autres tronçons seront potentiellement ses enfant et auront besoin de son chemin antérieur
+                    for l in array[0] : #syntaxe de merde : un = revient à modifier le contenu du dictionnaire à chaque changement de contenu de array[0], alors que ca marche pour le mettre dans une array...
+                        dico_parents[val].append(l)
+
+                    vide.append(val) #letronçon ne pourra plus être réemprunter à moins de l'être en tant qu'origine
+                    bouclage(tron,val,src) #répétition de la fonction  : le chemin continue de s'implémenter
+
+                else : #Si le test est positif, le chemin est arrété, donc la array vidée après avoir été ajoutée à la array2 des arrays de chemins possibles
+                    arcpy.AddMessage("Intersection!")
+
+                    array2.append(array[0])
+
+                    #calcul de la distance du chemin
+                    array[0].append(cumul[0])
+                    array[0].append("\'intersect_here\'")
+                    if cumul[0] < val_max[0] and val_max[0] != 0 :
+                        val_max[0] = cumul[0]
+
+                    array.remove(array[0]) #la émthode del marche parce qu'elle supprime ce qui a été ajouté dans array2
+                    array.append([])
+                    cumul[0] = 0
+                    print(array2)
+                    # (!) on peut pas récupérer les parent maintenant car on ne sait pas les parents de qui : donc on vide la array et on la reremplit avec le si test[0] >1
+
+        #s'il n'est possible d'avancer (les seules entités sélectionnée sont celle du chemin antérieur), le chemin se termine aussi en cul de sac cette fois-ci
+        if verif[0] == 0 :
+            arcpy.AddMessage("Cul de sac!")
+            array[0].append(cumul[0])
+            array[0].append("\'cul_de_sac\'")
+            array2.append(array[0])
+            array.remove(array[0]) #la émthode del marche parce qu'elle supprime ce qui a été ajouté dans array2
+            array.append([])
+            cumul[0] = 0
+            print(array2)
+
+        try : #Suppression des fichies temporaires qui marche plus ou moins (pas trop)
+            arcpy.Delete_management(a)
+            arcpy.Delete_management(b)
+        except :
+            arcpy.AddMessage("error"+str(a))
+
+
+    #Avertissement du nombre d'entités ---------------------
+    result = arcpy.GetCount_management(roads)
+    totalpoints = int(result.getOutput(0))
+    arcpy.AddMessage("Entites routes : "+str(totalpoints))
+
+    #Variables itérables déclarée avec la valeur de départ --------------
+    tron = chem+"\\temp\\tron"+str(FID)+".shp"
+    test = chem+"\\temp\\test.shp"
+
+    #Isolement du tronçon de départ -------------
+    arcpy.Select_analysis(roads, tron,'"IDD" LIKE \''+str(FID)+'\'')
+
+    #Configuration des couches -----------
+    arcpy.CalculateField_management(roads, "IDD","[FID]","VB")
+    ##idem avec la distance!!
+    arcpy.MakeFeatureLayer_management(roads,"routes")
+    arcpy.MakeFeatureLayer_management(point,"point")
+
+    #appel de la fonction à partir des entités de départ-------------
+    bouclage(tron,FID,'none')
+    val_base = ''
+
+    #Ecriture dans le csv
+    for j in array2 :
+        resultats.write("\r")
+        for k in j :
+            resultats.write(";"+str(k))
+
+        typ = k[len(k)-1]
+        dist_parcours = k[len(k)-2]
+        if dist_parcours < val_base :
+            val_base = dist_parcours
+            valtrouvee = [typ,dist_parcours,k]
+
+    resultats.close() #sinon ça marche pas
+
+#Exécution--------------------------------------------------------
+
+#Paramètres : routes (paramètre boite à outil), troncons (implémenté pdt la phase a), points à isoler ci-dessous, sortie, iteration
+it= 0
+values = []
+points=[]
+rows = arcpy.SearchCursor(pt_de_vue)
+for row in rows :
+    id = row.getValue('FID')
+    point = chem+"\\temp\\pt_v"+str(id)+".shp"
+    arcpy.Select_analysis(pt_de_vue,point, '"FID" ='+str(id))
+    points.append(point)
+
+for t in troncons :
+    for p in points :
+        arcpy.AddMessage(p)
+        it += 1
+        val = []
+        resultats = file(chem+"\\phaseb\\resultats"+str(it)+".csv", "w")
+        calcul_reseau(routes,p,t,resultats,val)
+        values.append(val)
+
+arcpy.DeleteField_management (routes, "IDD")
+
+synth = file(chem+"\\phaseb\\synthese.txt", "w")
+for va in values :
+    synth.write("\r")
+    for v in va:
+        synth.write("\r")
+        synth.write(str(v))
+resultats.close() #sinon ça marche pas
+
