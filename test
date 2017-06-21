@@ -1,10 +1,11 @@
-#Définition de la fonction------------------------------------------------------------------------------------
+#fonction de calcul englobante
 def calcul_reseau(roads,point,FID,resultats,valtrouvee) :
-    #Variables ---------------
+    print("blop")
+    #Variables --------------------------------------------------------------------
     #Array et dictionnaire de construction
-    array= [[FID]] #array s'implémentant à chaque chemin, vidée à chaque nouveau chemin (doit être dans un [] pour supprimer une seule entité de la array. La méthode del (suppression de toutes les entités) marche parce qu'elle supprime ce qui a été ajouté dans la array2
+    liste= [[FID]] #liste s'implémentant à chaque chemin, vidée à chaque nouveau chemin (doit être dans un [] pour supprimer une seule entité de la liste. La méthode del (suppression de toutes les entités) marche parce qu'elle supprime ce qui a été ajouté dans la liste2
     cumul = [0] #equivalent pour la distance (effacé au même moment) : il faut récup la bonen valeur
-    array2 = [] #array contenant les arrays
+    liste2 = [] #liste contenant les listes
     vide = [FID] #tous les tronçons qui ont déjà été traversés ne peuvent être à nouveau empruntés pour éviter les risques de répétition (à voir si ça ne bloque pas certains chemins : normalement grâce aux parents on résoud ce problème)
 
     dico_parents = {} #récupère les parents de chaque entité à l'endroit du chemin ou il est (complémentaire de vide)
@@ -14,8 +15,10 @@ def calcul_reseau(roads,point,FID,resultats,valtrouvee) :
 
     val_max = [''] #chaque intersection, on donne cette valeur : elle diminue jusqu'à tomber sur le bon intersect
 
-    #Définition de la fonction : attention, fait appel à des variables globales (éviter de déplacer)-----------------
+    #Définition de la fonction : attention, fait appel à des variables globales (éviter de déplacer)
     def bouclage(tron_src,src,origine) :
+        print("roads_1")
+        print(roads)
         #emplacement de la couche des entités selectionnées
         out = tron_src.split(".")[0]+"_enfants.shp"
 
@@ -29,7 +32,7 @@ def calcul_reseau(roads,point,FID,resultats,valtrouvee) :
 
         #suppression dans la sélection de ce qui touche la couche précédente pour rester dans le meme sens (la condition est due au fait que la première itération n'a pas de source)
         if origine != 'none':
-            vieu = chem+"\\temp\\tron"+origine+".shp" #on récupère la source du truc précédent
+            vieu = chem+"\\tron"+origine+".shp" #on récupère la source du truc précédent
             arcpy.MakeFeatureLayer_management(vieu,"vieu")
             arcpy.SelectLayerByLocation_management("routes","INTERSECT","vieu","","REMOVE_FROM_SELECTION")
 
@@ -38,31 +41,28 @@ def calcul_reseau(roads,point,FID,resultats,valtrouvee) :
 
         #Bouclages dans les entités sélectionnée (isolement, test..)
         rows = arcpy.SearchCursor(out)
-        arcpy.AddMessage(out)
-        resultt = arcpy.GetCount_management(out)
-        rtestt = int(resultt.getOutput(0))
-        print(rtestt)
+        print(out)
         verif = [0] #permet de savoir s'il s'agit du premier élément d'une boucle : permet de voir si une boucle ne sélectionne rien
         for row in rows :
             val = row.getValue("IDD")  #identifiant (field séparée du FID qui lui est automatique et serait donc toujours égal à 0
             sh_len = row.getValue("LONGUEUR") #longueur du tronçon
             dico_distance[val] = sh_len
-            arcpy.AddMessage("Source  :" + src+" val :"+val)
-            if val not in array[0] and val != FID and cumul < val_max: #exclusion des tronçon déjà testés et empruntés : on ne garde que ceux derrière nous| avant ct 'vide' ou dico_parents[src]
+            print("Source  :" + src+" val :"+val)
+            if val not in liste[0] and val != FID and cumul < val_max: #exclusion des tronçon déjà testés et empruntés : on ne garde que ceux derrière nous| avant ct 'vide' ou dico_parents[src]
                 print("ok_"+val)
                 verif[0] +=1 #voir 4 lignes avant
-                if verif[0] > 1 : #equivaut a dire if array[0] == [] (voir ligne précédente)
-                    if array[0] == []:
+                if verif[0] > 1 : #equivaut a dire if liste[0] == [] (voir ligne précédente)
+                    if liste[0] == []:
                         parents = dico_parents[src]
                         for p in parents :
-                            array[0].append(p)
+                            liste[0].append(p)
                             le = dico_distance[p]
                             cumul[0] += le
                     else :
-                        arcpy.AddMessage("haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "+str(src)+" | "+str(val)) #si cette erreur apparaît c'est qu'il y a un gros problème de strucutre
+                        print("haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "+str(src)+" | "+str(val)) #si cette erreur apparaît c'est qu'il y a un gros problème de strucutre
 
                 #Isolement de l'entité sélectionnée avant test d'intersection
-                tron = chem+"\\temp\\tron"+val+".shp"
+                tron = chem+"\\tron"+val+".shp"
                 arcpy.Select_analysis(out, tron, '"IDD" LIKE \''+val+'\'')
                 arcpy.MakeFeatureLayer_management(tron,"tron")
 
@@ -75,90 +75,99 @@ def calcul_reseau(roads,point,FID,resultats,valtrouvee) :
 
 
                 if rtest == 0 : #Si le test est négatif, on écrit l'identifiant de la source et on reproduit la fonction pour "continuer le chemin"
-                    arcpy.AddMessage("nouvelle boucle : "+str(src)+" | "+str(val)) #annonce du continu
+                    print("nouvelle boucle : "+str(src)+" | "+str(val)) #annonce du continu
 
-                    array[0].append(val) #le tronçon sélectionné est ajouté au chemin courant
+                    liste[0].append(val) #le tronçon sélectionné est ajouté au chemin courant
                     cumul[0] += sh_len
 
                     dico_parents[val] = [] #implémentation du dictionnaire lorsqu'un tronçon est sélectionné pour continuer le chemin. Ce qui veut dire que d'autres tronçons seront potentiellement ses enfant et auront besoin de son chemin antérieur
-                    for l in array[0] : #syntaxe de merde : un = revient à modifier le contenu du dictionnaire à chaque changement de contenu de array[0], alors que ca marche pour le mettre dans une array...
+                    for l in liste[0] : #syntaxe de merde : un = revient à modifier le contenu du dictionnaire à chaque changement de contenu de liste[0], alors que ca marche pour le mettre dans une liste...
                         dico_parents[val].append(l)
 
                     vide.append(val) #letronçon ne pourra plus être réemprunter à moins de l'être en tant qu'origine
                     bouclage(tron,val,src) #répétition de la fonction  : le chemin continue de s'implémenter
 
-                else : #Si le test est positif, le chemin est arrété, donc la array vidée après avoir été ajoutée à la array2 des arrays de chemins possibles
-                    arcpy.AddMessage("Intersection!")
+                else : #Si le test est positif, le chemin est arrété, donc la liste vidée après avoir été ajoutée à la liste2 des listes de chemins possibles
+                    print("Intersection!")
 
-                    array2.append(array[0])
+                    liste2.append(liste[0])
 
                     #calcul de la distance du chemin
-                    array[0].append(cumul[0])
-                    array[0].append("\'intersect_here\'")
+                    liste[0].append(cumul[0])
+                    liste[0].append("\'intersect_here\'")
                     if cumul[0] < val_max[0] and val_max[0] != 0 :
                         val_max[0] = cumul[0]
 
-                    array.remove(array[0]) #la émthode del marche parce qu'elle supprime ce qui a été ajouté dans array2
-                    array.append([])
+                    liste.remove(liste[0]) #la émthode del marche parce qu'elle supprime ce qui a été ajouté dans liste2
+                    liste.append([])
                     cumul[0] = 0
-                    print(array2)
-                    # (!) on peut pas récupérer les parent maintenant car on ne sait pas les parents de qui : donc on vide la array et on la reremplit avec le si test[0] >1
+                    print(liste2)
+                    # (!) on peut pas récupérer les parent maintenant car on ne sait pas les parents de qui : donc on vide la liste et on la reremplit avec le si test[0] >1
 
         #s'il n'est possible d'avancer (les seules entités sélectionnée sont celle du chemin antérieur), le chemin se termine aussi en cul de sac cette fois-ci
         if verif[0] == 0 :
-            arcpy.AddMessage("Cul de sac!")
-            array[0].append(cumul[0])
-            array[0].append("\'cul_de_sac\'")
-            array2.append(array[0])
-            array.remove(array[0]) #la émthode del marche parce qu'elle supprime ce qui a été ajouté dans array2
-            array.append([])
+            print("Cul de sac!")
+            liste[0].append(cumul[0])
+            liste[0].append("\'cul_de_sac\'")
+            liste2.append(liste[0])
+            liste.remove(liste[0]) #la émthode del marche parce qu'elle supprime ce qui a été ajouté dans liste2
+            liste.append([])
             cumul[0] = 0
-            print(array2)
+            print(liste2)
 
         try : #Suppression des fichies temporaires qui marche plus ou moins (pas trop)
             arcpy.Delete_management(a)
             arcpy.Delete_management(b)
         except :
-            arcpy.AddMessage("error"+str(a))
+            print("error"+str(a))
 
 
-    #Avertissement du nombre d'entités ---------------------
+    #Avertissement du nombre d'entités ---------------------------------------------
     result = arcpy.GetCount_management(roads)
     totalpoints = int(result.getOutput(0))
-    arcpy.AddMessage("Entites routes : "+str(totalpoints))
+    print("Entites routes : "+str(totalpoints))
 
-    #Variables itérables déclarée avec la valeur de départ --------------
-    tron = chem+"\\temp\\tron"+str(FID)+".shp"
-    test = chem+"\\temp\\test.shp"
+    #Variables itérables déclarée avec la valeur de départ -------------------------
+    tron = chem+"\\tron"+str(FID)+".shp"
+    test = chem+"\\test.shp"
 
-    #Isolement du tronçon de départ -------------
+    #Isolement du tronçon de départ ------------------------------------------------
     arcpy.Select_analysis(roads, tron,'"IDD" LIKE \''+str(FID)+'\'')
 
-    #Configuration des couches -----------
+    #Configuration des couches -----------------------------------------------------
     arcpy.CalculateField_management(roads, "IDD","[FID]","VB")
     ##idem avec la distance!!
     arcpy.MakeFeatureLayer_management(roads,"routes")
     arcpy.MakeFeatureLayer_management(point,"point")
+    arcpy.MakeFeatureLayer_management(tron,"tron")
 
-    #appel de la fonction à partir des entités de départ-------------
+
+
+    #appel de la fonction à partir des entités de départ----------------------------
     bouclage(tron,FID,'none')
+
+
     val_base = ''
 
     #Ecriture dans le csv
-    for j in array2 :
+    for j in liste2 :
         resultats.write("\r")
         for k in j :
             resultats.write(";"+str(k))
 
-        typ = k[len(k)-1]
-        dist_parcours = k[len(k)-2]
-        if dist_parcours < val_base :
+        typ = j[len(j)-1]
+        dist_parcours = j[len(j)-2]
+        if dist_parcours < val_base and typ=="\'intersect_here\'": #on voit dejà si c'est une intersection, et si c plus petit que la dernière : '' étant considéré plus grand qu'un nombre
             val_base = dist_parcours
-            valtrouvee = [typ,dist_parcours,k]
-
+            valtrouvee[0] = [typ,dist_parcours,j]
     resultats.close() #sinon ça marche pas
 
-#Exécution--------------------------------------------------------
+
+
+#Paramètres de la boite à outil (pt_de_vue et roads0) et les couches de l phase a(troncons) : ici en dur
+pt_de_vue = "C:\\Users\\cabarry\\Desktop\\outil_distance\\donnees\\point_seul_b.shp"
+road_param  ="C:\\Users\\cabarry\\Desktop\\outil_distance\\donnees\\roads_reduct.shp"  ####nom du paramètre!!!!!
+troncons = [u'155']
 
 #Paramètres : routes (paramètre boite à outil), troncons (implémenté pdt la phase a), points à isoler ci-dessous, sortie, iteration
 it= 0
@@ -167,26 +176,67 @@ points=[]
 rows = arcpy.SearchCursor(pt_de_vue)
 for row in rows :
     id = row.getValue('FID')
-    point = chem+"\\temp\\pt_v"+str(id)+".shp"
+    point = chem+"\\pt_v"+str(id)+".shp"
     arcpy.Select_analysis(pt_de_vue,point, '"FID" ='+str(id))
     points.append(point)
 
 for t in troncons :
     for p in points :
-        arcpy.AddMessage(p)
+
+        #filtre buffer
+        if filtre == True:
+            print("bloublou")
+            #Variables temporaires
+            road_filter = chem+"\\road"+t+".shp"
+            out_table = chem+"\\out"+t+".shp"
+            tr=chem+"\\tr"+t+".shp"
+
+            #classe<-> id <-> layers
+            arcpy.Select_analysis(road_param,tr, '"IDD" LIKE\''+str(t)+'\'')
+            arcpy.MakeFeatureLayer_management(road_param,"road_param")
+            arcpy.MakeFeatureLayer_management(point,"point")
+            arcpy.MakeFeatureLayer_management(tr,"tr")
+
+            #recupération de la distance entre le tron et le point (ouais faut faire tout ça...)
+            arcpy.SpatialJoin_analysis(tr, p, out_table,"","","","CLOSEST","","dist")
+            val_table = arcpy.SearchCursor(out_table)
+            for row in val_table :
+                buff = row.getValue("dist")
+            print("buff")
+            print(buff)
+
+
+            #création du buffer autour du tron et du point cibles (de la taille de la dsitance entre eux)
+            arcpy.SelectLayerByLocation_management("road_param","WITHIN_A_DISTANCE","point",buff,"NEW_SELECTION")
+            arcpy.SelectLayerByLocation_management("road_param","WITHIN_A_DISTANCE","tr",buff,"ADD_TO_SELECTION")
+            arcpy.CopyFeatures_management("road_param",road_filter)
+            routes = road_filter #implémentation du bon fichier route
+
+            arcpy.DeleteFeatures_management(out_table)
+            arcpy.DeleteFeatures_management(tr)
+        else :
+            routes = road_param #implémentation du bon fichier route
+
+        #execution
         it += 1
-        val = []
-        resultats = file(chem+"\\phaseb\\resultats"+str(it)+".csv", "w")
+        val = [[]]
+        resultats = file(chem+"\\resultats"+str(it)+".csv", "w")
         calcul_reseau(routes,p,t,resultats,val)
-        values.append(val)
+        print("val")
+        print(val)
+        values.append(val[0])
 
-arcpy.DeleteField_management (routes, "IDD")
+print(values)
 
-synth = file(chem+"\\phaseb\\synthese.txt", "w")
+#suprression du filtre
+##if filtre:
+##    arcpy.DeleteFeatures_management(road_filter)
+##delllll champs IDD
+
+synth = file(chem+"\\synthese.txt", "w")
 for va in values :
     synth.write("\r")
     for v in va:
         synth.write("\r")
         synth.write(str(v))
-resultats.close() #sinon ça marche pas
-
+synth.close() #sinon ça marche pas
