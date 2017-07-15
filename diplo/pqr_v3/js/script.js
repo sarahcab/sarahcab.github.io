@@ -1368,8 +1368,6 @@ function majBarres(){ //a refaire fonctionner
 	}
 }
 
-var seuil = 450;
-
 function majVilles(){ //mise à jour des barres, boules et aussi des groupes
 	d3.selectAll(".titre_boules").remove();
 	d3.selectAll(".titre_barres").remove();
@@ -1448,43 +1446,6 @@ function majVilles(){ //mise à jour des barres, boules et aussi des groupes
 				.html(dessin)	
 		}
 	}
-
-	//mise à jour des groupes
-	d3.selectAll(".journ_groupe").remove()
-	tst_nb = 0;
-	d3.selectAll(".nomgroupe")
-		.each(function(){
-			var x = this.attributes.x.value;
-			var y = this.attributes.y.value;
-			var nom = this.attributes.nom.value;
-			
-			var nb = listeGroupes[nom][0];
-			if(nb==0){
-				d3.select(this).attr("opacity",0.2).style("cursor","default").attr("cliquable","false")
-			} else {
-				tst_nb++;
-				d3.select(this).attr("opacity",1).style("cursor","crosshair").attr("cliquable","true")
-				var dessin = document.getElementById("journal_dessin").innerHTML; //on récupère dans les repères le dessin du petit journal
-				var eca = 3.5
-				for(i=0;i<nb;i++){
-					d3.select(this)
-						.append("g")
-						.attr("transform",function(){
-							X = x*1+(nb-i)*eca-50-eca*nb;
-							Y = y*1+(nb-i)*eca-40-eca*nb;
-							return "translate("+X+","+Y+")"
-						})
-						.attr("opacity",0.6)
-						.attr("class","journ_groupe")
-						.html(dessin)
-				}
-			}
-		})
-	if(tst_nb==0){
-		d3.select("#groupe_sstitre").attr("display","none")
-	} else {
-		d3.select("#groupe_sstitre").attr("display","block")
-	}
 }
 
 function majDepts(){ //mise à jour de la carte choro des départements
@@ -1557,6 +1518,43 @@ function majGraph(){ //mise à jour des courbes
 				return 0.4
 			}
 		})	
+	
+	//mise à jour des groupes
+	d3.selectAll(".journ_groupe").remove()
+	tst_nb = 0;
+	d3.selectAll(".nomgroupe")
+		.each(function(){
+			var x = this.attributes.x.value;
+			var y = this.attributes.y.value;
+			var nom = this.attributes.nom.value;
+			
+			var nb = listeGroupes[nom][0];
+			if(nb==0){
+				d3.select(this).attr("opacity",0.2).style("cursor","default").attr("cliquable","false")
+			} else {
+				tst_nb++;
+				d3.select(this).attr("opacity",1).style("cursor","crosshair").attr("cliquable","true")
+				var dessin = document.getElementById("journal_dessin").innerHTML; //on récupère dans les repères le dessin du petit journal
+				var eca = 3.5
+				for(i=0;i<nb;i++){
+					d3.select(this)
+						.append("g")
+						.attr("transform",function(){
+							X = x*1+(nb-i)*eca-50-eca*nb;
+							Y = y*1+(nb-i)*eca-40-eca*nb;
+							return "translate("+X+","+Y+")"
+						})
+						.attr("opacity",0.6)
+						.attr("class","journ_groupe")
+						.html(dessin)
+				}
+			}
+		})
+	if(tst_nb==0){
+		d3.select("#groupe_sstitre").attr("display","none")
+	} else {
+		d3.select("#groupe_sstitre").attr("display","block")
+	}
 }
 
 
