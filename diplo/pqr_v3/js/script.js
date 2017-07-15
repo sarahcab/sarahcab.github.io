@@ -809,7 +809,7 @@ function dragWheel(){ //fonction drag  à commenter une fois réparée
 		// d3.selectAll(".gVille").attr("display","none")
 		calc();
 		majGraph();
-		// majVilles();
+		majVilles();
 		majDepts();
 		///
 		
