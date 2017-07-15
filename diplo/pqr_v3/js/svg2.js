@@ -1,6 +1,8 @@
 //variables fixes
 var width = 420; 
 var height = 450;
+var widthGraph = (document.getElementById("graph").attributes.viewBox.value).split(" ")[2];
+var heightGraph = (document.getElementById("graph").attributes.viewBox.value).split(" ")[2];
 var date = 1945;
 var listeDates = [1945,1950,1972];
 var widthBarres = 8;
@@ -18,7 +20,9 @@ var nuancier = ["#F08300","#E42420","#CCCCCC","#F08300", "#4EBCC2","#2A4A9A"]; /
 var nuancierChoro = ["#BAADCC","#D2CB96","#95916D","#605F42"]; //titres locaux, titres nationaux,contours boules+roues arrières
 var valsChoro = [2,4,6];
 var itDate =0;
-var vitAnim = 2000;
+var vitAnim = 1500;
+var dragX = 0;
+var dragY = 0;
 
 //variables fixes du graphique (récupérées du SVG)
 var decalFin = 30;
@@ -44,8 +48,10 @@ var listeVilles = new Object();
 var nomsDepts = [];
 var listeDept = new Object();
 
+
 //donnees fictives!!
 var listeDate = [1946,1960,1970,1984,2000,2016];
+
 
 window.onload = initialize();
 
@@ -96,13 +102,13 @@ function actions(){
 		d3.select("#reculer").attr("class","mdSimple cliquable").attr("opacity",1);
 		var ancDate=date;
 		date = listeDate[itDate];
-		d3.select("#date_ind").text(date)
+		d3.select("#indic_avancer").text(date)
 		calc();
 		majVilles();
 		majDepts();
 		majGraph();
 		
-		indic=ampli*0.15/(date-ancDate);
+		indic=ampli/(date-ancDate);
 		tourne(indic)
 		setTimeout(function(){
 			tourne()
@@ -119,39 +125,61 @@ function actions(){
 		tourne(1)
 	})
 	
+	d3.select("#drag0")	
+		.on("mousemove",function(e){
+			dragX = d3.event.clientX;
+			dragY = d3.event.clientY;
+		})
+	
 	dragWheel()
 	
 }
+
+		var posX =0;
+		var posY =0;
+		var angle =0;
 
 function dragWheel(){
 	var drag = d3.behavior.drag() //fonction "drag" veut dire que tu fais bouger l'objet en l'attrapant
 	.on("drag", function(d) {
 		
-		d.x += d3.event.dx;
-		d.y += d3.event.dy;
 		
-		var quot= Math.sqrt(d.x*d.y);
+		var centrex = document.getElementById("roue0").attributes.centrex.value;
+		var centrey = document.getElementById("roue0").attributes.centrey.value;
+		var wpage = document.getElementById("innercarte").offsetWidth;
+		var xpage = document.getElementById("innercarte").offsetLeft;
+		posX = (widthGraph/wpage)*(dragX-xpage);
 		
-		// if(d.x<=min){
-			// d.x = min;
-		// } else if(d.x>=max){
-			// d.x = max;
-		// }
+		// hpage = document.getElementById("innercarte").offsetHeight;
+		ypage = document.getElementById("innercarte").offsetTop;
+		posY = (widthGraph/wpage)*(dragY-ypage)+4;
+		
+		// var Pytha = (posX-centrex)*(posX-centrex)+(posY-centrey)*(posY-centrey)
+		
+		
+		angle = getDeg(Math.atan((posY-centrey)/(posX-centrex)));
+		var trans = parseFloat(angle)+parseFloat(d.a)
+
 		d3.select("#roue0").style("cursor","grabbing").attr("transform", function(){
-			return "rotate("+quot+" 311.5 184.3)"
+			return "rotate("+angle+" 311.5 184.3)"
 		})
 		
 	})
 	.on("dragend", function(d){
-		var quot= d.x*d.y;
-		alert(quot)
+		// alert(angle)
+		d.a += angle;
 		d3.select(this).style("cursor","grab");
 	})
 		
 	
-	d3.select("#drag0").data([ {"x":0,"y":0}]).attr("transform","rotate(0 311.5 184.3)")
+	d3.select("#drag0").data([ {"a":0,"y":0}]).attr("transform","rotate(0 311.5 184.3)")
 		.call(drag).style("cursor","grab")
 }
+
+function getDeg(a){
+	return 180 * (a) / Math.PI 
+}
+
 var itTest = 0;
 function tourne(indic){
 	if(itTest%2==0){
@@ -403,6 +431,22 @@ function initMap(){
 			.attr("x",projection([dataQuot[0].cX,dataQuot[1].cY])[0])
 			.attr("x",projection([dataQuot[0].cX,dataQuot[1].cY])[1])
 			.text("NATIONAUX")
+			
+		//drag
+		// d3.select("#innercarte")
+			// .append("svg")
+			// .attr("viewBox","0 0 "+widthGraph+" "+heightGraph)
+			// .style("width","100%")
+			// .style("")
+			// .style("width","100%")
+		// <svg  id="svgdrag" viewBox="0 0 628.5 515.1" >
+				// <g transform="translate(0,-4)">
+					// <circle  id="drag0" opacity="0" id="voile_roue0" fill="#FFFFFF" cx="311.1" cy="183.9" r="58"/>
+				// </g>
+			// </svg>
+			
+		// position : absolute;
+	// width:100%;
 		
 		buildListes(geoVilles);
 		buildGraph();
@@ -621,80 +665,17 @@ function buildGraph(){
 			.attr("stroke","#000000")
 			.attr("stroke-width",1)
 	}
-	d3.select("#svgCourbes")
-		.append("rect")
-		.attr("id","cache_graph")
-		.attr("x",0)
-		.attr("y",0)
-		.attr("width",w*1.08)
-		.attr("height",h)
-		.attr("fill","#FFFFFF")
-		.attr("opacity",0.7)
-		
-	d3.select("#svgCourbes")
-		.append("line")
-		.attr("id","barre_date")
-		.attr("stroke",nuancier[2])
-		.attr("stroke-width",1)
-		.attr("stroke-dasharray","5,5")
-		.attr("x1",0)
-		.attr("x2",0)
-		.attr("y1",0)
-		.attr("y2",h)
-	
-	d3.select("#svgCourbes").selectAll(".suiv")
-		.data([["ci_Lt",nuancier[0],YLt],["ci_Nt",nuancier[1],YNt],["ci_Lr",nuancier[4],YLr],["ci_Nr",nuancier[5],YNr]])
-		.enter()
-		.append("circle")
-		.attr("id",function(d){
-			return d[0]
-		})
-		.attr("cx",0)
-		.attr("cy",function(d){
-			return d[2]
-		})
-		.attr("r",2.5)
-		.attr("class","suiv")
-		.attr("fill",function(d){
-			return d[1]
-		})
 }
 
 function majGraph(){
 	var vB = w*(date-anneeMin)/ampli;
-	var itD = date-1945;
-	var valNt = dataTir[itD].NAT_Nb_titres;
-	var valLt = dataTir[itD].LOC_Nb_titres;
-	var valNr = dataTir[itD].NAT_Tirages;
-	var valLr = dataTir[itD].LOC_Tirages;
-	var listeH= [(h-valLt*echTit),(h-valNt*echTit),(h-valLr*echTir),(h-valNr*echTir)];
-	var ids = ["Lt","Nt","Lr","Nr"];
 	d3.select("#svgCourbes")
-		// .transition()
-		// .duration(vitAnim)
-		.attr("viewBox","0 0 "+w+" "+h)
-		// .attr("width",vB)
-		// .attr("x",w-vB+xMin*1)
-		// .style("overflow","hidden")
-	
-	d3.select("#barre_date")
 		.transition()
 		.duration(vitAnim)
-		.attr("x1",vB)
-		.attr("x2",vB)
-		
-	d3.select("#cache_graph")
-		.transition()
-		.duration(vitAnim)
-		.attr("width",w*1.09-vB)
-		.attr("x",vB)
-	
-	for(i=0;i<ids.length;i++){
-		d3.select("#ci_"+ids[i])
-			.attr("cx",vB)
-			.attr("cy",listeH[i])	
-	}
-	
+		.attr("viewBox","0 0 "+vB+" "+h)
+		.attr("width",vB)
+		.attr("x",w-vB+xMin*1)
+		.style("overflow","hidden")
 		
 }
 
