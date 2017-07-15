@@ -806,10 +806,10 @@ function dragWheel(){ //fonction drag  à commenter une fois réparée
 		vitAnim=0; //doit être nulle : les transitions de la carte et du grapj ralentissent considérablement en sélection manuelle
 		tourne(angleOk,true);
 		
-		// d3.selectAll(".gVille").attr("display","none")
+		d3.selectAll(".gVille").attr("display","none")
 		calc();
 		majGraph();
-		majVilles();
+		// majVilles();
 		majDepts();
 		///
 		
@@ -818,8 +818,8 @@ function dragWheel(){ //fonction drag  à commenter une fois réparée
 		tours = angleOk/360 - (angleOk%360)/360; //par sécurité : si bloquage
 
 		d3.select(this).style("cursor","grab");
-		// d3.selectAll(".gVille").attr("display","block")
-		// majVilles();
+		d3.selectAll(".gVille").attr("display","block")
+		majVilles();
 	})
 		
 	//on applique le drag à l'objet souhaité : ici la manivelle
