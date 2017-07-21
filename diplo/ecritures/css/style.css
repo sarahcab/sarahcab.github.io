@@ -1,0 +1,78 @@
+
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 400;
+    src:url("../ressources/polices/WalbaumGroteskLight.otf");
+}
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 400;
+	font-style : italic;
+    src:url("../ressources/polices/WalbaumGroteskLightItalic.otf");
+}
+
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 600;
+    src:url("../ressources/polices/WalbaumGroteskText.otf");
+}
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 600;
+	font-style : italic;
+    src:url("../ressources/polices/WalbaumGroteskTextItalic.otf");
+}
+
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 800;
+    src:url("../ressources/polices/WalbaumGroteskTextBold.otf");
+}
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 800;
+	font-style : italic;
+    src:url("../ressources/polices/WalbaumGroteskTextBoldItalic.otf");
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 400;
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 400;
+	font-style : italic;
+    src:url("../ressources/polices/Roboto-LightItalic.ttf");
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 600;
+    src:url("../ressources/polices/Roboto-Regular.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 600;
+	font-style : italic;
+    src:url("../ressources/polices/Roboto-Italic.ttf");
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 800;
+    src:url("../ressources/polices/Roboto-Bold.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 800;
+	font-style : italic;
+    src:url("../ressources/polices/Roboto-BoldItalic.ttf");
+}
+
+
+body{
+	font-family : 'WalbaumGrot', 'Roboto';
+}
+
