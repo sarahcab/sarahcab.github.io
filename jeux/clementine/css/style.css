@@ -1,0 +1,29 @@
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 400;
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 800;
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+
+body{
+	font-family : 'Roboto';
+	font-weight : 400;
+	display : flex;
+
+}
+
+#content{
+	width:100%;
+	text-align:center;
+}
+
+#dessin{
+	width:40%;
+	margin-top : 10%;
+	cursor:crosshair;
+}
