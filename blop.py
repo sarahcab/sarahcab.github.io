@@ -27,11 +27,11 @@ points_entree = arcpy.GetParameterAsText(1) #Couche de points ciblés
 road_param = arcpy.GetParameterAsText(2) #Routes
 pt_de_vue = arcpy.GetParameterAsText(3) #Points de vue (à implémenter dans postgres au préalable)
 chem = arcpy.GetParameterAsText(4) #Emplacement en sortie
-curved = arcpy.GetParameterAsText(5) #CURVED_EARTH
-buff = arcpy.GetParameter(6) #Buffer autour des routes : équivaut au seil à partir duquel la distance à parcourir hors de la route est minimisée en priorité de celle à parcourir sur la route
-srid = arcpy.GetParameter(7) #SRID
-nbr_entites = arcpy.GetParameterAsText(8).split(";") #Liste des points ciblés à analyser
-nbr_entites_vue = arcpy.GetParameterAsText(9).split(";") #Liste des points de vue à analyser
+curved = arcpy.GetParameterAsText(6) #CURVED_EARTH
+buff = arcpy.GetParameter(7) #Buffer autour des routes : équivaut au seil à partir duquel la distance à parcourir hors de la route est minimisée en priorité de celle à parcourir sur la route
+srid = arcpy.GetParameter(8)
+nbr_entites = arcpy.GetParameterAsText(9).split(";") #Nombre de cibles à analyser
+nbr_entites_vue = arcpy.GetParameterAsText(10).split(";") #Nombre de points de vue à analyser
 
 ###Fonctions
 def make_PGlayer_temp(couche): #fonction de création de couche temporaire (ne s'applique pas aux couches en entrées)
@@ -259,8 +259,16 @@ for j in range(len(nbr_entites)):
         index_eucli.append([i,j])
     del rowstest
     arcpy.DeleteFeatures_management(test_eucli)
-##    liste_euclidienne.append([0,12,30]) #~~~~~~~~~~~~~~~~~~~~~~virer
-##    index_eucli.append([0,12])
+
+##     #~~~~~~~~~~~~~~~~~~~~~~virer et remettre truc précédent
+##    rowstest = arcpy.SearchCursor(pt_de_vue)
+##    for rtest in rowstest :
+##        j = rtest.getValue("FID")
+##        d = 60+int(i)
+##        liste_euclidienne.append([i,j,d])
+##        index_eucli.append([i,j])
+##    del rowstest
+
 
 
     ###taches---------------------------------------------------------Sélection des couches 'cas' pour aller dans PostGis
@@ -298,7 +306,6 @@ for j in range(len(nbr_entites)):
     if nbpoints_cas1 == 0 and nbpoints_cas2 == 0:
         arcpy.AddMessage(u"Cas 3 : Pas d'intersection entre la surface visible et la route")
         arcpy.SpatialJoin_analysis(road_param, sur_vis, cas3,"","","","CLOSEST","","dist") #la jointure spatiale trouve l'entité la plus proche de chaque couche
-        arcpy.AddMessage(u"coucou")
         ##Intersection de type 3
         arcpy.Statistics_analysis(cas3, stat, [["dist","MIN"]]) #on récupère la distance minimale
         summary = arcpy.SearchCursor(stat)
@@ -443,7 +450,6 @@ select st_astext(geom) from points_de_vue where points_de_vue.gid = %(id)s
 select min(st_distance(points_de_vue.geom, routes_pg.geom)) from routes_pg, points_de_vue where points_de_vue.gid = %(id)s
     ''', {'id':i+1})
     val = cur.fetchone()
-    arcpy.AddMessage(val)
     valOk = val[0]+0.0001
     #troisième requête : renvoie la géométrie du tronçon cible
     cur.execute('''
@@ -580,13 +586,11 @@ for cas in liste : #premi?re boucle
                 points = ver[i][0].split("(")[2].split(")")[0].split(",")
                 for p in points :
                     point_text = ("POINT("+p+")")
-                    arcpy.AddMessage(point_text)
 
                     cur.execute('''
         select st_distance(temp.geom, st_geomfromtext(%(geom)s,' %(srid)s')) from temp
                     ''',{'geom':point_text,'srid':srid})
                     mi = cur.fetchone()
-                    arcpy.AddMessage(mi)
                     if mi[0] == 0 :
                         somm_ok.append([p,points.index(p),0])
                     else :
@@ -611,10 +615,6 @@ for cas in liste : #premi?re boucle
 
                     geometries[0] = geometries[0][:-1] + ")"
                     geometries[1] = geometries[1][:-1] + ")"
-                    arcpy.AddMessage('-----------------------')
-                    arcpy.AddMessage(geometries)
-                    arcpy.AddMessage(points[0])
-                    arcpy.AddMessage('-----------------------')
                     sommets_end = [points[0],points[len(points)-1]]
                     noeud_dist = [[pt],[pt]]
                     #extraction du tronçon, le noeud 1 avec sa distance au point d'intersection, le noeud 2 avec sa distance au point d'intersection
@@ -629,7 +629,6 @@ for cas in liste : #premi?re boucle
                             lenplus = lon[0]+somm_ok[k][2]
                         else :
                             lenplus = 0+somm_ok[k][2]
-                        arcpy.AddMessage("~~~~~~~~~~")
                         pointgeom = 'POINT('+str(sommets_end[l])+")"
 
 
@@ -647,7 +646,6 @@ for cas in liste : #premi?re boucle
                         noeud_dist[l].append("cas3")
                         cibles_temp[l].append(noeud_dist[l])
 
-            arcpy.AddMessage(cibles_temp)
             for tu in range(2) :
                 min_d = ''
                 for c in cibles_temp[tu] :
@@ -664,14 +662,10 @@ for cas in liste : #premi?re boucle
             cibles_dj.append([pt,tst[0][0],0,c3_buff,"cas3"])
 
 
-
-
-
-
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-arcpy.AddMessage(cibles_dj)
-arcpy.AddMessage('sr')
-arcpy.AddMessage(sources_dj)
+##arcpy.AddMessage(cibles_dj)
+##arcpy.AddMessage('sr')
+##arcpy.AddMessage(sources_dj)
 #---------------------------------------------------------------Phase de calcul du plus cours chemin : distance d'accès de la route aux points de vente-------------------------
 arcpy.AddMessage(u"\rPhase c - Dijkstra\r")
 
@@ -707,9 +701,13 @@ for ci in cibles_dj : #première boucle(points cible)
 
         elif src[4] in trons_inter_survis[1] :
             arcpy.AddMessage(u"Tronçon à l'intérieur de la surface visible : point "+str(source))
-            arcpy.AddMessage(trons_inter_survis)
             cas = "cas5" #écrase le cas de la liste mère
-            distance_route_totale = 0
+
+            i_eucli = index_eucli.index([ci[0],src[0]])
+            eucli = (liste_euclidienne[i_eucli])[2]
+
+            ind = paires.index([ci[0],src[0]]) #index
+            final[ind].append([ci[0],src[0],0,0,[],"cas5",eucli])
 
         else :
             ##valeurs à implémenter par dijkstra
@@ -742,11 +740,9 @@ for ci in cibles_dj : #première boucle(points cible)
                 arcpy.AddMessage(u"Chemin")
                 for i in ver : #construction du chemin (tron?ons mis bout ? bout)
                     bou = i[0].split(",")[2]
-                    arcpy.AddMessage("a")
                     dist_plus = i[0].split(",")[3].split(")")[0]
                     distance_route += float(dist_plus)
                     chemin.append(bou)
-                    arcpy.AddMessage("b")
 
                 if distance_route == 0 :
                     arcpy.AddMessage(u"ERREUUUUUUUUUUUUUUUUUUUUUUUUUUUR")
@@ -757,18 +753,15 @@ for ci in cibles_dj : #première boucle(points cible)
                 else :
                     distance_route_totale = distance_route-ci[2]+src[1]
                 cas = ci[4]  #cas de la liste mère
-            arcpy.AddMessage("c")
             i_eucli = index_eucli.index([ci[0],src[0]])
             eucli = liste_euclidienne[i_eucli][2]
             distance_hors_route_totale = ci[3] + src[3]
-            arcpy.AddMessage("d")
             distance_tot = distance_hors_route_totale + distance_route_totale
             ##écriture de tous les chemins possibles
             total.append([ci[0],src[0],distance_route_totale,distance_hors_route_totale,chemin,cas,eucli,distance_tot])
             ##idem triés par paire
             ind = paires.index([ci[0],src[0]]) #index
             final[ind].append([ci[0],src[0],distance_route_totale,distance_hors_route_totale,chemin,cas,eucli,distance_tot])
-            arcpy.AddMessage("e")
 
 if con: #important! sinon ça fait planter
     con.commit()
@@ -810,45 +803,42 @@ arcpy.AddMessage(u"\rPhase d - distance la plus proche \r")
 ##arcpy.AddMessage(ufinal)
 
 final_select = []
-arcpy.AddMessage(final)
 for couple in final :
     mini = ''
     for i in couple :
-        arcpy.AddMessage("a")
         if i[5]=="cas4" :
             final_select.append(i)
         else :
             if i[5]=="cas5" :
-                arcpy.AddMessage("b")
                 dist_tot = i[6] #on prend la distance euclidienne
             else :
-                arcpy.AddMessage("c")
                 dist_tot = i[3]+i[2]
             if dist_tot :
-                arcpy.AddMessage("d")
                 if dist_tot == 0 :
                     arcpy.AddMessage(u"Erreur")
                 if dist_tot < mini and i[5]!="cas6":
                     mini = dist_tot
+    arcpy.AddMessage("mini:")
+    arcpy.AddMessage(mini)
     if mini == '':
-        arcpy.AddMessage("e")
         final_select.append([couple[0][0],couple[0][1],"Point inaccessible"])
     else :
-        arcpy.AddMessage("f")
-        arcpy.AddMessage(u'ok')
         for i in couple :
-            dist_tot = i[3]+i[2]
+            if i[5]=="cas5" :
+                dist_tot = i[6] #on prend la distance euclidienne
+            else :
+                dist_tot = i[3]+i[2]
             if dist_tot == mini :
                 final_select.append(i)
 
 #--------------------------------------------------------------Ecritures - sortie-------------------------
-arcpy.AddMessage(u"\rPhase e - écriture\r")
+arcpy.AddMessage("\rPhase e - écriture\r")
 
 #[ci[0],src[0],distance_route_totale,distance_hors_route_totale,chemin,ci[4],eucli
 
 res = file(chem+"\\detail.csv", "w") #sortie d?tail en mode csv
 res.write("point_cible;point_de_vue;distance_route;distance_hors_route;chemin;cas;distance_euclidienne;distance_totale")
-arcpy.AddMessage(str(len(total))+" chemins pour "+str(len(final))+" couples de points")
+arcpy.AddMessage(str(len(total))+" chemin(s) pour "+str(len(final))+" couple(s) de points")
 for couple in final :
     res.write("\r")
     for node in couple :
