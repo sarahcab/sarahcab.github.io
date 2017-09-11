@@ -1,0 +1,55 @@
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 400;
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 800;
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+
+body{
+	font-family : 'Roboto';
+	font-weight : 400;
+}
+#principal{
+	width:70%;
+	margin:auto;
+	position:relative;
+}
+#content,#debut{
+	width:100%;
+	position:absolute;
+}
+
+@keyframes tourneG{
+	from {transform: rotate(0deg);}
+	to   {transform: rotate(-360deg);}
+}
+
+.roue{
+	animation : tourneG 5s linear;
+	animation-iteration-count : infinite;
+	transform-origin: 80px 570px;
+}
+
+#blop{
+	filter : blur(50%);
+}
+
+#play{
+	background-color : red;
+	margin-top:2.7%;
+	border:none;
+	cursor:pointer;
+	font-size:16px;
+	padding:1.5%;
+	color:#FFFFFF;
+	border-radius:50px;
+}
+
+#play:hover{
+	background-color : black;
+}
