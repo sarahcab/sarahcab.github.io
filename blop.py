@@ -8,11 +8,12 @@ import shutil
 import string
 
 ##Raster distance version 13=name
-print("hello")
-# ##data=file
-# ##emprise=vector
-data="C:/Users/cabarry/Desktop/eric_masson/clc_44/catalogue.csv"
-emprise="C:/Users/cabarry/Desktop/eric_masson/emprise/nord.shp"
+
+#  ##data=file
+#  ##emprise=vector
+
+data="\\gpsrv1.univ-lille1.fr\Dossier_Utilisateurs_2\GEOGRAPHIE\DOCTORANTS\cabarry\Bureau\eric_masson\clc_44\catalogue.csv"
+emprise="//gpsrv1.univ-lille1.fr/Dossier_Utilisateurs_2/GEOGRAPHIE/DOCTORANTS/cabarry/Bureau/eric_masson/emprise/nord.shp"
 ##sortie=string
 
 ##size=number 100.0
@@ -90,6 +91,8 @@ for i in content :
         row = i.split(";")
 
         input = row[1]
+        print(i)
+        print(i.split(".")[0])
         layer = QgsVectorLayer(input, "salut", "ogr")
         if not layer.isValid():
             print "Layer failed to load : "+i
