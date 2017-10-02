@@ -1,5 +1,5 @@
 var deform = 2;
-var widthBarres = 4;
+var widthBarres = 5;
 var heightBarres = widthBarres/100;
 var nuancier = ["#E58A30", "#C31A1D","#3C5E48", "black", "#FFFFFF", "#FCFCFC","#333333","#C1C1C1"];
 var choro = ["#ffe008","#ff8408","#ff0825","#b308ff","#0810ff"];
@@ -35,7 +35,7 @@ function draw(){
 			.center([3.08,50.72])
 			.rotate([0, 0])
 			.parallels([43, 62])
-			.scale(180000)
+			.scale(220000)
 		
 		var path = d3.geo.path() 
 			.projection(projection);
@@ -145,23 +145,23 @@ function draw(){
 			.attr("cy", function(d) {
 				return parseFloat(projection([d.cX, d.cY])[1]);
 			})
-			.attr("fill","none")
-			.attr("stroke",function(d){
-				var val = d.pop;
-				if(val>discret[3]){
-					return choro[4];
-				} else if(val>discret[2]){
-					return choro[3]
-				} else if(val>discret[1]){
-					return choro[2]
-				} else if(val>discret[0]){
-					return choro[1]
-				} else {
-					return choro[0]
-				}
-			})
+			// .attr("fill","none")
+			// .attr("stroke",function(d){
+				// var val = d.pop;
+				// if(val>discret[3]){
+					// return choro[4];
+				// } else if(val>discret[2]){
+					// return choro[3]
+				// } else if(val>discret[1]){
+					// return choro[2]
+				// } else if(val>discret[0]){
+					// return choro[1]
+				// } else {
+					// return choro[0]
+				// }
+			// })
 			.attr("r",0.5)
-			.attr("stroke-opacity",0.3)
+			// .attr("stroke-opacity",0.3)
 			
 		
 		//côté gauche
@@ -266,12 +266,12 @@ function draw(){
 		
 		map.selectAll(".gVille").on("mouseover",function(){
 			d3.select(this).select(".rep")
-				.attr("opacity",1)
-				.transition()
-				.duration(1000)
-				.attr("r",20)
-				.attr("opacity",0)
-				// .remove()
+				// .attr("opacity",1)
+				// .transition()
+				// .duration(1000)
+				// .attr("r",20)
+				// .attr("opacity",0)
+				.remove()
 					
 			d3.select(this).select(".barresA")
 				.transition()
