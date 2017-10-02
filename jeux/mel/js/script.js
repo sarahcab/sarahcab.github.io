@@ -115,10 +115,11 @@ function draw(){
 			.attr("cx", function(d) {
 				return projection([d.cX, d.cY])[0]
 			})
+			.attr("class","rep")
 			.attr("cy", function(d) {
 				return parseFloat(projection([d.cX, d.cY])[1]);
 			})
-			.attr("r",15)
+			.attr("r",25)
 			// .attr("opacity",0)
 			.attr("fill-opacity",0)
 			// .attr("stroke",function(d){
@@ -265,7 +266,7 @@ function draw(){
 			})
 		
 		map.selectAll(".gVille").on("mouseover",function(){
-			d3.select(this).select(".rep")
+			d3.select(this).selectAll(".rep")
 				// .attr("opacity",1)
 				// .transition()
 				// .duration(1000)
