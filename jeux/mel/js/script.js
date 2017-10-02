@@ -25,11 +25,11 @@ function initialize(){
 
 function draw(){
 	queue()	//chargement des donénes					 
-		.defer(d3.json, "data/dept3.json") //geoDepts : polygones de la carte (départements)
+		//.defer(d3.json, "data/dept3.json") //geoDepts : polygones de la carte (départements)
 		.defer(d3.csv, "data/carreaux_lille_ok.csv") 
 		.await(callback0);
 	
-	function callback0(error,geoDepts,geo){
+	function callback0(error,geo){
 		
 		var projection = d3.geo.albers() //définition de la projection  : carte centrée manuellement, l'échelle est définie en variabe globale
 			.center([3.08,50.72])
