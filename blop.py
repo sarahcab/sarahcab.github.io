@@ -1,279 +1,261 @@
-# -*- coding: utf-8  -*-
+import qgis
+from qgis.core import *
+from qgis.gui import *
+from qgis.analysis import  *
+import processing
+import os
+import shutil
+import string
 
-#-------------------------------------------------------------------------------
-# Name:		test_params.py
-# Objet:	Calculs de visibilité appliqués à un ensemble de points donné
-#
-# Auteur:	  Sarah Cabarry
-#
-# Date de création:	 01/06/2017
-# Copyright:   (c) scabarry 2017
-# Licence:
-#-------------------------------------------------------------------------------
+##Raster distance version 13=name
 
-### Import des modules
-import arcpy
-#import shutil
-from arcpy import env
-from arcpy.sa import *
+#  ##data=file
+#  ##emprise=vector
 
-### Configuration
-arcpy.env.overwriteOutput = True
-arcpy.CheckOutExtension("Spatial")
+data="\\gpsrv1.univ-lille1.fr\Dossier_Utilisateurs_2\GEOGRAPHIE\DOCTORANTS\cabarry\Bureau\eric_masson\clc_44\catalogue.csv"
+emprise="//gpsrv1.univ-lille1.fr/Dossier_Utilisateurs_2/GEOGRAPHIE/DOCTORANTS/cabarry/Bureau/eric_masson/emprise/nord.shp"
+##sortie=string
 
-### Variables gloables
-## Paramètres
-raster_entree = arcpy.GetParameterAsText(0)
-points_param = arcpy.GetParameterAsText(1)
-nbr_entites = arcpy.GetParameter(2)
-intersect_entree = arcpy.GetParameterAsText(3)
-chem = arcpy.GetParameterAsText(4)
-bool_csv = arcpy.GetParameter(5)
-bool_fc = arcpy.GetParameter(6)
-bool_detail = arcpy.GetParameter(7)
-bool_carto = arcpy.GetParameter(8)
-env_lyr = arcpy.GetParameterAsText(9)
-bool_dataviz = arcpy.GetParameter(10)
+##size=number 100.0
+##tolerance=number 0.6
+##result=output raster
+##result_contmax=output raster
+##result_nodata=output raster
+##result_tolerance=output raster
 
-points_entree = chem+"\\couche_in.shp"
-raster_in= chem +"\\temp\\raster_inter"
+##out1=output file
+##out2=output file
+##out3=output file
 
-## Champs de vision
-zFactor = 2
-useEarthCurvature = "CURVED_EARTH"
-refractivityCoefficient = 0.15
+#Creation du repertoire de fichier temporaire (necessaire pour une boucle)
+rep_data= os.path.split(data)[0]
+rep_temp= rep_data+"/temp"+sortie
+var = "temp"+sortie
 
-## Valeurs de sortie
-liste = []
-
-###Dossier fichiers temporaires et fichiers détails
-arcpy.CreateFolder_management(chem, "temp")
-arcpy.CreateFolder_management(chem, "detail")
-
-###Emprise : réduction du raster à la couche intersect et récupération des valeurs cadre
-if  intersect_entree :
-	dscFc = arcpy.Describe(intersect_entree)
-	a = dscFc.extent.XMax
-	b = dscFc.extent.XMin
-	c = dscFc.extent.YMax
-	d = dscFc.extent.YMin
-	arcpy.Clip_management(raster_entree,str(b)+" "+str(d)+" "+str(a)+" "+str(c),raster_in, "#", "#", "NONE")
+if var not in os.listdir(rep_data) :
+    print("Creation du dossier \'temp\'")
+    os.mkdir(rep_temp)
 else :
-	dscFc = arcpy.Describe(raster_entree)
-	a = dscFc.extent.XMax
-	b = dscFc.extent.XMin
-	c = dscFc.extent.YMax
-	d = dscFc.extent.YMin
-	raster_in = raster_entree
+    print("Dossier \'temp\' existant")
 
-###Nettoyage de la couche points
-if  intersect_entree :
-	arcpy.Intersect_analysis([points_param,intersect_entree],points_entree)
-else :
-	points_entree = points_param #pas de nettoyage : on teste avec le try si le point est bien dans le raster, comme c'est fait avec la grille
 
-###Prise en compte du nombre de points si non renseigné ou si renseignement non valide
-result = arcpy.GetCount_management(points_entree)
-totalpoints = int(result.getOutput(0))
+#Emprise : preparation de la couche (rasterisation)
+layer_emprise = QgsVectorLayer(emprise, "salut", "ogr")
 
-if nbr_entites > totalpoints or nbr_entites==0 :
-	nbr_entites = int(totalpoints)
-	arcpy.AddMessage("Entités de la couche : "+str(totalpoints))
+temp_emprise0=rep_temp+"/emprise_t0.shp" #faut pas les appeler pareil au cas ou l'une des donnees s'appelerait comme ca
+temp_emprise1=rep_temp+"/emprise_t1.shp"
+raster_emprise=rep_temp+"/emprise_raster.tif"
 
-else :
-	arcpy.AddMessage("Entités à analyser : "+str(nbr_entites))
-	arcpy.AddMessage("Entités de la couche : "+str(totalpoints))
+extent = layer_emprise.extent()
+xmin = extent.xMinimum()
+xmax = extent.xMaximum()
+ymin = extent.yMinimum()
+ymax = extent.yMaximum()
 
-clear_entites = nbr_entites
-### Calcul par point
-for i in range(nbr_entites):
-	arcpy.AddMessage("Point "+str(i+1)+"/"+str(nbr_entites))
+processing.runalg('qgis:addfieldtoattributestable', emprise, 'CHAMPI', 2, 20, 0, temp_emprise0)
+processing.runalg('qgis:fieldcalculator', temp_emprise0, 'CHAMPI', 2, 20, 0, False,"1", temp_emprise1)
 
-	##Variables locales
-	raster_sortie = chem +"\\temp\\visions"+str(i)
-	point_cdv = chem +"\\temp\\ind"+str(i)+".shp"
-	polygon =chem +"\\temp\\pol"+str(i)+".shp"
-	polygon_in = chem +"\\temp\\pol_inter"+str(i)+".shp"
-	polygon_ar = chem +"\\detail\\detail_point"+str(i)+".shp"
-	where_clause = '"FID" = '+str(i)
-	visible = 0.0
-	nnvisible = 0.0
-	fields = ['GRIDCODE', 'F_AREA']
+processing.runalg("gdalogr:rasterize",
+               {"INPUT": temp_emprise1,
+               "FIELD":'CHAMPI',
+               "WIDTH":size,
+               "HEIGHT":size,
+               "RAST_EXT":"%f,%f,%f,%f"% (xmin, xmax, ymin, ymax),
+               "TFW":1,
+               "RTYPE":4,
+               "NO_DATA":0,
+               "COMPRESS":0,
+               "ZLEVEL":1,
+               "PREDICTOR":1,
+               "TILED":False,
+               "BIGTIFF":2,
+               "EXTRA": '',
+               "OUTPUT":raster_emprise})
 
-	##Extraction du point
-	arcpy.Select_analysis(points_entree, point_cdv, where_clause)
-	
-	##Points vides
-	vide = []
-	
-	##Pour les points inclus dans le raster : 
-	try : 
-		##Champs de vision
-		outViewshed = Viewshed(raster_in, point_cdv, zFactor, useEarthCurvature, refractivityCoefficient)
-		outViewshed.save(raster_sortie)
+#Boucle dans les entites cibles
+#Variables
+ls_layers=[]
+type56=[]
+facteurs=[]
 
-		##Vectorisation
-		arcpy.RasterToPolygon_conversion(raster_sortie, polygon, "NO_SIMPLIFY", "VALUE")
+total = 0.0
+alpha = string.ascii_lowercase
+ind = -1
+formule = ""
+content  = open(data,"r")
 
-		##Intersection (si renseignée) - découper fait juste un rectangle
-		if  intersect_entree :
-			arcpy.Intersect_analysis([polygon,intersect_entree],polygon_in)
-		else :
-			polygon_in = polygon
+#Premiere boucle (contraintes distance et perimetre)
+for i in content :
 
-		##Calcul des superficie
-		arcpy.CalculateAreas_stats(polygon_in,polygon_ar) #disparition des paramètre (????)
+    if ind > -1 :
+        row = i.split(";")
 
-		##Statistiques
-		cursor = arcpy.SearchCursor(polygon_ar)
-		for row in cursor:
-			tst = row.getValue(fields[0])
-			if tst == 0 :
-				nnvisible = nnvisible + row.getValue(fields[1])
-			else :
-				visible = visible + row.getValue(fields[1])
-		del cursor,row
+        input = row[1]
+        print(i)
+        print(i.split(".")[0])
+        layer = QgsVectorLayer(input, "salut", "ogr")
+        if not layer.isValid():
+            print "Layer failed to load : "+i
+        else :
+            temp0=rep_temp+"/"+ i.split(".")[0]+"_temp0.shp"
+            temp1=rep_temp+"/"+ i.split(".")[0]+"_temp1.shp"
 
-		##Suppression des fichiers temporaires
-		arcpy.Delete_management(raster_sortie)
-		arcpy.Delete_management(point_cdv)
-		if  intersect_entree :
-			arcpy.Delete_management(polygon)
-		arcpy.Delete_management(polygon_in)
-		##Implémentation des résultats
-		pourc = 100*visible/(visible+nnvisible)
-		liste.append([i,pourc,visible,nnvisible])
-	
-	except arcpy.ExecuteError: 
-		arcpy.AddMessage("Le point "+str(i+1)+" se trouve à l'extérieur de la surface analysée")
-		clear_entites = clear_entites - 1
-		liste.append([i,0,"none","none"])
+            extent = layer.extent()
+            xmin = extent.xMinimum()
+            xmax = extent.xMaximum()
+            ymin = extent.yMinimum()
+            ymax = extent.yMaximum()
 
-###Nouveau nombre d'entités
-arcpy.AddMessage("Entités calculées  : "+str(clear_entites))
+            processing.runalg('qgis:addfieldtoattributestable', input, 'CHAMPI', 2, 20, 0, temp0)
+            processing.runalg('qgis:fieldcalculator', temp0, 'CHAMPI', 2, 20, 0, False,"1", temp1)
 
-###Ecriture
-##Dans la couche
-if bool_fc == 1 :
-	##Création des champs
-	arcpy.AddField_management(points_entree, "sur_vis", "DOUBLE","","","")
-	arcpy.AddField_management(points_entree, "sur_nn", "DOUBLE","","","")
-	arcpy.AddField_management(points_entree, "pourc", "DOUBLE","","","")
+            if row[2]=="1" or row[2]=="2" :
+                temp2=rep_temp+"/"+ i.split(".")[0]+"_temp2.tif"
+                temp3=rep_temp+"/"+ i.split(".")[0]+"_r.tif"
+                temp4=rep_temp+"/"+ i.split(".")[0]+"_temp4.tif"
+                temp5=rep_temp+"/"+ i.split(".")[0]+"_rd.tif"
 
-	##Implémentation
-	rows = arcpy.UpdateCursor(points_entree)
-	i=0
-	for row in rows:
-		if i<nbr_entites and liste[i][2] != "" :
-			row.setValue("sur_vis", liste[i][2])
-			row.setValue("sur_nn", liste[i][3])
-			row.setValue("pourc", liste[i][1])
-			rows.updateRow(row)
-		i +=1
-	del row,rows
+                processing.runalg("gdalogr:rasterize",
+                               {"INPUT":temp1,
+                               "FIELD":'CHAMPI',
+                               "WIDTH":size,
+                               "HEIGHT":size,
+                               "RAST_EXT":"%f,%f,%f,%f"% (xmin, xmax, ymin, ymax),
+                               "TFW":1,
+                               "RTYPE":4,
+                               "NO_DATA":0,
+                               "COMPRESS":0,
+                               "ZLEVEL":1,
+                               "PREDICTOR":1,
+                               "TILED":False,
+                               "BIGTIFF":2,
+                               "EXTRA": '',
+                               "OUTPUT":temp2})
 
-##Dans le csv - obligatoire
-if bool_csv == 1 :
-	resultats = file(chem+"\\resultats.csv", "w")
-	resultats.write("Identifiant numérique du point;Pourcentage de surface visible;Surface visible;Surface non visible")
-	for j in liste :
-		resultats.write("\r"+str(j[0])+";"+str(j[1])+"%;"+str(j[2])+";"+str(j[3]))
+                processing.runalg('gdalogr:proximity', temp2,1, 0, -1, -1, -1,6, temp3)
 
-##Cartographie
-if bool_carto == 1 :
-	
-	##Calcul de la valeur maximale
-	valeur_max = 0
-	for val in liste :
-		if val[1] >  valeur_max :
-			valeur_max = val[1]
-			id_max = liste.index(val)
-	
-	if id_max != "": 
-		arcpy.AddMessage("Surface maximale : point "+str(id_max))
-		couche_max = chem +"\\detail\\detail_point"+str(id_max)+".shp"
+                #emprise
+                processing.runalg('saga:rastercalculator', temp3, raster_emprise, "ifelse(b=0,0/0,a)",0, 8,temp4)
 
-		if intersect_entree :
-			##fichiers de forme	
-			lyrs = ["s_intersect","s_valMax","p_surfaceAbs","p_pourcentage"]
-			##Liste des classes
-			layers = [intersect_entree,couche_max,points_entree,points_entree]
-		else : 
-			lyrs = ["s_valMax","p_surfaceAbs","p_pourcentage"]
-			layers = [couche_max,points_entree,points_entree]
+                #normalisation
+                blop = processing.runalg('qgis:rasterlayerstatistics',temp4 ,out1)
+                max = blop['MAX']
+                if row[4][:-1] !="":
+                    maxmin = float(row[4][:-1])
+                    if row[2]=="1" :
+                        form="ifelse(a>"+str(maxmin)+",1,a/"+str(maxmin)+")"  #si maxmin>max, la couche ira de 0 azx avec x<1 (x = maxmin/max)
+                    else :
+                        if float(maxmin)>max :
+                            form = 1
+                        else :
+                            form="ifelse(a<"+str(maxmin)+",0,(a-"+str(maxmin)+")/("+str(max)+"-"+str(maxmin)+"))"
+                            print(form)
+                else :
+                    form = "a/"+str(max)
+                print(form)
+                processing.runalg('saga:rastercalculator', temp4, None, form ,0, 8,temp5)
 
-		##Création du document et du dataframe
-		mxd = arcpy.mapping.MapDocument("CURRENT")
-		dataframe = arcpy.mapping.ListDataFrames(mxd)[0]
+                ls_layers.append(temp5)
+            else :
+                temp2=rep_temp+"/"+ i.split(".")[0]+"_ttemp2.shp"
+                temp3=rep_temp+"/"+ i.split(".")[0]+"_ttemp3.tif"
+                temp4=rep_temp+"/"+ i.split(".")[0]+"_ras.tif"
 
-		##Cartographie du raster
-		arcpy.MakeRasterLayer_management(raster_in, "rast")
-		arcpy.ApplySymbologyFromLayer_management("rast", env_lyr+"\\r_mnt.lyr")
-		map_insert = arcpy.mapping.Layer("rast")
-		arcpy.mapping.AddLayer(dataframe, map_insert, "AUTO_ARRANGE")
+                #buffer
+                if row[4][:-1] !="":
+                    buff = float(row[4][:-1])
+                    processing.runalg('qgis:fixeddistancebuffer', temp1, buff, 5,False, temp2)
+                else :
+                    temp2=temp1
 
-		##Cartographie des couches vectorielles
-		it = 0
-		for layer in layers :
-			arcpy.MakeFeatureLayer_management(layer, lyrs[it])
-			arcpy.ApplySymbologyFromLayer_management(lyrs[it], env_lyr+"\\"+lyrs[it]+".lyr")
-			map_insert = arcpy.mapping.Layer(lyrs[it])
-			arcpy.mapping.AddLayer(dataframe, map_insert, "AUTO_ARRANGE")
-			del map_insert
-			it += 1
-			
-		##Export de la carte
-		arcpy.mapping.ExportToSVG(mxd, chem + "\\resultats")
-		
-		##suppressions ######################a conditionner
-		it = 0 
-		for layer in layers :		
-			arcpy.Delete_management(lyrs[it])
-			it += 1
-			
-		del dataframe,mxd
-		
-	else : 
-		arcpy.AddMessage("Aucun point dans la zone à analyser")
+                processing.runalg("gdalogr:rasterize",
+                               {"INPUT":temp2,
+                               "FIELD":'CHAMPI',
+                               "WIDTH":size,
+                               "HEIGHT":size,
+                               "RAST_EXT":"%f,%f,%f,%f"% (xmin, xmax, ymin, ymax),
+                               "TFW":1,
+                               "RTYPE":4,
+                               "NO_DATA":0,
+                               "COMPRESS":0,
+                               "ZLEVEL":1,
+                               "PREDICTOR":1,
+                               "TILED":False,
+                               "BIGTIFF":2,
+                               "EXTRA": '',
+                               "OUTPUT":temp3})
 
-##Cartographie des couches destinées à la visulation interactive
-if bool_dataviz == 1 :
-	for i in range(nbr_entites):
-		##Création du document et du dataframe
-		mxd = arcpy.mapping.MapDocument("CURRENT")
-		dataframe = arcpy.mapping.ListDataFrames(mxd)[0]
+                #emprise
+                processing.runalg('saga:rastercalculator', temp3, raster_emprise, "ifelse(b=0,0/0,a)",0, 8,temp4)
+                ls_layers.append(temp4)
 
-		##Cartographie des couches contenant la surface visible
-		polygon_ar = chem +"\\detail\\detail_point"+str(i)+".shp"
-		arcpy.MakeFeatureLayer_management(polygon_ar, "detail"+str(i))
-		if env_lyr:
-			arcpy.ApplySymbologyFromLayer_management("detail"+str(i), env_lyr+"\\s_valMax.lyr")
-		map_insert = arcpy.mapping.Layer("detail"+str(i))
-		arcpy.mapping.AddLayer(dataframe, map_insert, "AUTO_ARRANGE")
-		del map_insert
-	
-	##Cartographie de la couche point et intersect
-	arcpy.MakeFeatureLayer_management(points_entree, "points_carto")
-	map_insert = arcpy.mapping.Layer("points_carto")
-	arcpy.mapping.AddLayer(dataframe, map_insert, "AUTO_ARRANGE")
-	if intersect_entree : 
-		arcpy.MakeFeatureLayer_management(intersect_entree, "intersection")
-		inter_insert = arcpy.mapping.Layer("intersection")
-		arcpy.mapping.AddLayer(dataframe, inter_insert, "AUTO_ARRANGE")
-	
-	##Export
-	arcpy.mapping.ExportToSVG(mxd, chem + "\\detail_visuel")
-	del mxd, map_insert, dataframe
-	
-		
-###Suppression globale
-if intersect_entree : 
-	arcpy.Delete_management(raster_in)
-	if bool_fc == 0 :
-		arcpy.Delete_management(points_entree)
-if bool_detail == 0 :
-	for i in range(nbr_entites):
-		if liste[i][2] != "none" :
-			polygon_ar = chem +"\\detail\\detail_point"+str(i)+".shp"
-			arcpy.Delete_management(polygon_ar)
-#shutil.rmtree(chem+"\\temp")
+            if row[2] != "0" and  row[2] != "5" and  row[2] != "6":
+                if formule != "" :
+                    formule+=" + "
+                else :
+                    formule +="("
+                if row[2]=="1" or row[2]=="4" :
+                    add= alpha[ind]+"*"+row[3]
+                    formule+=add
+                if row[2]=="2" or row[2]=="3" :
+                    add= "(1-"+alpha[ind]+")*"+row[3]
+                    formule+=add
+
+                total += float(row[3])
+            if row[2]=="5":
+                type56.append(alpha[ind])
+                facteurs.append("5")
+            if row[2]=="6":
+                type56.append(alpha[ind])
+                facteurs.append("6")
+    ind +=1
+
+formule += ")/"+str(total)
+
+#Premiere sortie
+processing.runalg('saga:rastercalculator',ls_layers[0], ls_layers[1:], formule,0, 8,result)
+
+print(formule)
+
+if len(type56) != 0 :
+    #Deuxieme boucle(contraintes reglementiaires et redibitoires)
+    for i in range(len(type56)) :
+        facteur=facteurs[i]
+        if facteur == "5" :
+            formule_contmax = "ifelse("+type56[i]+"=0,1,"+formule+")"
+        else :
+            formule_contmax = "ifelse("+type56[i]+"=0,"+formule+",1)"
+
+    #Deuxieme sortie
+    processing.runalg('saga:rastercalculator',ls_layers[0], ls_layers[1:], formule_contmax,0, 8,result_contmax)
+
+    #Troiseme boucle
+    for i in range(len(type56)) :
+        facteur=facteurs[i]
+        if facteur == "5" :
+            formule_nodata = "ifelse("+type56[i]+"=0,0/0,"+formule+")"
+        else :
+            formule_nodata = "ifelse("+type56[i]+"=0,"+formule+",0/0)"
+
+
+    #Troisieme sortie
+    processing.runalg('saga:rastercalculator',ls_layers[0], ls_layers[1:], formule_nodata,0, 8,result_nodata)
+
+#Quatrieme sortie : tolerance
+processing.runalg('saga:rastercalculator',result, None, "ifelse(a<"+str(tolerance)+",a,0/0)",0, 8,result_tolerance)
+
+print(ls_layers)
+print(ls_layers[0])
+print(ls_layers[1:])
+stats = processing.runalg('qgis:rasterlayerstatistics',result ,out1)
+print stats
+#stats2 = processing.runalg('qgis:rasterlayerstatistics',result_contmax ,out2)
+#print stats2
+#stats3 = processing.runalg('qgis:rasterlayerstatistics',result_nodata ,out3)
+#print stats3
+
+#Suppression (echec)
+try :
+    shutil.rmtree(rep_temp)
+except :
+    print "erreur dans la suppressions des fichiers temporaires : verouillage -> veuillez supprimer le dossier \'temp\'"
