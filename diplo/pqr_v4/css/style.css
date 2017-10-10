@@ -1,0 +1,168 @@
+
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 400;
+    src:url("../ressources/polices/WalbaumGroteskLight.otf");
+}
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 400;
+	font-style : italic;
+    src:url("../ressources/polices/WalbaumGroteskLightItalic.otf");
+}
+
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 600;
+    src:url("../ressources/polices/WalbaumGroteskText.otf");
+}
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 600;
+	font-style : italic;
+    src:url("../ressources/polices/WalbaumGroteskTextItalic.otf");
+}
+
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 800;
+    src:url("../ressources/polices/WalbaumGroteskTextBold.otf");
+}
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 800;
+	font-style : italic;
+    src:url("../ressources/polices/WalbaumGroteskTextBoldItalic.otf");
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 400;
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 400;
+	font-style : italic;
+    src:url("../ressources/polices/Roboto-LightItalic.ttf");
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 600;
+    src:url("../ressources/polices/Roboto-Regular.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 600;
+	font-style : italic;
+    src:url("../ressources/polices/Roboto-Italic.ttf");
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 800;
+    src:url("../ressources/polices/Roboto-Bold.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 800;
+	font-style : italic;
+    src:url("../ressources/polices/Roboto-BoldItalic.ttf");
+}
+
+
+body{
+	font-family : 'WalbaumGrot', 'Roboto';
+}
+
+
+
+.hightlight{
+	stroke : #FCD96D;
+}
+
+#innercarte{
+	width: 68%;
+	margin : auto;
+	position : relative;
+	opacity : 0.7;
+}
+
+
+#graph{
+	position : absolute;
+	width:100%;
+}
+
+#rules{
+	position : absolute;
+	width : 60%;
+	margin-left : 17%;
+	text-align : center;
+}
+
+#rules_content{
+	text-align : center;
+	width : 60%;
+	margin : auto;
+	margin-top : 6%;
+	background-color : #FFFFFF;
+	border-radius:50px;
+	opacity : 0.75;
+	padding:2%;
+}
+
+#bouton_l{
+	border-radius:50px;
+	height: auto;
+	margin: auto;
+	padding: 0.5em 1em;
+	font-size: 1.5em;
+	margin-top:3%;
+	border-style : solid;
+	border-width : 3px;
+	border-color : #FFFFFF;
+	background: #f6e9d9;
+	color: #333333;
+	transition-duration:.2s;
+	transition-property: background;
+	-moz-transition-duration:.2s;
+	-moz-transition-property: background;
+	-webkit-transition-duration:.2s;
+	-webkit-transition-property: background;
+	font-family: Walbaumgrot, helvetica, arial, sans-serif;
+}
+
+.bouts:hover{
+	background: #be2e0d !important;
+	color: #ffffff !important;
+	cursor:pointer !important;
+}
+
+.cliquable:hover{
+	cursor:pointer;
+	opacity:0.8;
+}
+
+.active{
+	animation-iteration-count : infinite;
+}
+
+@keyframes tourneG{
+	from {transform: rotate(0deg);}
+
+	to   {transform: rotate(-360deg);}
+}
+
+@keyframes tourneD {
+	from {transform: rotate(0deg);}
+
+	to   {transform: rotate(360deg);}
+}
+
+@keyframes opac {
+	from {opacity:1;}
+
+	to   {opacity:0;}
+}
