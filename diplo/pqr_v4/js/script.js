@@ -14,6 +14,7 @@ dataQuot = [], //variable qui va contenir les données sur chaque quotidien
 dataTir = [],  //variable qui va contenir le tirage et le nombre de titre par année
 dataTextes = [], //variable qui va contenir les textes
 nomsVilles = [], //listedes villes implémentée dans la fonction buildListes
+nomsVilles_ok = [], //listedes villes implémentée dans la fonction buildListes (avec caractères spéciaux)
 listeVilles = new Object(), //idem en objet : va contenir els valeur par ville (nb quotidiens)
 nomsDepts = [], //idem par département
 listeDept = new Object(), //idem par département
@@ -24,7 +25,7 @@ lsDeptsSrc = "(Allier,Ardèche, Aveyron, Calvados, Bas-Rhin, Cantal, Charente, C
 
 
 valsChoro = [0,2], //discrétisation
-valsChoroLeg = ["Jusqu'à 1","Pluralité (2 et plus)"]; //discrétisation
+valsChoroLeg = ["Un seul ou aucun quotidien","Plus de deux quotidiens"]; //discrétisation
 
 ///graphiques
 var widthGraph = (document.getElementById("graph").attributes.viewBox.value).split(" ")[2], //viewBox-width de l'espace SVG global "graph"
@@ -82,13 +83,6 @@ function initialize(){
 }
 
 function actions(){ //animation et interactivités
-	//Bouton "commencer" : effet visuel d'apparition du schéma
-	// d3.select("#bouton_l").on("click",function(){
-		// d3.select("#rules").transition().duration(1000).style("opacity",0).transition().style("display","none")
-		// d3.select("#innercarte").transition().duration(1000).style("opacity",1);
-		// d3.selectAll(".discret").transition().delay(1000).duration(1500).style("opacity",1); //groupes contenu dans "graph", à 0 par défaut
-		// d3.selectAll(".feche").attr("stroke-dasharray","0,500").transition().delay(1500).duration(1000).attr("stroke-dasharray","500,0")
-	// })
 	
 	d3.select("#bout_partie1")
 		.on("click",function(){
@@ -128,7 +122,10 @@ function actions(){ //animation et interactivités
 				})
 				.transition().duration(1000)
 				.attr("transform","")
-				
+			
+			d3.select("#ville_affquot") 
+				.text("")
+		
 			d3.selectAll(".partie1").transition().duration(1000).attr("transform",function(){
 				return "translate(0,-3000)"
 			})
@@ -313,7 +310,7 @@ function initMap(){ //construction graphique
 		.defer(d3.json, "data/dept3.json") //geoDepts : polygones de la carte (départements)
 		.defer(d3.csv,"data/coordVilles.csv") //coordonnées des vills ciblées  
 		.defer(d3.csv,"data/Nombre_tirages.csv") //données par année (sur le tirage et le nombre de titres) 
-		.defer(d3.csv,"data/quotidiens.csv") //données par quotidien (nom, aire de diffusion, groupe, changement de nom....)
+		.defer(d3.csv,"data/quotidiens_maj2.csv") //données par quotidien (nom, aire de diffusion, groupe, changement de nom....)
 		.defer(d3.csv,"data/textes.csv") //textes sur les dates commentées
 		.await(callback0);
 
@@ -322,7 +319,6 @@ function initMap(){ //construction graphique
 		dataQuot = dataQ; //stockage dans les variables globales : permet de ne charger les données qu'une fois
 		dataTir = dataT; //idem
 		dataTextes = dataTxt; //idem
-		
 		var projection = d3.geo.albers() //définition de la projection  : carte centrée manuellement, l'échelle est définie en variabe globale
 			.center([-3.5,49])
 			.rotate([0, 0])
@@ -738,21 +734,26 @@ function initMap(){ //construction graphique
 				.on("mouseover",function(){
 					var tst=this.attributes.cliquable.value;
 					if(tst=="true"){
+						d3.select(this).select("text").attr("font-weight",700)
 						var id_liste = this.attributes.id_liste.value; //en mettant i direct il va pas vouloir
 						var nb = listeGroupes[nomsGroupes[id_liste]][0]
 						if(nb>0){
+
 							var li_quot = listeGroupes[nomsGroupes[id_liste]][1]
 							var nom = this.attributes.nom.value;
-							// d3.select("#ind_groupe").text(nom+" : "+nb+" quotidien(s) possédé(s) | "+li_quot)
 							d3.selectAll(".titre_barres")
 								.attr("stroke",nuancier[3])
 								.attr("stroke-width",function(){
-									var nm = this.attributes.titre.value;
-									if((listeGroupes[nomsGroupes[id_liste]][1]).indexOf(nm)>=0){
-										return 8
-									} else {
-										return 0
-									}
+									if(this.attributes.titre){
+										var nm = this.attributes.titre.value;
+										
+										
+										if((listeGroupes[nomsGroupes[id_liste]][1]).indexOf(nm)>=0){
+											return 8
+										} else {
+											return 0
+										}
+									} 						
 								})
 						}
 					}
@@ -762,9 +763,10 @@ function initMap(){ //construction graphique
 					if(tst=="true"){
 						var lock = this.attributes.lock.value;
 						if(lock=="false"){
-							d3.selectAll(".nomgroupe").select("text").attr("font-weight",400)
+
+							d3.selectAll(".nomgroupe").select("text").attr("font-weight",400).attr("fill","#000000")
 							d3.selectAll(".titre_barres")
-							.attr("stroke-width",0)
+								.attr("stroke-width",0)
 						}
 					}
 				})
@@ -774,9 +776,9 @@ function initMap(){ //construction graphique
 					if(tst=="true"){
 						if(lock=="false"){
 							d3.selectAll(".nomgroupe").attr("lock","false").select("text").attr("font-weight",400)
-							d3.select(this).attr("lock","true").select("text").attr("font-weight",800)
+							d3.select(this).attr("lock","true").select("text").attr("font-weight",800).attr("fill",nuancier[0])
 						} else {
-							d3.select(this).attr("lock","false").select("text").attr("font-weight",400)
+							d3.select(this).attr("lock","false").select("text").attr("font-weight",400).attr("fill","#000000")
 						}
 					}
 				})
@@ -793,10 +795,60 @@ function initMap(){ //construction graphique
 				
 		}		
 	
-		
 		d3.selectAll(".partie2")
 			.attr("display","none")
 				
+		///Commencer
+		// d3.select("#innercarte")
+			// .append("svg")
+			// .attr("id","defaut")
+			// .style("position","absolute")
+			// .attr("width","100%")
+			// .attr("viewBox","0 0 3188 2300")
+			// .append("rect")
+			// .attr("fill-opacity",0.5)
+			// .attr("x",0)
+			// .attr("y",0)
+			// .attr("width",3188)
+			// .attr("height",2300)
+			// .attr("id","cache")
+			// .attr("fill","#ffffff")
+			
+		// d3.select("#defaut")
+			// .append("g")
+			// .attr("id","bouton_l")
+			// .on("click",function(){
+				// d3.select("#defaut").remove()
+			// })
+			// .append("rect")
+			// .attr("width",740)
+			// .attr("height",440)
+			// .attr("x",1080)
+			// .attr("y",980)
+			// .attr("fill","#FFFFFF")
+			// .attr("opacity",0.5)
+			// .attr("rx",200)
+			
+		// d3.select("#bouton_l")
+			// .append("rect")
+			// .attr("width",700)
+			// .attr("height",400)
+			// .attr("x",1100)
+			// .attr("y",1000)
+			// .attr("fill","#FFFFFF")
+			// .attr("rx",200)
+		
+		// d3.select("#bouton_l")
+			// .append("text")
+			// .attr("font-family","'WalbaumGrot'")
+			// .attr("font-weight",700)
+			// .attr("font-size",80)
+			// .attr("x",1230)
+			// .attr("y",1220)
+			// .text("Commencer")
+
+		d3.select("#graph").transition().duration(800).attr("opacity",1);
+		d3.select("#attente").remove();
 		//fonctions secondaire de construction thématiques et graphiques
 		test(geoVilles) //permet de voir si toutes les villes de la BD sont géoréférencées
 		buildListes(geoVilles);
@@ -845,7 +897,6 @@ function dragWheel(){ //fonction drag  à commenter une fois réparée
 			}
 		}
 		///
-		
 		///ajout des tours (passage du zéro)
 		var add = parseFloat(angle)+360*tours-ancAngle; //(!)la variable angleOk (parseFloat(angle)+360*tours) sera implémentée une fois que le nombre de tour aura été mis à jour
 		if((posY-centrey)*ancY<0&&(posX-centrex)>0){ //si on passe la ligne du nouveau tour (si on change le signe de la valeur en y ET si on se trouve dans la partie droite)
@@ -858,50 +909,55 @@ function dragWheel(){ //fonction drag  à commenter une fois réparée
 			reperes(tours)
 		} 
 		
-		angleOk = parseFloat(angle)+360*tours;  //la variable angleOk puet ainsi être mise à jour avec le nouvel angle et le nouveau nombre de tour
-	
-		///mis à jour des variables repère
-		ancAngle = angleOk;
-		ancY = posY-centrey; //sert pour le nombre de tour : détermine le pasage de la ligne 0/360
-		///
+		// if(tours==-1){
+			// alert(tours)
+			// tours=0
+		// } else {
+			angleOk = parseFloat(angle)+360*tours;  //la variable angleOk puet ainsi être mise à jour avec le nouvel angle et le nouveau nombre de tour
 		
-		///mise à jour de la variable date
-		date = anneeMin*1 + parseInt(angleOk/45);
-		
-		///boutons et bloquage des valeurs min et max
-		if(add>0){
-			d3.select("#reculer").attr("class","mdSimple cliquable").attr("opacity",1); //on rend forcément 'avancer' cliquable
-			d3.select("#reculer").attr("opacity",1); //idem label
-		} else if (add<0){
-			d3.select("#avancer").attr("class","mdSimple cliquable").attr("opacity",1); //on rend forcément 'avancer' cliquable
-			d3.select("#avancer").attr("opacity",1); //idem label
-		}
-		if (date>anneeMax){
-			angleOk = (anneeMax - anneeMin)*45 ;
-			date = anneeMax;
-			d3.select("#avancer").attr("class","mdSimple").attr("opacity",0.2); //on vire cliquable lorsque c'est la date minimale
-			d3.select("#label_avancer").attr("opacity",0.2); //idem label
-		} else if (date<anneeMin){
-			angleOk = 0;
-			date = anneeMin;
-			d3.select("#reculer").attr("class","mdSimple").attr("opacity",0.2); //on vire cliquable lorsque c'est la date minimale
-			d3.select("#label_reculer").attr("opacity",0.2); //idem label
-		}
-		///
-		
-		///actions
-		d3.select(this).style("cursor","grabbing");
-		
-		//mise à jour de la carte
-		vitAnim=200; //doit être nulle : les transitions de la carte et du grapj ralentissent considérablement en sélection manuelle
-		tourne(angleOk,true);
-		
-		d3.selectAll(".gVille").attr("display","none")
-		calc();
-		majGraph();
-		// majVilles();
-		majDepts();
-		///
+			///mis à jour des variables repère
+			ancAngle = angleOk;
+			ancY = posY-centrey; //sert pour le nombre de tour : détermine le pasage de la ligne 0/360
+			///
+			
+			///mise à jour de la variable date
+			date = anneeMin*1 + parseInt(angleOk/45);
+			///boutons et bloquage des valeurs min et max
+			if(add>0){
+				d3.select("#reculer").attr("class","mdSimple cliquable").attr("opacity",1); //on rend forcément 'avancer' cliquable
+				d3.select("#reculer").attr("opacity",1); //idem label
+			} else if (add<0){
+				d3.select("#avancer").attr("class","mdSimple cliquable").attr("opacity",1); //on rend forcément 'avancer' cliquable
+				d3.select("#avancer").attr("opacity",1); //idem label
+			}
+			if (date>anneeMax){
+				angleOk = (anneeMax - anneeMin)*45 ;
+				date = anneeMax;
+				d3.select("#avancer").attr("class","mdSimple").attr("opacity",0.2); //on vire cliquable lorsque c'est la date minimale
+				d3.select("#label_avancer").attr("opacity",0.2); //idem label
+			} else if (date<anneeMin){
+				angleOk = 0;
+				date = anneeMin;
+				d3.select("#reculer").attr("class","mdSimple").attr("opacity",0.2); //on vire cliquable lorsque c'est la date minimale
+				d3.select("#label_reculer").attr("opacity",0.2); //idem label
+			}
+			///
+			
+			///actions
+			d3.select(this).style("cursor","grabbing");
+			
+			//mise à jour de la carte
+			vitAnim=200; //doit être nulle : les transitions de la carte et du grapj ralentissent considérablement en sélection manuelle
+			tourne(angleOk,true);
+			
+			d3.selectAll(".gVille").attr("display","none")
+			calc();
+			majGraph();
+			// majVilles();
+			majDepts();
+			///
+			
+		// }
 		
 	})
 	.on("dragend", function(d){
@@ -997,13 +1053,13 @@ function stop(a){ //stope l'animation (css) : en sélection non-manuelle,
 function reperes(){ //paramètre a virer ; variable globale
 	liste_val = anneesR[tours];
 	// d3.select("#roro")
-		// .attr("transform","rotate(0 323,502)")
+		// .attr("transform","rotate(0 451.6 502.9)")
 		// .transition()
 		// .duration(5000)
-		// .attr("transform","rotate(180 323,502)")
+		// .attr("transform","rotate(180 451.6 502.9)")
 		// .transition()
 		// .duration(5000)
-		// .attr("transform","rotate(360 323,502)")
+		// .attr("transform","rotate(360 451.6 502.9)")
 		
 	for(i=0;i<8;i++){
 		j=0
@@ -1438,6 +1494,7 @@ function buildGraph(){
 function buildListes(geo){ //implémentation des listes qui vont être mises à jour par la fonction calc
 	for(i=0;i<geo.length;i++){
 		nomsVilles.push(geo[i].Ville)
+		nomsVilles_ok.push(geo[i].Ville_ok)
 		listeVilles[geo[i].Ville] = [0, [],[],[],[]]
 	}
 	for(j=0;j<nomsDepts.length;j++){
@@ -1450,7 +1507,8 @@ function buildListes(geo){ //implémentation des listes qui vont être mises à 
 
 function test(geo){
 	for(i=0;i<dataQuot.length;i++){
-		vi = dataQuot[i].villeOk;
+		console.log(dataQuot[i])
+		vi = dataQuot[i].Ville;
 		var tst = false;
 		
 		for(j=0;j<geo.length;j++){
@@ -1459,7 +1517,7 @@ function test(geo){
 			}
 		}
 		if(tst==false){
-			alert("Erreur (les coordonées ne sont pas référencées) : "+vi)
+			alert("Erreur (les coordonnées ne sont pas référencées) : |"+vi+"|"+dataQuot[i].Titre_1945)
 		}
 	}
 }
@@ -1479,7 +1537,6 @@ function buildReps(){ //construction de slistes pour les repères autour de la r
 function calc(){
 	d3.select("#ind_date")//affichage de la date
 		.html(date)
-		
 	///affichage des textes en fonction de la date antérieure la plus proche
 	var dateTexte; 
 	var titreTexte;
@@ -1504,7 +1561,7 @@ function calc(){
 	///calcul des valeurs
 	//initialisation
 	for (i=0; i<dataQuot.length; i++){	
-		var idVille = dataQuot[i].villeOk;
+		var idVille = dataQuot[i].Ville;
 		listeVilles[idVille][0] = 0;
 		listeVilles[idVille][1] = [];
 		listeVilles[idVille][2] = [];
@@ -1529,11 +1586,25 @@ function calc(){
 	}
 	//mise à jour
 	for (j=0; j<dataQuot.length; j++){
-		if (dataQuot[j].Annee >= date && dataQuot[j].Deb_ann <= date){
-			var idVille = dataQuot[j].villeOk;
-			listeVilles[idVille][0] ++; //nombre de quotidiens par ville
-			listeVilles[idVille][1].push(dataQuot[j].titreok_1); //liste des quotidiens dans une ville
-			var string = dataQuot[j].Liste_entites; //aires de diffusion
+		cessation =(dataQuot[j].periode_cessation).split("-")
+		
+		if(cessation.length==2 && cessation[0]<=date && cessation[1]>=date){
+			// alert(dataQuot[j].Titre_1945)
+		} else if (dataQuot[j].Fin_Annee >= date && dataQuot[j].Crea_Annee <= date){
+			var idVille = dataQuot[j].Ville;
+			listeVilles[idVille][0] ++; //nombre de quotidiens par ville			
+			if(dataQuot[j].change_date=="" || dataQuot[j].change_date=="none"){
+				var TITRE =  dataQuot[j].Titre_1945; //liste des quotidiens dans une ville
+			} else if(dataQuot[j].change_date>date) {
+				
+				var TITRE = dataQuot[j].Titre_1945; //liste des quotidiens dans une ville
+			} else {
+				var val = dataQuot[j].change_fusion_nom
+				var TITRE = val.split(",")[1]				
+			}
+			// alert(TITRE)
+			listeVilles[idVille][1].push(TITRE)
+			var string = dataQuot[j].Aire_diffusion; //aires de diffusion
 			var liste = string.split(",");
 			listeVilles[idVille][2].push(liste); //compte par ville (par quotidien en fait : retrouvé parleur index)
 			if (liste[0]&&liste[0]!="none"&&liste[0]!="National"){ //compte du nobmrede de quotidiens par départements
@@ -1547,17 +1618,41 @@ function calc(){
 					
 				}
 			}
-			if(dataQuot[j].date_groupe <= date){ //groupes
+			
+			if(dataQuot[j].date_groupe <= date){ //groupe
 				listeVilles[idVille][3].push(dataQuot[j].appartenance_affiliation_edition)
 				if(listeGroupes[dataQuot[j].appartenance_affiliation_edition]){
 					listeGroupes[dataQuot[j].appartenance_affiliation_edition][0] ++;
-					listeGroupes[dataQuot[j].appartenance_affiliation_edition][1].push(dataQuot[j].titreok_1);
+					listeGroupes[dataQuot[j].appartenance_affiliation_edition][1].push(TITRE);
 				}
 			} else {
 				listeVilles[idVille][3].push("")
 			}
+			// alert(listeVilles[idVille][3])
 			listeVilles[idVille][4].push(dataQuot[j].source_erreur);
+			var vi=listeVilles[idVille]
 			
+			// d3.select("#indic")
+				// .append("p")
+				// .html("------------------------")
+			// d3.select("#indic")
+				// .append("p")
+				// .html(vi[0])
+			// d3.select("#indic")
+				// .append("p")
+				// .html(vi[1])		
+			// d3.select("#indic")
+				// .append("p")
+				// .html(vi[2])		
+			// d3.select("#indic")
+				// .append("p")
+				// .html(vi[3])		
+			// d3.select("#indic")
+				// .append("p")
+				// .html(vi[4])
+			// d3.select("#indic")
+				// .append("p")
+				// .html("<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 		}
 	}
 }
@@ -1597,7 +1692,7 @@ function majVilles(){ //mise à jour des barres, boules et aussi des groupes
 	for(i=0;i<nomsVilles.length;i++){ //bouclage dans les villes
 		var id = nomsVilles[i];
 		var nbQuot = listeVilles[id][0];
-		
+		var id_ok = nomsVilles_ok[i]
 		//mise à jour des socles
 		if(nbQuot == 0){
 			d3.select("#socle_"+id).attr("display","none")
@@ -1620,10 +1715,15 @@ function majVilles(){ //mise à jour des barres, boules et aussi des groupes
 				.attr("source",listeVilles[id][4][j])
 				.attr("rang",j)
 				.attr("ville",id)
+				.attr("ville_ok",id_ok)
 				.on("mouseover",function(){
 					var n = j;
-					affQuot(this.attributes.titre.value,this.attributes.diff.value,this.attributes.ville.value,this.attributes.rang.value,this)
-					//paramètres : nom du Titre, liste des départements de l'aire de diffusion, nom de la ville, rang dans la liste, objet
+					if(this.attributes.titre){
+						affQuot(this.attributes.titre.value,this.attributes.diff.value,this.attributes.ville.value,this.attributes.rang.value,this,this.attributes.ville_ok.value)
+						//paramètres : nom du Titre, liste des départements de l'aire de diffusion, nom de la ville, rang dans la liste, objet
+					} else {
+						// alert(this.attributes.id.value)
+					}
 				})
 				.on("dblclick",function(){
 					var src = this.attributes.source.value;
@@ -1762,6 +1862,7 @@ function majGraph(){ //mise à jour des courbes
 			var nom = this.attributes.nom.value;
 			
 			var nb = listeGroupes[nom][0];
+			
 			if(nb==0){
 				d3.select(this).attr("opacity",0.2).style("cursor","default").attr("cliquable","false")
 			} else {
@@ -1792,7 +1893,7 @@ function majGraph(){ //mise à jour des courbes
 
 
 /////////////////////////////////////////////////    Fonctions d'affichage par quotidiens
-function affQuot(titre,diff,ville,n,obj){ //affichage au survol des cercles représentatns les titres
+function affQuot(titre,diff,ville,n,obj,ville_ok){ //affichage au survol des cercles représentatns les titres
 	//paramètres : nom du Titre, liste des départements de l'aire de diffusion, nom de la ville, rang dans la liste, objet
 	var lsDep = diff.split(","); //liste départements de l'airede de diffusion
 	d3.select("#depts_sup")
@@ -1809,22 +1910,27 @@ function affQuot(titre,diff,ville,n,obj){ //affichage au survol des cercles repr
 			// .attr("stroke",nuancier[3])
 			// .attr("stroke-width",10)
 		
-		d = document.getElementById("d"+lsDep[i]).attributes.d.value;
-		fill = document.getElementById("d"+lsDep[i]).attributes.fill.value;
-		
-		d3.select("#contourss")
-			.append("path")
-			.attr("d",d)
-			.attr("fill","none")
-			.attr("stroke-width",15)
-			.attr("stroke",nuancier[3])
+		if(document.getElementById("d"+lsDep[i])){
+			d = document.getElementById("d"+lsDep[i]).attributes.d.value;
+			fill = document.getElementById("d"+lsDep[i]).attributes.fill.value;
+			
+			d3.select("#contourss")
+				.append("path")
+				.attr("d",d)
+				.attr("fill","none")
+				.attr("stroke-width",15)
+				.attr("stroke",nuancier[3])
 
-		d3.select("#pleins")
-			.append("path")
-			.attr("d",d)
-			.attr("fill",fill)
-			.attr("stroke","#FFFFFF")
-			.attr("stroke-width",0.7)
+			d3.select("#pleins")
+				.append("path")
+				.attr("d",d)
+				.attr("fill",fill)
+				.attr("stroke","#FFFFFF")
+				.attr("stroke-width",0.7)
+		} else {
+			// alert("d"+lsDep[i])
+		}
+		
 	}
 	//mise à jour de l'esapce contenant les noms
 	d3.select("#ind_avant").text(listeVilles[ville][1][n-1]) //noms
@@ -1845,12 +1951,12 @@ function affQuot(titre,diff,ville,n,obj){ //affichage au survol des cercles repr
 		// .duration(500)
 		// .attr("opacity",0)
 		
-	d3.select("#ville_affquot") //le titre Navigation prend le nom de la ville concernée
+	d3.select("#ville_affquot") 
 		.attr("opacity",0)
 		.transition()
 		.duration(500)
 		.attr("opacity",1)
-		.text(ville)
+		.text(ville_ok)
 	
 	d3.select(obj).select(".journ").attr("opacity",0.75) //on allume le ptit journal pour éteindre le cercle
 	d3.select(obj).select("circle").attr("opacity",0)
@@ -1862,7 +1968,9 @@ function affQuot(titre,diff,ville,n,obj){ //affichage au survol des cercles repr
 		idG = nomsGroupes.indexOf(groupe)
 		// alert(idG)
 		d3.select("#groupe_num"+idG)
-			.attr("font-weight",800)
+			.select("text")
+			.attr("font-weight",700)
+			// .attr("fill","red")
 	}
 	
 }
@@ -1921,7 +2029,7 @@ function delQuot(ville,n,obj){ //init de la fonction précédente
 		.duration(200)
 		.attr("opacity",0)
 		
-	d3.select("#ville_affquot") //le titre Navigation prend le nom de la ville concernée
+	d3.select("#ville_affquot") 
 		.text("")
 	
 	d3.select("#ind_avant").text("") //noms

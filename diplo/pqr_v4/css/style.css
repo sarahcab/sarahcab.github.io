@@ -149,6 +149,12 @@ body{
 	animation-iteration-count : infinite;
 }
 
+#c_attente{
+	animation : tourneG 2s linear;
+	animation-iteration-count : infinite;
+	transform-origin : 1450px 1150px;
+}
+
 @keyframes tourneG{
 	from {transform: rotate(0deg);}
 
@@ -165,4 +171,12 @@ body{
 	from {opacity:1;}
 
 	to   {opacity:0;}
+}
+
+#bouton_l{
+	cursor:pointer;
+}
+
+#bouton_l:hover{
+	opacity:0.9;
 }
