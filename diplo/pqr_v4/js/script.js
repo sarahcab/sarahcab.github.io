@@ -1620,10 +1620,10 @@ function calc(){
 			}
 			
 			if(dataQuot[j].date_groupe <= date){ //groupe
-				listeVilles[idVille][3].push(dataQuot[j].appartenance_affiliation_edition)
-				if(listeGroupes[dataQuot[j].appartenance_affiliation_edition]){
-					listeGroupes[dataQuot[j].appartenance_affiliation_edition][0] ++;
-					listeGroupes[dataQuot[j].appartenance_affiliation_edition][1].push(TITRE);
+				listeVilles[idVille][3].push(dataQuot[j].groupe)
+				if(listeGroupes[dataQuot[j].groupe]){
+					listeGroupes[dataQuot[j].groupe][0] ++;
+					listeGroupes[dataQuot[j].groupe][1].push(TITRE);
 				}
 			} else {
 				listeVilles[idVille][3].push("")
