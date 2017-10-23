@@ -1,0 +1,349 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+  		<meta charset="utf-8">
+		<title>Projet Synergie</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="ressources/Bibliotheques/d3.js"></script>
+		<script src="ressources/Bibliotheques/topojson.js"></script>
+		<script src="ressources/Bibliotheques/queue.js"></script>
+		<!-- <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script> -->
+	</head>		
+	<body>
+		<div id="tout">	
+			<div id="content">
+				<svg id="habillage" viewBox="-330.901 -32 2298.2 1149.1">
+					<text id="sources" transform="matrix(1 0 0 1 -280.7217 1109.6956)" font-size="16">Sources : SNCF réseau, 2016 ; RTE, 2016 ; IGN SCAN, 2017 ; CR Hauts-de-France, 2014       |       Réalisation : SCHMITT G., THIERRY C., CABARRY S., 2017</text>
+					<text id="titreg" transform="matrix(1 0 0 1 -280.7217 43.1765)"  font-size="50">Bonjour je suis un titre</text>
+					<g id="elt_sel">
+						<circle fill="#0d562c"" opacity="0.5" cx="1929.436" cy="1006.778" r="10"/>
+						<circle fill="#0d562c"" opacity="1" cx="1929.436" cy="1006.778" r="7"/>
+						<circle fill="#FFFFFF" opacity="1" cx="1929.436" cy="1006.778" r="2.5"/>
+					</g>
+					<text id="lab_sel" transform="matrix(1 0 0 1 1712.2739 1011.7668)"  font-size="19">Réservoirs sélectionné</text>
+					<text id="lab_emp" transform="matrix(1 0 0 1 1742.6382 1096.5862)"  font-size="19">Emprise de la carte</text>
+					<rect id="elt_emp" x="1920.856" y="1081.601" fill="none" stroke="#937979" stroke-width="2" stroke-miterlimit="10" width="41.991" height="20.996"/>
+					<!-- <rect id="place_logo" x="1725.483" y="-12.264" fill="none" stroke="#000000" stroke-miterlimit="10" width="223.364" height="187.314"/> -->
+					<image id="logo_ittecop" href="img/ittecop.png" x="1760" y="-20" width="205" height="283.49"/>
+					<rect id="place_exemple" x="-287.777" y="782.529" stroke="#CCCCCC" fill="none" width="285.417" height="281.372"/>
+					<image id="exemple" href="resultats/resultatsA_471_492.svg" x="-287.777" y="782.529" width="285.417" height="281.372"/>
+					<g id="lab_exemple">
+						<rect x="-287.777" y="782.529" fill="#CCCCCC" width="150" height="22"/>
+						<text x="-280" y="800" font-weight="800" fill="#FFFFFF">EXEMPLE : 471 - 492</text>
+					</g>
+					<g id="elt_res">
+						<circle fill="#91c497" opacity="0.5" cx="1929.436" cy="960" r="10"/>
+						<circle fill="#91c497" opacity="1" cx="1929.436" cy="960" r="7"/>
+						<circle fill="#FFFFFF" opacity="1" cx="1929.436" cy="960" r="2.5"/>
+					</g>
+					<text id="lab_res" transform="matrix(1 0 0 1 1810.3628 956.8577)"><tspan x="0" y="0"  font-size="19">Réservoirs </tspan><tspan x="2.282" y="22.8"  font-size="19">(centroïde)</tspan></text>
+					<g id="elt_lien">
+						<circle fill="#0d562c"" opacity="0.5" cx="1929.436" cy="1040.841" r="10"/>
+						<circle fill="#0d562c"" opacity="1" cx="1929.436" cy="1040.841" r="7"/>
+						<circle fill="#FFFFFF" opacity="1" cx="1929.436" cy="1040.841" r="2.5"/>
+						
+						<circle fill="#0d562c"" opacity="0.5" cx="1952.504" cy="1056.533" r="10"/>
+						<circle fill="#0d562c"" opacity="1" cx="1952.504" cy="1056.533" r="7"/>
+						<circle fill="#FFFFFF" opacity="1" cx="1952.504" cy="1056.533" r="2.5"/>
+						
+						<line fill="none" stroke="#000000" stroke-dasharray="3,2" stroke-width="1.2" x1="1929.436" y1="1040.841" x2="1952.504" y2="1056.533"/>
+					</g>
+					<text id="lab_lien" transform="matrix(1 0 0 1 1631.4771 1053.677)"  font-size="19">Carte : lien entre deux réservoirs</text>
+					<text id="explis" transform="matrix(1 0 0 1 1834.1812 768.3928)"><tspan x="0" y="0" font-style="italic"font-size="23">Survoler les </tspan><tspan x="-25.505" y="27.601" font-style="italic"font-size="23">réservoirs puis</tspan><tspan x="-53.479" y="55.2" font-style="italic"font-size="23"> cliquer pour faire</tspan><tspan x="-65.608" y="82.8" font-style="italic"font-size="23">apparaître une des</tspan><tspan x="-77.378" y="110.399" font-style="italic"font-size="23">cartes des résultats</tspan><tspan x="26.515" y="138" font-style="italic"font-size="23">de l’étude</tspan></text>
+					<line id="barre_titre" fill="none" stroke="#000000" stroke-miterlimit="10" x1="219.781" y1="26.05" x2="888.365" y2="26.05"/>
+					<circle id="bout_tire" cx="888.365" cy="26.05" r="4.127"/>
+					<!-- <circle id="rep" cx="1242.892" cy="543.313" r="575.025"/> -->
+					<g id="texte">
+						<path fill="none" d="M884.391,45.073c-154.96,113.748-259.092,294.252-259.092,497.48c0,218.093,119.923,410.014,293.893,521.348
+							c-327.368,0-898.075,0-898.075,0l1.413-301.769h-303.02V45.073C-280.49,45.073,398.207,45.073,884.391,45.073z"/>
+						<text transform="matrix(1 0 0 1 -280.4897 85.3069)"><tspan x="0" y="0"  font-size="20">Les bibliothèques sont des éléments nouveaux dans Windows 7. Vous trouverez ici les réponses aux questions les plus fréquem</tspan><tspan x="1097.236" y="0"  font-size="20">-</tspan><tspan x="0" y="25"  font-size="20">ment posées sur les bibliothèques.</tspan><tspan x="0" y="75"  font-size="20">Afficher le contenuMasquer le contenu Qu’est-ce qu’une bibliothèque ?</tspan><tspan x="0" y="100"  font-size="20">Les bibliothèques sont les endroits où vous allez pour gérer vos documents, votre musique, vos images et vos autres </tspan><tspan x="0" y="125"  font-size="20">fichiers. Vous pouvez parcourir vos fichiers de la même façon que dans un dossier, ou bien vous pouvez les afficher </tspan><tspan x="0" y="150"  font-size="20">organisés par propriétés, comme la date, le type ou l’auteur.</tspan><tspan x="0" y="200"  font-size="20">Par certains côtés, une bibliothèque est similaire à un dossier. Par exemple, lorsque vous ouvrez une biblio</tspan><tspan x="905.976" y="200"  font-size="20">-</tspan><tspan x="0" y="225"  font-size="20">thèque, vous voyez un ou plusieurs fichiers. En revanche, contrairement à un dossier, une bibliothèque ra</tspan><tspan x="903.476" y="225"  font-size="20">-</tspan><tspan x="0" y="250"  font-size="20">semble des fichiers qui sont stockés dans plusieurs emplacements. Il s’agit d’une différence subtile, mais </tspan><tspan x="0" y="275"  font-size="20">néanmoins importante. Les bibliothèques ne stockent pas réellement vos éléments. Elles analysent les dos</tspan><tspan x="913.027" y="275"  font-size="20">-</tspan><tspan x="0" y="300"  font-size="20">siers qui contiennent vos éléments et vous permettent d’accéder et d’organiser ces éléments de différentes </tspan><tspan x="0" y="325"  font-size="20">façons. Par exemple, si vous avez des fichiers de musique sur votre disque dur et sur un lecteur externe, </tspan><tspan x="0" y="350"  font-size="20">vous pouvez accéder à tous vos fichiers de musique en même temps en utilisant la bibliothèque Musique.</tspan><tspan x="0" y="400"  font-size="20">Afficher le contenuMasquer le contenu Comment créer ou modifier une bibliothèque ?</tspan><tspan x="0" y="425"  font-size="20">Windows a quatre bibliothèques par défaut : Documents, Musique, Images et Vidéos. Vous pouvez égale</tspan><tspan x="891.962" y="425"  font-size="20">-</tspan><tspan x="0" y="450"  font-size="20">ment créer de nouvelles bibliothèques. Pour plus d’informations, voir Créer une nouvelle bibliothèque.</tspan><tspan x="0" y="499.999"  font-size="20">Voici quelques façons de modifier une bibliothèque existante :</tspan><tspan x="0" y="549.999"  font-size="20">Inclure ou supprimer un dossier. Les bibliothèques rassemblent du contenu provenant de dossiers inclus </tspan><tspan x="0" y="574.999"  font-size="20">ou d’emplacements de bibliothèque. Vous pouvez inclure un maximum de 50 dossiers dans une biblio</tspan><tspan x="872.285" y="574.999"  font-size="20">-</tspan><tspan x="0" y="599.999"  font-size="20">thèque. Pour plus d’informations, voir Inclure des dossiers dans une bibliothèque.</tspan><tspan x="0" y="649.999"  font-size="20">Changer l’emplacement d’enregistrement par défaut. L’emplacement d’enregistrement par défaut détermine </tspan><tspan x="0" y="674.999"  font-size="20">où un élément est stocké lorsqu’il est copié, déplacé ou enregistré dans la bibliothèque. Pour plus d’informa</tspan><tspan x="915.419" y="674.999"  font-size="20">-</tspan><tspan x="302.975" y="699.999"  font-size="20">tions, voir Personnaliser une bibliothèque.</tspan><tspan x="302.741" y="749.999"  font-size="20">Changer le type de fichier pour lequel une bibliothèque est optimisée. Chaque </tspan><tspan x="302.624" y="774.999"  font-size="20">bibliothèque peut être optimisée pour un certain type de fichier (tel que de la </tspan><tspan x="302.507" y="799.999"  font-size="20">musique ou des images). L’optimisation d’une bibliothèque pour un certain type </tspan><tspan x="302.39" y="824.999"  font-size="20">de fichier modifie les options disponibles pour l’organisation de vos fichiers. Pour </tspan><tspan x="302.273" y="849.999"  font-size="20">plus d’informations, voir Personnaliser une bibliothèque.</tspan><tspan x="302.039" y="899.999"  font-size="20">Afficher le contenuMasquer le contenu Que se passe-t-il si je supprime une bibliothèque ou </tspan><tspan x="301.922" y="924.999"  font-size="20">les éléments d’une bibliothèque ?</tspan><tspan x="301.805" y="949.999"  font-size="20">Si vous supprimez une bibliothèque, la bibliothèque elle-même est déplacée vers la Corbeille. Les </tspan><tspan x="301.688" y="974.999"  font-size="20">fichiers et les dossiers qui sont accessibles dans la bibliothèque sont stockés ailleurs et ne sont donc </tspan></text>
+					</g>
+					
+				</svg>
+				<svg id="carte">
+					<g id="gradients"/>
+						<radialGradient id="rad_fond">
+							<stop  offset="0" style="stop-color:#FFFFFF"/>
+							<!-- <stop  offset="0.6215" style="stop-color:#9C9B9B"/> -->
+							<stop  offset="1" style="stop-color:#baae9d"/>
+						</radialGradient>
+					</g>
+				</svg>
+			</div>
+			
+			<div id="base">
+				<svg id="carte_indiv" width="100%" viewBox="-306.895 0 2298.188 1149.1">
+					<radialGradient id="pourzoom">
+						<stop  offset="0" style="stop-color:#55555"/>
+						<stop  offset="1" style="stop-color:#55555;stop-opacity:0"/>
+					</radialGradient>
+					<clipPath id="pathclipp">
+						<path d="M0.212,534.915c-22.139,0-40.097,17.991-40.097,40.184c0,22.172,17.958,40.167,40.097,40.167
+							c22.153,0,40.111-17.995,40.111-40.167C883.323,552.906,865.365,534.915,843.212,534.915z M843.849,583.21
+							c-4.34,0-7.874-3.511-7.874-7.86c0-4.354,3.52-7.872,7.874-7.872c4.34,0,7.865,3.518,7.865,7.872
+							C851.714,579.697,848.188,583.21,843.849,583.21z"/>
+					</clipPath>
+					<defs>
+						<g id="moindre_zoom">
+							<clipPath id="SVGID_2_">
+								<path id="SVGID_1_" d="M-0.007-40.175c-22.139,0-40.097,17.989-40.097,40.184c0,22.172,17.958,40.166,40.097,40.166
+									c22.153,0,40.111-17.994,40.111-40.166C40.104-22.185,22.146-40.175-0.007-40.175z M0.629,8.12
+									c-4.34,0-7.874-3.513-7.874-7.861c0-4.354,3.52-7.871,7.874-7.871c4.34,0,7.865,3.518,7.865,7.871
+									C8.495,4.606,4.969,8.12,0.629,8.12z"/>
+							</clipPath>
+							
+							<radialGradient id="SVGID_3_" cx="-3791.6262" cy="1838.5176" r="19" gradientTransform="matrix(1 0 0 -1 3792.2432 1838.7832)" gradientUnits="userSpaceOnUse">
+								<stop  offset="0" style="stop-color:#111111"/>
+								<stop  offset="1" style="stop-color:#111111;stop-opacity:0"/>
+							</radialGradient>
+							<path clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" d="M0.618-21.761c12.168,0,22.029,9.857,22.029,22.021
+								c0,12.174-9.861,22.031-22.029,22.031c-12.162,0-22.031-9.857-22.031-22.031S-11.546-21.761,0.618-21.761z"/>
+						</g>
+					</defs>
+					
+					<g id="tete">
+						<text id="titre_carte" transform="matrix(1 0 0 1 51.8071 75.176)" class="transf" transform1="matrix(1 0 0 1 51.8071 75.176)" transform3="matrix(1 0 0 1 51.8071 75.176)" transform2="matrix(1 0 0 1 -256.644 75.176)" transform4="matrix(1 0 0 1 -256.644 75.176)" font-size="50">
+							<tspan x="0" y="0" class="disp conf1 conf3">Réservoirs 104 et 109</tspan>
+							<tspan x="0" y="0" class="disp conf2 conf4">Réservoirs 104</tspan>
+							<tspan x="0" y="60" class="disp conf2 conf4">et 109</tspan>
+						</text>
+						
+						<text id="intro" class="transf" transform="matrix(1 0 0 1 51.7705 116.905)" transform1="matrix(1 0 0 1 51.7705 116.905)" transform3="matrix(1 0 0 1 51.7705 116.905)" transform2="matrix(1 0 0 1 -256.644 197.7102)" transform4="matrix(1 0 0 1 -256.644 197.7102)">
+							<tspan x="0" y="0"  font-size="20" class="disp conf1">Scénario : Potentiel de connectivité écologique le long des ILTe après simulation d’une amélioration de leur potentiel de biodiviersité </tspan>
+							<tspan x="0" y="25"  font-size="20" class="disp conf1">de 20 % (simulation par les techniques des chemins et des couloirs de moindres coût et la théorie des circuits).</tspan>
+							
+							<tspan x="0" y="0"  font-size="20" class="disp conf2 conf3">Scénario : Potentiel de connectivité écologique le </tspan>
+							<tspan x="0" y="25"  font-size="20" class="disp conf2 conf3">long des ILTe après simulation d’une amélioration </tspan>
+							<tspan x="0" y="50"  font-size="20" class="disp conf2 conf3">de leur potentiel de biodiviersité de 20 % (simulation </tspan>
+							<tspan x="0" y="75"  font-size="20" class="disp conf2 conf3">par les techniques des chemins et des couloirs de </tspan>
+							<tspan x="0" y="100"  font-size="20" class="disp conf2 conf3">moindres coût et la théorie des circuits).</tspan>	
+
+							<tspan x="0" y="0"  font-size="20" class="disp conf4">Scénario : Potentiel de connectivité</tspan>
+							<tspan x="0" y="25"  font-size="20" class="disp conf4">écologique le long des ILTe après </tspan>
+							<tspan x="0" y="50"  font-size="20" class="disp conf4">simulation d’une amélioration de leur </tspan>
+							<tspan x="0" y="75"  font-size="20" class="disp conf4">potentiel de biodiviersité de 20 % </tspan>
+							<tspan x="0" y="100"  font-size="20" class="disp conf4">(simulation par les techniques des</tspan>		
+							<tspan x="0" y="125"  font-size="20" class="disp conf4">chemins et des couloirs de moindres</tspan>		
+							<tspan x="0" y="150"  font-size="20" class="disp conf4">coût et la théorie des circuits).</tspan>		
+							
+						</text>
+						<line id="barre_titre" class="changex1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="542.7" x1_1="542.7" x1_3="542.7" x1_2="96.233" x1_4="96.233" y1="54.341" x2="1918.7" y2="54.341"/>
+						<circle id="bout_tirte" cx="1918.7" cy="54.341" r="4.127"/>
+					</g>
+					<g id="reperes_cartep" display="none">
+						<rect id="rep_logo" x="-256.644" y="37.05" fill="none" stroke="#000000" stroke-miterlimit="10" width="246.9" height="341.442"/>
+						<rect id="rep_carte" x="55.897" y="165.846" x1="55.897" y1="165.846" x2="281.526" y2="23.263" x3="-256.644" y3="325.712" x4="96.233" y4="23.263" class="changeRec" fill="red" stroke="#000000" stroke-miterlimit="10" width1="1866.929" height1="901.116" width2="1121.346" height2="1121.345" width3="1386.006" height3="806.935" width4="994.466" height4="1121.345"/>
+						
+						
+						
+						<rect id="rep_z" class="changeRec" x1="" y1="" x2="" y2="" x3="1166.7" y3="73.976" x4="1166.7" y4="73.976" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width1="" height1="" width2="" height2="" width3="756.127" height3="703.339" width4="756.127" height4="703.339"/>
+					</g>
+					
+					<image href="img/ittecop.png" x="-256.644" y="37.05" class="transf" transform1="" transform2="translate(1932.57,47.155)" transform3="translate(1432.344,754.154)" transform4="translate(1432.344,754.154)" width="246.9" height="341.442"/>
+					
+					<g id="legende" class="transf" transform1="" transform2="" transform4="" transform3="translate(800,-300)">
+						<g id="legende_reservoirs">
+							<path id="elt_reservoir" fill="#00C5FF" fill-opacity="0.3" stroke="#00C5FF" stroke-miterlimit="10" d="M-256.644,467.632 v-26.709h52.514v26.709H-256.644"/>
+							<text id="lab_reservoir" transform="matrix(1 0 0 1 -256.644 425.6462)" font-weight="800" font-size="24">Réservoirs</text>
+						</g>
+						<g id="legende_moindre" class="disp transf conf3 conf4" transform1="" transform2="" transform4="" transform3="translate(0,-245.102)">
+						
+							<g id="elt_moindre">
+								<use xlink:href="#moindre_zoom" transform="translate(-241,830)"/>
+							</g>
+							<text id="lab_moindre" transform="matrix(1 0 0 1 -256.644 766.7717)" enable-background="new    ">
+								<tspan x="0" y="0" font-weight="800" font-size="24" class="disp conf1 conf3 conf4">Chemin de moindre coût </tspan>
+								<tspan x="0" y="28.8" font-weight="800" font-size="24" class="disp conf1 conf3 conf4" >reliant  les réservoirs</tspan>
+								<tspan x="0" y="0" font-weight="800" font-size="24" class="disp conf2">Chemin de moindre coût reliant les réservoirs</tspan>
+							</text>
+						</g>
+						
+						<g id="legende_cout" class="transf" transform1="" transform2="" transform4="" transform3="translate(311.1694,-96.0235)" >
+							<text id="lab_cout" transform="matrix(1 0 0 1 -256.644 521.6697)" enable-background="new    "><tspan x="0" y="0" font-weight="800" font-size="24">Coût de passage</tspan><tspan x="0" y="18" font-size="15">- échelle commune pour toutes les carte</tspan></text>
+							
+							<g id="elt_corridor">
+								<path fill="#AB4124" d="M-116.851,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#AB4226" d="M-118.047,650.9h-1.196v48.449h1.196V650.9z"/>
+								<path fill="#AD4326" d="M-119.243,650.9h-1.192v48.449h1.192V650.9z"/>
+								<path fill="#AD4528" d="M-120.435,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#AD4528" d="M-121.632,650.9h-1.194v48.449h1.194V650.9z"/>
+								<path fill="#B0472A" d="M-122.826,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#B0492A" d="M-124.022,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#B04B2C" d="M-125.218,650.9h-1.192v48.449h1.192V650.9z"/>
+								<path fill="#B34C2D" d="M-126.408,650.9h-1.192v48.449h1.192V650.9z"/>
+								<path fill="#B34D2E" d="M-127.603,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#B34D2E" d="M-128.8,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#B55031" d="M-129.998,650.9h-1.19v48.449h1.19V650.9z"/>
+								<path fill="#B55031" d="M-131.188,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#B55133" d="M-132.382,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#B85435" d="M-133.578,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#B85435" d="M-134.775,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#B85737" d="M-135.964,650.9h-1.199v48.449h1.199V650.9z"/>
+								<path fill="#BA5838" d="M-137.167,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#BA5A3A" d="M-138.357,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#BA5A3A" d="M-139.552,650.9h-1.194v48.449h1.194V650.9z"/>
+								<path fill="#BD5C3C" d="M-140.747,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#BD5C3C" d="M-141.947,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#BD5E3E" d="M-143.138,650.9h-1.194v48.449h1.194V650.9z"/>
+								<path fill="#BF5F3F" d="M-144.332,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#BF6141" d="M-145.525,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#BF6141" d="M-146.725,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#C26344" d="M-147.922,650.9h-1.194v48.449h1.194V650.9z"/>
+								<path fill="#C26546" d="M-149.117,650.9h-1.188v48.449h1.188V650.9z"/>
+								<path fill="#C26746" d="M-150.302,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#C46A49" d="M-151.5,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#C46A49" d="M-152.7,650.9h-1.196v48.449h1.196V650.9z"/>
+								<path fill="#C46B4B" d="M-153.894,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#C76C4C" d="M-155.087,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#C76E4E" d="M-156.277,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#C76E4E" d="M-157.477,650.9h-1.198v48.449h1.198V650.9z"/>
+								<path fill="#C97151" d="M-158.675,650.9h-1.194v48.449h1.194V650.9z"/>
+								<path fill="#C97151" d="M-159.87,650.9h-1.187v48.449h1.187V650.9z"/>
+								<path fill="#C97253" d="M-161.056,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#C97455" d="M-162.255,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#CC7556" d="M-163.453,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#CC7758" d="M-164.65,650.9h-1.186v48.449h1.186V650.9z"/>
+								<path fill="#CC7958" d="M-165.835,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#CF7C5B" d="M-167.035,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#CF7C5B" d="M-168.23,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#CF7D5D" d="M-169.427,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#D17F5E" d="M-170.617,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#D18060" d="M-171.816,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#D18060" d="M-173.007,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#D18262" d="M-174.205,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#D48566" d="M-175.398,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#D48566" d="M-176.595,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#D48668" d="M-177.789,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#D68A69" d="M-178.982,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#D68B6B" d="M-180.179,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#D68B6B" d="M-181.369,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#D68D6D" d="M-182.574,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#D98E6F" d="M-183.763,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#D99071" d="M-184.957,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#D99071" d="M-186.15,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#D99173" d="M-187.351,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#DB9374" d="M-188.541,650.9h-1.199v48.449h1.199V650.9z"/>
+								<path fill="#DB9576" d="M-189.74,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#DB9576" d="M-190.929,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#DB9679" d="M-192.128,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#DE9A7A" d="M-193.326,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#DE9B7C" d="M-194.517,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#DE9B7C" d="M-195.708,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#DE9D7E" d="M-196.908,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#E09E80" d="M-198.105,650.9h-1.189v48.449h1.189V650.9L-198.105,650.9z"/>
+								<path fill="#E0A082" d="M-199.294,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#E0A284" d="M-200.484,650.9h-1.199v48.449h1.199V650.9z"/>
+								<path fill="#E0A284" d="M-201.689,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#E3A588" d="M-202.882,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#E3A688" d="M-204.08,650.9h-1.186v48.449h1.186V650.9z"/>
+								<path fill="#E3A88A" d="M-205.265,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#E3A88A" d="M-206.466,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#E6AB8E" d="M-207.662,650.9h-1.199v48.449h1.199V650.9z"/>
+								<path fill="#E6AB8E" d="M-208.857,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#E6AD91" d="M-210.05,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#E6AD91" d="M-211.24,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#E8B295" d="M-212.441,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#E8B397" d="M-213.634,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#E8B397" d="M-214.832,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#E8B599" d="M-216.021,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#E8B599" d="M-217.218,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#EBB89D" d="M-218.416,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#EBB89D" d="M-219.609,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#EBBBA0" d="M-220.8,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#EBBDA2" d="M-221.996,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#EDBFA4" d="M-223.193,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#EDC0A6" d="M-224.388,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#EDC0A6" d="M-225.58,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#EDC3A8" d="M-226.781,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#EDC3A8" d="M-227.97,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#F0C6AD" d="M-229.167,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#F0C8AF" d="M-230.359,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#F0C9AF" d="M-231.558,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#F0CAB1" d="M-232.75,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#F2CCB3" d="M-233.945,650.9h-1.191v48.449h1.191V650.9z"/>
+								<path fill="#F2CEB6" d="M-235.138,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#F2CFB6" d="M-236.335,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#F2D0B8" d="M-237.531,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#F2D2BB" d="M-238.724,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#F5D5BC" d="M-239.921,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#F5D6BF" d="M-241.111,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#F5D7BF" d="M-242.314,650.9h-1.195v48.449h1.195V650.9z"/>
+								<path fill="#F5D9C1" d="M-243.509,650.9h-1.189v48.449h1.189V650.9z"/>
+								<path fill="#F5DAC4" d="M-244.699,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#F7DDC6" d="M-245.892,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#F7DEC8" d="M-247.093,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#F7DFC8" d="M-248.287,650.9h-1.197v48.449h1.197V650.9z"/>
+								<path fill="#F7E0CB" d="M-249.482,650.9h-1.188v48.449h1.188V650.9z"/>
+								<path fill="#F7E2CD" d="M-250.669,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#F7E3CD" d="M-251.871,650.9h-1.193v48.449h1.193V650.9z"/>
+								<path fill="#FAE7D2" d="M-253.064,650.9h-1.199v48.449h1.199V650.9z"/>
+								<path fill="#FAE7D2" d="M-254.263,650.9h-1.186v48.449h1.186V650.9z"/>
+								<path fill="#FAE9D4" d="M-255.447,650.9h-1.197v48.449h1.197V650.9z"/>
+							</g>
+							<text id="lab_corridor" transform="matrix(1 0 0 1 -256.644 637.5208)"  font-size="20">Corridor</text>
+							<g id="eleve1">
+								<text transform="matrix(1 0 0 1 -57.4014 599.4797)" font-size="15"> + élevé </text>
+								<line fill="none" stroke="#000000" stroke-width="0.5" stroke-miterlimit="10" x1="-62.783" y1="594.984" x2="-256.644" y2="594.984"/>
+								<polygon points="-63.877,591.243 -57.401,594.984 -63.877,598.724 				"/>
+							</g>
+							
+							
+							<g id="elt_chemin">
+								<path fill="none" stroke="#006100" stroke-width="1.9202" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="10" d="M-256.644,583.937h35.092"/>
+								<path fill="none" stroke="#619900" stroke-width="1.9202" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="10" d="M-221.329,583.937h35.09"/>
+								<path fill="none" stroke="#C5DB00" stroke-width="1.9202" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="10" d="M-186.018,583.937h35.09"/>
+								<path fill="none" stroke="#FFD900" stroke-width="1.9202" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="10" d="M-150.702,583.937h35.087"/>
+								<path fill="none" stroke="#FF8400" stroke-width="1.9202" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="10" d="M-115.387,583.937h35.09"/>
+								<path fill="none" stroke="#FF2600" stroke-width="1.9202" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="10" d="M-80.076,583.937h35.093"/>
+								<path fill="none" stroke="#A30000" stroke-width="1.9202" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="10" d="M-44.76,583.937h35.086"/>
+							</g>
+							<text id="lab_chemin" transform="matrix(1 0 0 1 -256.644 570.5403)"  font-size="20">Chemin</text>
+							<g id="eleve2">
+								<text transform="matrix(1 0 0 1 -169.4268 713.8118)" font-size="15"> + élevé </text>
+								<line fill="none" stroke="#000000" stroke-width="0.5" stroke-miterlimit="10" x1="-177.197" y1="708.591" x2="-256.644" y2="708.591"/>
+								<polygon points="-178.292,704.851 -171.815,708.591 -178.292,712.331 				"/>
+							</g>
+						</g>
+					</g>					
+					<text id="lab_retour" class="transf" transform1="matrix(1 0 0 1 -174.0195 929.9641)" transform4="matrix(1 0 0 1 -174.0195 929.9641)" transform2="matrix(1 0 0 1 -174.0195 929.9641)" transform3="matrix(1 0 0 1 -174.0195 75.3811)">
+						<tspan x="0" y="0"  font-size="18">Cliquer pour</tspan>
+						<tspan x="18.527" y="25"  font-size="18">revenir </tspan>
+					</text>
+					<image id="carte_p"/>
+					<image id="carte_zoom"/>
+					<g id="fleches">
+						<g id="fleche1">
+							<path class="disp conf1 conf2 conf4" fill="#9B9B9B" d="M-60.986,958.718c0,0,0.363-3.074,0.999-8.455c0.379-2.681,1.008-5.927,1.665-9.673 c0.918-3.677,1.755-7.897,3.269-12.347c0.354-1.119,0.691-2.272,1.082-3.433c0.443-1.142,0.895-2.305,1.354-3.488 c0.468-1.182,0.913-2.399,1.425-3.61c0.565-1.19,1.139-2.398,1.721-3.623c2.284-4.933,5.349-9.837,8.877-14.687 c3.648-4.769,7.967-9.308,12.849-13.421c4.968-3.997,10.491-7.492,16.343-10.344l4.443-2.021c1.519-0.575,3.036-1.149,4.55-1.723 l1.14-0.428l1.155-0.358l2.311-0.714l2.309-0.708l2.328-0.576c3.094-0.834,6.205-1.38,9.284-1.965 c3.085-0.435,6.145-0.922,9.161-1.149c3.019-0.338,5.984-0.417,8.896-0.583c2.9-0.023,5.755-0.131,8.512-0.024 c5.536,0.069,10.732,0.502,15.524,0.951c4.778,0.52,9.15,1.096,12.994,1.742c3.853,0.614,7.187,1.27,9.928,1.828 c2.741,0.562,4.887,1.038,6.343,1.388c1.46,0.337,2.239,0.517,2.239,0.517l-4.639,16.281c0,0-0.712-0.229-2.048-0.661 c-1.333-0.444-3.297-1.061-5.81-1.804c-2.512-0.74-5.573-1.619-9.109-2.497c-3.532-0.912-7.544-1.792-11.94-2.657 c-4.399-0.794-9.188-1.612-14.272-2.109c-2.544-0.32-5.154-0.438-7.833-0.652c-2.667-0.07-5.41-0.239-8.179-0.162 c-2.784-0.033-5.583,0.18-8.437,0.328c-2.824,0.295-5.706,0.542-8.554,1.059l-2.156,0.338l-2.13,0.462l-2.141,0.464l-1.075,0.232 l-1.053,0.298c-1.409,0.398-2.821,0.798-4.234,1.198l-4.148,1.476c-5.478,2.114-10.724,4.83-15.558,8.073 c-4.744,3.357-9.079,7.178-12.859,11.327c-3.665,4.233-6.974,8.615-9.555,13.142c-0.659,1.126-1.31,2.236-1.95,3.33 c-0.592,1.122-1.118,2.258-1.668,3.359c-0.543,1.108-1.078,2.197-1.603,3.266c-0.474,1.092-0.896,2.184-1.334,3.244 c-1.85,4.211-3.021,8.273-4.24,11.825c-0.956,3.616-1.854,6.769-2.462,9.407C-60.361,955.686-60.986,958.718-60.986,958.718z"/>
+							<polygon class="disp conf1 conf2 conf4" fill="#9B9B9B" points="72.166,901.459 121.144,892.148 88.598,854.381 			"/>
+							<path class="disp conf3" fill="#9B9B9B" d="M-169.274,194.725c0,0-1.709,2.581-4.7,7.098c-1.442,2.291-3.043,5.152-4.932,8.38 c-1.659,3.368-3.712,7.064-5.393,11.346c-0.443,1.059-0.919,2.127-1.358,3.233c-0.388,1.127-0.783,2.272-1.185,3.439 c-0.393,1.167-0.827,2.341-1.205,3.551c-0.324,1.227-0.652,2.471-0.986,3.731c-1.389,5.021-2.161,10.458-2.578,16.043 c-0.275,5.605,0.074,11.373,1.039,17.104c1.11,5.714,2.885,11.349,5.25,16.724l1.879,3.981c0.713,1.284,1.426,2.566,2.137,3.847 l0.532,0.956l0.593,0.926l1.181,1.845l1.175,1.836l1.28,1.767c1.644,2.384,3.5,4.602,5.282,6.812 c1.908,2.128,3.731,4.262,5.718,6.212c1.898,2.017,3.952,3.842,5.884,5.684c2.041,1.748,3.965,3.516,5.986,5.092 c3.938,3.254,7.896,6.071,11.561,8.631c3.714,2.506,7.167,4.729,10.305,6.59c3.116,1.888,5.898,3.438,8.194,4.696 c2.299,1.258,4.121,2.214,5.376,2.848c1.248,0.643,1.913,0.985,1.913,0.985l-8.271,14.771c0,0-0.677-0.425-1.946-1.223 c-1.274-0.786-3.126-1.971-5.457-3.518c-2.33-1.549-5.145-3.451-8.298-5.75c-3.17-2.269-6.661-4.962-10.399-7.981 c-3.699-3.081-7.67-6.46-11.624-10.335c-2.02-1.881-3.958-3.979-5.986-6.052c-1.937-2.182-3.972-4.339-5.861-6.718 c-1.966-2.298-3.778-4.812-5.646-7.305c-1.757-2.596-3.563-5.187-5.155-7.967l-1.233-2.058l-1.127-2.137l-1.123-2.142 l-0.561-1.072l-0.501-1.109c-0.661-1.478-1.324-2.959-1.987-4.44l-1.701-4.576c-2.106-6.16-3.523-12.54-4.193-18.881 c-0.527-6.362-0.355-12.625,0.453-18.575c0.949-5.922,2.264-11.554,4.151-16.652c0.458-1.275,0.909-2.534,1.354-3.774 c0.498-1.217,1.047-2.393,1.555-3.558c0.515-1.159,1.021-2.301,1.518-3.42c0.547-1.095,1.127-2.146,1.671-3.188 c2.087-4.211,4.488-7.781,6.447-11.025c2.193-3.107,4.05-5.843,5.683-8.003C-171.198,197.151-169.274,194.725-169.274,194.725z"/>
+							<polygon class="disp conf3" fill="#9B9B9B" points="-137.744,374.356 -88.016,370.792 -115.958,329.503 			"/>
+						</g>
+						<g id="fleche2" class="disp conf3 conf4">
+							<path fill="#9B9B9B" d="M1069.832,703.326c0,0,1.738,2.562,4.781,7.043c1.571,2.205,3.608,4.771,5.878,7.746 c2.487,2.813,5.127,6.117,8.448,9.297c0.812,0.813,1.62,1.658,2.477,2.484c0.895,0.787,1.806,1.588,2.731,2.402 c0.931,0.809,1.852,1.653,2.826,2.465c1.013,0.764,2.037,1.541,3.077,2.328c4.119,3.19,8.854,5.971,13.862,8.479 c5.081,2.383,10.549,4.25,16.218,5.533c5.707,1.146,11.594,1.641,17.464,1.496l4.396-0.228c1.459-0.172,2.916-0.344,4.371-0.516 l1.086-0.129l1.082-0.197l2.156-0.393l2.145-0.389l2.119-0.515c2.83-0.615,5.586-1.492,8.309-2.301 c2.691-0.957,5.359-1.832,7.918-2.93c2.588-0.99,5.057-2.197,7.492-3.285c2.393-1.224,4.758-2.332,6.984-3.604 c4.506-2.405,8.613-4.998,12.373-7.416c3.729-2.483,7.098-4.834,10.012-7.03c2.93-2.166,5.42-4.15,7.455-5.798 c2.037-1.647,3.615-2.971,4.676-3.893c1.068-0.91,1.641-1.395,1.641-1.395l10.521,13.26c0,0-0.648,0.465-1.869,1.336 c-1.211,0.881-3.012,2.143-5.328,3.713c-2.316,1.566-5.145,3.447-8.469,5.492c-3.303,2.069-7.121,4.276-11.334,6.588 c-4.256,2.252-8.889,4.643-13.975,6.828c-2.508,1.153-5.186,2.149-7.873,3.24c-2.754,0.963-5.521,2.024-8.439,2.868 c-2.873,0.947-5.887,1.668-8.902,2.449c-3.066,0.642-6.15,1.328-9.328,1.742l-2.369,0.361l-2.406,0.229l-2.406,0.228l-1.205,0.11 l-1.215,0.041c-1.619,0.051-3.24,0.103-4.863,0.152l-4.879-0.164c-6.499-0.391-12.938-1.504-19.06-3.291 c-6.086-1.93-11.813-4.467-17.011-7.473c-5.118-3.127-9.828-6.482-13.828-10.164c-1.007-0.908-2-1.806-2.979-2.687 c-0.938-0.924-1.814-1.879-2.699-2.789c-0.878-0.918-1.741-1.817-2.588-2.705c-0.806-0.922-1.56-1.856-2.314-2.756 c-3.104-3.528-5.493-7.106-7.75-10.149c-2.043-3.209-3.866-5.968-5.245-8.298C1071.345,706.027,1069.832,703.326,1069.832,703.326 z"/>
+							<polygon fill="#9B9B9B" points="1247.979,742.378 1263.569,695.023 1214.76,705.191 			"/>
+						</g>
+					</g>
+					<g id="pied">
+						<text id="sourcecarte" class="transf" transform="matrix(1 0 0 1 1427.8237 1116.5247)" transform1="matrix(1 0 0 1 1427.8237 1116.5247)" transform2="matrix(1 0 0 1 1427.8237 1116.5247)" transform3="matrix(1 0 0 1 1428.7388 1107.0754)" transform4="matrix(1 0 0 1 1428.7388 1107.0754)" font-size="13">Sources : SNCF réseau, 2016 ; RTE, 2016 ; IGN SCAN, 2017 ; CR Hauts-de-France, 2014</text>
+						<text id="reacarte" class="transf"  transform="matrix(1 0 0 1 1595.2368 1135.4231)" transform1="matrix(1 0 0 1 1595.2368 1135.4231)" transform2="matrix(1 0 0 1 1595.2368 1135.4231)" transform3="matrix(1 0 0 1 1595.9292 1125.9739)" transform4="matrix(1 0 0 1 1595.9292 1125.9739)" font-size="13">Réalisation : SCHMITT G., THIERRY C., CABARRY S., 2017</text>
+					</g>
+					<g class="transf" transform1="translate(55.897,106.846)" transform2="translate(281.526,1143.263)" transform3="translate(-256.644,1131.712)" transform4="translate(96.233,1143.263)" id="scalebar">
+						<text id="lab_scalebar" x="0" y="-20"> </text>
+						<rect id="elt_scalebar" x="0" y="0" width="150" height="5" fill="none" stroke="#000000"/>
+						<rect id="elt_scalebarb" x="0" y="0" width="150" height="5" opacity="0.2"/>
+					</g>
+					<g class="transf disp conf3 conf4" transform1="" transform2=""" transform3="translate(1666.7,673.976)" transform4="translate(1666.7,723.976)" id="scalebar2">
+						<text id="lab_scalebar2" x="0" y="-30"> </text>
+						<rect id="elt_scalebar2" x="0" y="10" width="150" height="5" fill="none" stroke="#000000"/>
+						<rect id="elt_scalebarb2" x="0" y="10" width="150" height="5" opacity="0.2"/>
+					</g>
+					
+					<circle class="changeCir" id="dezoom" fill-opacity="0" cx1="-141.348" cy1="1005.103" r1="115.296" cx4="-141.348" cy4="1005.103" r4="115.296" cx2="-141.348" cy2="1005.103" r2="115.296" cx3="-141.348" cy3="150.52" r3="115.296"/>
+				</svg>
+
+			</div>	
+			
+		</div>
+		<script type = "text/javascript" src="js/script.js"></script>
+	</body>
+</html>
