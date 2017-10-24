@@ -27,7 +27,7 @@ body{
 }
 
 #content{
-	width:95%;
+	width:100%;
 	position:absolute;
 }
 
@@ -68,7 +68,7 @@ body{
 #carte{
 	border-radius : 50%;
 	width:49%;
-	margin-left:43%;
+	margin-left:42.4%;
 }
 
 #habillage{
