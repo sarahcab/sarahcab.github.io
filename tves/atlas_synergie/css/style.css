@@ -86,3 +86,8 @@ body{
 #dezoom:hover{
 	cursor:pointer;
 }
+
+.selectable:hover{
+	opacity:0.7;
+	cursor:pointer;
+}
