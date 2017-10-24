@@ -632,11 +632,11 @@ Fv31+t1dh8AAAAAAABgN38CHpfyTDEgLT0AAAAASUVORK5CYII=" transform="matrix(0.24003 0
 			<clipPath id="SVG_CP_2">
 				<path d="M574.39289,21.36228L21.36271,21.36228L21.36271,821.36753L574.39289,821.36753L574.39289,21.36228z"/>
 			</clipPath>
-			<path clip-path="url(#SVG_CP_2)" fill-opacity="0.08" fill="#00C5FF" fill-rule="evenodd" stroke="#00C5FF" stroke-width="1" stra="1.44018" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
+			<path clip-path="url(#SVG_CP_2)" fill-opacity="0.08" fill="#2f4493" fill-rule="evenodd" stroke="#2f4493" stroke-width="1" stra="1.44018" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
 				M281.07567,861.21177L285.39622,818.72724L258.27278,817.76714L233.54964,818.72724L222.9883,859.29157L230.66927,861.21177L
 				22.0828,861.21177L13.44171,846.33019L-6.24079,810.08632L-6.24079,504.29374L69.12877,510.05435L116.17474,477.41087L289.23671,498.2931
 				L267.1539,631.02724L292.59713,696.07417L291.39698,861.21177L281.07567,861.21177z"/>
-			<path clip-path="url(#SVG_CP_2)" fill-opacity="0.08" fill="#00C5FF" fill-rule="evenodd" stroke="#00C5FF" stroke-width="1" stra="1.44018" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
+			<path clip-path="url(#SVG_CP_2)" fill-opacity="0.08" fill="#2f4493" fill-rule="evenodd" stroke="#2f4493" stroke-width="1" stra="1.44018" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
 				M129.85648,-18.722L96.25222,61.9266L68.88874,230.90461L80.89027,243.14591L94.572,257.06739L192.02437,290.67097L309.15923,306.99271
 				L310.11936,307.23274L332.68222,349.47724L108.25374,295.71151L69.84886,290.67097L32.88417,279.14975L-6.24079,256.10729L-6.24079,-18.722
 				L129.85648,-18.722z"/>
@@ -665,50 +665,4 @@ Fv31+t1dh8AAAAAAABgN38CHpfyTDEgLT0AAAAASUVORK5CYII=" transform="matrix(0.24003 0
 			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FF8400" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
 				M305.79881,380.92059L303.15847,383.56087"/>
 			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FF8400" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M303.15847,383.56087L303.15847,388.60141"/>
-			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FF8400" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M303.15847,388.60141L300.51814,391.24169"/>
-			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FF8400" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M300.51814,391.24169L300.51814,393.88197"/>
-			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FF8400" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M300.51814,393.88197L298.11783,396.28223"/>
-			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FF8400" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M308.43914,367.71918L308.19911,367.95921"/>
-			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FF8400" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M308.19911,367.95921L308.19911,367.95921"/>
-			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FF8400" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M298.11783,396.28223L292.3571,401.80282"/>
-			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FFD900" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M282.27582,442.12711L282.27582,474.77059"/>
-			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FFD900" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M313.47978,344.91676L313.47978,354.7578"/>
-			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FFD900" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M313.47978,354.7578L312.27963,355.95793"/>
-			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#FFD900" stroke-width="1.92024" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M282.27582,474.77059L282.27582,497.57302"/>
-		</g>
-		<g id="pointpoint" display="none">
-			<path clip-path="url(#SVG_CP_2)" fill="#FF0000" fill-rule="evenodd" stroke="none" d="M298.35786,421.00486C298.35786,420.60718
-				,298.03547,420.28479,297.63777,420.28479C297.24008,420.28479,296.91768,420.60718,296.91768,421.00486C296.91768,421.40255
-				,297.24008,421.72494,297.63777,421.72494C298.03547,421.72494,298.35786,421.40255,298.35786,421.00486z"/>
-		</g>
-		<g id="pointpoint2" display="none">
-			<path clip-path="url(#SVG_CP_2)" fill="#FF0000" fill-rule="evenodd" stroke="none" d="M298.35786,421.00486C298.35786,420.60718
-				,298.03547,420.28479,297.63777,420.28479C297.24008,420.28479,296.91768,420.60718,296.91768,421.00486C296.91768,421.40255
-				,297.24008,421.72494,297.63777,421.72494C298.03547,421.72494,298.35786,421.40255,298.35786,421.00486z"/>
-			<path clip-path="url(#SVG_CP_2)" fill="#FF0000" fill-rule="evenodd" stroke="none" d="M282.99591,497.81305C282.99591,497.41536
-				,282.61978,497.09297,282.15581,497.09297C281.69183,497.09297,281.3157,497.41536,281.3157,497.81305C281.3157,498.21074,281.69183,498.53312
-				,282.15581,498.53312C282.61978,498.53312,282.99591,498.21074,282.99591,497.81305z"/>
-			<path clip-path="url(#SVG_CP_2)" fill="#FF0000" fill-rule="evenodd" stroke="none" d="M313.95984,344.31669C313.95984,343.85272
-				,313.63745,343.4766,313.23975,343.4766C312.84206,343.4766,312.51966,343.85272,312.51966,344.31669C312.51966,344.78066,312.84206,345.15678
-				,313.23975,345.15678C313.63745,345.15678,313.95984,344.78066,313.95984,344.31669z"/>
-		</g>
-		<g id="Other">
-			<clipPath id="SVG_CP_3">
-				<path d="M0,0L0,842.25827L595.50236,842.25827L595.50236,0L0,0z"/>
-			</clipPath>
-			<path clip-path="url(#SVG_CP_3)" fill="none" stroke="#000000" stroke-width="0.96012" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
-				M21.36271,821.1275L21.36271,21.36228L574.39289,21.36228L574.39289,821.1275L21.36271,821.1275z"/>
-		</g>
-	</g>
-</svg>
+				M303.15847,383.56087
