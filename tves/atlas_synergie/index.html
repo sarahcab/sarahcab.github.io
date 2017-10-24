@@ -12,9 +12,16 @@
 	<body>
 		<div id="tout">	
 			<div id="content">
-				<svg id="habillage" viewBox="-330.901 -32 2298.2 1149.1">
-					<text id="sources" transform="matrix(1 0 0 1 -280.7217 1109.6956)" font-size="16">Sources : SNCF réseau, 2016 ; RTE, 2016 ; IGN SCAN, 2017 ; CR Hauts-de-France, 2014       |       Réalisation : SCHMITT G., THIERRY C., CABARRY S., 2017</text>
-					<text id="titreg" transform="matrix(1 0 0 1 -280.7217 43.1765)"  font-size="50">Bonjour je suis un titre</text>
+				<svg id="habillage" viewBox="-330.901 -32 2298.2 1169.1">
+					<!-- <g id=sources"> -->
+						<!-- <text transform="matrix(1 0 0 1 -280.7217 1090)" font-size="16"></text> -->
+						<!-- <text transform="matrix(1 0 0 1 -280.7217 1129.6956)" font-size="16">Sources : SNCF réseau, 2016 ; RTE, 2016 ; IGN SCAN, 2017 ; CR Hauts-de-France, 2014   |   Réalisation : SCHMITT G., THIERRY C., CABARRY S., 2017   |   Dans le cadre du projet <a href="http://synergie-npdc.univ-lille1.fr/"</text> -->
+					<!-- </g> -->
+					<text transform="matrix(1 0 0 1 230.481 1067.9006)" font-style="italic" font-size="24">Bonne exploration ! </text>
+					<text id="titreg" transform="matrix(1 0 0 1 -280.7217 43.1765)"  font-size="50">
+						<tspan x="0" y="0" fill="#0D562C" font-size="50">Mise en Synergie des réseaux </tspan>
+						<tspan x="0" y="47" font-style="italic" font-size="35">Observer et analyser pour aménager</tspan>
+					</text>
 					<g id="elt_sel">
 						<circle fill="#0d562c"" opacity="0.5" cx="1929.436" cy="1006.778" r="10"/>
 						<circle fill="#0d562c"" opacity="1" cx="1929.436" cy="1006.778" r="7"/>
@@ -24,12 +31,31 @@
 					<text id="lab_emp" transform="matrix(1 0 0 1 1742.6382 1096.5862)"  font-size="19">Emprise de la carte</text>
 					<rect id="elt_emp" x="1920.856" y="1081.601" fill="none" stroke="#937979" stroke-width="2" stroke-miterlimit="10" width="41.991" height="20.996"/>
 					<!-- <rect id="place_logo" x="1725.483" y="-12.264" fill="none" stroke="#000000" stroke-miterlimit="10" width="223.364" height="187.314"/> -->
-					<image id="logo_ittecop" href="img/ittecop.png" x="1760" y="-20" width="205" height="283.49"/>
-					<rect id="place_exemple" x="-287.777" y="782.529" stroke="#CCCCCC" fill="none" width="285.417" height="281.372"/>
-					<image id="exemple" href="resultats/resultatsA_471_492.svg" x="-287.777" y="782.529" width="285.417" height="281.372"/>
+					<!-- <image id="logo_ittecop" href="img/ittecop.png" x="1760" y="-20" width="205" height="283.49"/> -->
+					<image id="exemple" href="resultats/resultatsA_471_492.svg" x="-287.777" y="770" width="285.417" height="281.372"/>
+					<!-- <image id="exemple_legende" href="img/exemple.svg" x="-287.777" y="770" width="285.417" height="281.372"/> -->
+					
+					<g id="legende_exemple" transform="translate(0,10)">
+						<text transform="matrix(1 0 0 1 -128.186 993.6448)"  font-size="22.7373">Réservoir</text>
+						<text transform="matrix(1 0 0 1 -134.0024 945.7629)"  font-size="22.7373">Corridor</text>
+						<text transform="matrix(1 0 0 1 -271.748 816.4407)"><tspan x="0" y="0"  font-size="22.7373">Plus court</tspan><tspan x="0" y="27.285"  font-size="22.7373">chemin</tspan></text>
+						
+						<polyline fill="none" stroke="#000000" stroke-miterlimit="10" points="-137.439,937.088 -141.405,937.088 -141.405,923.265 		"/>
+						<polygon points="-137.416,924.433 -141.405,917.525 -145.395,924.433 			"/>
+						
+						<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="-198.324" y1="989.439" x2="-131.623" y2="989.439"/>
+						<polygon points="-197.157,993.428 -204.065,989.439 -197.157,985.449 			"/>
+						<polyline fill="none" stroke="#000000" stroke-miterlimit="10" points="-162.16,809.941 -158.193,809.941 -158.193,873.712 		"/>
+						<polygon points="-162.183,872.544 -158.193,879.452 -154.204,872.544 			"/>
+							
+					</g>
+					
+					
+					<rect id="place_exemple" x="-287.777" y="770" stroke="#CCCCCC" fill="none" width="285.417" height="281.372"/>
+					
 					<g id="lab_exemple">
-						<rect x="-287.777" y="782.529" fill="#CCCCCC" width="150" height="22"/>
-						<text x="-280" y="800" font-weight="800" fill="#FFFFFF">EXEMPLE : 471 - 492</text>
+						<rect x="-287.777" y="770" fill="#CCCCCC" width="150" height="22"/>
+						<text x="-280" y="788" font-weight="800" fill="#FFFFFF">EXEMPLE : 471 - 492</text>
 					</g>
 					<g id="elt_res">
 						<circle fill="#91c497" opacity="0.5" cx="1929.436" cy="960" r="10"/>
@@ -50,55 +76,722 @@
 					</g>
 					<text id="lab_lien" transform="matrix(1 0 0 1 1631.4771 1053.677)"  font-size="19">Carte : lien entre deux réservoirs</text>
 					<text id="explis" transform="matrix(1 0 0 1 1834.1812 768.3928)"><tspan x="0" y="0" font-style="italic"font-size="23">Survoler les </tspan><tspan x="-25.505" y="27.601" font-style="italic"font-size="23">réservoirs puis</tspan><tspan x="-53.479" y="55.2" font-style="italic"font-size="23"> cliquer pour faire</tspan><tspan x="-65.608" y="82.8" font-style="italic"font-size="23">apparaître une des</tspan><tspan x="-77.378" y="110.399" font-style="italic"font-size="23">cartes des résultats</tspan><tspan x="26.515" y="138" font-style="italic"font-size="23">de l’étude</tspan></text>
-					<line id="barre_titre" fill="none" stroke="#000000" stroke-miterlimit="10" x1="219.781" y1="26.05" x2="888.365" y2="26.05"/>
+					<text transform="matrix(1 0 0 1 -102.2358 139.4495)">
+						<tspan x="0" y="0" font-size="21.5">L’objectif</tspan>
+						<tspan x="84.247" y="0" font-size="21.5"> </tspan>
+						<tspan x="88.855" y="0" font-size="21.5">général</tspan>
+						<tspan x="157.176" y="0" font-size="21.5"> </tspan>
+						<tspan x="161.784" y="0" font-size="21.5">du</tspan>
+						<tspan x="185.321" y="0" font-size="21.5"> </tspan>
+						<tspan x="189.93" y="0" font-size="21.5">projet</tspan>
+						<tspan x="242.883" y="0" font-size="21.5"> </tspan>
+						<tspan x="247.491" y="0" font-size="21.5">Synergie</tspan>
+						<tspan x="327.57" y="0" font-size="21.5"> </tspan>
+						<tspan x="332.179" y="0" font-size="21.5">est</tspan>
+						<tspan x="360.429" y="0" font-size="21.5"> </tspan>
+						<tspan x="365.037" y="0" font-size="21.5">d’évaluer</tspan>
+						<tspan x="448.141" y="0" font-size="21.5"> </tspan>
+						<tspan x="452.749" y="0" font-size="21.5">comment</tspan>
+						<tspan x="543.295" y="0" font-size="21.5"> </tspan>
+						<tspan x="547.902" y="0" font-size="21.5">les</tspan>
+						<tspan x="573.937" y="0" font-size="21.5"> </tspan>
+						<tspan x="578.544" y="0" font-size="21.5">infrastructures</tspan>
+						<tspan x="714.474" y="0" font-size="21.5"> </tspan>
+						<tspan x="719.082" y="0" font-size="21.5">linéaires</tspan>
+						<tspan x="795.192" y="0" font-size="21.5"> </tspan>
+						<tspan x="799.801" y="0" font-size="21.5">de</tspan>
+						<tspan x="822.477" y="0" font-size="21.5"> </tspan>
+						<tspan x="827.085" y="0" font-size="21.5">trans</tspan>
+						<tspan x="874.736" y="0" font-size="21.5">-</tspan>
+						<tspan x="13.014" y="26" font-size="21.5">port</tspan>
+						<tspan x="50.388" y="26" font-size="21.5"> </tspan>
+						<tspan x="55.263" y="26" font-size="21.5">peuvent</tspan>
+						<tspan x="129.296" y="26" font-size="21.5"> </tspan>
+						<tspan x="134.171" y="26" font-size="21.5">contribuer,</tspan>
+						<tspan x="232.54" y="26" font-size="21.5"> </tspan>
+						<tspan x="237.416" y="26" font-size="21.5">de</tspan>
+						<tspan x="260.092" y="26" font-size="21.5"> </tspan>
+						<tspan x="264.968" y="26" font-size="21.5">façon</tspan>
+						<tspan x="317.532" y="26" font-size="21.5"> </tspan>
+						<tspan x="322.408" y="26" font-size="21.5">effective,</tspan>
+						<tspan x="404.943" y="26" font-size="21.5"> </tspan>
+						<tspan x="409.819" y="26" font-size="21.5">au</tspan>
+						<tspan x="432.937" y="26" font-size="21.5"> </tspan>
+						<tspan x="437.813" y="26" font-size="21.5">maintien</tspan>
+						<tspan x="518.385" y="26" font-size="21.5"> </tspan>
+						<tspan x="523.261" y="26" font-size="21.5">ou</tspan>
+						<tspan x="546.798" y="26" font-size="21.5"> </tspan>
+						<tspan x="551.674" y="26" font-size="21.5">au</tspan>
+						<tspan x="574.791" y="26" font-size="21.5"> </tspan>
+						<tspan x="579.667" y="26" font-size="21.5">rétablissement</tspan>
+						<tspan x="717.285" y="26" font-size="21.5"> </tspan>
+						<tspan x="722.16" y="26" font-size="21.5">de</tspan>
+						<tspan x="744.836" y="26" font-size="21.5"> </tspan>
+						<tspan x="749.712" y="26" font-size="21.5">la</tspan>
+						<tspan x="765.49" y="26" font-size="21.5"> </tspan>
+						<tspan x="770.365" y="26" font-size="21.5">continuité </tspan>
+						<tspan x="19.99" y="52" font-size="21.5">écologique</tspan>
+						<tspan x="120.414" y="52" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="131.054" y="52" font-size="21.5">pour</tspan>
+						<tspan x="173.551" y="52" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="184.189" y="52" font-size="21.5">certaines</tspan>
+						<tspan x="268.992" y="52" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="279.633" y="52" font-size="21.5">espèces</tspan>
+						<tspan x="356.425" y="52" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="367.063" y="52" font-size="21.5">et</tspan>
+						<tspan x="384.616" y="52" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="395.258" y="52" font-size="21.5">constituer</tspan>
+						<tspan x="487.987" y="52" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="498.626" y="52" font-size="21.5">des</tspan>
+						<tspan x="531.999" y="52" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="542.64" y="52" font-size="21.5">supports</tspan>
+						<tspan x="624.945" y="52" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="635.584" y="52" font-size="21.5">d’habitat.</tspan>
+						<tspan x="720.432" y="52" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="731.072" y="52" font-size="21.5">Le</tspan>
+						<tspan x="753.843" y="52" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="764.481" y="52" font-size="21.5">territoire </tspan>
+						<tspan x="21.107" y="78" font-size="21.5">d’étude de ce projet intègre les départements du Nord et du Pas-de-Calais.</tspan>
+						<tspan x="10.085" y="130" font-size="21.5">Ce</tspan>
+						<tspan x="34.924" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="43.362" y="130" font-size="21.5">projet</tspan>
+						<tspan x="96.315" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="104.753" y="130" font-size="21.5">a</tspan>
+						<tspan x="116.102" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="124.54" y="130" font-size="21.5">donné</tspan>
+						<tspan x="182.521" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="190.961" y="130" font-size="21.5">lieu</tspan>
+						<tspan x="222.496" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="230.935" y="130" font-size="21.5">à</tspan>
+						<tspan x="242.283" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="250.722" y="130" font-size="21.5">des</tspan>
+						<tspan x="284.095" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="292.534" y="130" font-size="21.5">travaux</tspan>
+						<tspan x="361.372" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="369.811" y="130" font-size="21.5">d’analyse</tspan>
+						<tspan x="456.862" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="465.301" y="130" font-size="21.5">et</tspan>
+						<tspan x="482.854" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="491.292" y="130" font-size="21.5">de</tspan>
+						<tspan x="513.968" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="522.407" y="130" font-size="21.5">modélisation</tspan>
+						<tspan x="641.644" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="650.083" y="130" font-size="21.5">spatiale</tspan>
+						<tspan x="721.66" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="730.098" y="130" font-size="21.5">en</tspan>
+						<tspan x="752.773" y="130" font-size="21.5" letter-spacing="3"> </tspan>
+						<tspan x="761.213" y="130" font-size="21.5">vue </tspan>
+						<tspan x="-7.327" y="156" font-size="21.5">d’identifier,</tspan>
+						<tspan x="92.227" y="156" font-size="21.5"> </tspan>
+						<tspan x="98.123" y="156" font-size="21.5">à</tspan>
+						<tspan x="109.471" y="156" font-size="21.5"> </tspan>
+						<tspan x="115.368" y="156" font-size="21.5">l’échelle</tspan>
+						<tspan x="188.569" y="156" font-size="21.5"> </tspan>
+						<tspan x="194.466" y="156" font-size="21.5">de</tspan>
+						<tspan x="217.142" y="156" font-size="21.5"> </tspan>
+						<tspan x="223.038" y="156" font-size="21.5">ce</tspan>
+						<tspan x="244.853" y="156" font-size="21.5"> </tspan>
+						<tspan x="250.75" y="156" font-size="21.5">territoire,</tspan>
+						<tspan x="332.078" y="156" font-size="21.5"> </tspan>
+						<tspan x="337.976" y="156" font-size="21.5">les</tspan>
+						<tspan x="364.01" y="156" font-size="21.5"> </tspan>
+						<tspan x="369.905" y="156" font-size="21.5">«</tspan>
+						<tspan x="379.406" y="156" font-size="21.5"> </tspan>
+						<tspan x="385.303" y="156" font-size="21.5">points</tspan>
+						<tspan x="442.381" y="156" font-size="21.5"> </tspan>
+						<tspan x="448.277" y="156" font-size="21.5">de</tspan>
+						<tspan x="470.953" y="156" font-size="21.5"> </tspan>
+						<tspan x="476.851" y="156" font-size="21.5">rencontre</tspan>
+						<tspan x="565.906" y="156" font-size="21.5"> </tspan>
+						<tspan x="571.802" y="156" font-size="21.5">»</tspan>
+						<tspan x="581.219" y="156" font-size="21.5"> </tspan>
+						<tspan x="587.115" y="156" font-size="21.5">existant</tspan>
+						<tspan x="659.824" y="156" font-size="21.5">  </tspan>
+						<tspan x="671.618" y="156" font-size="21.5">entre</tspan>
+						<tspan x="719.038" y="156" font-size="21.5"> </tspan>
+						<tspan x="724.936" y="156" font-size="21.5">les</tspan>
+						<tspan x="750.97" y="156" font-size="21.5"> </tspan>
+						<tspan x="756.865" y="156" font-size="21.5">i</tspan>
+						<tspan x="773.063" y="156" font-size="21.5">-</tspan>
+						<tspan x="-36.841" y="182" font-size="21.5">frastructures</tspan>
+						<tspan x="82.891" y="182" font-size="21.5"> </tspan>
+						<tspan x="88.689" y="182" font-size="21.5">linéaires</tspan>
+						<tspan x="164.799" y="182" font-size="21.5"> </tspan>
+						<tspan x="170.597" y="182" font-size="21.5">de</tspan>
+						<tspan x="193.272" y="182" font-size="21.5"> </tspan>
+						<tspan x="199.072" y="182" font-size="21.5">transport</tspan>
+						<tspan x="284.098" y="182" font-size="21.5"> </tspan>
+						<tspan x="289.896" y="182" font-size="21.5">dont</tspan>
+						<tspan x="331.848" y="182" font-size="21.5"> </tspan>
+						<tspan x="337.646" y="182" font-size="21.5">RTE</tspan>
+						<tspan x="376.668" y="182" font-size="21.5"> </tspan>
+						<tspan x="382.468" y="182" font-size="21.5">(Réseau</tspan>
+						<tspan x="458.788" y="182" font-size="21.5"> </tspan>
+						<tspan x="464.587" y="182" font-size="21.5">de</tspan>
+						<tspan x="487.263" y="182" font-size="21.5"> </tspan>
+						<tspan x="493.063" y="182" font-size="21.5">Transport</tspan>
+						<tspan x="584.292" y="182" font-size="21.5"> </tspan>
+						<tspan x="590.09" y="182" font-size="21.5">Electrique)</tspan>
+						<tspan x="687.439" y="182" font-size="21.5"> </tspan>
+						<tspan x="693.238" y="182" font-size="21.5">et</tspan>
+						<tspan x="710.791" y="182" font-size="21.5"> </tspan>
+						<tspan x="716.59" y="182" font-size="21.5">SNCF </tspan>
+						<tspan x="-178.254" y="208" font-size="21.5">Réseau</tspan>
+						<tspan x="-108.306" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="-101.652" y="208" font-size="21.5">(Société</tspan>
+						<tspan x="-26.875" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="-20.221" y="208" font-size="21.5">Nationale</tspan>
+						<tspan x="67.638" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="74.292" y="208" font-size="21.5">des</tspan>
+						<tspan x="107.664" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="114.317" y="208" font-size="21.5">Chemins</tspan>
+						<tspan x="197.095" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="203.747" y="208" font-size="21.5">de</tspan>
+						<tspan x="226.423" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="233.077" y="208" font-size="21.5">Fer)</tspan>
+						<tspan x="269.547" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="276.199" y="208" font-size="21.5">sont</tspan>
+						<tspan x="317.079" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="323.732" y="208" font-size="21.5">gestionnaires</tspan>
+						<tspan x="448.062" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="454.715" y="208" font-size="21.5">et</tspan>
+						<tspan x="472.268" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="478.921" y="208" font-size="21.5">le</tspan>
+						<tspan x="494.258" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="500.911" y="208" font-size="21.5">SRCE</tspan>
+						<tspan x="553.853" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="560.507" y="208" font-size="21.5">(Schéma</tspan>
+						<tspan x="643.924" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="650.576" y="208" font-size="21.5">Régional</tspan>
+						<tspan x="731.318" y="208" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="737.973" y="208" font-size="21.5">de </tspan>
+						<tspan x="-178.254" y="234" font-size="21.5">Cohérence</tspan>
+						<tspan x="-78.197" y="234" font-size="21.5"> </tspan>
+						<tspan x="-73.9" y="234" font-size="21.5">Ecologique).</tspan>
+						<tspan x="38.617" y="234" font-size="21.5"> </tspan>
+						<tspan x="42.914" y="234" font-size="21.5">Ce</tspan>
+						<tspan x="67.752" y="234" font-size="21.5"> </tspan>
+						<tspan x="72.049" y="234" font-size="21.5">document</tspan>
+						<tspan x="166.857" y="234" font-size="21.5"> </tspan>
+						<tspan x="171.153" y="234" font-size="21.5">de</tspan>
+						<tspan x="193.829" y="234" font-size="21.5"> </tspan>
+						<tspan x="198.127" y="234" font-size="21.5">planification</tspan>
+						<tspan x="309.943" y="234" font-size="21.5"> </tspan>
+						<tspan x="314.24" y="234" font-size="21.5">a</tspan>
+						<tspan x="325.589" y="234" font-size="21.5"> </tspan>
+						<tspan x="329.886" y="234" font-size="21.5">été</tspan>
+						<tspan x="358.346" y="234" font-size="21.5"> </tspan>
+						<tspan x="362.642" y="234" font-size="21.5">mis</tspan>
+						<tspan x="397.044" y="234" font-size="21.5"> </tspan>
+						<tspan x="401.342" y="234" font-size="21.5">en</tspan>
+						<tspan x="424.018" y="234" font-size="21.5"> </tspan>
+						<tspan x="428.314" y="234" font-size="21.5">place</tspan>
+						<tspan x="477.677" y="234" font-size="21.5"> </tspan>
+						<tspan x="481.974" y="234" font-size="21.5">en</tspan>
+						<tspan x="504.649" y="234" font-size="21.5"> </tspan>
+						<tspan x="508.946" y="234" font-size="21.5">2014,</tspan>
+						<tspan x="560.041" y="234" font-size="21.5"> </tspan>
+						<tspan x="564.338" y="234" font-size="21.5">puis</tspan>
+						<tspan x="603.002" y="234" font-size="21.5"> </tspan>
+						<tspan x="607.299" y="234" font-size="21.5">annulé</tspan>
+						<tspan x="669.29" y="234" font-size="21.5"> </tspan>
+						<tspan x="673.587" y="234" font-size="21.5">en</tspan>
+						<tspan x="696.263" y="234" font-size="21.5"> </tspan>
+						<tspan x="700.56" y="234" font-size="21.5">2017. </tspan>
+						<tspan x="-178.254" y="260" font-size="21.5">Au</tspan>
+						<tspan x="-153.646" y="260" font-size="21.5"> </tspan>
+						<tspan x="-148.143" y="260" font-size="21.5">travers</tspan>
+						<tspan x="-83.895" y="260" font-size="21.5"> </tspan>
+						<tspan x="-78.391" y="260" font-size="21.5">d’une</tspan>
+						<tspan x="-27.665" y="260" font-size="21.5"> </tspan>
+						<tspan x="-22.162" y="260" font-size="21.5">mise</tspan>
+						<tspan x="23.147" y="260" font-size="21.5"> </tspan>
+						<tspan x="28.651" y="260" font-size="21.5">en</tspan>
+						<tspan x="51.327" y="260" font-size="21.5"> </tspan>
+						<tspan x="56.831" y="260" font-size="21.5">avant</tspan>
+						<tspan x="108.208" y="260" font-size="21.5"> </tspan>
+						<tspan x="113.711" y="260" font-size="21.5">des</tspan>
+						<tspan x="147.084" y="260" font-size="21.5"> </tspan>
+						<tspan x="152.587" y="260" font-size="21.5">trames</tspan>
+						<tspan x="218.651" y="260" font-size="21.5"> </tspan>
+						<tspan x="224.155" y="260" font-size="21.5">vertes</tspan>
+						<tspan x="280.771" y="260" font-size="21.5"> </tspan>
+						<tspan x="286.274" y="260" font-size="21.5">et</tspan>
+						<tspan x="303.827" y="260" font-size="21.5"> </tspan>
+						<tspan x="309.331" y="260" font-size="21.5">bleues</tspan>
+						<tspan x="369.811" y="260" font-size="21.5"> </tspan>
+						<tspan x="375.313" y="260" font-size="21.5">(TVB)</tspan>
+						<tspan x="426.826" y="260" font-size="21.5"> </tspan>
+						<tspan x="432.329" y="260" font-size="21.5">présentes</tspan>
+						<tspan x="523.819" y="260" font-size="21.5"> </tspan>
+						<tspan x="529.323" y="260" font-size="21.5">à</tspan>
+						<tspan x="540.672" y="260" font-size="21.5"> </tspan>
+						<tspan x="546.175" y="260" font-size="21.5">l’échelle</tspan>
+						<tspan x="619.375" y="260" font-size="21.5"> </tspan>
+						<tspan x="624.878" y="260" font-size="21.5">des</tspan>
+						<tspan x="658.251" y="260" font-size="21.5"> </tspan>
+						<tspan x="663.755" y="260" font-size="21.5">deux</tspan>
+						<tspan x="708.466" y="260" font-size="21.5"> </tspan>
+						<tspan x="713.97" y="260" font-size="21.5">dé</tspan>
+						<tspan x="736.646" y="260" font-size="21.5">-</tspan>
+						<tspan x="-178.254" y="286" font-size="21.5">partements qui retiennent notre intérêt, ce schéma a révélé l’existence de réservoirs de biodiversité.</tspan>
+						<tspan x="-2.435" y="338" font-size="21.5">La</tspan>
+						<tspan x="20.776" y="338" font-size="21.5"> </tspan>
+						<tspan x="26.197" y="338" font-size="21.5">cartographie</tspan>
+						<tspan x="143.242" y="338" font-size="21.5"> </tspan>
+						<tspan x="148.663" y="338" font-size="21.5">ici</tspan>
+						<tspan x="168.431" y="338" font-size="21.5"> </tspan>
+						<tspan x="173.852" y="338" font-size="21.5">présentée</tspan>
+						<tspan x="265.552" y="338" font-size="21.5"> </tspan>
+						<tspan x="270.972" y="338" font-size="21.5">a</tspan>
+						<tspan x="282.32" y="338" font-size="21.5"> </tspan>
+						<tspan x="287.74" y="338" font-size="21.5">été</tspan>
+						<tspan x="316.2" y="338" font-size="21.5"> </tspan>
+						<tspan x="321.62" y="338" font-size="21.5">mise</tspan>
+						<tspan x="366.93" y="338" font-size="21.5"> </tspan>
+						<tspan x="372.35" y="338" font-size="21.5">en</tspan>
+						<tspan x="395.025" y="338" font-size="21.5"> </tspan>
+						<tspan x="400.446" y="338" font-size="21.5">place</tspan>
+						<tspan x="449.809" y="338" font-size="21.5"> </tspan>
+						<tspan x="455.229" y="338" font-size="21.5">à</tspan>
+						<tspan x="466.577" y="338" font-size="21.5"> </tspan>
+						<tspan x="471.997" y="338" font-size="21.5">partir</tspan>
+						<tspan x="520.573" y="338" font-size="21.5"> </tspan>
+						<tspan x="525.995" y="338" font-size="21.5">de</tspan>
+						<tspan x="548.671" y="338" font-size="21.5"> </tspan>
+						<tspan x="554.092" y="338" font-size="21.5">la</tspan>
+						<tspan x="569.87" y="338" font-size="21.5"> </tspan>
+						<tspan x="575.29" y="338" font-size="21.5">cartographie</tspan>
+						<tspan x="692.334" y="338" font-size="21.5"> </tspan>
+						<tspan x="697.754" y="338" font-size="21.5">des </tspan>
+						<tspan x="9.303" y="364" font-size="21.5">réservoirs</tspan>
+						<tspan x="100.551" y="364" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="107.353" y="364" font-size="21.5">de</tspan>
+						<tspan x="130.028" y="364" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="136.831" y="364" font-size="21.5">biodiversité</tspan>
+						<tspan x="242.042" y="364" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="248.845" y="364" font-size="21.5">issus</tspan>
+						<tspan x="297.135" y="364" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="303.937" y="364" font-size="21.5">du</tspan>
+						<tspan x="327.474" y="364" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="334.276" y="364" font-size="21.5">SRCE.</tspan>
+						<tspan x="391.826" y="364" font-size="21.5" letter-spacing="1">  </tspan>
+						<tspan x="405.431" y="364" font-size="21.5">Une</tspan>
+						<tspan x="442.437" y="364" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="449.24" y="364" font-size="21.5">modélisation</tspan>
+						<tspan x="568.477" y="364" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="575.279" y="364" font-size="21.5">spatiale</tspan>
+						<tspan x="646.856" y="364" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="653.658" y="364" font-size="21.5">permet</tspan>
+						<tspan x="720.353" y="364" font-size="21.5">-</tspan>
+						<tspan x="14.588" y="390" font-size="21.5">tant</tspan>
+						<tspan x="50.996" y="390" font-size="21.5"> </tspan>
+						<tspan x="55.832" y="390" font-size="21.5">de</tspan>
+						<tspan x="78.508" y="390" font-size="21.5"> </tspan>
+						<tspan x="83.344" y="390" font-size="21.5">générer</tspan>
+						<tspan x="153.985" y="390" font-size="21.5"> </tspan>
+						<tspan x="158.821" y="390" font-size="21.5">entre</tspan>
+						<tspan x="206.241" y="390" font-size="21.5"> </tspan>
+						<tspan x="211.078" y="390" font-size="21.5">ces</tspan>
+						<tspan x="243.59" y="390" font-size="21.5"> </tspan>
+						<tspan x="248.427" y="390" font-size="21.5">réservoirs</tspan>
+						<tspan x="339.677" y="390" font-size="21.5"> </tspan>
+						<tspan x="344.513" y="390" font-size="21.5">des</tspan>
+						<tspan x="377.886" y="390" font-size="21.5"> </tspan>
+						<tspan x="382.723" y="390" font-size="21.5">chemins</tspan>
+						<tspan x="462.476" y="390" font-size="21.5"> </tspan>
+						<tspan x="467.312" y="390" font-size="21.5">de</tspan>
+						<tspan x="489.987" y="390" font-size="21.5"> </tspan>
+						<tspan x="494.824" y="390" font-size="21.5">moindre</tspan>
+						<tspan x="571.933" y="390" font-size="21.5"> </tspan>
+						<tspan x="576.768" y="390" font-size="21.5">coût,</tspan>
+						<tspan x="621.878" y="390" font-size="21.5"> </tspan>
+						<tspan x="626.714" y="390" font-size="21.5">présente</tspan>
+						<tspan x="707.507" y="390" font-size="21.5"> </tspan>
+						<tspan x="712.344" y="390" font-size="21.5">le </tspan>
+						<tspan x="15.39" y="416" font-size="21.5">potentiel de déplacement des espèces endémiques sur le territoire d’étude.</tspan>
+						<tspan x="8.254" y="468" font-size="21.5">Cette</tspan>
+						<tspan x="57.291" y="468" font-size="21.5"> </tspan>
+						<tspan x="63.038" y="468" font-size="21.5">cartographie</tspan>
+						<tspan x="180.084" y="468" font-size="21.5"> </tspan>
+						<tspan x="185.83" y="468" font-size="21.5">interactive</tspan>
+						<tspan x="281.278" y="468" font-size="21.5"> </tspan>
+						<tspan x="287.025" y="468" font-size="21.5">permet</tspan>
+						<tspan x="353.72" y="468" font-size="21.5"> </tspan>
+						<tspan x="359.466" y="468" font-size="21.5">de</tspan>
+						<tspan x="382.142" y="468" font-size="21.5"> </tspan>
+						<tspan x="387.89" y="468" font-size="21.5">localiser</tspan>
+						<tspan x="464" y="468" font-size="21.5"> </tspan>
+						<tspan x="469.747" y="468" font-size="21.5">48</tspan>
+						<tspan x="493.284" y="468" font-size="21.5"> </tspan>
+						<tspan x="499.031" y="468" font-size="21.5">réservoirs</tspan>
+						<tspan x="590.281" y="468" font-size="21.5"> </tspan>
+						<tspan x="596.029" y="468" font-size="21.5">de</tspan>
+						<tspan x="618.705" y="468" font-size="21.5"> </tspan>
+						<tspan x="624.453" y="468" font-size="21.5">biodiversité </tspan>
+						<tspan x="-3.864" y="494" font-size="21.5">apparus</tspan>
+						<tspan x="72.027" y="494" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="82.872" y="494" font-size="21.5">au</tspan>
+						<tspan x="105.989" y="494" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="116.834" y="494" font-size="21.5">fil</tspan>
+						<tspan x="132.466" y="494" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="143.311" y="494" font-size="21.5">des</tspan>
+						<tspan x="176.684" y="494" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="187.529" y="494" font-size="21.5">analyses</tspan>
+						<tspan x="268.995" y="494" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="279.84" y="494" font-size="21.5">comme</tspan>
+						<tspan x="351.972" y="494" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="362.815" y="494" font-size="21.5">porteurs</tspan>
+						<tspan x="440.754" y="494" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="451.598" y="494" font-size="21.5">d’enjeux</tspan>
+						<tspan x="528.172" y="494" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="539.018" y="494" font-size="21.5">écologiques</tspan>
+						<tspan x="650.14" y="494" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="660.983" y="494" font-size="21.5">forts</tspan>
+						<tspan x="704.058" y="494" font-size="21.5" letter-spacing="5"> </tspan>
+						<tspan x="714.903" y="494" font-size="21.5">et </tspan>
+						<tspan x="-29.616" y="520" font-size="21.5">comme</tspan>
+						<tspan x="42.517" y="520" font-size="21.5"> </tspan>
+						<tspan x="48.189" y="520" font-size="21.5">des</tspan>
+						<tspan x="81.562" y="520" font-size="21.5"> </tspan>
+						<tspan x="87.234" y="520" font-size="21.5">zones</tspan>
+						<tspan x="142.643" y="520" font-size="21.5"> </tspan>
+						<tspan x="148.314" y="520" font-size="21.5">d’action</tspan>
+						<tspan x="221.467" y="520" font-size="21.5"> </tspan>
+						<tspan x="227.14" y="520" font-size="21.5">potentielles.</tspan>
+						<tspan x="337.054" y="520" font-size="21.5"> </tspan>
+						<tspan x="342.727" y="520" font-size="21.5">Ces</tspan>
+						<tspan x="378.262" y="520" font-size="21.5"> </tspan>
+						<tspan x="383.935" y="520" font-size="21.5">réservoirs</tspan>
+						<tspan x="475.185" y="520" font-size="21.5"> </tspan>
+						<tspan x="480.857" y="520" font-size="21.5">sont</tspan>
+						<tspan x="521.737" y="520" font-size="21.5"> </tspan>
+						<tspan x="527.409" y="520" font-size="21.5">reliés</tspan>
+						<tspan x="575.973" y="520" font-size="21.5"> </tspan>
+						<tspan x="581.645" y="520" font-size="21.5">par</tspan>
+						<tspan x="611.953" y="520" font-size="21.5"> </tspan>
+						<tspan x="617.626" y="520" font-size="21.5">des</tspan>
+						<tspan x="650.999" y="520" font-size="21.5"> </tspan>
+						<tspan x="656.672" y="520" font-size="21.5">chemins </tspan>
+						<tspan x="-178.254" y="546" font-size="21.5">de</tspan>
+						<tspan x="-155.579" y="546" font-size="21.5"> </tspan>
+						<tspan x="-151.193" y="546" font-size="21.5">moindre</tspan>
+						<tspan x="-74.085" y="546" font-size="21.5"> </tspan>
+						<tspan x="-69.699" y="546" font-size="21.5">coût</tspan>
+						<tspan x="-28.608" y="546" font-size="21.5"> </tspan>
+						<tspan x="-24.223" y="546" font-size="21.5">théoriques</tspan>
+						<tspan x="73.629" y="546" font-size="21.5"> </tspan>
+						<tspan x="78.016" y="546" font-size="21.5">dont</tspan>
+						<tspan x="119.966" y="546" font-size="21.5"> </tspan>
+						<tspan x="124.353" y="546" font-size="21.5">on</tspan>
+						<tspan x="147.89" y="546" font-size="21.5"> </tspan>
+						<tspan x="152.275" y="546" font-size="21.5">peut</tspan>
+						<tspan x="193.365" y="546" font-size="21.5"> </tspan>
+						<tspan x="197.752" y="546" font-size="21.5">apprécier</tspan>
+						<tspan x="284.173" y="546" font-size="21.5"> </tspan>
+						<tspan x="288.559" y="546" font-size="21.5">la</tspan>
+						<tspan x="304.337" y="546" font-size="21.5"> </tspan>
+						<tspan x="308.723" y="546" font-size="21.5">valeur</tspan>
+						<tspan x="364.637" y="546" font-size="21.5"> </tspan>
+						<tspan x="369.023" y="546" font-size="21.5">du</tspan>
+						<tspan x="392.561" y="546" font-size="21.5"> </tspan>
+						<tspan x="396.947" y="546" font-size="21.5">coût</tspan>
+						<tspan x="438.037" y="546" font-size="21.5"> </tspan>
+						<tspan x="442.424" y="546" font-size="21.5">de</tspan>
+						<tspan x="465.1" y="546" font-size="21.5"> </tspan>
+						<tspan x="469.486" y="546" font-size="21.5">passage</tspan>
+						<tspan x="548.022" y="546" font-size="21.5"> </tspan>
+						<tspan x="552.408" y="546" font-size="21.5">pour</tspan>
+						<tspan x="594.905" y="546" font-size="21.5"> </tspan>
+						<tspan x="599.291" y="546" font-size="21.5">les</tspan>
+						<tspan x="625.325" y="546" font-size="21.5"> </tspan>
+						<tspan x="629.711" y="546" font-size="21.5">espèces.</tspan>
+						<tspan x="711.111" y="546" font-size="21.5"> </tspan>
+						<tspan x="715.497" y="546" font-size="21.5">Un </tspan>
+						<tspan x="-178.254" y="572" font-size="21.5">corridor</tspan>
+						<tspan x="-106.037" y="572" font-size="21.5"> </tspan>
+						<tspan x="-100.86" y="572" font-size="21.5">est</tspan>
+						<tspan x="-72.61" y="572" font-size="21.5"> </tspan>
+						<tspan x="-67.433" y="572" font-size="21.5">implémenté</tspan>
+						<tspan x="42.881" y="572" font-size="21.5"> </tspan>
+						<tspan x="48.058" y="572" font-size="21.5">autour</tspan>
+						<tspan x="108.549" y="572" font-size="21.5"> </tspan>
+						<tspan x="113.726" y="572" font-size="21.5">de</tspan>
+						<tspan x="136.401" y="572" font-size="21.5"> </tspan>
+						<tspan x="141.577" y="572" font-size="21.5">chacun</tspan>
+						<tspan x="210.046" y="572" font-size="21.5"> </tspan>
+						<tspan x="215.224" y="572" font-size="21.5">de</tspan>
+						<tspan x="237.899" y="572" font-size="21.5"> </tspan>
+						<tspan x="243.077" y="572" font-size="21.5">ces</tspan>
+						<tspan x="275.589" y="572" font-size="21.5"> </tspan>
+						<tspan x="280.766" y="572" font-size="21.5">chemins,</tspan>
+						<tspan x="364.539" y="572" font-size="21.5"> </tspan>
+						<tspan x="369.717" y="572" font-size="21.5">il</tspan>
+						<tspan x="378.576" y="572" font-size="21.5"> </tspan>
+						<tspan x="383.754" y="572" font-size="21.5">permet</tspan>
+						<tspan x="450.448" y="572" font-size="21.5"> </tspan>
+						<tspan x="455.624" y="572" font-size="21.5">de</tspan>
+						<tspan x="478.3" y="572" font-size="21.5"> </tspan>
+						<tspan x="483.478" y="572" font-size="21.5">visualiser</tspan>
+						<tspan x="569.645" y="572" font-size="21.5"> </tspan>
+						<tspan x="574.821" y="572" font-size="21.5">le</tspan>
+						<tspan x="590.158" y="572" font-size="21.5"> </tspan>
+						<tspan x="595.334" y="572" font-size="21.5">coût</tspan>
+						<tspan x="636.424" y="572" font-size="21.5"> </tspan>
+						<tspan x="641.602" y="572" font-size="21.5">de</tspan>
+						<tspan x="664.277" y="572" font-size="21.5"> </tspan>
+						<tspan x="669.455" y="572" font-size="21.5">passage </tspan>
+						<tspan x="-178.254" y="598" font-size="21.5">et son évolution pour les espèces animales aux alentours du chemin de moindre coût généré</tspan>
+						<tspan x="124.706" y="650" font-size="21.5">Cette cartographie poursuit plusieurs objectifs :</tspan>
+						<tspan x="124.542" y="685" font-weight="800" font-size="21.5">1.</tspan>
+						<tspan x="143.135" y="685" font-weight="800" font-size="21.5" letter-spacing="-2">	</tspan>
+						<tspan x="145.704" y="685" font-size="21.5">Observer</tspan>
+						<tspan x="228.953" y="685" font-size="21.5" letter-spacing="4"> </tspan>
+						<tspan x="238.542" y="685" font-size="21.5">les</tspan>
+						<tspan x="264.576" y="685" font-size="21.5" letter-spacing="4"> </tspan>
+						<tspan x="274.166" y="685" font-size="21.5">territoires</tspan>
+						<tspan x="362.171" y="685" font-size="21.5" letter-spacing="4"> </tspan>
+						<tspan x="371.76" y="685" font-size="21.5">du</tspan>
+						<tspan x="395.297" y="685" font-size="21.5" letter-spacing="4"> </tspan>
+						<tspan x="404.888" y="685" font-size="21.5">Nord</tspan>
+						<tspan x="450.828" y="685" font-size="21.5" letter-spacing="4"> </tspan>
+						<tspan x="460.418" y="685" font-size="21.5">et</tspan>
+						<tspan x="477.971" y="685" font-size="21.5" letter-spacing="4"> </tspan>
+						<tspan x="487.562" y="685" font-size="21.5">du</tspan>
+						<tspan x="511.099" y="685" font-size="21.5" letter-spacing="4"> </tspan>
+						<tspan x="520.689" y="685" font-size="21.5">Pas-de-Calais</tspan>
+						<tspan x="651.453" y="685" font-size="21.5" letter-spacing="4"> </tspan>
+						<tspan x="661.044" y="685" font-size="21.5">au</tspan>
+						<tspan x="684.161" y="685" font-size="21.5" letter-spacing="4"> </tspan>
+						<tspan x="693.752" y="685" font-size="21.5">travers</tspan>
+						<tspan x="758.001" y="685" font-size="21.5" letter-spacing="4"> </tspan>
+						<tspan x="767.591" y="685" font-size="21.5">du </tspan>
+						<tspan x="124.421" y="711" font-size="21.5">prisme des enjeux liés à la biodiversité dont ils sont porteurs.</tspan>
+						<tspan x="124.271" y="743" font-weight="800" font-size="21.5">2.</tspan>
+						<tspan x="142.863" y="743" font-weight="800" font-size="21.5" letter-spacing="-2">	</tspan>
+						<tspan x="145.746" y="743" font-size="21.5">Observer</tspan>
+						<tspan x="228.996" y="743" font-size="21.5"> </tspan>
+						<tspan x="234.395" y="743" font-size="21.5">la</tspan>
+						<tspan x="250.173" y="743" font-size="21.5"> </tspan>
+						<tspan x="255.572" y="743" font-size="21.5">manière</tspan>
+						<tspan x="331.4" y="743" font-size="21.5"> </tspan>
+						<tspan x="336.8" y="743" font-size="21.5">dont</tspan>
+						<tspan x="378.751" y="743" font-size="21.5"> </tspan>
+						<tspan x="384.151" y="743" font-size="21.5">les</tspan>
+						<tspan x="410.186" y="743" font-size="21.5"> </tspan>
+						<tspan x="415.584" y="743" font-size="21.5">réseaux</tspan>
+						<tspan x="488.672" y="743" font-size="21.5"> </tspan>
+						<tspan x="494.072" y="743" font-size="21.5">RTE,</tspan>
+						<tspan x="537.114" y="743" font-size="21.5"> </tspan>
+						<tspan x="542.513" y="743" font-size="21.5">et</tspan>
+						<tspan x="560.065" y="743" font-size="21.5"> </tspan>
+						<tspan x="565.466" y="743" font-size="21.5">SNCF</tspan>
+						<tspan x="619.278" y="743" font-size="21.5"> </tspan>
+						<tspan x="624.678" y="743" font-size="21.5">se</tspan>
+						<tspan x="646.282" y="743" font-size="21.5"> </tspan>
+						<tspan x="651.682" y="743" font-size="21.5">confrontent</tspan>
+						<tspan x="759.593" y="743" font-size="21.5"> </tspan>
+						<tspan x="764.991" y="743" font-size="21.5">à</tspan>
+						<tspan x="776.34" y="743" font-size="21.5"> </tspan>
+						<tspan x="781.739" y="743" font-size="21.5">celui </tspan>
+						<tspan x="124.149" y="769" font-size="21.5">mis en avant dans le SRCE.</tspan>
+						<tspan x="124" y="801" font-weight="800" font-size="21.5">3.</tspan>
+						<tspan x="142.592" y="801" font-weight="800" font-size="21.5" letter-spacing="-2">	</tspan>
+						<tspan x="145.746" y="801" font-size="21.5">Servir</tspan>
+						<tspan x="198.571" y="801" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="205.299" y="801" font-size="21.5">de</tspan>
+						<tspan x="227.975" y="801" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="234.701" y="801" font-size="21.5">support</tspan>
+						<tspan x="306.31" y="801" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="313.036" y="801" font-size="21.5">pour</tspan>
+						<tspan x="355.533" y="801" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="362.259" y="801" font-size="21.5">une</tspan>
+						<tspan x="396.703" y="801" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="403.429" y="801" font-size="21.5">réflexion</tspan>
+						<tspan x="481.87" y="801" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="488.598" y="801" font-size="21.5">quant</tspan>
+						<tspan x="541.897" y="801" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="548.623" y="801" font-size="21.5">à</tspan>
+						<tspan x="559.972" y="801" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="566.698" y="801" font-size="21.5">l’identification</tspan>
+						<tspan x="693.661" y="801" font-size="21.5" letter-spacing="1"> </tspan>
+						<tspan x="700.388" y="801" font-size="21.5">de </tspan>
+						<tspan x="123.878" y="827" font-size="21.5">zones</tspan>
+						<tspan x="179.286" y="827" font-size="21.5"> </tspan>
+						<tspan x="183.789" y="827" font-size="21.5">d’actions</tspan>
+						<tspan x="267.639" y="827" font-size="21.5"> </tspan>
+						<tspan x="272.141" y="827" font-size="21.5">où</tspan>
+						<tspan x="295.678" y="827" font-size="21.5"> </tspan>
+						<tspan x="300.181" y="827" font-size="21.5">les</tspan>
+						<tspan x="326.215" y="827" font-size="21.5"> </tspan>
+						<tspan x="330.717" y="827" font-size="21.5">efforts</tspan>
+						<tspan x="391.47" y="827" font-size="21.5"> </tspan>
+						<tspan x="395.972" y="827" font-size="21.5">des</tspan>
+						<tspan x="429.345" y="827" font-size="21.5"> </tspan>
+						<tspan x="433.847" y="827" font-size="21.5">opérateurs</tspan>
+						<tspan x="534.041" y="827" font-size="21.5"> </tspan>
+						<tspan x="538.543" y="827" font-size="21.5">pourraient</tspan>
+						<tspan x="633.331" y="827" font-size="21.5"> </tspan>
+						<tspan x="637.833" y="827" font-size="21.5">être</tspan>
+						<tspan x="673.484" y="827" font-size="21.5"> </tspan>
+						<tspan x="677.986" y="827" font-size="21.5">cu</tspan>
+						<tspan x="700.662" y="827" font-size="21.5">-</tspan>
+						<tspan x="123.756" y="853" font-size="21.5">mulés</tspan>
+						<tspan x="180.834" y="853" font-size="21.5"> </tspan>
+						<tspan x="186.504" y="853" font-size="21.5">en</tspan>
+						<tspan x="209.18" y="853" font-size="21.5"> </tspan>
+						<tspan x="214.85" y="853" font-size="21.5">vue</tspan>
+						<tspan x="247.793" y="853" font-size="21.5"> </tspan>
+						<tspan x="253.464" y="853" font-size="21.5">de</tspan>
+						<tspan x="276.14" y="853" font-size="21.5"> </tspan>
+						<tspan x="281.811" y="853" font-size="21.5">produire</tspan>
+						<tspan x="358.604" y="853" font-size="21.5"> </tspan>
+						<tspan x="364.273" y="853" font-size="21.5">des</tspan>
+						<tspan x="397.646" y="853" font-size="21.5"> </tspan>
+						<tspan x="403.317" y="853" font-size="21.5">effets</tspan>
+						<tspan x="456.018" y="853" font-size="21.5"> </tspan>
+						<tspan x="461.688" y="853" font-size="21.5">positifs</tspan>
+						<tspan x="528.896" y="853" font-size="21.5"> </tspan>
+						<tspan x="534.566" y="853" font-size="21.5">sur</tspan>
+						<tspan x="564.224" y="853" font-size="21.5"> </tspan>
+						<tspan x="569.894" y="853" font-size="21.5">les</tspan>
+						<tspan x="595.928" y="853" font-size="21.5"> </tspan>
+						<tspan x="601.598" y="853" font-size="21.5">connectivi</tspan>
+						<tspan x="695.398" y="853" font-size="21.5">-</tspan>
+						<tspan x="123.634" y="879" font-size="21.5">tés écologiques déjà existantes.</tspan>
+					</text>
+
+
+					
+					<line id="barre_titre" fill="none" stroke="#000000" stroke-miterlimit="10" x1="375" y1="26.05" x2="888.365" y2="26.05"/>
 					<circle id="bout_tire" cx="888.365" cy="26.05" r="4.127"/>
-					<!-- <circle id="rep" cx="1242.892" cy="543.313" r="575.025"/> -->
-					<g id="texte">
-						<path fill="none" d="M884.391,45.073c-154.96,113.748-259.092,294.252-259.092,497.48c0,218.093,119.923,410.014,293.893,521.348
-							c-327.368,0-898.075,0-898.075,0l1.413-301.769h-303.02V45.073C-280.49,45.073,398.207,45.073,884.391,45.073z"/>
-						<text transform="matrix(1 0 0 1 -280.4897 85.3069)"><tspan x="0" y="0"  font-size="20">Les bibliothèques sont des éléments nouveaux dans Windows 7. Vous trouverez ici les réponses aux questions les plus fréquem</tspan><tspan x="1097.236" y="0"  font-size="20">-</tspan><tspan x="0" y="25"  font-size="20">ment posées sur les bibliothèques.</tspan><tspan x="0" y="75"  font-size="20">Afficher le contenuMasquer le contenu Qu’est-ce qu’une bibliothèque ?</tspan><tspan x="0" y="100"  font-size="20">Les bibliothèques sont les endroits où vous allez pour gérer vos documents, votre musique, vos images et vos autres </tspan><tspan x="0" y="125"  font-size="20">fichiers. Vous pouvez parcourir vos fichiers de la même façon que dans un dossier, ou bien vous pouvez les afficher </tspan><tspan x="0" y="150"  font-size="20">organisés par propriétés, comme la date, le type ou l’auteur.</tspan><tspan x="0" y="200"  font-size="20">Par certains côtés, une bibliothèque est similaire à un dossier. Par exemple, lorsque vous ouvrez une biblio</tspan><tspan x="905.976" y="200"  font-size="20">-</tspan><tspan x="0" y="225"  font-size="20">thèque, vous voyez un ou plusieurs fichiers. En revanche, contrairement à un dossier, une bibliothèque ra</tspan><tspan x="903.476" y="225"  font-size="20">-</tspan><tspan x="0" y="250"  font-size="20">semble des fichiers qui sont stockés dans plusieurs emplacements. Il s’agit d’une différence subtile, mais </tspan><tspan x="0" y="275"  font-size="20">néanmoins importante. Les bibliothèques ne stockent pas réellement vos éléments. Elles analysent les dos</tspan><tspan x="913.027" y="275"  font-size="20">-</tspan><tspan x="0" y="300"  font-size="20">siers qui contiennent vos éléments et vous permettent d’accéder et d’organiser ces éléments de différentes </tspan><tspan x="0" y="325"  font-size="20">façons. Par exemple, si vous avez des fichiers de musique sur votre disque dur et sur un lecteur externe, </tspan><tspan x="0" y="350"  font-size="20">vous pouvez accéder à tous vos fichiers de musique en même temps en utilisant la bibliothèque Musique.</tspan><tspan x="0" y="400"  font-size="20">Afficher le contenuMasquer le contenu Comment créer ou modifier une bibliothèque ?</tspan><tspan x="0" y="425"  font-size="20">Windows a quatre bibliothèques par défaut : Documents, Musique, Images et Vidéos. Vous pouvez égale</tspan><tspan x="891.962" y="425"  font-size="20">-</tspan><tspan x="0" y="450"  font-size="20">ment créer de nouvelles bibliothèques. Pour plus d’informations, voir Créer une nouvelle bibliothèque.</tspan><tspan x="0" y="499.999"  font-size="20">Voici quelques façons de modifier une bibliothèque existante :</tspan><tspan x="0" y="549.999"  font-size="20">Inclure ou supprimer un dossier. Les bibliothèques rassemblent du contenu provenant de dossiers inclus </tspan><tspan x="0" y="574.999"  font-size="20">ou d’emplacements de bibliothèque. Vous pouvez inclure un maximum de 50 dossiers dans une biblio</tspan><tspan x="872.285" y="574.999"  font-size="20">-</tspan><tspan x="0" y="599.999"  font-size="20">thèque. Pour plus d’informations, voir Inclure des dossiers dans une bibliothèque.</tspan><tspan x="0" y="649.999"  font-size="20">Changer l’emplacement d’enregistrement par défaut. L’emplacement d’enregistrement par défaut détermine </tspan><tspan x="0" y="674.999"  font-size="20">où un élément est stocké lorsqu’il est copié, déplacé ou enregistré dans la bibliothèque. Pour plus d’informa</tspan><tspan x="915.419" y="674.999"  font-size="20">-</tspan><tspan x="302.975" y="699.999"  font-size="20">tions, voir Personnaliser une bibliothèque.</tspan><tspan x="302.741" y="749.999"  font-size="20">Changer le type de fichier pour lequel une bibliothèque est optimisée. Chaque </tspan><tspan x="302.624" y="774.999"  font-size="20">bibliothèque peut être optimisée pour un certain type de fichier (tel que de la </tspan><tspan x="302.507" y="799.999"  font-size="20">musique ou des images). L’optimisation d’une bibliothèque pour un certain type </tspan><tspan x="302.39" y="824.999"  font-size="20">de fichier modifie les options disponibles pour l’organisation de vos fichiers. Pour </tspan><tspan x="302.273" y="849.999"  font-size="20">plus d’informations, voir Personnaliser une bibliothèque.</tspan><tspan x="302.039" y="899.999"  font-size="20">Afficher le contenuMasquer le contenu Que se passe-t-il si je supprime une bibliothèque ou </tspan><tspan x="301.922" y="924.999"  font-size="20">les éléments d’une bibliothèque ?</tspan><tspan x="301.805" y="949.999"  font-size="20">Si vous supprimez une bibliothèque, la bibliothèque elle-même est déplacée vers la Corbeille. Les </tspan><tspan x="301.688" y="974.999"  font-size="20">fichiers et les dossiers qui sont accessibles dans la bibliothèque sont stockés ailleurs et ne sont donc </tspan></text>
+					<defs>
+						<radialGradient id="gradient_image">
+							<stop  offset="0" style="stop-color:#92C496"/>
+							<stop  offset="0.8" style="stop-color:#92C496;stop-opacity:1"/>
+							<stop  offset="1" style="stop-color:#92C496;stop-opacity:0"/>
+						</radialGradient>
+						<circle id="renard" cx="705.787" cy="1005.243" r="82"/>
+						<circle id="pilone" cx="-204.267" cy="548.767" r="82"/>
+						<circle id="voie_ferree"  cx="-204.267" cy="204.39" r="82"/>
+					</defs>
+					<circle fill="url(#gradient_image)" cx="720.787" cy="1005.243" r="100"/>
+					<circle fill="url(#gradient_image)" cx="-204.267" cy="548.767" r="97"/>
+					<circle fill="url(#gradient_image)" cx="-204.267" cy="204.39" r="97"/>
+					<g id="img_voie_ferree">
+						<clipPath id="clip_voie_ferree">
+							<use xlink:href="#voie_ferree"  overflow="visible"/>
+						</clipPath>
+						<g transform="matrix(1 0 0 1 0 -7.629395e-006)" clip-path="url(#clip_voie_ferree)">
+							<image overflow="visible" width="640" height="426" xlink:href="img/voie_ferree.jpg"  transform="matrix(0.3869 0 0 0.3869 -323.5562 121.991)"/>
+						</g>
 					</g>
+					<g id="img_pilone">
+						<clipPath id="clip_pilone">
+							<use xlink:href="#pilone"  overflow="visible"/>
+						</clipPath>
+						<g transform="matrix(1 0 0 1 3.051758e-005 0)" clip-path="url(#clip_pilone)">
+							<image overflow="visible" width="261" height="174" xlink:href="img/pilone.jpg"  transform="matrix(0.941 0 0 0.941 -333.2549 466.9016)"/>
+						</g>
+					</g>
+					<g id="img_renard" transform="translate(15,0)">
+						<clipPath id="clip_renard">
+							<use xlink:href="#renard"  overflow="visible"/>
+						</clipPath>
+						<g clip-path="url(#clip_renard)">
+							<image overflow="visible" width="283" height="199" xlink:href="img/renard.jpg"  transform="matrix(0.803 0 0 0.803 575.2183 923.2141)"/>
+						</g>
+					</g>
+					<!-- <circle id="rep" cx="1242.892" cy="543.313" r="575.025"/> -->
+					<!-- <g id="texte"> -->
+						<!-- <path fill="none" d="M884.391,45.073c-154.96,113.748-259.092,294.252-259.092,497.48c0,218.093,119.923,410.014,293.893,521.348 -->
+							<!-- c-327.368,0-898.075,0-898.075,0l1.413-301.769h-303.02V45.073C-280.49,45.073,398.207,45.073,884.391,45.073z"/> -->
+						<!-- <text transform="matrix(1 0 0 1 -280.4897 85.3069)"><tspan x="0" y="0"  font-size="20">Les bibliothèques sont des éléments nouveaux dans Windows 7. Vous trouverez ici les réponses aux questions les plus fréquem</tspan><tspan x="1097.236" y="0"  font-size="20">-</tspan><tspan x="0" y="25"  font-size="20">ment posées sur les bibliothèques.</tspan><tspan x="0" y="75"  font-size="20">Afficher le contenuMasquer le contenu Qu’est-ce qu’une bibliothèque ?</tspan><tspan x="0" y="100"  font-size="20">Les bibliothèques sont les endroits où vous allez pour gérer vos documents, votre musique, vos images et vos autres </tspan><tspan x="0" y="125"  font-size="20">fichiers. Vous pouvez parcourir vos fichiers de la même façon que dans un dossier, ou bien vous pouvez les afficher </tspan><tspan x="0" y="150"  font-size="20">organisés par propriétés, comme la date, le type ou l’auteur.</tspan><tspan x="0" y="200"  font-size="20">Par certains côtés, une bibliothèque est similaire à un dossier. Par exemple, lorsque vous ouvrez une biblio</tspan><tspan x="905.976" y="200"  font-size="20">-</tspan><tspan x="0" y="225"  font-size="20">thèque, vous voyez un ou plusieurs fichiers. En revanche, contrairement à un dossier, une bibliothèque ra</tspan><tspan x="903.476" y="225"  font-size="20">-</tspan><tspan x="0" y="250"  font-size="20">semble des fichiers qui sont stockés dans plusieurs emplacements. Il s’agit d’une différence subtile, mais </tspan><tspan x="0" y="275"  font-size="20">néanmoins importante. Les bibliothèques ne stockent pas réellement vos éléments. Elles analysent les dos</tspan><tspan x="913.027" y="275"  font-size="20">-</tspan><tspan x="0" y="300"  font-size="20">siers qui contiennent vos éléments et vous permettent d’accéder et d’organiser ces éléments de différentes </tspan><tspan x="0" y="325"  font-size="20">façons. Par exemple, si vous avez des fichiers de musique sur votre disque dur et sur un lecteur externe, </tspan><tspan x="0" y="350"  font-size="20">vous pouvez accéder à tous vos fichiers de musique en même temps en utilisant la bibliothèque Musique.</tspan><tspan x="0" y="400"  font-size="20">Afficher le contenuMasquer le contenu Comment créer ou modifier une bibliothèque ?</tspan><tspan x="0" y="425"  font-size="20">Windows a quatre bibliothèques par défaut : Documents, Musique, Images et Vidéos. Vous pouvez égale</tspan><tspan x="891.962" y="425"  font-size="20">-</tspan><tspan x="0" y="450"  font-size="20">ment créer de nouvelles bibliothèques. Pour plus d’informations, voir Créer une nouvelle bibliothèque.</tspan><tspan x="0" y="499.999"  font-size="20">Voici quelques façons de modifier une bibliothèque existante :</tspan><tspan x="0" y="549.999"  font-size="20">Inclure ou supprimer un dossier. Les bibliothèques rassemblent du contenu provenant de dossiers inclus </tspan><tspan x="0" y="574.999"  font-size="20">ou d’emplacements de bibliothèque. Vous pouvez inclure un maximum de 50 dossiers dans une biblio</tspan><tspan x="872.285" y="574.999"  font-size="20">-</tspan><tspan x="0" y="599.999"  font-size="20">thèque. Pour plus d’informations, voir Inclure des dossiers dans une bibliothèque.</tspan><tspan x="0" y="649.999"  font-size="20">Changer l’emplacement d’enregistrement par défaut. L’emplacement d’enregistrement par défaut détermine </tspan><tspan x="0" y="674.999"  font-size="20">où un élément est stocké lorsqu’il est copié, déplacé ou enregistré dans la bibliothèque. Pour plus d’informa</tspan><tspan x="915.419" y="674.999"  font-size="20">-</tspan><tspan x="302.975" y="699.999"  font-size="20">tions, voir Personnaliser une bibliothèque.</tspan><tspan x="302.741" y="749.999"  font-size="20">Changer le type de fichier pour lequel une bibliothèque est optimisée. Chaque </tspan><tspan x="302.624" y="774.999"  font-size="20">bibliothèque peut être optimisée pour un certain type de fichier (tel que de la </tspan><tspan x="302.507" y="799.999"  font-size="20">musique ou des images). L’optimisation d’une bibliothèque pour un certain type </tspan><tspan x="302.39" y="824.999"  font-size="20">de fichier modifie les options disponibles pour l’organisation de vos fichiers. Pour </tspan><tspan x="302.273" y="849.999"  font-size="20">plus d’informations, voir Personnaliser une bibliothèque.</tspan><tspan x="302.039" y="899.999"  font-size="20">Afficher le contenuMasquer le contenu Que se passe-t-il si je supprime une bibliothèque ou </tspan><tspan x="301.922" y="924.999"  font-size="20">les éléments d’une bibliothèque ?</tspan><tspan x="301.805" y="949.999"  font-size="20">Si vous supprimez une bibliothèque, la bibliothèque elle-même est déplacée vers la Corbeille. Les </tspan><tspan x="301.688" y="974.999"  font-size="20">fichiers et les dossiers qui sont accessibles dans la bibliothèque sont stockés ailleurs et ne sont donc </tspan></text> -->
+					<!-- </g> -->
 					
 				</svg>
 				<svg id="carte">
-					<g id="gradients"/>
+					<defs>
 						<radialGradient id="rad_fond">
 							<stop  offset="0" style="stop-color:#FFFFFF"/>
 							<!-- <stop  offset="0.6215" style="stop-color:#9C9B9B"/> -->
 							<stop  offset="1" style="stop-color:#baae9d"/>
 						</radialGradient>
-					</g>
+						<g id="omb" opacity="0.6">
+							
+							<image overflow="visible" width="6382" height="4129" xlink:href="3A486ED4.png"  transform="matrix(0.24 0 0 0.24 61.8027 247.4519)"></image>
+							<polygon opacity="0.6" fill="#FFFFFF" points="1577.926,1119.741 1577.45,1111.49 1570.333,1103.622 1563.692,1104.004  1563.217,1095.753 1562.745,1087.502 1562.27,1079.25 1561.795,1070.999 1535.254,1072.514 1521.981,1073.266 1521.516,1065.014  1527.684,1056.386 1533.848,1047.759 1533.379,1039.507 1531.973,1014.75 1532.442,1023.002 1538.129,1006.121  1531.504,1006.498 1531.036,998.245 1537.659,997.868 1544.284,997.491 1543.34,980.986 1549.489,972.354 1556.108,971.974  1568.87,962.96 1554.686,947.218 1541.454,947.975 1540.983,939.722 1533.899,931.846 1528.223,948.729 1534.838,948.352  1535.309,956.605 1522.542,965.61 1515.458,957.731 1522.075,957.357 1521.608,949.104 1508.375,949.851 1514.059,932.972  1506.983,925.092 1506.518,916.839 1492.834,909.327 1486.686,917.95 1486.225,909.696 1472.09,893.924 1465.485,894.29  1458.422,886.401 1451.362,878.51 1444.758,878.873 1431.999,887.849 1425.393,888.21 1418.788,888.568 1418.34,880.313  1392.805,898.246 1386.639,906.854 1380.03,907.206 1379.151,890.696 1366.375,899.652 1359.333,891.746 1352.293,883.838  1339.083,884.53 1339.514,892.786 1332.477,884.875 1325.872,885.218 1306.055,886.242 1306.481,894.498 1299.45,886.581  1293.266,895.175 1293.688,903.43 1294.954,928.198 1288.342,928.535 1281.309,920.616 1281.729,928.872 1268.088,921.285  1267.672,913.029 1260.647,905.105 1253.211,888.924 1246.192,880.998 1245.78,872.742 1251.969,864.154 1258.157,855.566  1257.327,839.053 1256.911,830.797 1249.487,814.613 1241.655,790.172 1235.065,790.501 1228.067,782.57 1227.657,774.313  1220.661,766.382 1214.075,766.707 1200.903,767.354 1193.913,759.418 1187.329,759.739 1167.971,768.953 1161.385,769.269  1154.799,769.586 1154.403,761.327 1160.592,752.753 1166.778,744.178 1153.219,736.552 1146.637,736.866 1140.055,737.178  1127.284,746.06 1127.672,754.319 1121.088,754.63 1114.891,763.197 1101.721,763.812 1095.135,764.118 1088.93,772.682  1082.344,772.986 1075.377,765.029 1061.831,757.372 1054.87,749.412 1048.288,749.711 1034.75,742.044 1033.637,717.264  1026.69,709.3 1032.895,700.745 1025.952,692.779 1025.581,684.519 1025.211,676.259 1024.842,667.998 1011.334,660.323  1017.536,651.77 1010.969,652.063 1010.602,643.802 1010.235,635.542 1002.94,619.311 1009.5,619.02 1015.696,610.468  1008.768,602.498 1015.327,602.207 1014.958,593.945 1008.034,585.976 1007.667,577.715 994.92,586.556 988,578.584  974.53,570.896 980.721,562.348 973.45,546.111 966.899,546.396 959.991,538.418 959.633,530.156 952.729,522.177  952.374,513.915 939.284,514.477 932.739,514.757 932.387,506.494 926.194,515.035 926.543,523.298 919.999,523.575  920.348,531.837 913.799,532.113 900.358,524.4 887.608,533.209 881.059,533.479 861.752,542.549 855.538,551.079  848.987,551.344 836.218,560.135 836.549,568.398 830.326,576.924 830.987,593.449 824.429,593.711 817.871,593.972  818.199,602.235 804.755,594.49 798.197,594.748 784.438,578.734 771.646,587.505 765.089,587.757 751.661,579.995  751.032,563.468 750.717,555.205 737.614,555.701 737.302,547.437 736.99,539.174 730.441,539.42 723.583,531.402  716.419,515.118 716.111,506.854 709.261,498.833 689.634,499.556 682.79,491.53 683.091,499.795 663.463,500.506  662.868,483.976 656.033,475.946 642.955,476.412 642.662,468.146 648.905,459.649 648.61,451.385 648.316,443.119  647.728,426.589 647.434,418.324 647.139,410.058 640.61,410.291 646.845,401.793 653.075,393.295 659.304,384.796  652.188,368.498 645.372,360.466 645.078,352.2 644.784,343.934 638.267,344.166 624.941,336.36 624.65,328.094 623.489,295.029  616.69,286.991 616.401,278.724 609.319,262.419 583.585,271.582 570.854,280.291 564.347,280.51 545.1,289.43 519.335,298.552  512.824,298.763 499.54,290.916 473.764,300.009 454.233,300.617 441.466,309.285 428.692,317.948 422.179,318.145  415.418,310.073 415.666,318.341 409.645,335.07 402.884,326.996 389.855,327.379 383.581,335.837 370.787,344.482  364.27,344.669 357.517,336.588 351.234,345.04 338.199,345.407 338.431,353.675 299.317,354.75 279.979,363.541  266.938,363.885 254.11,372.492 241.066,372.827 234.544,372.993 241.277,381.095 228.23,381.427 221.707,381.591  195.814,390.504 176.438,399.245 163.58,407.823 150.717,416.397 144.378,424.817 125.348,450.07 112.647,466.899  99.572,467.189 86.498,467.473 86.855,484.01 87.034,492.279 87.213,500.547 94.116,516.941 94.296,525.209 100.843,525.065  101.024,533.334 101.206,541.601 101.569,558.136 101.751,566.404 95.377,574.815 95.558,583.083 95.918,599.618 89.18,591.493  89.359,599.76 83.155,616.436 76.77,624.844 76.946,633.111 84.042,657.772 84.397,674.305 91.684,707.231 92.22,732.031  85.64,732.173 92.399,740.298 105.925,756.543 106.107,764.809 112.692,764.664 119.646,781.05 119.831,789.315 106.288,773.075  99.521,764.953 92.936,765.095 93.114,773.362 93.293,781.629 87.414,814.834 87.592,823.099 88.301,856.162 82.053,872.835  82.405,889.365 89.188,897.489 96.153,913.877 102.583,905.469 109.374,913.589 115.983,913.443 122.777,921.561  129.574,929.677 129.759,937.943 129.945,946.207 136.56,946.058 143.175,945.908 143.363,954.173 156.405,945.605  162.829,937.187 176.056,936.878 182.473,928.457 195.698,928.14 195.499,919.876 215.332,919.393 221.942,919.23  228.759,927.331 235.578,935.43 248.805,935.096 255.629,943.192 262.456,951.287 262.669,959.551 269.286,959.381  282.737,967.3 289.138,958.862 295.536,950.424 295.317,942.16 302.152,950.248 308.99,958.334 309.211,966.597 302.373,958.511  289.573,975.389 296.193,975.215 296.412,983.477 309.655,983.125 309.876,991.387 316.499,991.21 329.744,990.849  329.97,999.113 336.594,998.931 343.217,998.749 350.071,1006.828 356.696,1006.643 356.927,1014.906 363.554,1014.72  370.18,1014.533 376.806,1014.345 364.019,1031.246 370.647,1031.058 370.881,1039.321 377.747,1047.395 378.217,1063.921  384.615,1055.469 397.881,1055.087 397.642,1046.824 404.514,1054.894 411.146,1054.701 411.388,1062.963 418.266,1071.03  418.022,1062.768 431.045,1054.113 437.678,1053.916 444.062,1045.454 457.324,1045.053 457.575,1053.315 463.955,1044.851  470.587,1044.647 483.593,1035.976 490.48,1044.031 497.111,1043.824 510.111,1035.143 510.373,1043.405 517.004,1043.194  516.741,1034.932 509.85,1026.882 503.221,1027.092 516.214,1018.409 516.478,1026.672 530.267,1042.769 530.532,1051.031  537.164,1050.817 536.897,1042.555 543.259,1034.079 549.889,1033.863 556.247,1025.384 562.875,1025.166 563.147,1033.427  576.406,1032.987 582.759,1024.505 589.942,1040.804 596.853,1048.842 603.484,1048.617 610.398,1056.651 604.046,1065.138  597.412,1065.363 584.419,1074.071 577.783,1074.293 564.511,1074.733 564.784,1082.994 565.057,1091.255 558.146,1083.213  558.418,1091.473 551.779,1091.691 552.049,1099.952 552.589,1116.473 546.215,1124.951 546.483,1133.212 553.399,1141.256  560.046,1141.038 566.693,1140.818 566.966,1149.079 567.238,1157.34 573.888,1157.119 579.711,1132.117 586.08,1123.635  585.803,1115.375 592.446,1115.151 598.809,1106.667 605.45,1106.441 618.732,1105.988 619.017,1114.248 632.873,1130.31  639.231,1121.819 638.656,1105.299 645.297,1105.067 652.229,1113.094 658.579,1104.601 652.519,1121.355 652.809,1129.615  666.392,1137.405 672.743,1128.91 686.33,1136.693 693.274,1144.714 699.622,1136.214 706.569,1144.231 719.864,1143.745  727.121,1160.018 733.465,1151.513 719.561,1135.486 726.206,1135.241 732.546,1126.736 732.239,1118.476 725.597,1118.722  731.934,1110.217 738.883,1118.229 752.479,1125.992 759.124,1125.741 765.769,1125.49 772.412,1125.238 766.395,1142.008  773.041,1141.756 767.021,1158.526 760.682,1167.036 760.993,1175.295 747.998,1184.053 754.962,1192.062 761.617,1191.812  768.272,1191.56 767.959,1183.302 774.612,1183.049 781.267,1182.796 787.603,1174.282 794.255,1174.026 793.937,1165.767  800.588,1165.51 806.918,1156.994 813.567,1156.735 813.89,1164.994 814.212,1173.252 820.864,1172.992 821.188,1181.25  828.166,1189.247 821.512,1189.508 821.835,1197.766 814.856,1189.768 808.522,1198.286 815.179,1198.026 815.501,1206.285  828.816,1205.762 828.491,1197.505 834.821,1188.984 848.129,1188.456 847.801,1180.198 861.108,1179.666 867.76,1179.398  874.413,1179.129 881.403,1187.117 881.067,1178.859 894.372,1178.316 900.686,1169.785 907.336,1169.51 913.989,1169.235  927.637,1176.938 934.29,1176.66 947.245,1167.843 947.594,1176.099 961.25,1183.792 961.604,1192.049 961.956,1200.305  981.569,1191.193 975.268,1199.736 988.581,1199.162 995.596,1207.13 1008.549,1198.293 1015.206,1198.001 1021.499,1189.452  1028.153,1189.158 1034.807,1188.863 1041.831,1196.823 1041.461,1188.567 1048.116,1188.27 1048.485,1196.526  1048.854,1204.782 1061.797,1195.928 1068.454,1195.628 1082.141,1203.279 1081.764,1195.023 1088.043,1186.465  1094.319,1177.904 1107.624,1177.292 1108.004,1185.547 1114.659,1185.239 1121.313,1184.929 1127.967,1184.62  1135.008,1192.564 1168.284,1190.991 1174.543,1182.419 1181.198,1182.099 1180.801,1173.845 1187.454,1173.525  1193.706,1164.949 1199.958,1156.373 1206.606,1156.05 1213.659,1163.98 1220.309,1163.656 1227.366,1171.584 1234.424,1179.51  1241.485,1187.436 1247.731,1178.852 1253.971,1170.267 1261.036,1178.19 1267.276,1169.603 1260.624,1169.936  1260.211,1161.682 1273.096,1152.761 1292.624,1143.5 1299.272,1143.162 1312.989,1150.736 1326.711,1158.306 1340.01,1157.618  1353.741,1165.179 1359.959,1156.578 1367.042,1164.482 1380.342,1163.781 1394.083,1171.328 1387.432,1171.681  1394.522,1179.581 1394.961,1187.834 1407.829,1178.871 1414.038,1170.261 1427.34,1169.545 1433.545,1160.933  1440.196,1160.572 1446.395,1151.958 1446.846,1160.211 1453.948,1168.099 1441.989,1193.581 1442.438,1201.833  1462.409,1200.742 1462.86,1208.994 1469.518,1208.629 1476.176,1208.261 1489.491,1207.525 1502.807,1206.784  1503.268,1215.035 1503.727,1223.286 1516.584,1214.29 1523.245,1213.915 1536.561,1213.163 1542.75,1204.535 1548.938,1195.906  1548.469,1187.655 1541.815,1188.033 1535.159,1188.411 1528.04,1180.536 1534.225,1171.909 1546.12,1146.4 1552.766,1146.021  1565.588,1137.009 1578.403,1127.992 			"/>
+						</g>
+						<g id="ombre_carte" opacity="0.6" enable-background="new    ">
+							
+								<image overflow="visible" opacity="0.6" width="3840" height="2502" xlink:href="img/3A486ED6.png"  transform="matrix(0.24 0 0 0.24 30.6099 140.8269)">
+							</image>
+						
+							<g>
+								<polygon fill="#FFFFFF" points="936.788,664.771 936.506,659.873 932.28,655.202 928.338,655.428 928.056,650.53  927.774,645.632 927.493,640.732 927.212,635.834 911.454,636.734 903.575,637.18 903.299,632.281 906.96,627.159  910.619,622.037 910.341,617.137 909.507,602.44 909.785,607.34 913.161,597.317 909.229,597.541 908.95,592.641  912.883,592.418 916.814,592.193 916.255,582.395 919.905,577.27 923.835,577.046 931.411,571.693 922.99,562.347  915.136,562.797 914.855,557.897 910.65,553.222 907.28,563.245 911.208,563.021 911.487,567.921 903.908,573.266  899.702,568.589 903.631,568.367 903.353,563.468 895.498,563.911 898.872,553.889 894.67,549.212 894.395,544.311  886.271,539.852 882.62,544.971 882.347,540.071 873.956,530.708 870.033,530.926 865.841,526.241 861.649,521.557  857.729,521.772 850.154,527.101 846.232,527.315 842.311,527.528 842.045,522.627 826.886,533.273 823.225,538.384  819.301,538.593 818.779,528.792 811.194,534.108 807.013,529.415 802.833,524.719 794.991,525.131 795.247,530.032  791.069,525.336 787.147,525.539 775.384,526.147 775.636,531.049 771.462,526.348 767.791,531.45 768.041,536.351  768.792,551.055 764.866,551.256 760.692,546.554 760.941,551.456 752.843,546.951 752.595,542.05 748.425,537.345  744.01,527.739 739.844,523.034 739.599,518.132 743.273,513.034 746.946,507.935 746.453,498.132 746.207,493.23 741.8,483.623  737.15,469.112 733.237,469.306 729.082,464.599 728.839,459.697 724.686,454.988 720.776,455.181 712.956,455.565  708.807,450.853 704.897,451.044 693.405,456.514 689.495,456.703 685.585,456.89 685.35,451.987 689.024,446.897  692.696,441.806 684.646,437.278 680.739,437.465 676.832,437.651 669.249,442.924 669.48,447.827 665.571,448.01  661.893,453.097 654.073,453.463 650.163,453.644 646.479,458.728 642.569,458.909 638.434,454.185 630.391,449.639  626.259,444.914 622.351,445.091 614.313,440.539 613.653,425.828 609.528,421.099 613.213,416.02 609.09,411.292  608.87,406.387 608.651,401.483 608.432,396.58 600.413,392.023 604.094,386.945 600.195,387.119 599.978,382.215 599.76,377.31  595.428,367.675 599.324,367.502 603.001,362.425 598.889,357.693 602.782,357.52 602.563,352.615 598.452,347.885  598.235,342.98 590.667,348.228 586.56,343.496 578.562,338.931 582.238,333.857 577.92,324.217 574.031,324.386 569.931,319.65  569.719,314.745 565.62,310.008 565.408,305.103 557.637,305.436 553.751,305.602 553.542,300.697 549.865,305.767  550.074,310.673 546.188,310.838 546.395,315.743 542.507,315.907 534.527,311.328 526.958,316.556 523.07,316.718  511.607,322.102 507.919,327.166 504.029,327.324 496.448,332.543 496.646,337.449 492.95,342.51 493.343,352.321  489.45,352.476 485.557,352.632 485.751,357.537 477.77,352.939 473.876,353.092 465.708,343.585 458.113,348.792  454.221,348.941 446.248,344.334 445.875,334.521 445.688,329.616 437.909,329.91 437.724,325.005 437.539,320.098  433.65,320.245 429.579,315.484 425.326,305.817 425.144,300.911 421.077,296.148 409.424,296.578 405.361,291.813  405.54,296.719 393.887,297.141 393.534,287.328 389.476,282.561 381.712,282.838 381.538,277.93 385.244,272.885  385.069,267.979 384.895,263.072 384.545,253.259 384.37,248.351 384.195,243.445 380.32,243.583 384.021,238.538  387.72,233.492 391.417,228.446 387.193,218.771 383.147,214.002 382.972,209.094 382.797,204.187 378.928,204.325  371.017,199.691 370.845,194.784 370.155,175.154 366.119,170.382 365.947,165.474 361.743,155.794 346.465,161.234  338.906,166.404 335.043,166.535 323.617,171.83 308.32,177.246 304.455,177.371 296.568,172.712 281.266,178.11  269.671,178.471 262.091,183.617 254.507,188.76 250.641,188.877 246.627,184.085 246.774,188.993 243.199,198.926  239.186,194.132 231.45,194.359 227.726,199.381 220.13,204.513 216.261,204.624 212.251,199.826 208.522,204.844  200.783,205.062 200.92,209.97 177.699,210.609 166.219,215.828 158.476,216.032 150.861,221.142 143.117,221.342  139.245,221.439 143.242,226.25 135.497,226.446 131.624,226.544 116.252,231.836 104.748,237.025 97.115,242.118  89.478,247.208 85.715,252.207 74.417,267.199 66.876,277.19 59.114,277.362 51.352,277.531 51.564,287.348 51.671,292.258  51.777,297.166 55.875,306.899 55.982,311.807 59.869,311.722 59.977,316.631 60.084,321.54 60.3,331.356 60.408,336.264  56.624,341.259 56.731,346.167 56.945,355.983 52.945,351.159 53.051,356.067 49.368,365.968 45.577,370.96 45.682,375.867  49.895,390.509 50.105,400.324 54.431,419.872 54.75,434.594 50.843,434.678 54.855,439.502 62.886,449.147 62.994,454.054  66.904,453.969 71.032,463.696 71.142,468.603 63.102,458.962 59.084,454.139 55.174,454.224 55.28,459.133 55.386,464.04  51.896,483.754 52.002,488.661 52.423,508.289 48.713,518.187 48.923,528.001 52.95,532.824 57.085,542.553 60.902,537.561  64.933,542.383 68.857,542.296 72.891,547.115 76.926,551.934 77.036,556.841 77.146,561.748 81.073,561.659 85.001,561.57  85.112,566.476 92.855,561.389 96.668,556.392 104.521,556.209 108.332,551.209 116.183,551.021 116.064,546.115  127.839,545.829 131.764,545.732 135.811,550.541 139.859,555.349 147.711,555.151 151.763,559.958 155.816,564.763  155.942,569.67 159.871,569.568 167.856,574.269 171.656,569.26 175.455,564.251 175.325,559.344 179.383,564.146  183.442,568.947 183.574,573.853 179.514,569.052 171.915,579.072 175.845,578.969 175.975,583.874 183.837,583.665  183.969,588.57 187.9,588.465 195.764,588.251 195.897,593.157 199.83,593.049 203.762,592.94 207.831,597.737 211.765,597.628  211.901,602.533 215.835,602.423 219.77,602.311 223.704,602.2 216.111,612.233 220.047,612.123 220.186,617.028  224.262,621.821 224.541,631.632 228.339,626.614 236.215,626.387 236.073,621.482 240.153,626.273 244.091,626.158  244.234,631.063 248.317,635.852 248.173,630.948 255.904,625.809 259.842,625.692 263.632,620.669 271.506,620.43  271.655,625.336 275.442,620.31 279.379,620.19 287.101,615.042 291.19,619.824 295.126,619.701 302.845,614.548 303,619.452  306.937,619.327 306.78,614.423 302.689,609.642 298.754,609.767 306.468,604.613 306.624,609.517 314.81,619.075  314.968,623.979 318.905,623.852 318.747,618.948 322.524,613.916 326.459,613.787 330.234,608.754 334.169,608.624  334.331,613.528 342.203,613.267 345.974,608.231 350.239,617.908 354.341,622.679 358.279,622.546 362.383,627.316  358.612,632.355 354.673,632.488 346.96,637.658 343.021,637.79 335.141,638.051 335.303,642.955 335.465,647.86  331.362,643.085 331.523,647.99 327.582,648.119 327.742,653.023 328.063,662.832 324.279,667.865 324.438,672.768  328.544,677.545 332.49,677.415 336.436,677.285 336.598,682.189 336.76,687.094 340.708,686.963 344.165,672.119  347.946,667.083 347.781,662.179 351.725,662.047 355.503,657.01 359.446,656.876 367.331,656.606 367.5,661.51 375.727,671.047  379.501,666.006 379.159,656.198 383.102,656.06 387.217,660.826 390.987,655.783 387.389,665.729 387.562,670.634  395.625,675.259 399.396,670.215 407.463,674.836 411.585,679.597 415.354,674.551 419.479,679.311 427.371,679.022  431.68,688.683 435.445,683.635 427.19,674.119 431.137,673.973 434.9,668.924 434.719,664.02 430.774,664.167 434.536,659.117  438.662,663.874 446.734,668.482 450.679,668.334 454.624,668.184 458.568,668.035 454.995,677.991 458.941,677.842  455.367,687.798 451.604,692.849 451.789,697.753 444.073,702.953 448.208,707.708 452.159,707.558 456.11,707.41  455.925,702.507 459.875,702.356 463.825,702.206 467.587,697.152 471.536,697 471.347,692.096 475.296,691.944 479.054,686.888  483.001,686.734 483.192,691.637 483.384,696.54 487.333,696.385 487.525,701.289 491.668,706.036 487.718,706.191  487.909,711.094 483.767,706.345 480.007,711.402 483.958,711.248 484.149,716.151 492.054,715.842 491.861,710.938  495.619,705.88 503.521,705.566 503.325,700.664 511.225,700.347 515.175,700.189 519.125,700.029 523.273,704.771  523.074,699.869 530.974,699.547 534.722,694.482 538.671,694.319 542.62,694.155 550.723,698.728 554.672,698.563  562.363,693.329 562.571,698.23 570.679,702.798 570.888,707.699 571.097,712.601 582.741,707.191 579,712.263 586.903,711.923  591.068,716.653 598.759,711.406 602.71,711.233 606.446,706.158 610.396,705.983 614.348,705.808 618.517,710.534  618.298,705.633 622.249,705.456 622.468,710.357 622.688,715.259 630.371,710.003 634.322,709.824 642.448,714.367  642.226,709.466 645.952,704.384 649.679,699.302 657.577,698.938 657.804,703.84 661.755,703.656 665.705,703.473  669.655,703.289 673.835,708.006 693.591,707.072 697.307,701.982 701.257,701.793 701.021,696.892 704.971,696.702  708.684,691.611 712.395,686.519 716.342,686.328 720.528,691.036 724.478,690.843 728.666,695.55 732.856,700.256  737.049,704.961 740.757,699.865 744.462,694.768 748.656,699.471 752.36,694.374 748.411,694.571 748.166,689.672  755.816,684.375 767.409,678.877 771.355,678.676 779.499,683.173 787.646,687.667 795.542,687.259 803.692,691.748  807.385,686.641 811.59,691.334 819.486,690.918 827.644,695.398 823.694,695.608 827.904,700.298 828.165,705.197  835.804,699.876 839.491,694.764 847.389,694.34 851.072,689.226 855.021,689.012 858.701,683.898 858.968,688.798  863.184,693.481 856.085,708.609 856.352,713.508 868.207,712.86 868.476,717.76 872.429,717.543 876.381,717.325  884.286,716.887 892.191,716.447 892.465,721.345 892.738,726.244 900.371,720.903 904.324,720.681 912.23,720.234  915.905,715.112 919.579,709.989 919.3,705.091 915.349,705.315 911.398,705.54 907.171,700.864 910.844,695.743  917.905,680.598 921.852,680.374 929.463,675.023 937.071,669.67 			"/>
+								
+							</g>
+						</g>
+						<g id="addtypo">
+							<text transform="matrix(1 0 0 1 628.7461 553.3601)" fill="#937979"   font-size="22.3928">NORD</text>
+							<text transform="matrix(1 0 0 1 303.1235 566.4763)" fill="#937979"   font-size="22.3928">PAS-DE-CALAIS</text>
+							
+								<text transform="matrix(1 0 0 1 269.5435 777.3416)" opacity="0.4" fill="#937979" enable-background="new    "   font-size="22.3928">SOMME</text>
+							
+								<text transform="matrix(1 0 0 1 672.7676 807.198)" opacity="0.4" fill="#937979" enable-background="new    "   font-size="22.3928">AISNE</text>
+						</g>
+					</defs>
 				</svg>
+				
 			</div>
-			
 			<div id="base">
 				<svg id="carte_indiv" width="100%" viewBox="-306.895 0 2298.188 1149.1">
-					<radialGradient id="pourzoom">
-						<stop  offset="0" style="stop-color:#55555"/>
-						<stop  offset="1" style="stop-color:#55555;stop-opacity:0"/>
-					</radialGradient>
-					<clipPath id="pathclipp">
-						<path d="M0.212,534.915c-22.139,0-40.097,17.991-40.097,40.184c0,22.172,17.958,40.167,40.097,40.167
-							c22.153,0,40.111-17.995,40.111-40.167C883.323,552.906,865.365,534.915,843.212,534.915z M843.849,583.21
-							c-4.34,0-7.874-3.511-7.874-7.86c0-4.354,3.52-7.872,7.874-7.872c4.34,0,7.865,3.518,7.865,7.872
-							C851.714,579.697,848.188,583.21,843.849,583.21z"/>
-					</clipPath>
 					<defs>
-						<g id="moindre_zoom">
-							<clipPath id="SVGID_2_">
-								<path id="SVGID_1_" d="M-0.007-40.175c-22.139,0-40.097,17.989-40.097,40.184c0,22.172,17.958,40.166,40.097,40.166
-									c22.153,0,40.111-17.994,40.111-40.166C40.104-22.185,22.146-40.175-0.007-40.175z M0.629,8.12
-									c-4.34,0-7.874-3.513-7.874-7.861c0-4.354,3.52-7.871,7.874-7.871c4.34,0,7.865,3.518,7.865,7.871
-									C8.495,4.606,4.969,8.12,0.629,8.12z"/>
-							</clipPath>
-							
-							<radialGradient id="SVGID_3_" cx="-3791.6262" cy="1838.5176" r="19" gradientTransform="matrix(1 0 0 -1 3792.2432 1838.7832)" gradientUnits="userSpaceOnUse">
-								<stop  offset="0" style="stop-color:#111111"/>
-								<stop  offset="1" style="stop-color:#111111;stop-opacity:0"/>
-							</radialGradient>
-							<path clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" d="M0.618-21.761c12.168,0,22.029,9.857,22.029,22.021
-								c0,12.174-9.861,22.031-22.029,22.031c-12.162,0-22.031-9.857-22.031-22.031S-11.546-21.761,0.618-21.761z"/>
+						<g id="use_p">
+							<g transform="scale(0.2)">
+								<clipPath id="IDP_2_">
+									<path id="IDP_1_" d="M-0.021-120.524c-66.417,0-120.292,53.968-120.292,120.551
+										c0,66.516,53.874,120.498,120.292,120.498c66.458,0,120.333-53.982,120.333-120.498
+										C120.312-66.554,66.438-120.524-0.021-120.524z M0.629,8.12c-4.34,0-7.874-3.513-7.874-7.861
+										c0-4.354,3.52-7.871,7.874-7.871c4.34,0,7.865,3.518,7.865,7.871C8.495,4.606,4.969,8.12,0.629,8.12z"/>
+								</clipPath>
+								
+									<radialGradient id="IDP_3_" cx="-3791.6262" cy="1838.5176" r="66.0846" gradientTransform="matrix(1 0 0 -1 3792.2432 1838.7832)" gradientUnits="userSpaceOnUse">
+									<stop  offset="0" style="stop-color:#444444"/>
+									<stop  offset="1" style="stop-color:#444444;stop-opacity:0"/>
+								</radialGradient>
+								<path clip-path="url(#IDP_2_)" fill="url(#IDP_3_)" d="M0.621-65.813c36.504,0,66.086,29.572,66.086,66.064
+									c0,36.521-29.583,66.094-66.086,66.094c-36.486,0-66.094-29.572-66.094-66.094S-35.872-65.813,0.621-65.813z"/>
+							</g>
 						</g>
+						<g id="use_z">
+							<g transform="scale(0.2)">
+								<clipPath id="IDZ_2_">
+									<path id="IDZ_1_" d="M-0.007-40.175c-22.139,0-40.097,17.989-40.097,40.184c0,22.172,17.958,40.166,40.097,40.166
+										c22.153,0,40.111-17.994,40.111-40.166C40.104-22.185,22.146-40.175-0.007-40.175z M0.629,8.12
+										c-4.34,0-7.874-3.513-7.874-7.861c0-4.354,3.52-7.871,7.874-7.871c4.34,0,7.865,3.518,7.865,7.871
+										C8.495,4.606,4.969,8.12,0.629,8.12z"/>
+								</clipPath>
+								
+								<radialGradient id="IDZ_3_" cx="-3791.6262" cy="1838.5176" r="14" gradientTransform="matrix(1 0 0 -1 3792.2432 1838.7832)" gradientUnits="userSpaceOnUse">
+									<stop  offset="0" style="stop-color:#111111"/>
+									<stop  offset="1" style="stop-color:#111111;stop-opacity:0"/>
+								</radialGradient>
+								<path clip-path="url(#IDZ_2_)" fill="url(#IDZ_3_)" d="M0.618-21.761c12.168,0,22.029,9.857,22.029,22.021
+									c0,12.174-9.861,22.031-22.029,22.031c-12.162,0-22.031-9.857-22.031-22.031S-11.546-21.761,0.618-21.761z"/>
+							</g>
+						</g>
+						<g id="reperes_cartep">
+							<rect id="rep_logo" x="-256.644" y="37.05" fill="none" stroke="#000000" stroke-miterlimit="10" width="246.9" height="341.442"/>
+							<rect id="rep_carte" x="55.897" y="165.846" x1="55.897" y1="165.846" x2="281.526" y2="23.263" x3="-256.644" y3="325.712" x4="96.233" y4="23.263" class="changeRec" fill="red" stroke="#000000" stroke-miterlimit="10" width1="1866.929" height1="901.116" width2="1121.346" height2="1121.345" width3="1386.006" height3="806.935" width4="994.466" height4="1121.345"/>
+							
+							
+							
+							<rect id="rep_z" class="changeRec" x1="" y1="" x2="" y2="" x3="1166.7" y3="73.976" x4="1166.7" y4="73.976" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width1="" height1="" width2="" height2="" width3="756.127" height3="756.127" width4="756.127" height4="756.127"/>
+						</g>
+						<clipPath id="clip_re_z">
+							<rect x="1166.7" y="73.976" width="756.127" height="756.127"/>
+						 </clipPath>
 					</defs>
 					
 					<g id="tete">
@@ -130,26 +823,19 @@
 						<line id="barre_titre" class="changex1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="542.7" x1_1="542.7" x1_3="542.7" x1_2="96.233" x1_4="96.233" y1="54.341" x2="1918.7" y2="54.341"/>
 						<circle id="bout_tirte" cx="1918.7" cy="54.341" r="4.127"/>
 					</g>
-					<g id="reperes_cartep" display="none">
-						<rect id="rep_logo" x="-256.644" y="37.05" fill="none" stroke="#000000" stroke-miterlimit="10" width="246.9" height="341.442"/>
-						<rect id="rep_carte" x="55.897" y="165.846" x1="55.897" y1="165.846" x2="281.526" y2="23.263" x3="-256.644" y3="325.712" x4="96.233" y4="23.263" class="changeRec" fill="red" stroke="#000000" stroke-miterlimit="10" width1="1866.929" height1="901.116" width2="1121.346" height2="1121.345" width3="1386.006" height3="806.935" width4="994.466" height4="1121.345"/>
-						
-						
-						
-						<rect id="rep_z" class="changeRec" x1="" y1="" x2="" y2="" x3="1166.7" y3="73.976" x4="1166.7" y4="73.976" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width1="" height1="" width2="" height2="" width3="756.127" height3="703.339" width4="756.127" height4="703.339"/>
-					</g>
 					
-					<image href="img/ittecop.png" x="-256.644" y="37.05" class="transf" transform1="" transform2="translate(1932.57,47.155)" transform3="translate(1432.344,754.154)" transform4="translate(1432.344,754.154)" width="246.9" height="341.442"/>
+					
 					
 					<g id="legende" class="transf" transform1="" transform2="" transform4="" transform3="translate(800,-300)">
 						<g id="legende_reservoirs">
-							<path id="elt_reservoir" fill="#00C5FF" fill-opacity="0.3" stroke="#00C5FF" stroke-miterlimit="10" d="M-256.644,467.632 v-26.709h52.514v26.709H-256.644"/>
+							<path id="elt_reservoir" fill="#2f4493" fill-opacity="0.3" stroke="#2f4493" stroke-miterlimit="10" d="M-256.644,467.632 v-26.709h52.514v26.709H-256.644"/>
 							<text id="lab_reservoir" transform="matrix(1 0 0 1 -256.644 425.6462)" font-weight="800" font-size="24">Réservoirs</text>
 						</g>
 						<g id="legende_moindre" class="disp transf conf3 conf4" transform1="" transform2="" transform4="" transform3="translate(0,-245.102)">
 						
 							<g id="elt_moindre">
-								<use xlink:href="#moindre_zoom" transform="translate(-241,830)"/>
+								<use xlink:href="#use_p" transform="translate(-250,830)"/>
+								<use xlink:href="#use_z" transform="scale(5) translate(-37,166)"/>
 							</g>
 							<text id="lab_moindre" transform="matrix(1 0 0 1 -256.644 766.7717)" enable-background="new    ">
 								<tspan x="0" y="0" font-weight="800" font-size="24" class="disp conf1 conf3 conf4">Chemin de moindre coût </tspan>
@@ -280,7 +966,7 @@
 								<path fill="#FAE7D2" d="M-254.263,650.9h-1.186v48.449h1.186V650.9z"/>
 								<path fill="#FAE9D4" d="M-255.447,650.9h-1.197v48.449h1.197V650.9z"/>
 							</g>
-							<text id="lab_corridor" transform="matrix(1 0 0 1 -256.644 637.5208)"  font-size="20">Corridor</text>
+							<text id="lab_corridor" transform="matrix(1 0 0 1 -256.644 637.5208)"  font-size="20">Coût du chemin alternatif (corridor)</text>
 							<g id="eleve1">
 								<text transform="matrix(1 0 0 1 -57.4014 599.4797)" font-size="15"> + élevé </text>
 								<line fill="none" stroke="#000000" stroke-width="0.5" stroke-miterlimit="10" x1="-62.783" y1="594.984" x2="-256.644" y2="594.984"/>
@@ -297,7 +983,7 @@
 								<path fill="none" stroke="#FF2600" stroke-width="1.9202" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="10" d="M-80.076,583.937h35.093"/>
 								<path fill="none" stroke="#A30000" stroke-width="1.9202" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="10" d="M-44.76,583.937h35.086"/>
 							</g>
-							<text id="lab_chemin" transform="matrix(1 0 0 1 -256.644 570.5403)"  font-size="20">Chemin</text>
+							<text id="lab_chemin" transform="matrix(1 0 0 1 -256.644 570.5403)"  font-size="20">Chemin optimal</text>
 							<g id="eleve2">
 								<text transform="matrix(1 0 0 1 -169.4268 713.8118)" font-size="15"> + élevé </text>
 								<line fill="none" stroke="#000000" stroke-width="0.5" stroke-miterlimit="10" x1="-177.197" y1="708.591" x2="-256.644" y2="708.591"/>
@@ -323,27 +1009,36 @@
 							<polygon fill="#9B9B9B" points="1247.979,742.378 1263.569,695.023 1214.76,705.191 			"/>
 						</g>
 					</g>
-					<g id="pied">
-						<text id="sourcecarte" class="transf" transform="matrix(1 0 0 1 1427.8237 1116.5247)" transform1="matrix(1 0 0 1 1427.8237 1116.5247)" transform2="matrix(1 0 0 1 1427.8237 1116.5247)" transform3="matrix(1 0 0 1 1428.7388 1107.0754)" transform4="matrix(1 0 0 1 1428.7388 1107.0754)" font-size="13">Sources : SNCF réseau, 2016 ; RTE, 2016 ; IGN SCAN, 2017 ; CR Hauts-de-France, 2014</text>
-						<text id="reacarte" class="transf"  transform="matrix(1 0 0 1 1595.2368 1135.4231)" transform1="matrix(1 0 0 1 1595.2368 1135.4231)" transform2="matrix(1 0 0 1 1595.2368 1135.4231)" transform3="matrix(1 0 0 1 1595.9292 1125.9739)" transform4="matrix(1 0 0 1 1595.9292 1125.9739)" font-size="13">Réalisation : SCHMITT G., THIERRY C., CABARRY S., 2017</text>
-					</g>
-					<g class="transf" transform1="translate(55.897,106.846)" transform2="translate(281.526,1143.263)" transform3="translate(-256.644,1131.712)" transform4="translate(96.233,1143.263)" id="scalebar">
-						<text id="lab_scalebar" x="0" y="-20"> </text>
+					<!-- <g id="pied"> -->
+						<!-- <text id="sourcecarte" class="transf" transform="matrix(1 0 0 1 1427.8237 1116.5247)" transform1="matrix(1 0 0 1 1427.8237 1116.5247)" transform2="matrix(1 0 0 1 1427.8237 1116.5247)" transform3="matrix(1 0 0 1 1428.7388 1107.0754)" transform4="matrix(1 0 0 1 1428.7388 1107.0754)" font-size="13">Sources : SNCF réseau, 2016 ; RTE, 2016 ; IGN SCAN, 2017 ; CR Hauts-de-France, 2014</text> -->
+						<!-- <text id="reacarte" class="transf"  transform="matrix(1 0 0 1 1595.2368 1135.4231)" transform1="matrix(1 0 0 1 1595.2368 1135.4231)" transform2="matrix(1 0 0 1 1595.2368 1135.4231)" transform3="matrix(1 0 0 1 1595.9292 1125.9739)" transform4="matrix(1 0 0 1 1595.9292 1125.9739)" font-size="13">Réalisation : SCHMITT G., THIERRY C., CABARRY S., 2017</text> -->
+					<!-- </g> -->
+					<g id="cont_add"></g>
+					<!-- <image href="img/ittecop.png" x="-256.644" y="37.05" class="transf" transform1="" transform2="translate(1932.57,47.155)" transform3="translate(1432.344,754.154)" transform4="translate(1432.344,754.154)" width="246.9" height="341.442"/> -->
+					
+					<g class="transf" transform1="translate(196.233,1143.263)" transform2="translate(196.233,1143.263)" transform3="translate(-256.644,1131.712)" transform4="translate(196.233,1143.263)" id="scalebar">
+						<text id="lab_scalebar" x="0" y="-15"> </text>
 						<rect id="elt_scalebar" x="0" y="0" width="150" height="5" fill="none" stroke="#000000"/>
-						<rect id="elt_scalebarb" x="0" y="0" width="150" height="5" opacity="0.2"/>
+						<!-- <rect id="elt_scalebarb" x="0" y="0" width="150" height="5" opacity="0.2"/> -->
 					</g>
-					<g class="transf disp conf3 conf4" transform1="" transform2=""" transform3="translate(1666.7,673.976)" transform4="translate(1666.7,723.976)" id="scalebar2">
-						<text id="lab_scalebar2" x="0" y="-30"> </text>
+					<g class="transf disp conf3 conf4" transform1="" transform2=""" transform3="translate(1510,840)" transform4="translate(1510,840)" id="scalebar2">
+						<text id="lab_scalebar2" x="0" y="40"> </text>
 						<rect id="elt_scalebar2" x="0" y="10" width="150" height="5" fill="none" stroke="#000000"/>
-						<rect id="elt_scalebarb2" x="0" y="10" width="150" height="5" opacity="0.2"/>
+						<!-- <rect id="elt_scalebarb2" x="0" y="10" width="150" height="5" opacity="0.2"/> -->
 					</g>
 					
 					<circle class="changeCir" id="dezoom" fill-opacity="0" cx1="-141.348" cy1="1005.103" r1="115.296" cx4="-141.348" cy4="1005.103" r4="115.296" cx2="-141.348" cy2="1005.103" r2="115.296" cx3="-141.348" cy3="150.52" r3="115.296"/>
+					
 				</svg>
 
 			</div>	
 			
 		</div>
+		<a title="Site Ittecop" href="http://www.ittecop.fr/" style="position:absolute;margin-left:90%" class="styyle" style0="position:absolute;margin-left:90%" style1="position:absolute;margin-left:1%;margin-top:0.5%;width:13%" style2="position:absolute;margin-left:85%;margin-top:3.5%;width:13%" style3="position:absolute;margin-left:63.5%;margin-top:33%;width:13%" style4="position:absolute;margin-left:63.5%;margin-top:33%;width:13%">
+			<img id="ittecop" src="img/ittecop.png" style="width:91%"/>
+		</a>
+		<p id="sources" style="font-size: 9pt;position: absolute;margin-top: 51%;" >Sources : SNCF réseau, 2016 ; RTE, 2016 ; IGN SCAN, 2017 ; CR Hauts-de-France, 2014   |   Réalisation : SCHMITT G., THIERRY C., CABARRY S., 2017   |   Dans le cadre du projet <a href="http://synergie-npdc.univ-lille1.fr/">Synergie</a>
+		</p>
 		<script type = "text/javascript" src="js/script.js"></script>
 	</body>
 </html>
