@@ -101,6 +101,7 @@ function drawmap(){
 		
 		d3.select("#carte")
 			.append("use")
+			.attr("id","typodept")
 			.attr("href","#addtypo")
 		
 		map.append("rect")
@@ -544,6 +545,8 @@ function actions(){
 				.attr("width",150)
 			
 			d3.selectAll(".c_cache").remove()
+			
+			d3.select("#typodept").attr("display","block")
 
 		})
 		.on("mouseover",function(){
@@ -554,6 +557,94 @@ function actions(){
 			d3.select("#carte")
 				.attr("opacity",1)
 		})
+		
+		d3.select("#legende_corridor")
+			.attr("lock","true")
+			.on("click",function(){
+				if(this.attributes.lock.value=="true"){
+					d3.select(this).attr("lock","false").attr("opacity",0.3)
+					d3.selectAll(".ly1").transition().duration(300).attr("opacity",0)
+					if(document.getElementById("legende_optimal").attributes.lock.value == "false"){
+						d3.select("#lab_cout").attr("opacity",0.3)
+					}
+				} else {
+					d3.select(this).attr("lock","true").attr("opacity",1)
+					d3.selectAll(".ly1").transition().duration(300).attr("opacity",1)
+					d3.select("#lab_cout").attr("opacity",1)
+				}
+			})
+			
+		
+		d3.select("#legende_reservoirs")
+			.attr("lock","true")
+			.on("click",function(){
+				if(this.attributes.lock.value=="true"){
+					d3.select(this).attr("lock","false").attr("opacity",0.3)
+					d3.selectAll(".ly2").transition().duration(300).attr("opacity",0)
+				} else {
+					d3.select(this).attr("lock","true").attr("opacity",1)
+					d3.selectAll(".ly2").transition().duration(300).attr("opacity",1)
+				}
+			})
+			
+		d3.select("#legende_optimal")
+			.attr("lock","true")
+			.on("click",function(){
+				if(this.attributes.lock.value=="true"){
+					d3.select(this).attr("lock","false").attr("opacity",0.3)
+					d3.selectAll(".ly3").transition().duration(300).attr("opacity",0)
+					if(document.getElementById("legende_corridor").attributes.lock.value == "false"){
+						d3.select("#lab_cout").attr("opacity",0.3)
+					}
+				} else {
+					d3.select(this).attr("lock","true").attr("opacity",1)
+					d3.selectAll(".ly3").transition().duration(300).attr("opacity",1)
+					d3.select("#lab_cout").attr("opacity",1)
+				}
+			})
+
+		d3.select("#legende_moindre")
+			.attr("lock","true")
+			.on("click",function(){
+				if(this.attributes.lock.value=="true"){
+					d3.select(this).attr("lock","false").attr("opacity",0.3)
+					d3.selectAll(".ly4").transition().duration(300).attr("opacity",0)
+				} else {
+					d3.select(this).attr("lock","true").attr("opacity",1)
+					d3.selectAll(".ly4").transition().duration(300).attr("opacity",1)
+				}
+			})
+		
+		d3.select("#bloup")
+			.on("click",function(){
+				brandon()
+			})
+}
+
+function brandon(){
+	d3.select("#carte_indiv")
+		.on("mousemove",function(){
+			// alert("j")
+			m = d3.mouse(this)
+			// alert(m)
+			d3.select(this)
+				.append("circle")
+				.attr("fill","none")
+				.attr("stroke","blue")
+				.attr("stroke-width",2)
+				.attr("r",0)
+				.attr("cx",m[0])
+				.attr("cy",m[1])
+				.attr("opacity",1)
+				.attr("class","cli")
+				.transition()
+				.duration(1000)
+				.attr("r",100)
+				.attr("opacity",0.1)
+		})
+		
+		
+	
 }
 
 function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
@@ -569,6 +660,7 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 	
 	
 	d3.select("#indic").style("display","none")
+	d3.select("#typodept").attr("display","none")
 		
 	affEmprise(document.getElementById("e"+ind))
 	d3.select(".emp")
@@ -611,7 +703,7 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 			var Y = (document.getElementById("carte_indiv").attributes.viewBox.value).split(" ")[1];
 			var H = (document.getElementById("carte_indiv").attributes.viewBox.value).split(" ")[3];
 			
-			var val = (cy-Y)*49/H;
+			var val = (cy-Y)*50/H;
 			return val+"%";
 		})
 		// d3.select("#reperes_cartep")
@@ -637,13 +729,15 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		var Xc = x_rep*1+(width_rep-Wc)*0.5;
 	}
 	
-	d3.select("#carte_p")
+	d3.selectAll(".carte_p")
 		.attr("x",Xc)
 		.attr("y",Yc)
 		.attr("width",Wc)
 		.attr("height",Hc)
-		
-		.attr("href","resultats/resultatsA_"+ind+".svg")
+		.attr("href",function(){
+			var n = (this.id).split("_")[2];
+			return "resultats/resultatsA_"+ind+"_"+n+".svg"
+		})
 		
 	//echelle
 	var w_sca = document.getElementById("elt_scalebar").attributes.width.value;
@@ -675,14 +769,16 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 			
 		
 	//carte zoomée
-	d3.select("#carte_zoom")
+	d3.selectAll(".carte_zoom")
 		.attr("x",document.getElementById("rep_z").attributes.x.value)
 		.attr("y",document.getElementById("rep_z").attributes.y.value)
 		.attr("width",document.getElementById("rep_z").attributes.width.value)
 		.attr("height",document.getElementById("rep_z").attributes.width.value)
-		.attr("href","resultats/zoomA_"+ind+".svg")
-		
-		
+		.attr("href",function(){
+			var n = (this.id).split("_")[2];
+			return "resultats/zoomA_"+ind+"_"+n+".svg"
+		})	
+	
 	//titre
 		
 	d3.select("#titre_carte")
@@ -714,6 +810,8 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		d3.select("#cont_add")
 			.append("g")
 			.attr("id","indiczoom1")
+			.attr("class","ly4")
+			.attr("opacity",1)
 			.attr("transform","translate("+xx+","+yy+")")
 			.append("use")
 			.attr("xlink:href","#use_p")
@@ -735,6 +833,7 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 			.attr("height",document.getElementById("rep_z").attributes.width.value)
 			.attr("viewBox",document.getElementById("rep_z").attributes.x.value+" "+document.getElementById("rep_z").attributes.y.value+" "+document.getElementById("rep_z").attributes.width.value+" "+document.getElementById("rep_z").attributes.height.value)
 			.attr("id","indiczoom2")
+			.attr("class","ly4")
 			.append("g")
 			.attr("transform","scale("+diffscale+") translate("+zx/diffscale+","+zy/diffscale+")")
 			.append("use")
