@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!-- Creator: ESRI ArcMap 10.0.0.2414 -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="595.50236pt" height="595.50236pt" viewBox="25 148.377955 545.50236 545.50236" enable-background="new 25 148.377955 545.50236 545.50236"
+	version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+	<g id="Couches">
+		<g id="reservoirs">
+			<clipPath id="SVG_CP_2">
+				<path d="M574.39289,21.36228L21.36271,21.36228L21.36271,821.36753L574.39289,821.36753L574.39289,21.36228z"/>
+			</clipPath>
+			<path clip-path="url(#SVG_CP_2)" fill-opacity="0.08" fill="#2f4493" fill-rule="evenodd" stroke="#2f4493" stroke-width="1" stra="1.44018" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
+				M111.37413,861.21177L90.49148,820.64745L187.22376,622.86637L249.15162,505.25384L270.99439,497.81305L601.9964,703.27494L601.9964,861.21177
+				L111.37413,861.21177z"/>
+			<path clip-path="url(#SVG_CP_2)" fill-opacity="0.08" fill="#2f4493" fill-rule="evenodd" stroke="#2f4493" stroke-width="1" stra="1.44018" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
+				M601.9964,190.34028L559.99106,204.50179L453.65757,240.50563L396.77035,285.63044L363.40612,320.67417L355.00505,316.35371L
+				329.80185,347.55704L281.79576,318.99399L146.89864,199.70128L128.65633,69.84744L113.05435,-18.722L433.97507,-18.722L498.30324,-0.48005
+				L497.34311,-18.722L601.9964,-18.722L601.9964,190.34028z"/>
+		</g>
+</g></svg>
