@@ -375,7 +375,15 @@ function initMap(){ //construction graphique
 					return "translate(-160,0)"
 				}
 			})
+			.attr("value","none")
 			.attr("class","dept")
+			.on("mouseover",function(){
+				var val = this.attributes.value.value;
+				var code = this.attributes.code.value;
+				var name = this.attributes.name.value;
+				
+				d3.select("#ind_depts").text(name+" ("+code+") : "+val)
+			})
 
 		map.append("g")
 			.attr("id","depts_sup")
@@ -1773,6 +1781,16 @@ function majVilles(){ //mise à jour des barres, boules et aussi des groupes
 
 function majDepts(){ //mise à jour de la carte choro des départements
 	d3.selectAll(".dept")
+		
+		.attr("value",function(){
+			var code = this.attributes.code.value;
+			if(code){
+				var val = listeDept[code][0];
+			} else {
+				var val = "none"
+			}
+			return val
+		})
 		.transition()
 		.duration(vitAnim)
 		.attr("fill",function(){
@@ -1787,6 +1805,7 @@ function majDepts(){ //mise à jour de la carte choro des départements
 				return coul
 			}
 		})
+		
 }
 
 function majGraph(){ //mise à jour des courbes
