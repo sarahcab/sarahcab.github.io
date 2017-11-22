@@ -83,6 +83,17 @@ body{
 	display:none;
 }
 
+#bandeau{
+	display:inline;
+	position:absolute;
+	margin-top:55.5%;
+}
+
+.logos_b{
+	vertical-align:middle;
+	margin-left:7%;
+}
+
 #dezoom:hover{
 	cursor:pointer;
 }
@@ -90,4 +101,30 @@ body{
 .selectable:hover{
 	opacity:0.7;
 	cursor:pointer;
+}
+
+.aile_mvt{
+	animation-iteration-count : infinite;
+	transform-origin: 497px 319px;
+}
+
+@keyframes batdroite{
+	0% {transform: rotate(0deg)}
+    50% {transform: rotate(25deg)}
+    100% {transform: rotate(0deg)}
+}
+@keyframes batgauche{
+	0% {transform: rotate(0deg)}
+    50% {transform: rotate(-10deg)}
+    100% {transform: rotate(0deg)}
+}
+@keyframes vole{
+	0% {transform: translate(0pt,0pt)}
+    50% {transform: translate(0pt,-10pt)}
+    100% {transform: translate(0pt,0pt)}
+}
+
+@keyframes tourneG {
+	from {transform: rotate(0deg);}
+	to   {transform: rotate(-360deg);}
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!-- Creator: ESRI ArcMap 10.0.0.2414 -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="595.50236pt" height="595.50236pt" viewBox="25 148.377955 545.50236 545.50236" enable-background="new 25 148.377955 545.50236 545.50236"
+	version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+	<g id="Couches">
+		<g id="cont_1">
+			<clipPath id="SVG_CP_2">
+				<path d="M574.39289,21.36228L21.36271,21.36228L21.36271,821.36753L574.39289,821.36753L574.39289,21.36228z"/>
+			</clipPath>
+			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#999999" stroke-width="0.96012" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
+				M40.32512,-18.722L40.32512,14.88159L75.84963,14.88159L75.84963,85.92916L111.37413,85.92916L111.37413,156.97673L146.89864,156.97673
+				L146.89864,228.0243L182.42315,228.0243L182.42315,299.07187L217.94766,299.07187L217.94766,370.11944L253.47217,370.11944L253.47217,512.21458
+				L288.99668,512.21458L288.99668,583.26215L324.52118,583.26215L324.52118,654.30972L360.04569,654.30972L360.04569,760.88108
+				L395.5702,760.88108L395.5702,831.92865L431.09471,831.92865L431.09471,861.21177"/>
+			<path clip-path="url(#SVG_CP_2)" fill="none" stroke="#999999" stroke-width="0.96012" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" d="
+				M601.9964,476.6908L466.61922,476.6908L466.61922,441.16701L288.99668,441.16701L288.99668,405.64323L466.61922,405.64323L466.61922,370.11944
+				L601.9964,370.11944M601.9964,156.97673L573.19274,156.97673L573.19274,50.40537L537.66823,50.40537L537.66823,-18.722"/>
+		</g>
+</g></svg>

@@ -17,7 +17,6 @@ window.onload = initialize();
 
 function initialize(){
 	drawmap()
-	actions()
 }
 
 function drawmap(){
@@ -208,7 +207,14 @@ function drawmap(){
 			})
 		
 		map.append("g").attr("id","emprises")
-				
+		
+		d3.selectAll(".ly0").attr("opacity",0.7).attr("display","block")
+		d3.selectAll(".ly1").attr("opacity",0.7).attr("display","none")
+		d3.selectAll(".ly2").attr("opacity",1)
+		d3.selectAll(".ly3").attr("opacity",1)
+		d3.selectAll(".ly4").attr("opacity",1)
+		d3.selectAll(".ly5").attr("opacity",1)
+		actions()	
 	}
 }
 
@@ -270,8 +276,111 @@ function affFiche(obj){
 		.duration(900)
 		.attr("viewBox",x+" "+y+" "+width+" "+height)
 		.attr("opacity",0)
+	
+	setTimeout(function(){	
+		d3.select("#habillage")
+			.attr("display","none")
+		waiting(2500);
+		fiche(code,vb,zoom,centrex,centrey,centrex_zoom,centrey_zoom,echelle1,echelle2)
+	},1000)
+	
+	
+	
+	// setTimeout(function(){fiche(code,vb,zoom,centrex,centrey,centrex_zoom,centrey_zoom,echelle1,echelle2)},3500)
+}
+
+
+function waiting(duree){
+	d3.select("#wait")
+		.attr("display","block")
+	d3.select("#ittecop")
+		.style("display","none")
+
+	///faon
+	d3.select("#faon")
+		.transition()
+		.duration(duree)
+		.attr("transform","translate(450,0)")
+	
+	tps0 = duree/6;
+	d3.select("#faon_1_") //mettre une classe css
+		.transition()
+		.duration(tps0)
+		.attr("transform","translate(0,50)")
+		.transition()
+		.duration(tps0)
+		.attr("transform","translate(0,-10)")
+		.transition()
+		.duration(tps0)
+		.attr("transform","translate(0,50)")
+		.transition()
+		.duration(tps0)
+		.attr("transform","translate(0,-10)")
+		.transition()
+		.duration(tps0)
+		.attr("transform","translate(0,50)")
+		.transition()
+		.duration(tps0)
+		.attr("transform","translate(0,-10)")
+	
+
+	
+	///pates
+	// it_pat = 0;
+	d3.select("#pattes")
+		.selectAll(".trace")
+		.attr("opacity",0)
+		.each(function(){
+			tps=duree/42;
+			// it_pat++;
+			it_pat = (this.id).split("p")[1];
+			// alert(it_pat)
+			d3.select(this).transition().delay(it_pat*tps/2).duration(tps/2).attr("opacity",1)
+			d3.select(this).transition().delay((it_pat*1+1)*tps/2).duration(tps*7).attr("opacity",0)
+			console.log(it_pat)
+			console.log(it_pat*tps/2)
+		})
 		
-	setTimeout(function(){fiche(code,vb,zoom,centrex,centrey,centrex_zoom,centrey_zoom,echelle1,echelle2)},1000)
+	//trace
+	d3.select("#chemin_trace")
+		.attr("stroke-dasharray","0,700")
+		.transition()
+		.duration(duree*0.8)
+		.attr("stroke-dasharray","700,0")
+		
+	//papillon
+	xpap=497;
+	ypap=319;
+		
+	d3.select("#aile_droite")
+		.style("animation","batdroite 1s linear infinite")
+		.attr("class","aile_mvt")
+	d3.select("#aile_gauche")
+		.style("animation","batgauche 1s linear infinite")
+		.attr("class","aile_mvt")
+	d3.select("#papillon")
+		.style("animation","vole 1s linear infinite")
+	
+	//rond
+	d3.select("#rond_pat")
+		.style("animation","tourneG 3s linear infinite")
+		.style("transform-origin","-113.4px 339.7px") 
+	
+	//zero
+	setTimeout(function(){
+		d3.select("#faon").attr("transform","")
+		d3.select("#faon_1_").attr("transform","")
+		d3.selectAll(".aile_mvt").style("animation","")
+		d3.select("#papillon").style("animation","")
+		
+		d3.select("#base")
+			.style("display","block")
+		d3.select("#dezoom").style("display","block")
+		d3.select("#wait")
+			.attr("display","none")
+		d3.select("#ittecop")
+			.style("display","block")
+	},duree)
 }
 
 function selection(idd,liste){
@@ -490,6 +599,12 @@ function buildInd(indiv,data){
 }
 
 function actions(){
+	// d3.select("#bloup")
+		// .style("opacity",0.5)
+		// .on("click",function(){
+			// waiting(2500)
+		// })
+	
 	d3.select("#dezoom")
 		.on("click",function(){
 			d3.select("#carte")
@@ -547,6 +662,31 @@ function actions(){
 			d3.selectAll(".c_cache").remove()
 			
 			d3.select("#typodept").attr("display","block")
+			
+			d3.select("#sel_corridor").attr("lock","true")
+			d3.select("#sel_reservoirs").attr("lock","true")
+			d3.select("#sel_optimal").attr("lock","true")
+			d3.select("#sel_moindre").attr("lock","true")
+			d3.select("#sel_scan").attr("lock","true")
+			
+			d3.select("#legende_corridor").attr("opacity",1)
+			d3.select("#legende_reservoirs").attr("opacity",1)
+			d3.select("#legende_optimal").attr("opacity",1)
+			d3.select("#legende_moindre").attr("opacity",1)
+			d3.select("#legende_scan").attr("opacity",1)
+			
+			d3.select("#lab_cout").attr("opacity",1)
+			
+			d3.selectAll(".sld").selectAll("line").attr("stroke-dasharray","12,0")
+
+			d3.selectAll(".ly0").attr("opacity",0.7).attr("display","block")
+			d3.selectAll(".ly1").attr("opacity",0.7).attr("display","none")
+			d3.selectAll(".ly2").attr("opacity",1)
+			d3.selectAll(".ly3").attr("opacity",1)
+			d3.selectAll(".ly4").attr("opacity",1)
+			d3.selectAll(".ly5").attr("opacity",1)
+			d3.select("#cache_scan").attr("opacity",0)
+			d3.select("#fififi").attr("display","block")
 
 		})
 		.on("mouseover",function(){
@@ -558,67 +698,181 @@ function actions(){
 				.attr("opacity",1)
 		})
 		
-		d3.select("#legende_corridor")
+		d3.select("#sel_corridor")
 			.attr("lock","true")
 			.on("click",function(){
 				if(this.attributes.lock.value=="true"){
-					d3.select(this).attr("lock","false").attr("opacity",0.3)
+					d3.select(this).attr("lock","false")
+						.select(".sld")
+						.selectAll("line")
+						.attr("stroke-dasharray","12,0")
+						.transition()
+						.duration(300)
+						.attr("stroke-dasharray","0,12")
+					d3.select("#legende_corridor").attr("opacity",0.3)
 					d3.selectAll(".ly1").transition().duration(300).attr("opacity",0)
-					if(document.getElementById("legende_optimal").attributes.lock.value == "false"){
+					d3.selectAll(".ly0").transition().duration(300).attr("opacity",0)
+					d3.select("#cache_scan").transition().duration(300).attr("opacity",0.7)
+					if(document.getElementById("sel_optimal").attributes.lock.value == "false"){
 						d3.select("#lab_cout").attr("opacity",0.3)
 					}
+					d3.select("#fififi").attr("display","none")
 				} else {
-					d3.select(this).attr("lock","true").attr("opacity",1)
-					d3.selectAll(".ly1").transition().duration(300).attr("opacity",1)
+					d3.select(this).attr("lock","true")
+						.select(".sld")
+						.selectAll("line")
+						.transition()
+						.duration(300)
+						.attr("stroke-dasharray","12,0")
+					d3.select("#legende_corridor").attr("opacity",1)
+					d3.selectAll(".ly0").transition().duration(300).attr("opacity",0.7)
+					d3.selectAll(".ly1").transition().duration(300).attr("opacity",0.7)
+					d3.select("#cache_scan").transition().duration(300).attr("opacity",0)
 					d3.select("#lab_cout").attr("opacity",1)
+					d3.select("#fififi").attr("display","block")
 				}
 			})
 			
 		
-		d3.select("#legende_reservoirs")
+		d3.select("#sel_reservoirs")
 			.attr("lock","true")
 			.on("click",function(){
 				if(this.attributes.lock.value=="true"){
-					d3.select(this).attr("lock","false").attr("opacity",0.3)
+					d3.select(this).attr("lock","false")
+						.select(".sld")
+						.selectAll("line")
+						.attr("stroke-dasharray","12,0")
+						.transition()
+						.duration(300)
+						.attr("stroke-dasharray","0,12")
+					d3.select("#legende_reservoirs").attr("opacity",0.3)
 					d3.selectAll(".ly2").transition().duration(300).attr("opacity",0)
 				} else {
-					d3.select(this).attr("lock","true").attr("opacity",1)
+					d3.select(this).attr("lock","true")
+						.select(".sld")
+						.selectAll("line")
+						.transition()
+						.duration(300)
+						.attr("stroke-dasharray","12,0")
+					d3.select("#legende_reservoirs").attr("opacity",1)
 					d3.selectAll(".ly2").transition().duration(300).attr("opacity",1)
 				}
 			})
 			
-		d3.select("#legende_optimal")
+		d3.select("#sel_optimal")
 			.attr("lock","true")
 			.on("click",function(){
 				if(this.attributes.lock.value=="true"){
-					d3.select(this).attr("lock","false").attr("opacity",0.3)
+					d3.select(this).attr("lock","false")
+						.select(".sld")
+						.selectAll("line")
+						.attr("stroke-dasharray","12,0")
+						.transition()
+						.duration(300)
+						.attr("stroke-dasharray","0,12")
+					d3.select("#legende_optimal").attr("opacity",0.3)
 					d3.selectAll(".ly3").transition().duration(300).attr("opacity",0)
-					if(document.getElementById("legende_corridor").attributes.lock.value == "false"){
+					if(document.getElementById("sel_corridor").attributes.lock.value == "false"){
 						d3.select("#lab_cout").attr("opacity",0.3)
 					}
 				} else {
-					d3.select(this).attr("lock","true").attr("opacity",1)
+					d3.select(this).attr("lock","true")
+						.select(".sld")
+						.selectAll("line")
+						.transition()
+						.duration(300)
+						.attr("stroke-dasharray","12,0")
+					d3.select("#legende_optimal").attr("opacity",1)
 					d3.selectAll(".ly3").transition().duration(300).attr("opacity",1)
 					d3.select("#lab_cout").attr("opacity",1)
 				}
 			})
 
-		d3.select("#legende_moindre")
+		d3.select("#sel_moindre")
 			.attr("lock","true")
 			.on("click",function(){
 				if(this.attributes.lock.value=="true"){
-					d3.select(this).attr("lock","false").attr("opacity",0.3)
+					d3.select(this).attr("lock","false")
+						.select(".sld")
+						.selectAll("line")
+						.attr("stroke-dasharray","12,0")
+						.transition()
+						.duration(300)
+						.attr("stroke-dasharray","0,12")
+					d3.select("#legende_moindre").attr("opacity",0.3)
 					d3.selectAll(".ly4").transition().duration(300).attr("opacity",0)
 				} else {
-					d3.select(this).attr("lock","true").attr("opacity",1)
+					d3.select(this).attr("lock","true")
+						.select(".sld")
+						.selectAll("line")
+						.transition()
+						.duration(300)
+						.attr("stroke-dasharray","12,0")
+					d3.select("#legende_moindre").attr("opacity",1)
 					d3.selectAll(".ly4").transition().duration(300).attr("opacity",1)
 				}
 			})
-		
-		d3.select("#bloup")
+			
+		d3.select("#sel_scan")
+			.attr("lock","true")
 			.on("click",function(){
-				brandon()
+				if(this.attributes.lock.value=="true"){
+					d3.select(this).attr("lock","false")
+						.select(".sld")
+						.selectAll("line")
+						.attr("stroke-dasharray","12,0")
+						.transition()
+						.duration(300)
+						.attr("stroke-dasharray","0,12")
+					d3.select("#legende_scan").attr("opacity",0.3)
+					d3.selectAll(".ly5").transition().duration(300).attr("opacity",0)
+				} else {
+					d3.select(this).attr("lock","true")
+						.select(".sld")
+						.selectAll("line")
+						.transition()
+						.duration(300)
+						.attr("stroke-dasharray","12,0")
+					d3.select("#legende_scan").attr("opacity",1)
+					d3.selectAll(".ly5").transition().duration(300).attr("opacity",1)
+				}
 			})
+			
+		d3.selectAll(".filtre")
+			.on("mouseover",function(){
+				// var pc = (this.id).split("_")[1]/100;
+				var mat = this.attributes.mat.value;
+				var op = this.attributes.op.value;
+				d3.select("#elt_corridor").transition().duration(500).attr("width",mat)
+				d3.select("#fondcorridor").transition().duration(500).attr("opacity",op)
+			})
+			.on("mouseout",function(){
+				var tst = document.getElementById("carte_p_toutcorridor").attributes.display.value;
+				if(tst == "none"){
+					var mat = document.getElementById("fi_10").attributes.mat.value;
+					var op = document.getElementById("fi_10").attributes.op.value;
+				} else {
+					var mat = document.getElementById("fi_100").attributes.mat.value;
+					var op = document.getElementById("fi_100").attributes.op.value;
+				}
+				d3.select("#elt_corridor").transition().duration(500).attr("width",mat)
+				d3.select("#fondcorridor").transition().duration(500).attr("opacity",op)
+			})
+			.style("cursor","pointer")
+			.on("click",function(){
+				var tst=(this.id).split("_")[1];
+				if(tst=="100"){
+					var ref = 0;
+					var other = 1;
+				}else{
+					var ref= 1;
+					var other= 0;
+				}
+				d3.selectAll(".ly"+other).attr("display","none")
+				d3.selectAll(".ly"+ref).attr("display","block")
+			})
+		
+
 }
 
 function brandon(){
@@ -650,13 +904,14 @@ function brandon(){
 function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 	coeff = vb.split(" ")[3]/vb.split(" ")[2]
 	
-	d3.select("#dezoom").style("display","block")
+	// d3.select("#dezoom").style("display","block")
 	// d3.select("#titree").text(ind.split("_")[0]+" - "+ind.split("_")[1])
 
-	d3.select("#habillage")
-		.attr("display","none")
+	// d3.select("#habillage")
+		// .attr("display","none")
 	
-	
+	// d3.select("#wait")
+		// .attr("display","none")
 	
 	
 	d3.select("#indic").style("display","none")
@@ -683,8 +938,6 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 	}
 	trans(config)
 	
-	d3.select("#base")
-		.style("display","block")
 	
 	d3.select("#carte")
 		.attr("viewBox",VBbase)
@@ -721,7 +974,6 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		var Wc = width_rep;
 		var Hc = Wc*coeff;
 		var Yc = y_rep*1+(height_rep-Hc)*0.5;
-		
 	} else {
 		var Yc = y_rep;
 		var Hc = height_rep;
@@ -759,11 +1011,12 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 	d3.select("#lab_scalebar")
 		.text(sca_tx)
 		.attr("x",function(){
-			var val = w_sca2*0.5-sca_tx.length*4;
+			var val = -sca_tx.length*4;
 			return val;
 		})
 	d3.select("#elt_scalebar")
 		.attr("width",w_sca2)
+		.attr("x",-w_sca2/2)
 		
 		
 			
@@ -780,10 +1033,8 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		})	
 	
 	//titre
-		
 	d3.select("#titre_carte")
 		.select(".conf1")
-		
 		.text("Réservoirs "+ind.split("_")[0]+" et "+ind.split("_")[1])
 
 	it = 0
@@ -801,22 +1052,32 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		
 	//zoom
 	if(z=="True"){
+		//var pr indic zoom1
 		var xx = Xc*1+(ccx-vb.split(" ")[0])*Wc/vb.split(" ")[2];
 		var yy = Yc*1+(ccy-vb.split(" ")[1])*Hc/vb.split(" ")[3];
 
+		//var pr indic zoom2
 		var zx = document.getElementById("rep_z").attributes.x.value*1+(czx-vbzoom.split(" ")[0])*document.getElementById("rep_z").attributes.width.value/vbzoom.split(" ")[2];
 		var zy = document.getElementById("rep_z").attributes.y.value*1+(czy-vbzoom.split(" ")[1])*document.getElementById("rep_z").attributes.width.value/vbzoom.split(" ")[3];
+		var agrand = 30;
 		
+		diffscale=ech2*agrand/ech1;
 		d3.select("#cont_add")
 			.append("g")
 			.attr("id","indiczoom1")
 			.attr("class","ly4")
 			.attr("opacity",1)
-			.attr("transform","translate("+xx+","+yy+")")
+			.attr("transform","scale("+diffscale+") translate("+xx/diffscale+","+yy/diffscale+")")
 			.append("use")
-			.attr("xlink:href","#use_p")
+			.attr("xlink:href",function(){
+				if(diffscale<2){
+					return "#use_p"
+				} else {
+					return "#use_z"
+				}
+			})
 
-		diffscale=ech1/ech2;
+		
 		
 		// d3.select("#carte_indiv")
 			// .append("clipPath")
@@ -835,7 +1096,7 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 			.attr("id","indiczoom2")
 			.attr("class","ly4")
 			.append("g")
-			.attr("transform","scale("+diffscale+") translate("+zx/diffscale+","+zy/diffscale+")")
+			.attr("transform","scale("+agrand+") translate("+zx/agrand+","+zy/agrand+")")
 			.append("use")
 			.attr("xlink:href","#use_z")
 			// .attr("clip-path","url(#clip_re_z)")
