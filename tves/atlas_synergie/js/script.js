@@ -369,7 +369,6 @@ function waiting(duree){
 	d3.select("#pattes")
 		.selectAll(".trace")
 		.attr("opacity",0)
-		.attr("class"
 		.each(function(){
 			tps=duree/42;
 			it_pat = (this.id).split("p")[1];
