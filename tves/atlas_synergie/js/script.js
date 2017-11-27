@@ -249,9 +249,7 @@ function affEmprise(obj){
 
 
 function affFiche(obj){
-	d3.selectAll(".lien").attr("display","none")
-	d3.selectAll(".eltCh").attr("display","none")
-
+	var x = obj.attributes.XMIN.value;
 	var x = obj.attributes.XMIN.value;
 	var y = obj.attributes.YMAX.value;
 	var width = obj.attributes.WIDTH.value;
@@ -266,23 +264,63 @@ function affFiche(obj){
 	var echelle1= Math.abs(obj.attributes.echelle1.value);
 	var echelle2= obj.attributes.echelle2.value;
 	
-	d3.select("#select_spe")
-		.attr("display","none")
-		
+	d3.selectAll(".lien").attr("display","none")
+	d3.selectAll(".eltCh").attr("display","none")
+	d3.select("#habillage")
+			.attr("display","none")
+	
+	d3.select("#wait")
+		.attr("display","block")
+	d3.select("#ittecop")
+		.style("display","none")	
+	
 	d3.select("#carte")
 		.attr("vb",x+" "+y+" "+width+" "+height)
 		.attr("opacity",1)
 		.transition()
-		.duration(900)
+		.duration(800)
 		.attr("viewBox",x+" "+y+" "+width+" "+height)
 		.attr("opacity",0)
 	
+	waiting(2500);
+	
 	setTimeout(function(){	
-		d3.select("#habillage")
-			.attr("display","none")
-		waiting(2500);
+		
+		
 		fiche(code,vb,zoom,centrex,centrey,centrex_zoom,centrey_zoom,echelle1,echelle2)
-	},1000)
+	},700)
+	
+	setTimeout(function(){	
+		d3.select("#carte")
+			.attr("viewBox",VBbase)
+			
+			.style("width","11.5%")
+			.style("margin-left",function(){
+				var cx = document.getElementById("dezoom").attributes.cx.value-document.getElementById("dezoom").attributes.r.value;
+				var X = (document.getElementById("carte_indiv").attributes.viewBox.value).split(" ")[0];
+				var W = (document.getElementById("carte_indiv").attributes.viewBox.value).split(" ")[2];
+				
+				var val = (cx-X)*100/W;
+				return val+"%";
+			})
+			.style("margin-top",function(){
+				var cy = document.getElementById("dezoom").attributes.cy.value-document.getElementById("dezoom").attributes.r.value;
+				var Y = (document.getElementById("carte_indiv").attributes.viewBox.value).split(" ")[1];
+				var H = (document.getElementById("carte_indiv").attributes.viewBox.value).split(" ")[3];
+				
+				var val = (cy-Y)*50/H;
+				return val+"%";
+			})
+			.attr("opacity",1)
+	},3000)
+
+
+	d3.select("#select_spe")
+		.attr("display","none")
+		
+
+	
+	
 	
 	
 	
@@ -291,37 +329,38 @@ function affFiche(obj){
 
 
 function waiting(duree){
-	d3.select("#wait")
-		.attr("display","block")
-	d3.select("#ittecop")
-		.style("display","none")
+	// alert("h")
+	// d3.select("#wait")
+		// .attr("display","block")
+	// d3.select("#ittecop")
+		// .style("display","none")
 
 	///faon
-	d3.select("#faon")
-		.transition()
-		.duration(duree)
-		.attr("transform","translate(450,0)")
+	// d3.select("#faon")
+		// .transition()
+		// .duration(duree)
+		// .attr("transform","translate(1000,0)")
 	
-	tps0 = duree/6;
-	d3.select("#faon_1_") //mettre une classe css
-		.transition()
-		.duration(tps0)
-		.attr("transform","translate(0,50)")
-		.transition()
-		.duration(tps0)
-		.attr("transform","translate(0,-10)")
-		.transition()
-		.duration(tps0)
-		.attr("transform","translate(0,50)")
-		.transition()
-		.duration(tps0)
-		.attr("transform","translate(0,-10)")
-		.transition()
-		.duration(tps0)
-		.attr("transform","translate(0,50)")
-		.transition()
-		.duration(tps0)
-		.attr("transform","translate(0,-10)")
+	// tps0 = duree/6;
+	// d3.select("#faon_1_") //mettre une classe css
+		// .transition()
+		// .duration(tps0)
+		// .attr("transform","translate(0,50)")
+		// .transition()
+		// .duration(tps0)
+		// .attr("transform","translate(0,-10)")
+		// .transition()
+		// .duration(tps0)
+		// .attr("transform","translate(0,50)")
+		// .transition()
+		// .duration(tps0)
+		// .attr("transform","translate(0,-10)")
+		// .transition()
+		// .duration(tps0)
+		// .attr("transform","translate(0,50)")
+		// .transition()
+		// .duration(tps0)
+		// .attr("transform","translate(0,-10)")
 	
 
 	
@@ -330,11 +369,10 @@ function waiting(duree){
 	d3.select("#pattes")
 		.selectAll(".trace")
 		.attr("opacity",0)
+		.attr("class"
 		.each(function(){
 			tps=duree/42;
-			// it_pat++;
 			it_pat = (this.id).split("p")[1];
-			// alert(it_pat)
 			d3.select(this).transition().delay(it_pat*tps/2).duration(tps/2).attr("opacity",1)
 			d3.select(this).transition().delay((it_pat*1+1)*tps/2).duration(tps*7).attr("opacity",0)
 			console.log(it_pat)
@@ -342,11 +380,11 @@ function waiting(duree){
 		})
 		
 	//trace
-	d3.select("#chemin_trace")
-		.attr("stroke-dasharray","0,700")
-		.transition()
-		.duration(duree*0.8)
-		.attr("stroke-dasharray","700,0")
+	// d3.select("#chemin_trace")
+		// .attr("stroke-dasharray","0,700")
+		// .transition()
+		// .duration(duree*0.8)
+		// .attr("stroke-dasharray","700,0")
 		
 	//papillon
 	xpap=497;
@@ -380,6 +418,9 @@ function waiting(duree){
 			.attr("display","none")
 		d3.select("#ittecop")
 			.style("display","block")
+			
+
+
 	},duree)
 }
 
@@ -602,7 +643,7 @@ function actions(){
 	// d3.select("#bloup")
 		// .style("opacity",0.5)
 		// .on("click",function(){
-			// waiting(2500)
+			// waiting(3000)
 		// })
 	
 	d3.select("#dezoom")
@@ -939,28 +980,7 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 	trans(config)
 	
 	
-	d3.select("#carte")
-		.attr("viewBox",VBbase)
-		.attr("opacity",1)
-		.style("width","11.5%")
-		.style("margin-left",function(){
-			var cx = document.getElementById("dezoom").attributes.cx.value-document.getElementById("dezoom").attributes.r.value;
-			var X = (document.getElementById("carte_indiv").attributes.viewBox.value).split(" ")[0];
-			var W = (document.getElementById("carte_indiv").attributes.viewBox.value).split(" ")[2];
-			
-			var val = (cx-X)*100/W;
-			return val+"%";
-		})
-		.style("margin-top",function(){
-			var cy = document.getElementById("dezoom").attributes.cy.value-document.getElementById("dezoom").attributes.r.value;
-			var Y = (document.getElementById("carte_indiv").attributes.viewBox.value).split(" ")[1];
-			var H = (document.getElementById("carte_indiv").attributes.viewBox.value).split(" ")[3];
-			
-			var val = (cy-Y)*50/H;
-			return val+"%";
-		})
-		// d3.select("#reperes_cartep")
-		// .append("use")
+	
 		
 	//carte principale
 	var width_rep = document.getElementById("rep_carte").attributes.width.value;
