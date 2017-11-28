@@ -91,7 +91,7 @@ body{
 
 .logos_b{
 	vertical-align:middle;
-	margin-left:7%;
+	margin-left:4%;
 }
 
 #dezoom:hover{
@@ -127,4 +127,11 @@ body{
 @keyframes tourneG {
 	from {transform: rotate(0deg);}
 	to   {transform: rotate(-360deg);}
+}
+
+@keyframes pas{
+	0% {opacity:0}
+    7% {opacity:1}
+	25% {opacity:1}
+    100% {opacity:0}
 }

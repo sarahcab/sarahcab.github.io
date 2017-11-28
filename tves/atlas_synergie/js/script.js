@@ -267,7 +267,7 @@ function affFiche(obj){
 	d3.selectAll(".lien").attr("display","none")
 	d3.selectAll(".eltCh").attr("display","none")
 	d3.select("#habillage")
-			.attr("display","none")
+			.style("display","none")
 	
 	d3.select("#wait")
 		.attr("display","block")
@@ -369,14 +369,21 @@ function waiting(duree){
 	d3.select("#pattes")
 		.selectAll(".trace")
 		.attr("opacity",0)
-		.each(function(){
+		// .each(function(){
+			// tps=duree/42;
+			// it_pat = (this.id).split("p")[1];
+			// d3.select(this).transition().delay(it_pat*tps/2).duration(tps/2).attr("opacity",1)
+			// d3.select(this).transition().delay((it_pat*1+1)*tps/2).duration(tps*7).attr("opacity",0)
+			// console.log(it_pat)
+			// console.log(it_pat*tps/2)
+		// })
+		.style("animation","pas 1s linear")
+		.style("animation-delay",function(){
 			tps=duree/42;
 			it_pat = (this.id).split("p")[1];
-			d3.select(this).transition().delay(it_pat*tps/2).duration(tps/2).attr("opacity",1)
-			d3.select(this).transition().delay((it_pat*1+1)*tps/2).duration(tps*7).attr("opacity",0)
-			console.log(it_pat)
-			console.log(it_pat*tps/2)
+			return (it_pat*tps/2)+"ms";
 		})
+		
 		
 	//trace
 	// d3.select("#chemin_trace")
@@ -405,10 +412,15 @@ function waiting(duree){
 	
 	//zero
 	setTimeout(function(){
-		d3.select("#faon").attr("transform","")
-		d3.select("#faon_1_").attr("transform","")
+		// d3.select("#faon").attr("transform","")
+		// d3.select("#faon_1_").attr("transform","")
 		d3.selectAll(".aile_mvt").style("animation","")
 		d3.select("#papillon").style("animation","")
+		d3.select("#rond_pat")
+			.style("animation","")
+		d3.select("#pattes")
+			.selectAll(".trace")
+			.style("animation","")
 		
 		d3.select("#base")
 			.style("display","block")
@@ -647,6 +659,7 @@ function actions(){
 	
 	d3.select("#dezoom")
 		.on("click",function(){
+				
 			d3.select("#carte")
 				.attr("viewBox",function(){
 					return this.attributes.vb.value;
@@ -655,78 +668,83 @@ function actions(){
 				.style("margin-top","0%")
 				.style("width","49%")
 				.transition()
-				.delay(100)
+				.delay(150)
 				.duration(1000)
 				.attr("viewBox",VBbase)
-			
-			d3.select("#base")
-				.style("display","none")
-				
-			d3.select("#habillage")
-				.attr("display","block")
-			
-			d3.select("#indic")
-				.style("display","block")
-			
-			d3.select("#content")
-				.attr("width","100%")
-				
-			d3.select("#cercleChoix").attr("display","block")
-			
-			d3.selectAll(".emp").remove()
-			
-			d3.selectAll(".styyle")
-				.attr("style",function(){
-					var val = this.attributes["style0"].value;
-					return val;
-				})
-			
-			d3.selectAll(".lien")
-				.attr("display","block")
-				
-			d3.select("#indiczoom1").remove()
-			d3.select("#indiczoom2").remove()
-			
-			d3.select(this).attr("display","none")
-			
-			d3.select("#cache").attr("opacity",0)
-			
-			d3.selectAll(".eltCh")
-				.attr("display","block")
-			
-			d3.select("#elt_scalebar")
-				.attr("width",150)
-			d3.select("#elt_scalebar2")
-				.attr("width",150)
-			
-			d3.selectAll(".c_cache").remove()
-			
-			d3.select("#typodept").attr("display","block")
-			
-			d3.select("#sel_corridor").attr("lock","true")
-			d3.select("#sel_reservoirs").attr("lock","true")
-			d3.select("#sel_optimal").attr("lock","true")
-			d3.select("#sel_moindre").attr("lock","true")
-			d3.select("#sel_scan").attr("lock","true")
-			
-			d3.select("#legende_corridor").attr("opacity",1)
-			d3.select("#legende_reservoirs").attr("opacity",1)
-			d3.select("#legende_optimal").attr("opacity",1)
-			d3.select("#legende_moindre").attr("opacity",1)
-			d3.select("#legende_scan").attr("opacity",1)
-			
-			d3.select("#lab_cout").attr("opacity",1)
-			
-			d3.selectAll(".sld").selectAll("line").attr("stroke-dasharray","12,0")
 
-			d3.selectAll(".ly0").attr("opacity",0.7).attr("display","block")
-			d3.selectAll(".ly1").attr("opacity",0.7).attr("display","none")
-			d3.selectAll(".ly2").attr("opacity",1)
-			d3.selectAll(".ly3").attr("opacity",1)
-			d3.selectAll(".ly4").attr("opacity",1)
-			d3.selectAll(".ly5").attr("opacity",1)
-			d3.select("#cache_scan").attr("opacity",0)
-			d3.select("#fififi").attr("display","block")
+		
+			// setTimeout(function(){
+				d3.select("#base")
+					.style("display","none")
+					.style("opacity",1)
+					
+				d3.select("#habillage")
+					.style("display","block")
+				
+				d3.selectAll(".styyle")
+					.attr("style",function(){
+						var val = this.attributes["style0"].value;
+						return val;
+					})
+				
+				d3.select("#indic")
+					.style("display","block")
+				
+				d3.select("#content")
+					.attr("width","100%")
+					
+				d3.select("#cercleChoix").attr("display","block")
+				
+				d3.selectAll(".emp").remove()
+			
+			
+				d3.selectAll(".lien")
+					.attr("display","block")
+					
+				d3.select("#indiczoom1").remove()
+				d3.select("#indiczoom2").remove()
+				
+				d3.select("#dezoom").attr("display","none")
+				
+				d3.select("#cache").attr("opacity",0)
+				
+				d3.selectAll(".eltCh")
+					.attr("display","block")
+				
+				d3.select("#elt_scalebar")
+					.attr("width",150)
+				d3.select("#elt_scalebar2")
+					.attr("width",150)
+				
+				d3.selectAll(".c_cache").remove()
+				
+				d3.select("#typodept").attr("display","block")
+				
+				d3.select("#sel_corridor").attr("lock","true")
+				d3.select("#sel_reservoirs").attr("lock","true")
+				d3.select("#sel_optimal").attr("lock","true")
+				d3.select("#sel_moindre").attr("lock","true")
+				d3.select("#sel_scan").attr("lock","true")
+				
+				d3.select("#legende_corridor").attr("opacity",1)
+				d3.select("#legende_reservoirs").attr("opacity",1)
+				d3.select("#legende_optimal").attr("opacity",1)
+				d3.select("#legende_moindre").attr("opacity",1)
+				d3.select("#legende_scan").attr("opacity",1)
+				
+				d3.select("#lab_cout").attr("opacity",1)
+				
+				d3.selectAll(".sld").selectAll("line").attr("stroke-dasharray","12,0")
+
+				d3.selectAll(".ly0").attr("opacity",0.7).attr("display","block")
+				d3.selectAll(".ly1").attr("opacity",0.7).attr("display","none")
+				d3.selectAll(".ly2").attr("opacity",1)
+				d3.selectAll(".ly3").attr("opacity",1)
+				d3.selectAll(".ly4").attr("opacity",1)
+				d3.selectAll(".ly5").attr("opacity",1)
+				d3.select("#cache_scan").attr("opacity",0)
+				d3.select("#fififi").attr("display","block")
+			// },1155)
 
 		})
 		.on("mouseover",function(){
@@ -960,6 +978,7 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 	affEmprise(document.getElementById("e"+ind))
 	d3.select(".emp")
 		.attr("fill",nuancier[6])
+		.attr("fill-opacity",0.5)
 		
 	//---------------------------------------------------------------------------------------ancien truc avant a virer
 	
@@ -1036,6 +1055,10 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 	d3.select("#elt_scalebar")
 		.attr("width",w_sca2)
 		.attr("x",-w_sca2/2)
+
+	d3.select("#fond_scalebar")
+		.attr("width",w_sca2*1.2)
+		.attr("x",-w_sca2*1.2/2)
 		
 		
 			
