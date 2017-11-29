@@ -87,14 +87,14 @@ function initialize(){
 
 function events(){
 	window.onkeypress = function(e){
-		console.log(e)
+		// console.log(e.key)
 		if(e.key=="ArrowUp"||e.key=="8"){
 			dir="haut"
 		} else if(e.key=="ArrowLeft"||e.key=="4"){
 			dir="gauche"
 		} else if(e.key=="ArrowRight"||e.key=="6"){
 			dir="droite"
-		} else if(e.key=="ArrowBottom"||e.key=="2"){
+		} else if(e.key=="ArrowDown"||e.key=="2"){
 			dir="bas"
 		}
 		
