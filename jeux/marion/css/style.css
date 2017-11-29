@@ -1,0 +1,26 @@
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 400;
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 800;
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-style: 'Italic';
+	font-weight : 600;
+    src:url("../ressources/polices/Roboto-Italic.ttf");
+}
+
+body{
+	font-family : 'Roboto';
+	font-weight : 400;
+}
+
+.fleche:hover{
+	opacity:0.5;
+}

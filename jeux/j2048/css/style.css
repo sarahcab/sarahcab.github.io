@@ -1,0 +1,137 @@
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 400;
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 800;
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-style: 'Italic';
+	font-weight : 600;
+    src:url("../ressources/polices/Roboto-Italic.ttf");
+}
+
+body{
+	font-family : 'Roboto';
+	font-weight : 400;
+}
+
+.choix:hover{
+	cursor : pointer;
+	fill:red;
+}
+
+#content{
+	width:100%;
+	position:absolute;
+}
+
+#base{
+	width:100%;
+	display : none;
+	position:absolute;
+}
+
+#tout{
+	display:flex;
+}
+
+
+.eltCh,#centro{
+	cursor:pointer;
+}
+
+.tourne{
+	animation : tourneG 35s linear;
+	animation-iteration-count : infinite;
+}
+
+@keyframes tourneG{
+	0% {transform: rotate(0deg);opacity:1}
+	100%  {transform: rotate(-360deg);opacity:1}
+}
+.tourne2{
+	animation : tourneD 35s linear;
+	animation-iteration-count : infinite;
+}
+
+@keyframes tourneD{
+	0% {transform: rotate(0deg);}
+	100%   {transform: rotate(360deg);opacity:1}
+}
+
+#carte{
+	border-radius : 50%;
+	width:49%;
+	margin-left:42.4%;
+}
+
+#habillage{
+	width:98%;
+}
+
+#carte,#habillage{
+	position : absolute;
+}
+
+#dezoom{
+	display:none;
+}
+
+#bandeau{
+	display:inline;
+	position:absolute;
+	margin-top:55.5%;
+}
+
+.logos_b{
+	vertical-align:middle;
+	margin-left:4%;
+}
+
+#dezoom:hover{
+	cursor:pointer;
+}
+
+.selectable:hover{
+	opacity:0.7;
+	cursor:pointer;
+}
+
+.aile_mvt{
+	animation-iteration-count : infinite;
+	transform-origin: 497px 319px;
+}
+
+@keyframes batdroite{
+	0% {transform: rotate(0deg)}
+    50% {transform: rotate(25deg)}
+    100% {transform: rotate(0deg)}
+}
+@keyframes batgauche{
+	0% {transform: rotate(0deg)}
+    50% {transform: rotate(-10deg)}
+    100% {transform: rotate(0deg)}
+}
+@keyframes vole{
+	0% {transform: translate(0pt,0pt)}
+    50% {transform: translate(0pt,-10pt)}
+    100% {transform: translate(0pt,0pt)}
+}
+
+@keyframes tourneG {
+	from {transform: rotate(0deg);}
+	to   {transform: rotate(-360deg);}
+}
+
+@keyframes pas{
+	0% {opacity:0}
+    7% {opacity:1}
+	25% {opacity:1}
+    100% {opacity:0}
+}
