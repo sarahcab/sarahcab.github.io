@@ -117,7 +117,7 @@ function events(){
 				dir2="gauche";
 			} else if(draY<-0.9&&Math.abs(draX)<Math.abs(draY)){
 				dir2="haut"
-			}else if(draY>0.1&&Math.abs(draX)<Math.abs(draY)){
+			} else if(draY>0.1&&Math.abs(draX)<Math.abs(draY)){
 				dir2="bas"
 			}
 			if(dir2!=""){
