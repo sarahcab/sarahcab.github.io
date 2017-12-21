@@ -24,7 +24,8 @@ body{
 }
 
 #dessin{
-	width:40%;
-	margin-top : 10%;
-	cursor:crosshair;
+	width:35%;
+	margin-top : 6%;
+	margin-bottom : 6%;
+	/* cursor:crosshair; */
 }

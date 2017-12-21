@@ -53,7 +53,7 @@ function blop(obj){
 	d3.select(obj)
 		// .attr("opacity",1)
 		// .transition()
-		// .duration(200)
+		// .duration(50)
 		// .attr("opacity",0)
 		.remove();
 		
@@ -70,7 +70,7 @@ function blop(obj){
 			return d[1]
 		})
 		// .attr("r",0)
-		.attr("r",r)
+		// .attr("r",r)
 		.attr("rd",rd)
 		.attr("rang",rang*1+1)
 		.attr("posX",function(d){
@@ -109,8 +109,8 @@ function blop(obj){
 			
 		})
 		// .transition()
-		// .duration(200)
-		// .attr("r",r)
+		// .duration(150)
+		.attr("r",r)
 		
 	
 }
