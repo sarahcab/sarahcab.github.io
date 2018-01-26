@@ -17,7 +17,7 @@ pageY: 5
 rangeOffset: 0
 rangeParent: null
 target: HTMLDocument file:///C:/Users/Sarah/Documents/diplo/palestine/palestine_interactif_v1/index.html
-timeStamp: 1544.0195096130217
+timeStamp: 56804.122161937354
 type: "scroll"
 view: Window file:///C:/Users/Sarah/Documents/diplo/palestine/palestine_interactif_v1/index.html
 which: 0
