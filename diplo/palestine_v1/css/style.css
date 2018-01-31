@@ -67,7 +67,10 @@
 }
 
 #svg_fix,#svg_scroll{
-	/* position : absolute; */
+	position : absolute;
 	width : 99%;
 }
 
+#dessins{
+	overflow:hidden;
+}

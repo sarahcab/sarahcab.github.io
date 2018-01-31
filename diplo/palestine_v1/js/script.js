@@ -5,19 +5,32 @@ av=true;
 vbH=600;
 vbW=1190.5;
 vbY=50;
-timeEt=1500;
+timeEt=800;
 timeDeclenche=200;
 parts_legende = ["routes","mur","postes"];
 // nb_parts_legende = [10,3,5,2],
-vbX=[0,30,60,90,45,0];
+vbX=[0,30,60,90,45,-10];
 
 window.onload = initialize();
 
 function initialize(){
 	scrollanim();
-	selections();
-	caisson();
-	d3.select("#dessins").style("display","block")
+	// scrollanim2();
+	// selections();
+	// caisson();
+}
+
+//https://forum.alsacreations.com/topic-1-74402-1-Commentbloquerlescrollverticalsurunonepagevertical.html
+function scrollanim2(){
+
+	window.addEventListener("DOMMouseScroll", function (e){
+		console.log(e);
+		// window.scrollTo(0,0);
+		scrollTime++;
+		console.log(scrollTime)
+		d3.select("#trace_1").attr("stroke-dasharray",scrollTime*10+",5000").attr("opacity",1);
+	
+	}, false);
 }
 
 function caisson(){
@@ -157,8 +170,10 @@ function selections(){
 
 function scrollanim(){
 	console.log(posY)
-	window.onscroll = function(e){
-		repY=pageYOffset;
+	window.addEventListener("DOMMouseScroll", function (e){
+		// repY=pageYOffset;
+		// scrollTo(0,posY);
+		repY=15;
 		if(av==true){
 			plus=false;
 			ancScrollTime=scrollTime;
@@ -189,8 +204,8 @@ function scrollanim(){
 				setTimeout(function(){aller_retour(scrollTime)},timeDeclenche);
 			}
 		} 
-		scrollTo(0,posY);
-	}
+		
+	}, false);
 	
 
 }
@@ -266,6 +281,6 @@ function aller_retour(blop){
 		d3.select("#svg_scroll")
 			.transition()
 			.duration(timeEt)
-			.attr("viewBox",vbX[blop]+" "+(Y-vbH/2)+" "+vbW+" "+vbH)
+			.attr("viewBox",vbX[blop]+" "+(Y-vbH/2)+" "+vbW+" 800")
 	}
 }					
