@@ -1,0 +1,73 @@
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 400;
+    src:url('../ressources/peaulisses/walbaumgroteskbook.eot');
+    src:url('../ressources/peaulisses/walbaumgroteskbook.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgroteskbook.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgroteskbook.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgroteskbook.ttf') format('truetype');
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 700;
+    src:url('../ressources/peaulisses/walbaumgroteskbookbold.eot');
+    src:url('../ressources/peaulisses/walbaumgroteskbookbold.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgroteskbookbold.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgroteskbookbold.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgroteskbookbold.ttf') format('truetype');
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 400;
+	font-style : italic;
+    src:url('../ressources/peaulisses/walbaumgroteskbookitalic.eot');
+    src:url('../ressources/peaulisses/walbaumgroteskbookitalic.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgroteskbookitalic.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgroteskbookitalic.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgroteskbookitalic.ttf') format('truetype');
+	
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 500;
+    src:url('../ressources/peaulisses/walbaumgrotesktext.eot');
+    src:url('../ressources/peaulisses/walbaumgrotesktext.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgrotesktext.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgrotesktext.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgrotesktext.ttf') format('truetype');
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 800;
+    src:url('../ressources/peaulisses/walbaumgrotesktextbold.eot');
+    src:url('../ressources/peaulisses/walbaumgrotesktextbold.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgrotesktextbold.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgrotesktextbold.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgrotesktextbold.ttf') format('truetype');
+	font-display: swap;
+}
+@font-face {
+    font-family: 'WalbaumGrot';
+	font-weight : 500;
+	font-style : italic;
+    src:url('../ressources/peaulisses/walbaumgrotesktextitalic.eot');
+    src:url('../ressources/peaulisses/walbaumgrotesktextitalic.eot?#iefix') format('embedded-opentype'),
+        url('../ressources/peaulisses/walbaumgrotesktextitalic.woff2') format('woff2'),
+        url('../ressources/peaulisses/walbaumgrotesktextitalic.woff') format('woff'),
+        url('../ressources/peaulisses/walbaumgrotesktextitalic.ttf') format('truetype');
+	font-display: swap;
+}
+
+#svg_fix,#svg_scroll{
+	position : absolute;
+	width : 99%;
+}
+
