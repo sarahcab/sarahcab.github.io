@@ -2,7 +2,7 @@
 posY=2;
 scrollTime=0;
 av=true;
-vbH=600;
+vbH=560;
 vbW=1190.5;
 vbY=50;
 timeEt=800;
@@ -281,6 +281,6 @@ function aller_retour(blop){
 		d3.select("#svg_scroll")
 			.transition()
 			.duration(timeEt)
-			.attr("viewBox",vbX[blop]+" "+(Y-vbH/2)+" "+vbW+" 800")
+			.attr("viewBox",vbX[blop]+" "+(Y-vbH/2)+" "+vbW+" "+vbH)
 	}
 }					
