@@ -2,7 +2,7 @@
 posY=2;
 scrollTime=0;
 av=true;
-vbH=560;
+vbH=550;
 vbW=1190.5;
 vbY=50;
 timeEt=800;
