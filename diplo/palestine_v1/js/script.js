@@ -170,7 +170,7 @@ function selections(){
 
 function scrollanim(){
 	console.log(posY)
-	window.addEventListener("DOMMouseScroll", function (e){
+	window.addEventListener("wheel", function (e){
 		// repY=pageYOffset;
 		// scrollTo(0,posY);
 		repY=15;
