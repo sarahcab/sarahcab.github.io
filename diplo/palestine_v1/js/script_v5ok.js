@@ -8,7 +8,7 @@ timeEt=1600,
 time_dash=0,
 parts_legende = ["routes","mur","postes"],
 vbX=[0,30,60,90,10,-30],
-ls_trans=[[230,230],[190,75],[190,75],[190,110],[150,300],[150,300]],
+ls_trans=[[230,230],[190,75],[175,75],[175,110],[150,300],[150,300]],
 
 //v1 (laisser dans v2 pask ya d'autres blocages dans le code)
 av=true,
@@ -214,54 +214,22 @@ function selections(){
 }
 
 function caisson(){
-	// d3.select("#bout_caisson")
-		// .on("mouseover",function(){
-			// d3.select("#tout_caisson")
-				// .attr("display","block")
-				// .transition()
-				// .duration(800)
-				// .attr("transform","")
-		// })
-		// .on("mouseout",function(){
-			// d3.select("#tout_caisson")
+	d3.select("#bout_caisson")
+		.on("mouseover",function(){
+			d3.select("#tout_caisson")
+				.attr("display","block")
+				.transition()
+				.duration(800)
+				.attr("transform","")
+		})
+		.on("mouseout",function(){
+			d3.select("#tout_caisson")
 				
-				// .transition()
-				// .duration(800)
-				// .attr("transform","translate(0,900)")
-				// .transition()
-				// .attr("display","block")
-		// })
-		
-	d3.select("#tout_caisson")
-		.style("cursor","zoom-in")
-		.attr("zm","out")
-		.on("click",function(){
-			zm = this.attributes.zm.value;
-			if(zm=="out"){
-				d3.select(this)
-					.attr("zm","in")
-					.style("cursor","zoom-out")
-					.transition()
-					.duration(700)
-					.attr("transform","")
-				
-				// d3.select("#fond_caisson")
-					// .transition()
-					// .duration(700)
-					// .attr("opacity",0.9)
-			} else {
-				d3.select(this)
-					.attr("zm","out")
-					.style("cursor","zoom-in")
-					.transition()
-					.duration(700)
-					.attr("transform","scale(0.255) translate(3500,2300)")
-				
-				// d3.select("#fond_frise")
-					// .transition()
-					// .duration(700)
-					// .attr("opacity",0)
-			}
+				.transition()
+				.duration(800)
+				.attr("transform","translate(0,900)")
+				.transition()
+				.attr("display","block")
 		})
 }
 
@@ -302,6 +270,9 @@ function scrollanim2(e){
 				d3.select("#k_"+scrollTime).attr("display","block")
 				//aller - fin
 				
+				scrollTime++;
+				way=0;
+				
 				//afonction
 				if(document.getElementById("point_"+scrollTime)&&scrollTime>=0){
 					var Y=document.getElementById("point_"+scrollTime).attributes.cy.value;
@@ -314,11 +285,6 @@ function scrollanim2(e){
 					d3.select("#informations_etape").transition().duration(timeEt).attr("transform","scale(0.85) translate("+trans[0]+","+trans[1]+")")
 					
 				}
-				
-				scrollTime++;
-				way=0;
-				
-				
 		}
 	} else { ///RETOUR
 		way=way-vit;
