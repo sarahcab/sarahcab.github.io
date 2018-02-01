@@ -7317,7 +7317,7 @@
 </g>
 
 <g id="chemin">
-	<rect id="cache" x="0" y="0" width="1190.5" height="1570.4" fill="#ffffff" opacity="0.5" display="none"/>
+	<rect id="cache" x="0" y="0" width="1190.5" height="1570.4" fill="#eeeeee" opacity="0"/>
 
 	<g id="tracess">	
 		<path id="trace_1" class="trace" stroke-dasharray="0,5000" display="inline" opacity="0" fill="none" stroke="#ffffff" stroke-width="11.3386" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M515.5,429l6,15.7l-2,12l4.3,4.3l2,3.3l6.7,4.7l0.3,5l5,4.7l2.7,8.3l2.3,6l1.3,9.7l9,10.7l4,12l-0.7,7l10.3,8.8l10.7,11l8.6,16.9
@@ -7347,7 +7347,7 @@
 	
 		<circle id="point_5" display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="505.7" cy="1116.1" r="6"/>
 	
-		<circle id="point_0" display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="513.4" cy="423.7" r="6"/>
+		<circle id="point_0" display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="513.4" cy="480" cy0="423.7" r="6"/>
 	
 		<circle id="point_1" display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="673" cy="602.7" r="6"/>
 	
@@ -16092,7 +16092,7 @@
 <g id="fondu">
 	<g>
 		
-			<image overflow="visible" width="9500" height="8751" xlink:href="F276376C.png"  transform="matrix(0.24 0 0 0.24 -713.0233 -290.0533)">
+			<image overflow="visible" width="9500" height="8751" xlink:href="img/F276376C.png"  transform="matrix(0.24 0 0 0.24 -713.0233 -290.0533)">
 		</image>
 	</g>
 </g>
@@ -16837,7 +16837,7 @@
 </g>
 
 <g id="legende" transform="scale(0.85) translate(10,230)">
-	<g id="legende_main" fill="grey">
+	<g id="legende_main">
 		
 			<line id="elt_main_0" fill="none" stroke="#7DB928" stroke-width="1.7008" stroke-miterlimit="10" x1="12.1" y1="19.5" x2="29.1" y2="19.5"/>
 		<g id="elt_main_1">
@@ -17077,8 +17077,9 @@
 </g>
 
 
-<g id="informations_etape" transform="scale(0.85) translate(200,250)">
-	<g id="keffier">
+<g id="informations_etape" transform="scale(0.85) translate(230,230)">
+	
+	<g id="keffier" display="none" transform="translate(-5,32)">
 		<g>
 			<defs>
 				<rect id="SVGID_19_" x="933.8" y="132" width="170.2" height="63"/>
@@ -17095,21 +17096,42 @@
 				</clipPath>
 				<g clip-path="url(#SVGID_22_)">
 					
-						<image overflow="visible" width="2313" height="1364" xlink:href="B618B0B3.jpg"  transform="matrix(4.632800e-002 0 0 4.632884e-002 933.7438 131.868)">
+						<image overflow="visible" width="2313" height="1364" xlink:href="img/B618B0B3.jpg"  transform="matrix(4.632800e-002 0 0 4.632884e-002 933.7438 131.868)">
 					</image>
 				</g>
 			</g>
 		</g>
 		<rect x="956.4" y="140.6" fill="#FFFFFF" width="122.5" height="45.6"/>
 	</g>
-	<g id="k_0">
-		<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">6</text>
-		<text transform="matrix(1 0 0 1 983.4239 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20">h</text>
-		<text transform="matrix(0.7 0 0 1 994.2432 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20"> </text>
-		<text transform="matrix(1 0 0 1 997.6026 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20">30</text>
-		<rect x="933.8" y="226.6" fill="none" width="216.2" height="599.7"/>
+	
+	<linearGradient id="MyGradient" x1="0%" y1="0%" x2="50%" y2="100%">
+		<stop offset="5%"  stop-color="#666666" stop-opacity="1"/>
+		<stop offset="40%" stop-color="#666666" stop-opacity="0"/>
+	</linearGradient>
+	
+	<rect x="920" y="213" fill="none" width="216.2" stroke="URL(#MyGradient)" stroke-width="1" height="599.7"/> 
+	
+	
+	<g class="info" id="k_0">
+		<g id="heure_0" transform="translate(-5,32)">
+			<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">6</text>
+			<text transform="matrix(1 0 0 1 983.4239 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20">h</text>
+			<text transform="matrix(0.7 0 0 1 994.2432 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20"> </text>
+			<text transform="matrix(1 0 0 1 997.6026 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20">30</text>
+		
+		</g>
+		
 		<text transform="matrix(1 0 0 1 933.8057 237.4487)"><tspan x="0" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Wissam Abou Bourhane*, 46 ans, </tspan><tspan x="0" y="18" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">habite à Ramallah. Chaque matin,</tspan><tspan x="0" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">il se rend en voiture de son domi</tspan><tspan x="203.9" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="54" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">cile à l’université de Bethléem,</tspan><tspan x="0" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">où il enseigne la chimie. Long de </tspan><tspan x="0" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">50 kilomètres (20km à vol d’oi</tspan><tspan x="194.5" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="108" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">seau), le trajet peut s’avérer </tspan><tspan x="0" y="126" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">extrêmement laborieux. En raison </tspan><tspan x="0" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">des nombreux checkpoints, bar</tspan><tspan x="196.6" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">rages militaires, détours et obsta</tspan><tspan x="207.5" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="180" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">cles divers, c’est souvent avec </tspan><tspan x="0" y="198" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">inquiétude que l’universitaire </tspan><tspan x="0" y="216" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">prend le volant.</tspan></text>
-		<g id="dessin_0">
+	</g>
+	<g class="info" id="k_1" display="none" >
+		<g>
+			<rect x="933.8" y="226.6" fill="none" width="248.9" height="599.7"/>
+			<text transform="matrix(1 0 0 1 933.8056 237.4487)"><tspan x="0" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Le professeur a dû patienter près de </tspan><tspan x="0" y="18" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">l’imposant checkpoint de Qalandiya. </tspan><tspan x="0" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Celui-ci, qui fonctionne comme un « </tspan><tspan x="0" y="54" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">terminal frontalier » vers Jérusalem, </tspan><tspan x="0" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">est régulièrement encombré, et la cir</tspan><tspan x="232.1" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">culation bloquée alentour. Plus loin, la </tspan><tspan x="0" y="108" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">voiture se retrouve coincée au poste</tspan><tspan x="0" y="126" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">de contrôle militaire de Jaba. Ce matin, </tspan><tspan x="0" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">les inspections sont renforcées en</tspan><tspan x="0" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">raison d’affrontements hier. La </tspan><tspan x="197.5" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ﬁ</tspan><tspan x="205.4" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">le de </tspan><tspan x="0" y="180" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">véhicules s’étire sur un kilomètre.</tspan></text>
+		</g>
+		<g id="heure_1" transform="translate(-5,32)">
+			<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">7h30</text>
+		</g>
+		<g id="dessin_1">
 			<g>
 				<defs>
 					<polyline id="SVGID_23_" points="997.9,536 997.9,443.6 1098,443.6 1098,536 					"/>
@@ -17149,20 +17171,22 @@
 					</clipPath>
 					<g clip-path="url(#SVGID_28_)">
 						
-							<image overflow="visible" width="1048" height="992" xlink:href="B618B0BC.jpg"  transform="matrix(4.007000e-002 0 0 4.007100e-002 1026.2408 476.7199)">
+							<image overflow="visible" width="1048" height="992" xlink:href="img/B618B0BC.jpg"  transform="matrix(4.007000e-002 0 0 4.007100e-002 1026.2408 476.7199)">
 						</image>
 					</g>
 				</g>
 			</g>
 		</g>
+	
+		
 	</g>
-	<g id="k_1" display="none" >
-		<g>
-			<rect x="933.8" y="226.6" fill="none" width="248.9" height="599.7"/>
-			<text transform="matrix(1 0 0 1 933.8056 237.4487)"><tspan x="0" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Le professeur a dû patienter près de </tspan><tspan x="0" y="18" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">l’imposant checkpoint de Qalandiya. </tspan><tspan x="0" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Celui-ci, qui fonctionne comme un « </tspan><tspan x="0" y="54" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">terminal frontalier » vers Jérusalem, </tspan><tspan x="0" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">est régulièrement encombré, et la cir</tspan><tspan x="232.1" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">culation bloquée alentour. Plus loin, la </tspan><tspan x="0" y="108" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">voiture se retrouve coincée au poste</tspan><tspan x="0" y="126" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">de contrôle militaire de Jaba. Ce matin, </tspan><tspan x="0" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">les inspections sont renforcées en</tspan><tspan x="0" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">raison d’affrontements hier. La </tspan><tspan x="197.5" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ﬁ</tspan><tspan x="205.4" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">le de </tspan><tspan x="0" y="180" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">véhicules s’étire sur un kilomètre.</tspan></text>
+	<g class="info" id="k_2" display="none" >
+		<rect x="933.8" y="226.6" fill="none" width="248.9" height="599.7"/>
+		<text transform="matrix(1 0 0 1 933.8057 237.4487)"><tspan x="0" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">L’enseignant a en</tspan><tspan x="112.8" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ﬁ</tspan><tspan x="120.6" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">n dépassé Jaba. Il </tspan><tspan x="0" y="18" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">longe le mur de séparation israélien</tspan><tspan x="0" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">qui isole par endroits totalement cer</tspan><tspan x="228.3" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="54" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">taines localités palestiniennes. Il se </tspan><tspan x="0" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">remémore les collines que cache main</tspan><tspan x="239.7" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">tenant la structure en béton. Il passe </tspan><tspan x="0" y="108" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ensuite tout près de plusieurs colonies.</tspan></text>
+		<g id="heure_2" transform="translate(-5,32)">
+			<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">9h15</text>
 		</g>
-		<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">7h30</text>
-		<g id="dessin_1">
+		<g id="dessin_2">
 			<g>
 				<defs>
 					<polyline id="SVGID_29_" points="997.9,536 997.9,443.6 1098,443.6 1098,536 					"/>
@@ -17202,18 +17226,21 @@
 					</clipPath>
 					<g clip-path="url(#SVGID_34_)">
 						
-							<image overflow="visible" width="1607" height="1360" xlink:href="B618B0BF.jpg"  transform="matrix(3.248600e-002 0 0 3.248600e-002 1020.2135 470.2004)">
+							<image overflow="visible" width="1607" height="1360" xlink:href="img/B618B0BF.jpg"  transform="matrix(3.248600e-002 0 0 3.248600e-002 1020.2135 470.2004)">
 						</image>
 					</g>
 				</g>
 			</g>
 		</g>
+	
 	</g>
-	<g id="k_2" display="none" >
+	<g class="info" id="k_3" display="none" >
 		<rect x="933.8" y="226.6" fill="none" width="248.9" height="599.7"/>
-		<text transform="matrix(1 0 0 1 933.8057 237.4487)"><tspan x="0" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">L’enseignant a en</tspan><tspan x="112.8" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ﬁ</tspan><tspan x="120.6" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">n dépassé Jaba. Il </tspan><tspan x="0" y="18" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">longe le mur de séparation israélien</tspan><tspan x="0" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">qui isole par endroits totalement cer</tspan><tspan x="228.3" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="54" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">taines localités palestiniennes. Il se </tspan><tspan x="0" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">remémore les collines que cache main</tspan><tspan x="239.7" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">tenant la structure en béton. Il passe </tspan><tspan x="0" y="108" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ensuite tout près de plusieurs colonies.</tspan></text>
-		<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">9h15</text>
-		<g id="dessin_2">
+		<text transform="matrix(1 0 0 1 933.8057 237.4487)"><tspan x="0" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Wissam Abou Bourhane circule sur </tspan><tspan x="0" y="18" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">une route israélienne à usage mixte </tspan><tspan x="0" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">(pour les Israéliens et les Palesti</tspan><tspan x="205.5" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="54" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">niens).</tspan><tspan x="0" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Un colon le double. Leurs regards se </tspan><tspan x="0" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">croisent. Par ré</tspan><tspan x="96.1" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ﬂ</tspan><tspan x="103.9" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">exe, l’universitaire </tspan><tspan x="0" y="108" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">garde ses mains bien en vue sur le </tspan><tspan x="0" y="126" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">volant.</tspan><tspan x="0" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Le colon se dirige vers Jérusalem. </tspan><tspan x="0" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">L’enseignant, lui, ne peut pas accéder </tspan><tspan x="0" y="180" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">à la ville sainte et à Israël, en raison</tspan><tspan x="0" y="198" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">de sa plaque d’immatriculation palesti</tspan><tspan x="240.6" y="198" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="216" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">nienne.</tspan></text>
+		<g id="heure_3" transform="translate(-5,32)">
+			<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">9h35</text>
+		</g>
+		<g id="dessin_3">
 			<defs>
 				<path id="SVGID_35_" d="M976.4,502.6c-0.3-1-0.1-3.5-0.1-4.8v-14.4v-4.7c0-0.6-0.1-1.6,0.2-1.9v-0.2l0.3-0.2v-0.2l0.4-0.3v-0.1
 					h0.2l0.2-0.3h0.2l0.1-0.2h0.6c0.4-0.4,1.5-0.2,2.2-0.2h0.8v-0.1h3.9l18.8-0.1v-0.2h83.1h21.3h7.2v0.1l0.6,0.1v0.1l0.4,0.1v0.1
@@ -17235,17 +17262,20 @@
 				</clipPath>
 				<g clip-path="url(#SVGID_38_)">
 					
-						<image overflow="visible" width="1294" height="278" xlink:href="B618B0B2.jpg"  transform="matrix(0.1112 0 0 0.1112 975.999 474.4202)">
+						<image overflow="visible" width="1294" height="278" xlink:href="img/B618B0B2.jpg"  transform="matrix(0.1112 0 0 0.1112 975.999 474.4202)">
 					</image>
 				</g>
 			</g>
 		</g>
+	
 	</g>
-	<g id="k_3" display="none" >
+	<g class="info" id="k_4" display="none" >
 		<rect x="933.8" y="226.6" fill="none" width="248.9" height="599.7"/>
-		<text transform="matrix(1 0 0 1 933.8057 237.4487)"><tspan x="0" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Wissam Abou Bourhane circule sur </tspan><tspan x="0" y="18" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">une route israélienne à usage mixte </tspan><tspan x="0" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">(pour les Israéliens et les Palesti</tspan><tspan x="205.5" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="54" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">niens).</tspan><tspan x="0" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Un colon le double. Leurs regards se </tspan><tspan x="0" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">croisent. Par ré</tspan><tspan x="96.1" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ﬂ</tspan><tspan x="103.9" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">exe, l’universitaire </tspan><tspan x="0" y="108" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">garde ses mains bien en vue sur le </tspan><tspan x="0" y="126" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">volant.</tspan><tspan x="0" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Le colon se dirige vers Jérusalem. </tspan><tspan x="0" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">L’enseignant, lui, ne peut pas accéder </tspan><tspan x="0" y="180" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">à la ville sainte et à Israël, en raison</tspan><tspan x="0" y="198" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">de sa plaque d’immatriculation palesti</tspan><tspan x="240.6" y="198" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="216" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">nienne.</tspan></text>
-		<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">9h35</text>
-		<g id="dessin_3">
+		<text transform="matrix(1 0 0 1 933.8057 237.4487)"><tspan x="0" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Le conducteur emprunte une route </tspan><tspan x="0" y="18" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">sinueuse et dangereuse, qui serpente </tspan><tspan x="0" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">sur les hauteurs du désert de Wadi </tspan><tspan x="0" y="54" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Al-Naar (« la vallée de l’enfer »). Il </tspan><tspan x="0" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">atteint le checkpoint surnommé « </tspan><tspan x="0" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Container », où nombre de Palesti</tspan><tspan x="215.8" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="108" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">niens ont été abattus. Les soldats </tspan><tspan x="0" y="126" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">israéliens fouillent sa voiture et </tspan><tspan x="0" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">véri</tspan><tspan x="23" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ﬁ</tspan><tspan x="30.8" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ent son identité. Wissam Abou </tspan><tspan x="0" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Bourhane s’efforce de rester calme.</tspan></text>
+		<g id="heure_4" transform="translate(-5,32)">
+			<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">10h30</text>
+		</g>
+		<g id="dessin_4">
 			<g>
 				<defs>
 					<polyline id="SVGID_39_" points="997.9,536 997.9,443.6 1098,443.6 1098,536 					"/>
@@ -17334,22 +17364,31 @@
 				</g>
 			</g>
 		</g>
+	
 	</g>
-	<g id="k_4" display="none" >
-		<rect x="933.8" y="226.6" fill="none" width="248.9" height="599.7"/>
-		<text transform="matrix(1 0 0 1 933.8057 237.4487)"><tspan x="0" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Le conducteur emprunte une route </tspan><tspan x="0" y="18" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">sinueuse et dangereuse, qui serpente </tspan><tspan x="0" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">sur les hauteurs du désert de Wadi </tspan><tspan x="0" y="54" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Al-Naar (« la vallée de l’enfer »). Il </tspan><tspan x="0" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">atteint le checkpoint surnommé « </tspan><tspan x="0" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Container », où nombre de Palesti</tspan><tspan x="215.8" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="108" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">niens ont été abattus. Les soldats </tspan><tspan x="0" y="126" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">israéliens fouillent sa voiture et </tspan><tspan x="0" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">véri</tspan><tspan x="23" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ﬁ</tspan><tspan x="30.8" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">ent son identité. Wissam Abou </tspan><tspan x="0" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Bourhane s’efforce de rester calme.</tspan></text>
-		<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">10h30</text>
-	</g>
-	<g id="k_5" display="none" >
+	<g class="info" id="k_5" display="none" >
 		<rect x="933.8" y="226.6" fill="none" width="248.9" height="599.7"/>
 		<text transform="matrix(1 0 0 1 933.8057 237.4487)"><tspan x="0" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Le professeur arrive en retard à l’uni</tspan><tspan x="228.6" y="0" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">-</tspan><tspan x="0" y="18" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">versité. Pendant la seconde Intifada </tspan><tspan x="0" y="36" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">(2000-2005), il lui est arrivé de </tspan><tspan x="0" y="54" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">mettre trois jours pour parcourir ce </tspan><tspan x="0" y="72" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">même trajet. Quand tout se passe « au </tspan><tspan x="0" y="90" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">mieux », la durée est d’environ une </tspan><tspan x="0" y="108" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">heure et quarante cinq minutes. Avant</tspan><tspan x="0" y="126" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">les accords d’Oslo (1993), il avait le </tspan><tspan x="0" y="144" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">droit de traverser Jérusalem et allait à </tspan><tspan x="0" y="162" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">Bethléem en moins de trois quart </tspan><tspan x="0" y="180" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="15">d’heure.</tspan></text>
-		<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">11h30</text>
+		<g id="heure_5" transform="translate(-5,32)">
+			<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">11h30</text>
+		</g>
+	</g>
+
+	<g id="legende_etape">
+		<radialGradient id="grad_leg" cx="935" cy="185"  r="26.1396" gradientUnits="userSpaceOnUse">
+			<stop  offset="0.4734" style="stop-color:#000000"/>
+			<stop  offset="0.6543" style="stop-color:#000000;stop-opacity:0.2698"/>
+			<stop  offset="0.8564" style="stop-color:#000000;stop-opacity:0"/>
+		</radialGradient>
+		
+		<circle fill="url(#grad_leg)"  stroke="none" cx="935" cy="185" r="30" opacity="0.6"/>
+		<circle fill="#ffffff" stroke="#1E1E1C" stroke-width="0.8504" stroke-miterlimit="10" cx="935" cy="185" r="12.8"/>
 	</g>
 </g>
 
 
-<g id="tout_caisson" transform="translate(0,900)" display="none">
-	<rect id="fond_caisson" x="940" y="243.5" width="231.5" height="450" fill="#ffffff"/>
+<g id="tout_caisson" transform="scale(0.255) translate(3500,2300)">
+	<rect id="fond_caisson" x="940" y="243.5" width="231.5" height="450" opacity="0.95" fill="#ffffff"/>
 	<g id="caisson">
 
 		<clipPath id="SVGID_18_">
@@ -20170,12 +20209,11 @@
 	</g>
 </g>
 
-<g id="bout_caisson">
-	<circle cx="1058" cy="720" r="6" fill="black" opacity="0.2"/>
-	<circle cx="1058" cy="720" r="12" fill="black" opacity="0.2"/>
-	<circle cx="1058" cy="720" r="18" fill="black" opacity="0.2"/>
-
-</g>
+<!-- <g id="bout_caisson"> -->
+	<!-- <circle cx="1058" cy="720" r="6" fill="black" opacity="0.2"/> -->
+	<!-- <circle cx="1058" cy="720" r="12" fill="black" opacity="0.2"/> -->
+	<!-- <circle cx="1058" cy="720" r="18" fill="black" opacity="0.2"/> -->
+<!-- </g> -->
 </svg>
 		
 		</div>
