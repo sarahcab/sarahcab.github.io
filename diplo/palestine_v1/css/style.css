@@ -66,3 +66,14 @@ body{
 #dessins{
 	overflow:hidden;
 }
+
+.deux_sens{
+	cursor:url(../img/curs0.png) 4 12, auto;
+}
+.monter{
+	cursor:url(../img/curs1.png) 4 12, auto;
+}
+.descendre{
+	cursor:url(../img/curs2.png) 4 12, auto;
+}
+

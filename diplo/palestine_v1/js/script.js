@@ -276,7 +276,7 @@ function scrollanim2(e){
 	if(e.deltaY>0){
 		way=way*1+vit*1;		
 		if(way<L){
-			d3.select("#trace_"+scrollTime).attr("stroke-dasharray",way+","+(L-way)).attr("opacity",1).attr("stroke-width",7).attr("stroke","#92C020")
+			d3.select("#trace_"+scrollTime).attr("stroke-dasharray",way+","+(L-way)).attr("opacity",1).attr("stroke","#92C020")
 		} else {
 				d3.select("#trace_"+scrollTime).transition().duration(200).attr("stroke","#ffffff").attr("opacity",0.35).attr("stroke-width",11.3386)
 				//aller
@@ -323,7 +323,7 @@ function scrollanim2(e){
 	} else { ///RETOUR
 		way=way-vit;
 		if(way>0){
-			d3.select("#trace_"+scrollTime).attr("stroke-dasharray",way+","+(L-way)).attr("opacity",1).attr("stroke-width",7).attr("stroke","#92C020")
+			d3.select("#trace_"+scrollTime).attr("stroke-dasharray",way+","+(L-way)).attr("opacity",1).attr("stroke","#92C020")
 		} else {
 			d3.select("#trace_"+scrollTime).attr("opacity",0);
 			//retour + aller_retour
@@ -464,8 +464,8 @@ function retour(blop){
 
 function aller_retour(blop){
 	// d3.select("#cache").transition().duration(200).attr("opacity","0.35");
-	// d3.selectAll(".trace").attr("stroke","#92C020").attr("opacity",1).attr("stroke-width",7)
-	d3.selectAll(".trace").attr("opacity",1).attr("stroke-width",7).attr("stroke","#92C020")
+	// d3.selectAll(".trace").attr("stroke","#92C020").attr("opacity",1)
+	d3.selectAll(".trace").attr("opacity",1).attr("stroke","#92C020")
 	d3.selectAll(".etapes").selectAll("*").attr("fill","#92C020")
 	setTimeout(function(){
 		// d3.select("#cache").transition().duration(200).attr("opacity","0");
