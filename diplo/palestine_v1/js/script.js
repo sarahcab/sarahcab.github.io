@@ -302,9 +302,6 @@ function scrollanim2(e){
 				d3.select("#k_"+scrollTime).attr("display","block")
 				//aller - fin
 				
-				scrollTime++;
-				way=0;
-				
 				//afonction
 				if(document.getElementById("point_"+scrollTime)&&scrollTime>=0){
 					var Y=document.getElementById("point_"+scrollTime).attributes.cy.value;
@@ -317,6 +314,11 @@ function scrollanim2(e){
 					d3.select("#informations_etape").transition().duration(timeEt).attr("transform","scale(0.85) translate("+trans[0]+","+trans[1]+")")
 					
 				}
+				
+				scrollTime++;
+				way=0;
+				
+				
 		}
 	} else { ///RETOUR
 		way=way-vit;
