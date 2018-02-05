@@ -8,18 +8,20 @@
 		<script src="ressources/scripts/d3.js"></script>
 	</head>	
 	<body>
-		<div id="dessins">
-		
 		<script type = "text/javascript">
 			function debut(){
+			
 				d3.select("#attente").remove();
 				d3.select("#bouton_l").attr("display","block")
 			}
 		</script>
+		<div id="dessins">
+		
+		
 		<div id="globale" style="margin-left:31%;width:38%;position:absolute">
 			<img src="img/carte_tout_72_p.png" width="100%" />
 		</div>
-		<svg id="svg_scroll" onload="debut()" viewBox="0 200 1190.5 550" opacity="0">
+		<svg id="svg_scroll" viewBox="0 200 1190.5 550" onload="debut()" opacity="0">
 		
 	<g id="patterns">
 		<pattern  width="34.86" height="81.9" patternUnits="userSpaceOnUse" id="Zone_B_2" viewBox="0 -200 85 200" overflow="visible" patternTransform="rotate(45)">
@@ -8515,17 +8517,17 @@
 	
 	<g id="reperes">
 	
-		<circle id="point_5" display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="505.7" cy="1116.1" r="6"/>
+		<circle id="point_5"  display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="505.7" cy="1116.1" r="6"/>
 	
-		<circle id="point_0" display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="513.4" cy="480" cy0="423.7" r="6"/>
+		<circle id="point_0"  display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="513.4" cy="480" cy0="423.7" r="6"/>
 	
 		<circle id="point_1" display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="673" cy="602.7" r="6"/>
 	
-		<circle id="point_2" display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="665.2" cy="669.3" r="6"/>
+		<circle id="point_2"  display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="665.2" cy="669.3" r="6"/>
 	
-		<circle id="point_3" display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="790.7" cy="826.3" r="6"/>
+		<circle id="point_3"  display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="790.7" cy="826.3" r="6"/>
 	
-		<circle id="point_4" display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="770.6" cy="993.6" r="6"/>
+		<circle id="point_4"  display="none" fill="#92C020" stroke="#92C020" stroke-width="13.6063" stroke-miterlimit="10" cx="770.6" cy="993.6" r="6"/>
 	</g>
 
 	<g id="ombres" opacity="0.65">
@@ -18478,6 +18480,16 @@
 	</g>
 </g>
 
+<g id="legende_etape" transform="scale(0.85) translate(230,230)" opacity="0" >
+	<radialGradient id="grad_leg" cx="935" cy="185" r="26.1396" gradientUnits="userSpaceOnUse">
+		<stop  offset="0.4734" style="stop-color:#000000"/>
+		<stop  offset="0.6543" style="stop-color:#000000;stop-opacity:0.2698"/>
+		<stop  offset="0.8564" style="stop-color:#000000;stop-opacity:0"/>
+	</radialGradient>
+	
+	<circle fill="url(#grad_leg)"  stroke="none" cx="935" cy="185" r="30" opacity="0.6"/>
+	<circle fill="#ffffff" stroke-miterlimit="10" cx="935" cy="185" r="12.8"/>
+</g>
 
 <g id="informations_etape" transform="scale(0.85) translate(230,230)">
 	<g id="info_tous">
@@ -18489,17 +18501,9 @@
 		
 		<rect x="920" y="213" fill="none" width="216.2" stroke="URL(#MyGradient)" stroke-width="1" height="599.7"/> 
 		
-		<g id="legende_etape">
-			<radialGradient id="grad_leg" cx="935" cy="185"  r="26.1396" gradientUnits="userSpaceOnUse">
-				<stop  offset="0.4734" style="stop-color:#000000"/>
-				<stop  offset="0.6543" style="stop-color:#000000;stop-opacity:0.2698"/>
-				<stop  offset="0.8564" style="stop-color:#000000;stop-opacity:0"/>
-			</radialGradient>
-			
-			<circle fill="url(#grad_leg)"  stroke="none" cx="935" cy="185" r="30" opacity="0.6"/>
-			<circle fill="#ffffff" stroke="#1E1E1C" stroke-width="0.8504" stroke-miterlimit="10" cx="935" cy="185" r="12.8"/>
-		</g>
+	
 	</g>
+	
 
 	
 	<g class="info" id="k_0">
@@ -18637,7 +18641,7 @@
 		<g id="heure_3" transform="translate(-5,32)">
 			<text transform="matrix(1 0 0 1 968.6837 168.8994)" old-family="'WalbaumGroteskText'" font-family="'WalbaumGrot'" font-weight="500" font-size="20" letter-spacing="2">9h35</text>
 		</g>
-		<g id="dessin_3" transform="translate(37,-308)">
+		<g id="dessin_3" transform="translate(37,-300)">
 			<defs>
 				<path id="SVGID_35_" d="M976.4,502.6c-0.3-1-0.1-3.5-0.1-4.8v-14.4v-4.7c0-0.6-0.1-1.6,0.2-1.9v-0.2l0.3-0.2v-0.2l0.4-0.3v-0.1
 					h0.2l0.2-0.3h0.2l0.1-0.2h0.6c0.4-0.4,1.5-0.2,2.2-0.2h0.8v-0.1h3.9l18.8-0.1v-0.2h83.1h21.3h7.2v0.1l0.6,0.1v0.1l0.4,0.1v0.1
@@ -18776,6 +18780,7 @@
 	</g>
 
 </g>
+
 
 
 <g id="tout_caisson" transform="scale(0.255) translate(2500,550)">
@@ -21648,7 +21653,7 @@
 	</g>
 </svg>	
 		</div>
-		<script type = "text/javascript" src="js/script2.js"></script>
+		<script type = "text/javascript" src="js/script.js"></script>
 	
 	</body>
 </html>	
