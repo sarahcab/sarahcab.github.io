@@ -17,7 +17,7 @@ av=true,
 //v2
 way=0,
 pl_traces=[0],
-vit=7;
+vit=4;
 timeNP=900,
 
 window.onload = initialize();
