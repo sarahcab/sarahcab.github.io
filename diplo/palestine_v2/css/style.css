@@ -77,3 +77,41 @@ body{
 	cursor:url(../img/curs2.png) 4 12, auto;
 }
 
+.c_attente{
+	animation : tourneG 3.5s linear;
+	animation-iteration-count : infinite;
+}
+.c_attente1{
+	animation : tourneG 2s linear;
+	animation-iteration-count : infinite;
+}
+.c_attente2{
+	animation : tourneG 1s linear;
+	animation-iteration-count : infinite;
+}
+.c_attente4{
+	animation : tourneG 4s linear;
+	animation-iteration-count : infinite;
+}
+
+.cg{
+	
+	transform-origin : 297.6px 475px;
+}
+
+.cd{
+	transform-origin : 892.8px 475px;
+}
+
+
+@keyframes tourneG{
+	from {transform: rotate(0deg);}
+
+	to   {transform: rotate(-360deg);}
+}
+
+#bouton_l:hover{
+	opacity:0.9;
+	cursor:pointer;
+}
+
