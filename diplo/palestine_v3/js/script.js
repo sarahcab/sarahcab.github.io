@@ -370,9 +370,6 @@ function scrollanim2(e){
 				d3.select("#legende_etape") //retour
 					.attr("opacity",op)
 				
-			
-				
-				
 			} else if(way<(L-lengthOp)){
 				d3.select("#lum_pt"+(scrollTime-1)+"_plus").attr("opacity",0)
 				d3.select("#lum_pt"+(scrollTime-1)).attr("opacity",1)
@@ -514,7 +511,7 @@ function scrollanim2(e){
 				d3.select("#info_tous").attr("opacity",op2)
 				d3.select("#legende_etape") //retour
 					.attr("opacity",op2)
-				//////////////////////::
+				//////////////////////
 	
 				d3.select("#etape_"+scrollTime).attr("opacity",op2)
 				d3.select("#etape_"+scrollTime).selectAll("circle")
@@ -528,6 +525,9 @@ function scrollanim2(e){
 				
 					
 			}else if(way>lengthOp){
+				d3.select("#contour"+(scrollTime-1)+"_plus").attr("display","block")
+				d3.select("#contour"+scrollTime).attr("display","none")
+				d3.select("#contour"+scrollTime+"_plus").attr("display","none")
 				
 				
 				d3.select("#info_tous").attr("opacity",0)
@@ -575,7 +575,7 @@ function scrollanim2(e){
 					av=false;
 					setTimeout(function(){av=true;},850)
 				}
-				if(	way<((L-lengthOp)-(lengthOp/4))&&deplace2_rond==false&&deplace2==true){ //retour
+				if(way<(lengthOp-(lengthOp/4))&&deplace2_rond==false&&deplace2==true){ //retour
 					trans=ls_trans[scrollTime-1]
 					
 					var X=document.getElementById("point_"+(scrollTime-1)).attributes.cx.value*1-vbX[scrollTime-1]*1
@@ -610,29 +610,15 @@ function scrollanim2(e){
 					deplace2_rond=true;
 				}
 				
-				
-			} else {
-				d3.select("#trace_"+scrollTime).attr("opacity",0).attr("stroke","#ffffff");
-				d3.select("#k_"+(scrollTime-1)).attr("opacity",1)
-				
-					
 				d3.select("#lum_pt"+(scrollTime-1)+"_plus").attr("opacity",op)
 				d3.select("#lum_pt"+(scrollTime-1)).attr("opacity",1-op)
 				
 				
-				d3.select("#contour"+(scrollTime-1)+"_plus").attr("display","block")
-				d3.select("#contour"+scrollTime).attr("display","none")
-				d3.select("#contour"+scrollTime+"_plus").attr("display","none")
 				
-				if(document.getElementById("point_"+scrollTime)&&scrollTime>=0){
-					var Y0=document.getElementById("point_"+(scrollTime-1)).attributes.cy.value;
-					vb=(vbX[scrollTime-1])+" "+(Y0-vbH/2)+" "+vbW+" "+vbH;
-					console.log("VB : "+vb)
-					d3.select("#svg_scroll").attr("viewBox",vb)
-					trans=ls_trans[scrollTime-1]
-					d3.select("#informations_etape").attr("transform","scale(0.85) translate("+trans[0]+","+trans[1]+")")
-					
-				}
+			} else {
+				d3.select("#trace_"+scrollTime).attr("opacity",0).attr("stroke","#ffffff");
+				d3.select("#k_"+(scrollTime-1)).attr("opacity",1)
+
 				scrollTime=scrollTime-1;
 				way=pl_traces[scrollTime];
 				
@@ -642,45 +628,6 @@ function scrollanim2(e){
 			}
 		}
 	}
-
-}
-
-
-//v1		
-function scrollanim(e){
-		if(av==true){
-			plus=false;
-			ancScrollTime=scrollTime;
-			if(e.deltaY>0){
-				scrollTime=scrollTime*1+1;
-			}
-			if(scrollTime<0){
-				scrollTime=0;
-			} else if(scrollTime>5){
-				plus=true;
-				scrollTime=5;
-			}
-			if(e.deltaY!=0){
-				av=false;
-				time_dash=pl_traces[scrollTime]*timeEt/150;
-				setTimeout(function(){av=true},time_dash*1.05)
-				if(scrollTime>0){
-					if(ancScrollTime<scrollTime||plus==true){
-						// setTimeout(function(){aller(scrollTime)},timeDeclenche);
-						aller(scrollTime)
-					} else {
-						// setTimeout(function(){retour(scrollTime)},timeDeclenche);
-						retour(scrollTime)
-						
-					}
-				}
-				// setTimeout(function(){aller_retour(scrollTime)},timeDeclenche);
-				aller_retour(scrollTime);
-			}
-		} 
-		
-
-	
 
 }
 
