@@ -135,6 +135,12 @@ function boutons_et(){
 	
 	d3.select("#bout_aide")
 		.style("cursor","pointer")
+		.on("mouseover",function(){
+			d3.select(this).attr("opacity",1)
+		})
+		.on("mouseout",function(){
+			d3.select(this).attr("opacity",0.3)
+		})
 		.on("click",function(){
 			d3.select("#rules").transition().duration(700).attr("transform","")
 			d3.select(this).attr("display","none")
@@ -145,6 +151,12 @@ function boutons_et(){
 		.on("click",function(){
 			d3.select("#rules").transition().duration(700).attr("transform","translate(0,-200)")
 			d3.select("#bout_aide").attr("display","block")
+		})
+		.on("mouseover",function(){
+			d3.select(this).attr("opacity",1)
+		})
+		.on("mouseout",function(){
+			d3.select(this).attr("opacity",0.6)
 		})
 }
 
