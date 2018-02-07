@@ -33,20 +33,34 @@ function initialize(){
 		resize();
 	}
 	resize();
-
 	demarrer();
-	// debut();
 }
 
 
 function resize(){
-	widthPop = document.getElementById("dessins").offsetWidth;
-	var val = widthPop/126.25;
+
+	//verif scroll
+	var coefff = 2.09;
+	if(window.innerWidth/window.innerHeight>coefff){
+		console.log("trop grand!"+(window.innerWidth/window.innerHeight))
+		var val = 100*coefff*(window.innerHeight/window.innerWidth)
+		d3.selectAll(".maindiv")
+			.style("width",val+"%")
+	}else{
+		d3.selectAll(".maindiv")
+			.style("width","99%")
+		console.log("ok!"+window.innerWidth/window.innerHeight)
+	}
+	
+	//size typo
+	widthPop = document.getElementById("inner_src").offsetWidth;
+	var val = widthPop/126.8;
 	var val2 = widthPop/63;
 	d3.selectAll(".src")
 		.style("font-size",val+"px")
 	d3.select("#indication_debut")
 		.style("font-size",val2+"px")
+		
 }
 
 function demarrer(){
@@ -60,12 +74,12 @@ function demarrer(){
 				selections();
 				zooms();
 				
-			},1950)
+			},2500)
 			d3.select("#debutt").transition().duration(200).attr("opacity",0).transition().remove()
-			x = document.getElementById("globale").offsetLeft;
-			w = document.getElementById("globale").offsetWidth;
-			W = document.getElementById("dessins").offsetWidth;
-			d3.select("#globale").style("margin-left",x+"px").style("opacity",1).style("width",w+"px").transition().duration(700).style("margin-left",(-x)+"px").style("width",(W*2)+"px").style("opacity",0).transition().remove();
+			x = document.getElementById("inner_img").offsetLeft;
+			w = document.getElementById("inner_img").offsetWidth;
+			W = document.getElementById("globale").offsetWidth;
+			d3.select("#globale").style("margin-left",x+"px").style("opacity",1).style("width",w+"px").transition().duration(700).style("margin-left",-x+"px").style("width",(W*2)+"px").style("opacity",0).transition()//.remove();
 			d3.select("body").attr("class","descendre");
 			d3.select("#svg_scroll").transition().delay(750).duration(800).attr("opacity",1); 
 			d3.select("#svg_fix").transition().delay(750).duration(1000).attr("opacity",1);
@@ -333,7 +347,7 @@ function scrollanim2(e){
 				
 				d3.select("#info_tous").attr("opacity",0)
 				d3.select("#k_"+(scrollTime-1)).attr("opacity",0);
-				d3.select("#trace_"+scrollTime).attr("stroke-dasharray",(way-lengthOp)+","+(L-way+lengthOp*1)).attr("opacity",1).attr("stroke","#007A3D")
+				d3.select("#trace_"+scrollTime).attr("stroke-dasharray",(way-lengthOp)+","+(L-way+lengthOp*1)).attr("opacity",1).attr("stroke","#48927F")
 				
 				d3.select("#roue").attr("opacity",0.5)
 					.attr("transform",function(){
@@ -483,7 +497,7 @@ function scrollanim2(e){
 				
 				d3.select("#info_tous").attr("opacity",0)
 				d3.select("#k_"+(scrollTime)).attr("opacity",0);
-				d3.select("#trace_"+scrollTime).attr("stroke-dasharray",(way-lengthOp)+","+(L-way+lengthOp*1)).attr("opacity",1).attr("stroke","#007A3D")
+				d3.select("#trace_"+scrollTime).attr("stroke-dasharray",(way-lengthOp)+","+(L-way+lengthOp*1)).attr("opacity",1).attr("stroke","#48927F")
 				
 				d3.select("#roue").attr("opacity",0.5)
 					.attr("transform",function(){
@@ -494,7 +508,7 @@ function scrollanim2(e){
 				
 			} else if(way>0){
 				d3.select("#roue").attr("opacity",0)
-				d3.select("#trace_"+scrollTime).attr("stroke-dasharray","0,"+(L-lengthOp*2)).attr("opacity",0).attr("stroke","#007A3D")
+				d3.select("#trace_"+scrollTime).attr("stroke-dasharray","0,"+(L-lengthOp*2)).attr("opacity",0).attr("stroke","#48927F")
 				d3.select("#k_"+(scrollTime-1)).attr("opacity",function(){
 					op = way/lengthOp;
 					if (op>1){

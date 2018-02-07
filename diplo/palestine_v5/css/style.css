@@ -96,36 +96,36 @@ body{
 
 
 /* structure */
-#svg_fix,#svg_scroll{
+.maindiv{
 	position : absolute;
-	width : 99%;
+	width : 50%;
 }
 
 #dessins{
 	overflow:hidden;
 }
 
-#globale{
+#inner_img{
 	margin-left:28%;
 	margin-top:-2%;
 	width:42%;
-	position:absolute
 }
 
 #bloc_src{
-	position:absolute;
 	opacity:0;
-	width: 44.5%;
-	margin-left: 54.7%;
-	margin-top: 43.7%;
+	width: 44.7%;
+	margin-left: 55.2%;
+	margin-top: 44.9%;
 }
 
+#inner_debut{
+	position:absolute;
+}
 #indication_debut{
 	text-align:center;
 	width:40%;	
 	margin-top:20%;
 	margin-left:30%;
-	position:absolute;
 }
 
 /* trajet */
