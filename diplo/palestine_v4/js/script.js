@@ -42,8 +42,11 @@ function initialize(){
 function resize(){
 	widthPop = document.getElementById("dessins").offsetWidth;
 	var val = widthPop/126.25;
+	var val2 = widthPop/63;
 	d3.selectAll(".src")
 		.style("font-size",val+"px")
+	d3.select("#indication_debut")
+		.style("font-size",val2+"px")
 }
 
 function demarrer(){
@@ -56,7 +59,6 @@ function demarrer(){
 				boutons_et();
 				selections();
 				zooms();
-				
 				
 			},1950)
 			d3.select("#debutt").transition().duration(200).attr("opacity",0).transition().remove()
