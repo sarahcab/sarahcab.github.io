@@ -79,7 +79,7 @@ function demarrer(){
 			x = document.getElementById("inner_img").offsetLeft;
 			w = document.getElementById("inner_img").offsetWidth;
 			W = document.getElementById("globale").offsetWidth;
-			d3.select("#globale").style("margin-left",x+"px").style("opacity",1).style("width",w+"px").transition().duration(700).style("margin-left",-x+"px").style("width",(W*2)+"px").style("opacity",0).transition()//.remove();
+			d3.select("#globale").style("margin-left",x+"px").style("opacity",1).style("width",w+"px").transition().duration(700).style("margin-left",-x+"px").style("width",(W*2)+"px").style("opacity",0).transition().remove();
 			d3.select("body").attr("class","descendre");
 			d3.select("#svg_scroll").transition().delay(750).duration(800).attr("opacity",1); 
 			d3.select("#svg_fix").transition().delay(750).duration(1000).attr("opacity",1);
