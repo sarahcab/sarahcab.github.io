@@ -98,11 +98,17 @@ body{
 /* structure */
 .maindiv{
 	position : absolute;
-	width : 99%;
+	width : 100%;
 }
 
 #dessins{
-	overflow:hidden;
+	/* overflow:hidden; */
+	position:relative;
+}
+
+#svg_fix,#svg_scroll{
+	position : absolute;
+	width : 100%;
 }
 
 #inner_img{
@@ -115,11 +121,14 @@ body{
 	opacity:0;
 	width: 44.7%;
 	margin-left: 55.2%;
-	margin-top: 44.9%;
+	margin-top: 43.9%;
+	/* z-index:1; */
+	position:absolute;
 }
 
 #inner_debut{
 	position:absolute;
+	display:none;
 }
 #indication_debut{
 	text-align:center;
@@ -127,6 +136,7 @@ body{
 	margin-top:20%;
 	margin-left:30%;
 }
+
 
 /* trajet */
 .deux_sens{
