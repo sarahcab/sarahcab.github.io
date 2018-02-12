@@ -32,6 +32,20 @@
 					<img src="img/carte_tout.png" onload="instru()" width="100%" />
 				</div>
 			</div>
+			<svg id="debutt" class="maindiv" viewBox="0 200 1190.5 550">
+				<g id="attente" opacity="0.75" transform="translate(297,0)" >
+					<circle class="c_attente4 cg" fill="none" cx="297.6" cy="475" r="70" stroke="#ffffff" stroke-dasharray="200 100" stroke-width="3"/>
+					<circle class="c_attente2 cg" fill="none" cx="297.6" cy="475" r="80" stroke="#ffffff" stroke-dasharray="220 100" stroke-width="3"/>
+					<circle class="c_attente1 cg" fill="none" cx="297.6" cy="475" r="90" stroke="#ffffff" stroke-dasharray="300 100" stroke-width="3"/>
+					<circle class="c_attente cg" fill="none" cx="297.6" cy="475" r="100" stroke="#ffffff" stroke-dasharray="400 100" stroke-width="3"/>
+				</g>
+				<g id="bouton_l" display="none">
+					
+					<rect width="250" fill="#ffffff" height="110" rx="50" opacity="0.5" x="480" y="405"></rect>
+					<rect width="240" fill="#ffffff" height="100" rx="50" x="485" y="410"></rect>
+					<text font-family="'WalbaumGrot'" font-weight="700" font-size="20" y="467" x="510">Démarrer l’exploration</text>
+				</g>
+			</svg>
 			<div class="maindiv" id="div_svg">
 				<svg id="svg_scroll" viewBox="0 200 1190.5 550" onload="debut()" opacity="0">
 			
@@ -5008,43 +5022,6 @@
 							</image>
 						</g>
 					</g>
-					<!-- <g id="fondu"> -->
-						<!-- <mask maskUnits="userSpaceOnUse" x="-677" y="-254.1" width="2207.8" height="2028" id="SVGID_3_"> --> -->
-							 <!-- <image overflow="visible" width="9216" height="8467" xlink:href="img/fondu.jpg"  transform="matrix(0.24 0 0 0.24 -679.0233 -256.0533)">  -->
-								 <!-- </image>  -->
-						 <!-- </mask>  -->
-						 <!-- <g mask="url(#SVGID_3_)">  -->
-							 <!-- <path fill="#FFFFFF" d="M-558-140.7l-5.3,1801.2l1980.7-1.3V-140.7H-558z M434.2,1488c-405.6,24.6-489.3-321.3-320.3-462.4  -->
-								 <!-- c91.3-76.2,155-155.3,155-155.3H268c3.2-4,6.4-8.1,9.7-12.5c82.2-109.1-465.5-594.7,203.8-605.5c371.4-6,531,141,558,391.5  -->
-								 <!-- C1066.4,894.3,839.8,1463.4,434.2,1488z"/>  -->
-							 <!-- <path fill="none" stroke="#FFFFFF" stroke-width="226.7717" stroke-miterlimit="10" d="M-558-140.7l-5.3,1801.2l1980.7-1.3  -->
-								 <!-- V-140.7H-558z M434.2,1488c-405.6,24.6-489.3-321.3-320.3-462.4c91.3-76.2,155-155.3,155-155.3H268c3.2-4,6.4-8.1,9.7-12.5  -->
-								 <!-- c82.2-109.1-465.5-594.7,203.8-605.5c371.4-6,531,141,558,391.5C1066.4,894.3,839.8,1463.4,434.2,1488z"/>  -->
-						 <!-- </g>  -->
-					<!-- </g> -->
-					<!-- <g id="fondu"> -->
-						<!-- <defs> -->
-							<!-- <filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="-677" y="-254.1" width="2207.8" height="2028"> -->
-								<!-- <feFlood  style="flood-color:white;flood-opacity:1" result="back"/> -->
-								<!-- <feBlend  in="SourceGraphic" in2="back" mode="normal"/> -->
-							<!-- </filter> -->
-						<!-- </defs> -->
-						<!-- <mask maskUnits="userSpaceOnUse" x="-677" y="-254.1" width="2207.8" height="2028" id="SVGID_3_"> -->
-							<!-- <g filter="url(#Adobe_OpacityMaskFilter)"> -->
-								
-									<!-- <image overflow="visible" width="9216" height="8467" xlink:href="img/fondu.jpg"  transform="matrix(0.24 0 0 0.24 -679.0233 -256.0533)"> -->
-								<!-- </image> -->
-							<!-- </g> -->
-						<!-- </mask> -->
-						<!-- <g mask="url(#SVGID_3_)"> -->
-							<!-- <path fill="#FFFFFF" d="M-558-140.7l-5.3,1801.2l1980.7-1.3V-140.7H-558z M434.2,1488c-405.6,24.6-489.3-321.3-320.3-462.4 -->
-								<!-- c91.3-76.2,155-155.3,155-155.3H268c3.2-4,6.4-8.1,9.7-12.5c82.2-109.1-465.5-594.7,203.8-605.5c371.4-6,531,141,558,391.5 -->
-								<!-- C1066.4,894.3,839.8,1463.4,434.2,1488z"/> -->
-							<!-- <path fill="none" stroke="#FFFFFF" stroke-width="226.7717" stroke-miterlimit="10" d="M-558-140.7l-5.3,1801.2l1980.7-1.3 -->
-								<!-- V-140.7H-558z M434.2,1488c-405.6,24.6-489.3-321.3-320.3-462.4c91.3-76.2,155-155.3,155-155.3H268c3.2-4,6.4-8.1,9.7-12.5 -->
-								<!-- c82.2-109.1-465.5-594.7,203.8-605.5c371.4-6,531,141,558,391.5C1066.4,894.3,839.8,1463.4,434.2,1488z"/> -->
-						<!-- </g> -->
-					<!-- </g> -->
 					
 					<g id="habillage">
 						<g id="panneaux" transform="scale(0.4) translate(1750,450)">
@@ -5264,7 +5241,8 @@
 								<rect x="12.1" y="237.1" opacity="0.45" fill="url(#Jerusalem_Est)" width="17" height="16.5"/>
 							</g>
 							<text id="indic_zi"transform="matrix(1 0 0 1 12.0586 272)" font-size="9">Z.I. : Zone industrielle israélienne</text>
-							<text id="lab_main_0" transform="matrix(0.95 0 0 1 36.2339 22.2448)"><tspan x="0" y="-1"  >« Ligne verte »</tspan><tspan x="0" y="12"  >(ligne d’armistice de 1949)</tspan></text>
+							<!-- <text id="lab_main_0" transform="matrix(0.95 0 0 1 36.2339 22.2448)"><tspan x="0" y="-1"  >« Ligne verte »</tspan><tspan x="0" y="12"  >(ligne d’armistice de 1949)</tspan></text> -->
+							<text id="lab_main_0" transform="matrix(0.95 0 0 1 36.2339 22.2448)">0 km</text>
 							<text id="lab_main_1" transform="matrix(0.95 0 0 1 36.2339 51.2932)"><tspan x="0" y="-1"  >Limites municipales</tspan><tspan x="0" y="12"  >de Jérusalem (décrétées</tspan><tspan x="0" y="26"  >par Israël en 1967)</tspan></text>
 							<text id="lab_main_2" transform="matrix(0.95 0 0 1 36.2461 100.3365)"  >Villes et villages palestiniens</text>
 							<text id="lab_main_3" transform="matrix(0.95 0 0 1 35.7461 120.8834)"  >Zone A (contrôle palestinien)</text>
@@ -6135,22 +6113,11 @@
 					<p class="src">Réalisation : Cécile Marin et Boris Séméniako avec Akram Belkaïd et Olivier Pironet (et la collaboration d’Ayman Abu Zulof et de Sbeih Sbeih), décembre 2017
 					</p>
 				</div>
+			
 			</div>
 			
-			<svg class="maindiv" id="debutt" viewBox="0 200 1190.5 550">
-				<g id="attente" opacity="0.75" transform="translate(297,0)" >
-					<circle class="c_attente4 cg" fill="none" cx="297.6" cy="475" r="70" stroke="#ffffff" stroke-dasharray="200 100" stroke-width="3"/>
-					<circle class="c_attente2 cg" fill="none" cx="297.6" cy="475" r="80" stroke="#ffffff" stroke-dasharray="220 100" stroke-width="3"/>
-					<circle class="c_attente1 cg" fill="none" cx="297.6" cy="475" r="90" stroke="#ffffff" stroke-dasharray="300 100" stroke-width="3"/>
-					<circle class="c_attente cg" fill="none" cx="297.6" cy="475" r="100" stroke="#ffffff" stroke-dasharray="400 100" stroke-width="3"/>
-				</g>
-				<g id="bouton_l" display="none">
-					
-					<rect width="250" fill="#ffffff" height="110" rx="50" opacity="0.5" x="480" y="405"></rect>
-					<rect width="240" fill="#ffffff" height="100" rx="50" x="485" y="410"></rect>
-					<text font-family="'WalbaumGrot'" font-weight="700" font-size="20" y="467" x="510">Démarrer l’exploration</text>
-				</g>
-			</svg>	
+			
+				
 		</div>
 		<script type = "text/javascript" src="js/script.js"></script>
 	

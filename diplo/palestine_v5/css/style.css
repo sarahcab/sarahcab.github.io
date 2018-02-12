@@ -101,12 +101,16 @@ body{
 	width : 100%;
 }
 
+#div_svg{
+	display:none;
+}
+
 #dessins{
 	/* overflow:hidden; */
 	position:relative;
 }
 
-#svg_fix,#svg_scroll{
+#svg_fix,#svg_scroll,#debutt{
 	position : absolute;
 	width : 100%;
 }

@@ -16,6 +16,9 @@ ls_trans=[[230,230],[190,95],[190,95],[190,110],[150,300],[150,300]],
 
 //trace
 way=0,
+km=0,
+way_km=0,
+heure=6.5;
 pl_traces=[0],
 deplace=false;
 deplace_rond=false;
@@ -25,6 +28,13 @@ deplace2_rond=false;
 //dynamique
 lengthOp=175,
 vit=9;
+temp=[6.5,7.5]
+// parcours = [];
+
+
+ //temps pour parcourir le
+//temps de blocage par début de trajet
+//temps de blocage par fin de trajet
 
 ///Elements de la carte
 parts_legende = ["routes","mur","postes"],
@@ -58,7 +68,7 @@ function resize(){
 	}
 	
 	//adaptation de la taille des textes <html> en fonction de la largeur de la page
-	widthPop = document.getElementById("div_svg").offsetWidth;
+	widthPop = document.getElementById("dessins").offsetWidth;
 	var val = widthPop/126.8;
 	var val2 = widthPop/63;
 	d3.selectAll(".src")
@@ -94,6 +104,7 @@ function demarrer(){
 			d3.select("body").attr("class","descendre");
 			
 			//affichage des figures définitives
+			d3.select("#div_svg").style("display","block")
 			d3.select("#svg_scroll").transition().delay(750).duration(800).attr("opacity",1); 
 			d3.select("#svg_fix").transition().delay(750).duration(1000).attr("opacity",1);
 			d3.select("#bloc_src").transition().delay(700).duration(1000).style("opacity",1);
@@ -114,6 +125,7 @@ function demarrer(){
 function variables(){
 	for(i=1;i<6;i++){
 		l = d3.select("#trace_"+i).node().getTotalLength(); //longueur des tracé
+		console.log(l);
 		d3.select("#trace_"+i).attr("stroke-dasharray","0,"+l);
 		pl_traces.push(l*1+2*lengthOp); //ajout des tracés fictifs (affichage progressif des étapes)
 	}
@@ -357,7 +369,7 @@ function scrollanim2(e){
 				})
 				d3.select("#info_tous")
 					.attr("opacity",op)
-				d3.select("#legende_etape") //retour
+				d3.select("#legende_etape") 
 					.attr("opacity",op)
 				d3.select("#roue").attr("opacity",0)
 			} else if(way<(L-lengthOp)){
@@ -368,14 +380,20 @@ function scrollanim2(e){
 				d3.select("#k_"+(scrollTime-1)).attr("opacity",0);
 				d3.select("#trace_"+scrollTime).attr("stroke-dasharray",(way-lengthOp)+","+(L-way+lengthOp*1)).attr("opacity",1).attr("stroke","#92C020")//.attr("stroke","#0_0A055")//.attr("stroke","#4_8927F")
 				
-				d3.select("#roue").attr("opacity",0.5)
-					.attr("transform",function(){
-						var r = ((this.attributes.transform.value).split("(")[1]).split(" ")[0];
-						return "rotate("+(r*1+vit*0.5)+" 98.4 98.4)"
-					})
+				//retour!
+				way_km = way_km*1+vit*1;
+				km=Math.trunc(way_km/31.9);
+				d3.select("#lab_main_0").text(km+" km");
+				//
+				
+				// d3.select("#roue").attr("opacity",0.5) //change
+					// .attr("transform",function(){
+						// var r = ((this.attributes.transform.value).split("(")[1]).split(" ")[0];
+						// return "rotate("+(r*1+vit*0.5)+" 98.4 98.4)"
+					// })
 				
 			} else if(way<L){
-				d3.select("#roue").attr("opacity",0)
+				// d3.select("#roue").attr("opacity",0) //change
 				if(deplace==false&&document.getElementById("point_"+scrollTime)){ //retour
 					var Y=document.getElementById("point_"+scrollTime).attributes.cy.value;
 					vb=(vbX[scrollTime])+" "+(Y-vbH/2)+" "+vbW+" "+vbH;
@@ -447,7 +465,7 @@ function scrollanim2(e){
 										
 				
 			} else {
-				d3.select("#roue").attr("opacity",0)
+				// d3.select("#roue").attr("opacity",0) //change
 				d3.select("#k_"+scrollTime).attr("opacity",1);
 				d3.select("#trace_"+scrollTime).transition().duration(200).attr("stroke","#ffffff").attr("opacity",0.35).attr("stroke-width",11.3386)
 
