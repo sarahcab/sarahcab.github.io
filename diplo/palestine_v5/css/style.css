@@ -101,7 +101,7 @@ body{
 	width : 100%;
 }
 
-#div_svg{
+#div_svg,#debutt{
 	display:none;
 }
 
@@ -110,7 +110,7 @@ body{
 	position:relative;
 }
 
-#svg_fix,#svg_scroll,#debutt{
+#svg_fix,#svg_scroll{
 	position : absolute;
 	width : 100%;
 }

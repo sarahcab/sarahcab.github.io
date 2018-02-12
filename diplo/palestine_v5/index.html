@@ -10,13 +10,17 @@
 	<body>
 		<script type = "text/javascript">
 			function debut(){
-			
-				d3.select("#attente").remove();
-				d3.select("#bouton_l").attr("display","block")
+				setTimeout(function(){
+					d3.select("#attente").remove();
+					
+					d3.select("#bouton_l").attr("display","block")
+				},300);
 			}
 			function instru(){
 			
 				d3.select("#inner_debut").style("display","block");
+				d3.select("#debutt").style("display","block");
+				
 			}
 		</script>
 		<div id="dessins">
@@ -5018,7 +5022,7 @@
 					<g id="fondu">
 						<g>
 							
-								<image overflow="visible" width="9500" height="8751" xlink:href="img/F276376C.png"  transform="matrix(0.24 0 0 0.24 -713.0233 -290.0533)">
+								<image overflow="visible" width="9500" height="8751" xlink:href="img/fondupetit.png"  transform="matrix(0.24 0 0 0.24 -713.0233 -290.0533)">
 							</image>
 						</g>
 					</g>
@@ -5241,8 +5245,8 @@
 								<rect x="12.1" y="237.1" opacity="0.45" fill="url(#Jerusalem_Est)" width="17" height="16.5"/>
 							</g>
 							<text id="indic_zi"transform="matrix(1 0 0 1 12.0586 272)" font-size="9">Z.I. : Zone industrielle israélienne</text>
-							<!-- <text id="lab_main_0" transform="matrix(0.95 0 0 1 36.2339 22.2448)"><tspan x="0" y="-1"  >« Ligne verte »</tspan><tspan x="0" y="12"  >(ligne d’armistice de 1949)</tspan></text> -->
-							<text id="lab_main_0" transform="matrix(0.95 0 0 1 36.2339 22.2448)">0 km</text>
+							<text id="lab_main_0" transform="matrix(0.95 0 0 1 36.2339 22.2448)"><tspan x="0" y="-1"  >« Ligne verte »</tspan><tspan x="0" y="12"  >(ligne d’armistice de 1949)</tspan></text>
+							<!-- <text id="lab_main_0" transform="matrix(0.95 0 0 1 36.2339 22.2448)">0 km</text> -->
 							<text id="lab_main_1" transform="matrix(0.95 0 0 1 36.2339 51.2932)"><tspan x="0" y="-1"  >Limites municipales</tspan><tspan x="0" y="12"  >de Jérusalem (décrétées</tspan><tspan x="0" y="26"  >par Israël en 1967)</tspan></text>
 							<text id="lab_main_2" transform="matrix(0.95 0 0 1 36.2461 100.3365)"  >Villes et villages palestiniens</text>
 							<text id="lab_main_3" transform="matrix(0.95 0 0 1 35.7461 120.8834)"  >Zone A (contrôle palestinien)</text>
