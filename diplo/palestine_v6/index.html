@@ -16,29 +16,24 @@
 					d3.select("#bouton_l").attr("display","block")
 				},300);
 			}
-			function instru(){
-			
-				d3.select("#inner_debut").style("display","block");
-				d3.select("#debutt").style("display","block");
-				
-			}
 		</script>
 		<div id="dessins">
+			
+				
+			<div class="maindiv" id="globale">
+				<div id="inner_img">
+					<img src="img/carte_tout.png" width="100%" />
+				</div>
+			</div>
 			<div class="maindiv" id="inner_debut">
 				<div id="indication_debut">
 					<img src="img/fleche.png" width="5%"/>
 					<p>Défiler vers le bas pour afficher le déplacement</p>
 					<p><img src="img/boutons.png" width="5%"/>&nbspCliquer pour afficher/masquer des éléments sur la carte centrale</p>
-					<p><img src="img/zoom.png" width="3%"/>&nbspCliquer pour réduire/agrandir les sources et la carte à droite</p>
+					<p><img src="img/zoom.png" width="3%"/>&nbspCliquer pour réduire/agrandir la carte à droite</p>
 				</div>
 			</div>
-				
-			<div class="maindiv" id="globale">
-				<div id="inner_img">
-					<img src="img/carte_tout.png" onload="instru()" width="100%" />
-				</div>
-			</div>
-			<svg id="debutt" class="maindiv" viewBox="0 200 1190.5 550">
+			<svg id="debutt" class="maindiv" viewBox="-200 200 1190.5 570">
 				<g id="attente" opacity="0.75" transform="translate(297,0)" >
 					<circle class="c_attente4 cg" fill="none" cx="297.6" cy="475" r="70" stroke="#ffffff" stroke-dasharray="200 100" stroke-width="3"/>
 					<circle class="c_attente2 cg" fill="none" cx="297.6" cy="475" r="80" stroke="#ffffff" stroke-dasharray="220 100" stroke-width="3"/>
@@ -53,7 +48,7 @@
 				</g>
 			</svg>
 			<div class="maindiv" id="div_svg">
-				<svg id="svg_scroll" viewBox="0 200 1190.5 550" onload="debut()" opacity="0">
+				<svg id="svg_scroll" viewBox="0 200 1190.5 600" onload="debut()" opacity="0">
 			
 					<g id="patterns">
 						<pattern  width="34.86" height="81.9" patternUnits="userSpaceOnUse" id="Zone_B_2" viewBox="0 -200 85 200" overflow="visible" patternTransform="rotate(45)">
@@ -5116,7 +5111,7 @@
 					</g>
 				</svg>
 
-				<svg id="svg_fix" viewBox="0 200 1190.5 550" opacity="0" >
+				<svg id="svg_fix" viewBox="0 200 1190.5 581" opacity="0" >
 
 					<g id="patterns_fix>
 						<pattern  width="45.65" height="107.25" patternUnits="userSpaceOnUse" id="Zone_B_2" viewBox="0 -200 85 200" overflow="visible" patternTransform="rotate(45)">
@@ -5145,7 +5140,7 @@
 					</g>
 
 					<g id="elements_annexes" >
-						<g id="echelle" display="inline" transform="translate(100,-650)">
+						<g id="echelle" display="inline" transform="translate(100,-624)">
 							<rect id="fond_echelle" x="50.6" y="1380" width="217" height="25" fill="#ffffff" opacity="0.85"/>
 							<line fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="56.6" y1="1399" x2="56.6" y2="1393.4"/>
 							<line fill="none" stroke="#000000" stroke-width="0.3543" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="215.2" y1="1399" x2="215.2" y2="1395.3"/>
@@ -5173,30 +5168,29 @@
 			
 						<g id="sss" >
 							<g id="keffieh">
-								<image overflow="visible" width="231.3" height="136.4" x="890" y="610" xlink:href="img/keffieh.jpg"></image>
+								<image overflow="visible" width="231.3" height="136.4" x="1000" y="710" xlink:href="img/keffieh.jpg"></image>
 										
-								<rect x="956.4" y="140.6" fill="#FFFFFF" width="122.5" height="45.6"/>
 							</g>
-							 <g transform="translate(20,180)"> 
-								 <text id="sources_total" transform="matrix(0.94 0 0 1 950 456.9633)" font-size="9"> 
-									 <tspan x="0" y="0" >Sources :  United Nations Office for the Coordination</tspan> 
-									 <tspan x="0" y="10.8" >of Humanitarian Affairs, occupied Palestinian territory, </tspan> 
-									 <tspan x="0" y="21.6" >« Humanitarian Atlas 2015 » et carte « West Bank</tspan> 
-									 <tspan x="0" y="32.4" >Access Restrictions », janvier 2017 ; B’Tselem (The Israeli </tspan> 
-									 <tspan x="0" y="43.2" >Information Center for Human Rights in the Occupied </tspan> 
-									 <tspan x="0" y="54" >Territories), carte interactive (www.btselem.org/map) ;</tspan> 
-									 <tspan x="0" y="64.8" >The Applied Research Institute Jerusalem (ARIJ), carte « The </tspan> 
-									 <tspan x="0" y="75.6" >Geopolitical Status of Occupied State of Palestine, 2016 » ; </tspan> 
-									 <tspan x="0" y="86.4" >Civic Coalition for Palestinian Rights in Jerusalem, 2015.</tspan> 
-								 </text> 
-								 <text id="sources_icone" opacity="0" transform="matrix(0.94 0 0 1 1080 535)" font-size="20">Sources</text> 
-							 </g> 
+							 <!-- <g transform="translate(20,180)">  -->
+								 <!-- <text id="sources_total" transform="matrix(0.94 0 0 1 950 456.9633)" font-size="9">  -->
+									 <!-- <tspan x="0" y="0" >Sources :  United Nations Office for the Coordination</tspan>  -->
+									 <!-- <tspan x="0" y="10.8" >of Humanitarian Affairs, occupied Palestinian territory, </tspan>  -->
+									 <!-- <tspan x="0" y="21.6" >« Humanitarian Atlas 2015 » et carte « West Bank</tspan>  -->
+									 <!-- <tspan x="0" y="32.4" >Access Restrictions », janvier 2017 ; B’Tselem (The Israeli </tspan>  -->
+									 <!-- <tspan x="0" y="43.2" >Information Center for Human Rights in the Occupied </tspan>  -->
+									 <!-- <tspan x="0" y="54" >Territories), carte interactive (www.btselem.org/map) ;</tspan>  -->
+									 <!-- <tspan x="0" y="64.8" >The Applied Research Institute Jerusalem (ARIJ), carte « The </tspan>  -->
+									 <!-- <tspan x="0" y="75.6" >Geopolitical Status of Occupied State of Palestine, 2016 » ; </tspan>  -->
+									 <!-- <tspan x="0" y="86.4" >Civic Coalition for Palestinian Rights in Jerusalem, 2015.</tspan>  -->
+								 <!-- </text>  -->
+								 <!-- <text id="sources_icone" opacity="0" transform="matrix(0.94 0 0 1 1080 535)" font-size="20">Sources</text>  -->
+							 <!-- </g>  -->
 						</g>
 			
-						 <g id="auteurs" transform="translate(580,-750)" > 
-							 <rect id="fond_auteurs" height="25" fill="#ffffff" opacity="0.85" width="650" x="73" y="1483"></rect> 
+						 <!-- <g id="auteurs" transform="translate(580,-750)" >  -->
+							 <!-- <rect id="fond_auteurs" height="25" fill="#ffffff" opacity="0.85" width="650" x="73" y="1483"></rect>  -->
 							 <!-- <text class="src" transform="matrix(0.94 0 0 1 -62 1495.5815)" font-size="10">Réalisation : Cécile Marin et Boris Séméniako avec Akram Belkaïd et Olivier Pironet (et la collaboration d’Ayman Abu Zulof et de Sbeih Sbeih), décembre 2017.</text>  -->
-						 </g>
+						 <!-- </g> -->
 			
 						
 					</g>
@@ -5207,7 +5201,7 @@
 							<!-- <polyline points="200,100 595.25,200 990.5,100" fill="none" stroke-width="10" stroke="#ffffff"/> -->
 						</g>
 
-					<g id="legende" transform="scale(0.85) translate(10,230)" font-size="12.25">
+					<g id="legende" transform="scale(0.85) translate(10,250)" font-size="12.25">
 						<g id="legende_main">
 							
 							<line id="elt_main_0" fill="none" stroke="#7DB928" stroke-width="1.7008" stroke-miterlimit="10" x1="12.1" y1="19.5" x2="29.1" y2="19.5"/>
@@ -5285,7 +5279,7 @@
 							<text id="lab_routes_1_1_" transform="matrix(0.95 0 0 1 36.2461 345.9083)" >Tunnel interdit aux Palestiniens</text>
 							<text id="lab_routes_2_1_" transform="matrix(0.95 0 0 1 36.2461 363.4747)"><tspan x="0" y="2">Tunnel permettant l’accès</tspan><tspan x="0" y="12" >aux terres ou aux villages palestiniens</tspan></text>
 							<text id="titre_routes" transform="matrix(0.95 0 0 1 51.7246 297.5363)" class="titre_legende">Ségrégation routière</text>
-							<text id="note_1_1_" font-size="10" transform="matrix(0.95 0 0 1 0 633)">
+							<text id="note_1_1_" font-size="10" transform="matrix(0.95 0 0 1 0 646)">
 								<tspan x="0" y="0">  1. Seuls les Palestiniens qui possèdent</tspan>
 								<tspan x="0" y="8">  la carte de résident de Jérusalem</tspan>
 								<tspan x="0" y="16">  peuvent rouler dans Jérusalem-Est.</tspan></text>
@@ -5351,7 +5345,7 @@
 
 					</g>
 
-					<g id="boutons" transform="scale(0.85) translate(-955,207)" font-size="10">
+					<g id="boutons" transform="scale(0.85) translate(-955,227)" font-size="10">
 						<g id="tout_routes" class="bout_tout">
 							<g>
 								<path fill="#FFFFFF" stroke="#000000" stroke-width="0.7087" stroke-miterlimit="10" d="M1010,316.4c0,3.6-2.9,6.4-6.4,6.4h-25 c-3.6,0-6.4-2.9-6.4-6.4l0,0c0-3.6,2.9-6.4,6.4-6.4h25C1007.1,310,1010,312.8,1010,316.4L1010,316.4z"/>
@@ -5545,7 +5539,7 @@
 							<g id="heure_3" font-size="20" transform="translate(-5,24)">
 								<text transform="matrix(1 0 0 1 968.6837 168.8994)"   letter-spacing="2">9h35</text>
 							</g>
-							<g id="dessin_3" transform="translate(37,-300)">
+							<g id="dessin_3" transform="translate(45,-300)">
 								<defs>
 									<path id="SVGID_35_" d="M976.4,502.6c-0.3-1-0.1-3.5-0.1-4.8v-14.4v-4.7c0-0.6-0.1-1.6,0.2-1.9v-0.2l0.3-0.2v-0.2l0.4-0.3v-0.1 h0.2l0.2-0.3h0.2l0.1-0.2h0.6c0.4-0.4,1.5-0.2,2.2-0.2h0.8v-0.1h3.9l18.8-0.1v-0.2h83.1h21.3h7.2v0.1l0.6,0.1v0.1l0.4,0.1v0.1 h0.3v0.1h0.2v0.1h0.3l0.1,0.2h0.2l0.1,0.2h0.2l0.2,0.3h0.1v0.2l0.3,0.2v0.2l0.2,0.1v0.3c0.5,1.2,0.3,3.4,0.3,5.1l-0.1,15.2 c0,1.1,0.1,2.6-0.1,3.5v2h-0.1l-0.2,0.7h-0.1v0.2l-0.4,0.3v0.1h-0.2l-0.1,0.2c-0.7,0.4-1.7,0.7-2.8,0.4c-0.6-0.2-1.7,0-2.2-0.1 h-2.9v-0.1h-3.2v-0.1h-1.1h-1.8v-0.1h-2.9c-0.9-0.3-2.4-0.1-3.6-0.1l-10.8-0.1l-9.2-0.1c-1.5,0-3.7,0.2-4.9-0.1l-25.7-0.1H1030 c-0.7,0.2-1.9,0.1-2.8,0.1h-5.2l-14.9,0.2l-21,0.3h-0.4v0.1l-4.9,0.1c-0.5,0-1.3,0.3-1.9,0.1v-0.1h-0.2v-0.1h-0.2v-0.1l-0.4-0.1 l-0.2-0.3h-0.2v-0.1l-0.4-0.3v-0.2l-0.4-0.3V503h-0.1v-0.3"/>
 								</defs>
@@ -5685,27 +5679,21 @@
 						<circle display="none" id="centre_roue" fill="none" cx="98.4" cy="98.4" r="98.4"/>
 					</g>
 					
-					<g id="horloges" transform="scale(0.35) translate(2850,1865)" display="none">
+					<g id="horloges" transform="scale(0.4) translate(2430,1640)">
 						<g id="fixe">
-							<circle fill="none" stroke="#CCCCCC" stroke-width="1.5" stroke-miterlimit="10" cx="366.9" cy="195.5" r="80.5"/>
-							<circle fill="#92C022" cx="366.9" cy="195.5" r="4.4"/>
-							<text id="test_h" font-size="50" transform="matrix(1 0 0 1 350 210)" fill="#92C022">0</text>
-							<text id="test_t" font-size="50" transform="matrix(1 0 0 1 350 260)" fill="#92C022">0</text>
+							<circle fill="#FFFFFF" stroke="#020304" stroke-width="1.7354" stroke-miterlimit="10" cx="452.9" cy="245.9" r="45"/>
 						</g>
 						<g id="horloge">
-							<!-- <line id="petite_aiguille" transform="rotate(180 408.8 157.9)" fill="none" stroke="#92C022" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="408.8" y1="157.9" x2="408.8" y2="115.3"/> -->
-							<!-- <line id="grande_aiguille" transform="rotate(180 408.8 157.9)" fill="none" stroke="#92C022" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="408.8" y1="157.9" x2="408.8" y2="40.2"/> -->
-						
-							<line id="petite_aiguille" fill="none" stroke="#92C022" stroke-width="2.8" stroke-linecap="round" stroke-miterlimit="10" x1="366.9" y1="195.5" x2="366.9" y2="168.9"/>
-		
-							<line id="grande_aiguille" fill="none" stroke="#92C022" stroke-width="2.8" stroke-linecap="round" stroke-miterlimit="10" x1="366.9" y1="195.5" x2="366.9" y2="122"/>
-
+							<line id="petite_aiguille" transform="rotate(180 452.9 245.9)" fill="none" stroke="#92C022" stroke-width="3.4709" stroke-linecap="round" stroke-miterlimit="10" x1="452.9" y1="249.9" x2="452.9" y2="221.4"/>
+							<line id="grande_aiguille" transform="rotate(180 452.9 245.9)" fill="none" stroke="#92C022" stroke-width="3.4709" stroke-linecap="round" stroke-miterlimit="10" x1="452.9" y1="249.9" x2="452.9" y2="207.5"/>
 						</g>
-						<g id="borne" font-size="53">
-							<path fill="#CCCCCC" d="M106.5,115c-25.7,0-46.6,20.9-46.6,46.6h93.2C153.1,135.9,132.2,115,106.5,115z"/>
-							<rect x="59.8" y="161.7" fill="none" stroke="#CCCCCC" stroke-width="1.5" stroke-miterlimit="10" width="93.2" height="111.1"/>
-							<text transform="matrix(1 0 0 1 79 156)" fill="#FFFFFF" font-weight="800" font-size="40">km</text>
-							<text id="nbkm" transform="matrix(1 0 0 1 74.5488 231.9491)" fill="#92C022" font-size="53">0</text>
+						<g id="borne" font-weight="800">
+							<g>
+								<path fill="#010202" stroke="#020304" stroke-width="1.7354" stroke-miterlimit="10" d="M312.7,203.6c-17.3,0-31.2,11.3-31.2,25.1 h62.5C343.9,214.8,329.9,203.6,312.7,203.6z"/>
+								<rect x="281.4" y="228.7" fill="#FFFFFF" stroke="#020304" stroke-width="1.7354" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" width="62.5" height="59.9"/>
+							</g>
+							<text transform="matrix(1 0 0 1 298.3486 224.542)" fill="#FFFFFF" font-size="21.5">km</text>
+							<text id="nbkm" transform="matrix(1 0 0 1 295.4929 266.6378)" fill="#92C022" font-size="28.5906" >0</text>
 						</g>
 					
 					</g>
@@ -6115,7 +6103,7 @@
 						<g id="rules" transform="translate(0,-200)">	
 							<text font-family="'WalbaumGrot'" font-weight="500" font-size="11" y="13" x="-10">Défiler vers le bas pour afficher le déplacement</text>
 							<text font-family="'WalbaumGrot'" font-weight="500" font-size="11" y="26" x="-10">Cliquer pour afficher/masquer des éléments sur la carte centrale</text>
-							<text font-family="'WalbaumGrot'" font-weight="500" font-size="11" y="39" x="-10">Cliquer pour réduire/agrandir les sources et la carte à droite</text>
+							<text font-family="'WalbaumGrot'" font-weight="500" font-size="11" y="39" x="-10">Cliquer pour réduire/agrandir la carte à droite</text>
 							<g id="retour_aide">
 								<!-- <polygon points="264,52 286,52 275,41" fill="#ffffff" stroke="#333333" stroke-width="0.5"/> -->
 								<polygon points="268,50 282,50 275,43" fill="#ffffff" stroke="#333333" stroke-width="0.5"/>
@@ -6127,10 +6115,10 @@
 
 				</svg>
 				
-				<div id="bloc_src">
-					<p class="src">Réalisation : Cécile Marin et Boris Séméniako avec Akram Belkaïd et Olivier Pironet (et la collaboration d’Ayman Abu Zulof et de Sbeih Sbeih), décembre 2017 -->
-					</p>
-				</div>
+				<!-- <div id="bloc_src"> -->
+					<!-- <p class="src">Réalisation : Cécile Marin et Boris Séméniako avec Akram Belkaïd et Olivier Pironet (et la collaboration d’Ayman Abu Zulof et de Sbeih Sbeih) - animation : Sarah Cabarry, décembre 2017 -->
+					<!-- </p> -->
+				<!-- </div> -->
 			
 			</div>
 			

@@ -5,7 +5,7 @@
 var scrollTime=0,
 
 //vue
-vbH=550,
+vbH=600,
 vbW=1190.5,
 vbY=50,
 vbX=[0,30,60,90,10,-30],
@@ -28,10 +28,10 @@ echell=28.2,
 
 //dynamique
 lengthOp=175,
-vit=9;
+vit=6;
 
 //horloge
-ctr_hor=[366.9,195.5],
+ctr_hor=[452.9,245.9],
 heure=6.5,
 H=6.5,
 palliers=[6.5,6.5,7.5,9.25,(9*1+35/60),10.5,11.5],
@@ -61,7 +61,7 @@ function initialize(){
 //affichage
 function resize(){
 	//blocage du scroll
-	var coefff = 2.09;
+	var coefff = 2.05;
 	if(window.innerWidth/window.innerHeight>coefff){
 		var val = 100*coefff*(window.innerHeight/window.innerWidth)
 		d3.select("#dessins")
@@ -99,7 +99,7 @@ function demarrer(){
 				d3.select("#cible_caisson").transition().delay(2000).attr("class","clignote").transition().delay(5000).attr("class","")
 				d3.select("#boutons").transition().delay(2000).attr("class","clignote").transition().delay(5000).attr("class","")
 				
-			},2500)
+			},2000)
 			
 			//cercles montrant le temps d'attente
 			d3.select("#debutt").transition().duration(200).attr("opacity",0).transition().remove() 
@@ -117,7 +117,7 @@ function demarrer(){
 			d3.select("#div_svg").style("display","block")
 			d3.select("#svg_scroll").transition().delay(750).duration(800).attr("opacity",1); 
 			d3.select("#svg_fix").transition().delay(750).duration(1000).attr("opacity",1);
-			d3.select("#bloc_src").transition().delay(700).duration(1000).style("opacity",1);
+			// d3.select("#bloc_src").transition().delay(700).duration(1000).style("opacity",1);
 			
 			
 			//adaptation de la vue et de la position du texte par défaut
@@ -175,7 +175,9 @@ function scrollable(){
 	//fonctionnement des évènements au scroll
 	scrollTime=1;  //variable d'étape par défaut
 	way=lengthOp*0.75;  //variable du trajet par défaut
-	window.addEventListener("wheel", function (e){
+	window.addEventListener("scroll", function (e){
+		console.log("s");
+		scrollTo(0,0);
 		scrollanim2(e);
 	}, false);
 }
@@ -190,7 +192,7 @@ function boutons(){
 		d3.select("#tout_"+nom)
 			.each(function(){
 				d3.select(this).attr("lock","false")
-				d3.selectAll(".elements_"+nom).transition().duration(1400).attr("opacity",0)
+				d3.selectAll(".elements_"+nom).attr("opacity",1).transition().duration(1400).attr("opacity",0)
 
 				d3.select(this).select(".bou")
 					.transition()
@@ -291,52 +293,52 @@ function boutons(){
 function zooms(){
 	
 	//sources - agrandie par défaut
-	d3.select("#sources_tout")
-		.style("cursor","zoom-out")
-		.attr("zm","in")
-		.on("click",function(){
-			d3.select("#cible_caisson").attr("class","")
+	// d3.select("#sources_tout")
+		// .style("cursor","zoom-out")
+		// .attr("zm","in")
+		// .on("click",function(){
+			// d3.select("#cible_caisson").attr("class","")
 				
-			zm = this.attributes.zm.value;
-			if(zm=="out"){
-				d3.select(this)
-					.attr("zm","in")
-					.style("cursor","zoom-out")
+			// zm = this.attributes.zm.value;
+			// if(zm=="out"){
+				// d3.select(this)
+					// .attr("zm","in")
+					// .style("cursor","zoom-out")
 				
-				d3.select("#keffieh")
-					.transition()
-					.duration(700)
-					.attr("transform","scale(2.6) translate(-588,100)")
+				// d3.select("#keffieh")
+					// .transition()
+					// .duration(700)
+					// .attr("transform","scale(2.6) translate(-588,100)")
 				
-				d3.select("#sources_total")
-					.transition()
-					.duration(700)
-					.attr("opacity",1)
-				d3.select("#sources_icone")
-					.transition()
-					.duration(700)
-					.attr("opacity",0)
+				// d3.select("#sources_total")
+					// .transition()
+					// .duration(700)
+					// .attr("opacity",1)
+				// d3.select("#sources_icone")
+					// .transition()
+					// .duration(700)
+					// .attr("opacity",0)
 				
-			} else {
-				d3.select(this)
-					.attr("zm","out")
-					.style("cursor","zoom-in")
+			// } else {
+				// d3.select(this)
+					// .attr("zm","out")
+					// .style("cursor","zoom-in")
 				
-				d3.select("#keffieh")
-					.transition()
-					.duration(700)
-					.attr("transform","translate(130,550)")
+				// d3.select("#keffieh")
+					// .transition()
+					// .duration(700)
+					// .attr("transform","translate(130,550)")
 				
-				d3.select("#sources_total")
-					.transition()
-					.duration(700)
-					.attr("opacity",0)
-				d3.select("#sources_icone")
-					.transition()
-					.duration(700)
-					.attr("opacity",1)
-			}
-		})
+				// d3.select("#sources_total")
+					// .transition()
+					// .duration(700)
+					// .attr("opacity",0)
+				// d3.select("#sources_icone")
+					// .transition()
+					// .duration(700)
+					// .attr("opacity",1)
+			// }
+		// })
 		
 	//caisson - réduit par défaut
 	d3.select("#tout_caisson")
@@ -378,7 +380,7 @@ function zooms(){
 function scrollanim2(e){
 	if(flechee==false){
 		flechee=true;
-		d3.select("#fleche").attr("class","").transition().duration(300).attr("transform","translate(0,500)").transition().remove();
+		d3.select("#fleche").attr("class","").transition().duration(700).attr("transform","translate(0,900)").transition().remove();
 	
 	}
 			
@@ -415,7 +417,7 @@ function scrollanim2(e){
 				H=palliers[scrollTime];
 				heure=H*1+(bloc_debut[scrollTime])*(way*1)/lengthOp; //changer la variable H
 				d3.select("#test_h").text(heure);
-				d3.select("#test_t").text(H);
+				d3.select("#test_t").text("1 : "+H);
 				angle_min=heure*360;
 				angle_h=heure*30;
 				d3.select("#grande_aiguille").attr("transform","rotate("+angle_min+" "+ctr_hor[0]+" "+ctr_hor[1]+")")
@@ -435,28 +437,19 @@ function scrollanim2(e){
 				//km
 				way_km = way_km*1+vit*1;
 				km=Math.trunc(way_km/echell);
-				// d3.selectAll(".route_a")
-					// .attr("transform",function(){
-						// var val = 320*way/L;
-						// var y1 = this.attributes.y1.value;
-						// var y2 = this.attributes.y2.value;
-						// if(way>y2){
-							// return "translate(0,"+(val-320)+")";
-						// } else {
-							// return "translate(0,"+val+")";
-						// }
-					// })
+
 					
 				// maj_heures
 				heure=heure*1+vit/px_h;
 				d3.select("#nbkm").text(km).attr("transform",function(){
 					if(km<10){
-						return "matrix(1 0 0 1 90.5014 231.9491)"
+						return "matrix(1 0 0 1 304.0847 266.6378)"
 					} else {
-						return "matrix(1 0 0 1 74.5484 231.9491)"
+						return "matrix(1 0 0 1 295.4929 266.6378)"
 					}
 				})
 				d3.select("#test_h").text(heure);
+				d3.select("#test_t").text("2 : "+H);
 				angle_min=heure*360;
 				angle_h=heure*30;
 				d3.select("#grande_aiguille").attr("transform","rotate("+angle_min+" "+ctr_hor[0]+" "+ctr_hor[1]+")")
@@ -472,9 +465,10 @@ function scrollanim2(e){
 			} else if(way<L){
 
 				//maj_heures
-				H=palliers[scrollTime*1+1]*1+(L-lengthOp*2)/px_h;
+				H=palliers[scrollTime*1]*1+(L-lengthOp*2)/px_h+bloc_debut[scrollTime]*1;
 				heure=H*1+(bloc_fin[scrollTime])*(way*1-L+lengthOp*1)/lengthOp; //changer la variable H
 				d3.select("#test_h").text(heure);
+				d3.select("#test_t").text("3 : "+H);
 				angle_min=heure*360;
 				angle_h=heure*30;
 				d3.select("#grande_aiguille").attr("transform","rotate("+angle_min+" "+ctr_hor[0]+" "+ctr_hor[1]+")")
@@ -613,7 +607,7 @@ function scrollanim2(e){
 				
 				
 				//maj_heures
-				H=palliers[scrollTime]*1+(L-lengthOp*2)/px_h;
+				H=palliers[scrollTime]*1+(L-lengthOp*2)/px_h+bloc_debut[scrollTime]*1;
 				heure=H*1+(bloc_fin[scrollTime])*(way*1-L+lengthOp*1)/lengthOp; //changer la variable H
 				d3.select("#test_h").text(heure);
 				angle_min=heure*360;
@@ -647,9 +641,9 @@ function scrollanim2(e){
 				// H=heure;
 				d3.select("#nbkm").text(km).attr("transform",function(){
 					if(km<10){
-						return "matrix(1 0 0 1 90.5014 231.9491)"
+						return "matrix(1 0 0 1 304.0847 266.6378)"
 					} else {
-						return "matrix(1 0 0 1 74.5484 231.9491)"
+						return "matrix(1 0 0 1 295.4929 266.6378)"
 					}
 				})
 				//maj_heures

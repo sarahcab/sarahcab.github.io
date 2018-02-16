@@ -60,6 +60,7 @@ body{
 	
 	font-family:'WalbaumGrot';
 	font-weight : 500;
+	margin:0%;
 }
 
 .main_typo6{
@@ -101,7 +102,7 @@ body{
 	width : 100%;
 }
 
-#div_svg,#debutt{
+#div_svg{
 	display:none;
 }
 
@@ -116,28 +117,27 @@ body{
 }
 
 #inner_img{
-	margin-left:28%;
+	margin-left:45%;
 	margin-top:-2%;
 	width:42%;
 }
 
-#bloc_src{ 
-	 opacity:0; 
-	 width: 44.7%; 
-	 margin-left: 55.2%; 
-	 margin-top: 43.9%; 
-	 position:absolute; 
- }
+/* #bloc_src{ */
+	/* opacity:0; */
+	/* width: 44.7%; */
+	/* margin-left: 55.2%; */
+	/* margin-top: 43.9%; */
+	/* position:absolute; */
+/* } */
 
 #inner_debut{
 	position:absolute;
-	display:none;
 }
 #indication_debut{
-	text-align:center;
+	/* text-align:center; */
 	width:40%;	
-	margin-top:20%;
-	margin-left:30%;
+	margin-top:10%;
+	margin-left:10%;
 }
 
 
