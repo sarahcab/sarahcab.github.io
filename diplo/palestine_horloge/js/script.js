@@ -31,7 +31,7 @@ lengthOp=175,
 vit=9;
 
 //horloge
-ctr_hor=[408.8,157.9],
+ctr_hor=[366.9,195.5],
 heure=6.5,
 H=6.5,
 palliers=[6.5,6.5,7.5,9.25,(9*1+35/60),10.5,11.5],
@@ -95,7 +95,7 @@ function demarrer(){
 				zooms(); //évènements au clic - zoom
 				
 				//deuxième indication de scroll
-				d3.select("#fleche").transition().duration(500).attr("transform","translate(0,300)").transition().attr("class","clignote")
+				d3.select("#fleche").transition().delay(2000).duration(650).attr("transform","translate(0,450)").transition().attr("class","clignote")
 				d3.select("#cible_caisson").transition().delay(2000).attr("class","clignote").transition().delay(5000).attr("class","")
 				d3.select("#boutons").transition().delay(2000).attr("class","clignote").transition().delay(5000).attr("class","")
 				
@@ -133,7 +133,7 @@ function demarrer(){
 function variables(){
 	for(i=1;i<6;i++){
 		l = d3.select("#trace_"+i).node().getTotalLength(); //longueur des tracé
-		console.log(l);
+		console.log("longueur du chemin "+i+" : "+l);
 		d3.select("#trace_"+i).attr("stroke-dasharray","0,"+l);
 		pl_traces.push(l*1+2*lengthOp); //ajout des tracés fictifs (affichage progressif des étapes)
 	}
@@ -397,11 +397,12 @@ function scrollanim2(e){
 			if(way<lengthOp){
 				d3.select("#k_"+(scrollTime-1)).attr("opacity",function(){
 					op = way/lengthOp;
-					console.log(op);
+					console.log("op : "+op);
 					if (op>1){
 						op=1;
 					}
-					op=1-op;
+					op=Math.sqrt(1-op);
+					console.log("opok : "+op);
 					return op;
 				})
 				d3.select("#info_tous")
@@ -414,7 +415,7 @@ function scrollanim2(e){
 				H=palliers[scrollTime];
 				heure=H*1+(bloc_debut[scrollTime])*(way*1)/lengthOp; //changer la variable H
 				d3.select("#test_h").text(heure);
-				d3.select("#test_t").text(H);
+				d3.select("#test_t").text("1 : "+H);
 				angle_min=heure*360;
 				angle_h=heure*30;
 				d3.select("#grande_aiguille").attr("transform","rotate("+angle_min+" "+ctr_hor[0]+" "+ctr_hor[1]+")")
@@ -427,6 +428,7 @@ function scrollanim2(e){
 				d3.select("#lum_pt"+(scrollTime-1)).attr("opacity",1)
 				
 				d3.select("#info_tous").attr("opacity",0)
+				d3.select("#legende_etape").attr("opacity",0)
 				d3.select("#k_"+(scrollTime-1)).attr("opacity",0);
 				d3.select("#trace_"+scrollTime).attr("stroke-dasharray",(way-lengthOp)+","+(L-way+lengthOp*1)).attr("opacity",1).attr("stroke","#92C020")//.attr("stroke","#0_0A055")//.attr("stroke","#4_8927F")
 				
@@ -449,12 +451,13 @@ function scrollanim2(e){
 				heure=heure*1+vit/px_h;
 				d3.select("#nbkm").text(km).attr("transform",function(){
 					if(km<10){
-						return "matrix(1 0 0 1 90.5014 250.9576)"
+						return "matrix(1 0 0 1 90.5014 231.9491)"
 					} else {
-						return "matrix(1 0 0 1 74.5484 250.9575)"
+						return "matrix(1 0 0 1 74.5484 231.9491)"
 					}
 				})
 				d3.select("#test_h").text(heure);
+				d3.select("#test_t").text("2 : "+H);
 				angle_min=heure*360;
 				angle_h=heure*30;
 				d3.select("#grande_aiguille").attr("transform","rotate("+angle_min+" "+ctr_hor[0]+" "+ctr_hor[1]+")")
@@ -470,9 +473,10 @@ function scrollanim2(e){
 			} else if(way<L){
 
 				//maj_heures
-				H=palliers[scrollTime*1+1]*1+(L-lengthOp*2)/px_h;
+				H=palliers[scrollTime*1]*1+(L-lengthOp*2)/px_h+bloc_debut[scrollTime]*1;
 				heure=H*1+(bloc_fin[scrollTime])*(way*1-L+lengthOp*1)/lengthOp; //changer la variable H
 				d3.select("#test_h").text(heure);
+				d3.select("#test_t").text("3 : "+H);
 				angle_min=heure*360;
 				angle_h=heure*30;
 				d3.select("#grande_aiguille").attr("transform","rotate("+angle_min+" "+ctr_hor[0]+" "+ctr_hor[1]+")")
@@ -531,10 +535,13 @@ function scrollanim2(e){
 				}
 				d3.select("#k_"+scrollTime).attr("opacity",function(){
 					op2 = (L-way)/lengthOp;
+					
 					if (op2>1){
 						op2=1;
 					}
-					op2=1-op2;
+					console.log("op2 "+(1-op2))
+					op2=Math.sqrt(1-op2);
+					console.log("ok2 "+op2)
 					return op2;
 				})
 				d3.select("#info_tous").attr("opacity",op2)
@@ -588,7 +595,7 @@ function scrollanim2(e){
 					if (op2>1){
 						op2=1;
 					}
-					op2=1-op2;
+					op2=Math.sqrt(1-op2);
 					return op2;
 				})
 				d3.select("#info_tous").attr("opacity",op2)
@@ -608,7 +615,7 @@ function scrollanim2(e){
 				
 				
 				//maj_heures
-				H=palliers[scrollTime]*1+(L-lengthOp*2)/px_h;
+				H=palliers[scrollTime]*1+(L-lengthOp*2)/px_h+bloc_debut[scrollTime]*1;
 				heure=H*1+(bloc_fin[scrollTime])*(way*1-L+lengthOp*1)/lengthOp; //changer la variable H
 				d3.select("#test_h").text(heure);
 				angle_min=heure*360;
@@ -624,6 +631,7 @@ function scrollanim2(e){
 				
 				
 				d3.select("#info_tous").attr("opacity",0)
+				d3.select("#legende_etape").attr("opacity",0)
 				d3.select("#k_"+(scrollTime)).attr("opacity",0);
 				d3.select("#trace_"+scrollTime).attr("stroke-dasharray",(way-lengthOp)+","+(L-way+lengthOp*1)).attr("opacity",1).attr("stroke","#92C020")
 				
@@ -641,9 +649,9 @@ function scrollanim2(e){
 				// H=heure;
 				d3.select("#nbkm").text(km).attr("transform",function(){
 					if(km<10){
-						return "matrix(1 0 0 1 90.5014 250.9576)"
+						return "matrix(1 0 0 1 90.5014 231.9491)"
 					} else {
-						return "matrix(1 0 0 1 74.5484 250.9575)"
+						return "matrix(1 0 0 1 74.5484 231.9491)"
 					}
 				})
 				//maj_heures
@@ -662,7 +670,7 @@ function scrollanim2(e){
 					if (op>1){
 						op=1;
 					}
-					op=1-op;
+					op=Math.sqrt(1-op);
 					return op;
 				})
 				d3.select("#info_tous").attr("opacity",op)
@@ -703,10 +711,8 @@ function scrollanim2(e){
 					var X=document.getElementById("point_"+(scrollTime-1)).attributes.cx.value*1-vbX[scrollTime-1]*1
 
 					if(scrollTime==1){
-						console.log("OK")
 						var Y=200+vbH/2-56.3;
 					} else {
-						console.log("NN"+scrollTime)
 						var Y=200+vbH/2;
 					}
 					
