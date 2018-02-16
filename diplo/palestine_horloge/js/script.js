@@ -31,7 +31,7 @@ lengthOp=175,
 vit=9;
 
 //horloge
-ctr_hor=[366.9,195.5],
+ctr_hor=[452.9,245.9],
 heure=6.5,
 H=6.5,
 palliers=[6.5,6.5,7.5,9.25,(9*1+35/60),10.5,11.5],
@@ -291,52 +291,52 @@ function boutons(){
 function zooms(){
 	
 	//sources - agrandie par défaut
-	d3.select("#sources_tout")
-		.style("cursor","zoom-out")
-		.attr("zm","in")
-		.on("click",function(){
-			d3.select("#cible_caisson").attr("class","")
+	// d3.select("#sources_tout")
+		// .style("cursor","zoom-out")
+		// .attr("zm","in")
+		// .on("click",function(){
+			// d3.select("#cible_caisson").attr("class","")
 				
-			zm = this.attributes.zm.value;
-			if(zm=="out"){
-				d3.select(this)
-					.attr("zm","in")
-					.style("cursor","zoom-out")
+			// zm = this.attributes.zm.value;
+			// if(zm=="out"){
+				// d3.select(this)
+					// .attr("zm","in")
+					// .style("cursor","zoom-out")
 				
-				d3.select("#keffieh")
-					.transition()
-					.duration(700)
-					.attr("transform","scale(2.6) translate(-588,100)")
+				// d3.select("#keffieh")
+					// .transition()
+					// .duration(700)
+					// .attr("transform","scale(2.6) translate(-588,100)")
 				
-				d3.select("#sources_total")
-					.transition()
-					.duration(700)
-					.attr("opacity",1)
-				d3.select("#sources_icone")
-					.transition()
-					.duration(700)
-					.attr("opacity",0)
+				// d3.select("#sources_total")
+					// .transition()
+					// .duration(700)
+					// .attr("opacity",1)
+				// d3.select("#sources_icone")
+					// .transition()
+					// .duration(700)
+					// .attr("opacity",0)
 				
-			} else {
-				d3.select(this)
-					.attr("zm","out")
-					.style("cursor","zoom-in")
+			// } else {
+				// d3.select(this)
+					// .attr("zm","out")
+					// .style("cursor","zoom-in")
 				
-				d3.select("#keffieh")
-					.transition()
-					.duration(700)
-					.attr("transform","translate(130,550)")
+				// d3.select("#keffieh")
+					// .transition()
+					// .duration(700)
+					// .attr("transform","translate(130,550)")
 				
-				d3.select("#sources_total")
-					.transition()
-					.duration(700)
-					.attr("opacity",0)
-				d3.select("#sources_icone")
-					.transition()
-					.duration(700)
-					.attr("opacity",1)
-			}
-		})
+				// d3.select("#sources_total")
+					// .transition()
+					// .duration(700)
+					// .attr("opacity",0)
+				// d3.select("#sources_icone")
+					// .transition()
+					// .duration(700)
+					// .attr("opacity",1)
+			// }
+		// })
 		
 	//caisson - réduit par défaut
 	d3.select("#tout_caisson")
@@ -451,9 +451,9 @@ function scrollanim2(e){
 				heure=heure*1+vit/px_h;
 				d3.select("#nbkm").text(km).attr("transform",function(){
 					if(km<10){
-						return "matrix(1 0 0 1 90.5014 231.9491)"
+						return "matrix(1 0 0 1 304.0847 266.6378)"
 					} else {
-						return "matrix(1 0 0 1 74.5484 231.9491)"
+						return "matrix(1 0 0 1 295.4929 266.6378)"
 					}
 				})
 				d3.select("#test_h").text(heure);
@@ -649,9 +649,9 @@ function scrollanim2(e){
 				// H=heure;
 				d3.select("#nbkm").text(km).attr("transform",function(){
 					if(km<10){
-						return "matrix(1 0 0 1 90.5014 231.9491)"
+						return "matrix(1 0 0 1 304.0847 266.6378)"
 					} else {
-						return "matrix(1 0 0 1 74.5484 231.9491)"
+						return "matrix(1 0 0 1 295.4929 266.6378)"
 					}
 				})
 				//maj_heures
