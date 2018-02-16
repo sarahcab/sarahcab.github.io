@@ -121,14 +121,13 @@ body{
 	width:42%;
 }
 
-#bloc_src{
-	opacity:0;
-	width: 44.7%;
-	margin-left: 55.2%;
-	margin-top: 43.9%;
-	/* z-index:1; */
-	position:absolute;
-}
+#bloc_src{ 
+	 opacity:0; 
+	 width: 44.7%; 
+	 margin-left: 55.2%; 
+	 margin-top: 43.9%; 
+	 position:absolute; 
+ }
 
 #inner_debut{
 	position:absolute;
