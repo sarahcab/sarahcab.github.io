@@ -55,6 +55,7 @@ function initialize(){
 	
 	//test si c'est un écran tactile;
 	tactile = is_touch_device();
+	console.log("tactile "+tactile);
 	if(tactile==false){
 		adapt();
 	}
@@ -230,26 +231,33 @@ function boutons(){
 	
 	//afficher/masquer les éléments de la légende
 	for(i=0;i<parts_legende.length;i++){
-		nom=parts_legende[i];
 		
-		d3.select("#tout_"+nom)
-			.each(function(){
-				d3.select(this).attr("lock","false")
-				d3.selectAll(".elements_"+nom).attr("opacity",1).transition().duration(1400).attr("opacity",0)
+		//paramètres par défaut
+		nom=parts_legende[i];
+		d3.select("#legende_"+nom)
+			.attr("opacity",1)
+			.transition()
+			.duration(1400)
+			.attr("opacity",0.4)
+		
+		d3.select("#tout_"+nom).attr("lock","false")
+		d3.selectAll(".elements_"+nom).attr("opacity",1).transition().duration(1400).attr("opacity",0)
 
-				d3.select(this).select(".bou")
-					.transition()
-					.duration(1400)
-					.attr("transform","translate(-17,0)")
-				d3.select(this)
-					.transition()
-					.delay(1000)
-					.selectAll(".ti")
-					.attr("fill",function(){
-						var val = this.attributes.fill_off.value;
-						return val;
-					})					
-			})
+		d3.select("#tout_"+nom).select(".bou")
+			.transition()
+			.duration(1400)
+			.attr("transform","translate(-17,0)")
+		d3.select("#tout_"+nom)
+			.transition()
+			.delay(1000)
+			.selectAll(".ti")
+			.attr("fill",function(){
+				var val = this.attributes.fill_off.value;
+				return val;
+			})	
+		
+		//actions
+		d3.select("#tout_"+nom)
 			.style("cursor","pointer")
 			.on("click",function(){
 				nom = (this.id).split("_")[1];
@@ -294,8 +302,15 @@ function boutons(){
 			})
 			.on("mouseout",function(){
 				nom = (this.id).split("_")[1];
+				tst = this.attributes.lock.value;
 				d3.select("#legende_"+nom)
-					.attr("opacity",1)
+					.attr("opacity",function(){
+						if(tst=="false"){
+							return 0.4
+						} else {
+							return 1
+						}
+					})
 			})
 	
 	}
