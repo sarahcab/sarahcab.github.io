@@ -56,7 +56,7 @@ function initialize(){
 	//test si c'est un écran tactile;
 	tactile = is_touch_device();
 	console.log("tactile "+tactile);
-	if(tactile==false){
+	if(tactile==true){
 		adapt();
 	}
 	window.onresize=function(){
@@ -204,12 +204,13 @@ function scrollable(){
 	scrollTime=1;  //variable d'étape par défaut
 	way=lengthOp*0.75;  //variable du trajet par défaut
 	
-	if(tactile==true){
+	if(tactile==false){
 		window.addEventListener("wheel", function (e){
 			scrollanim2(e.deltaY);
 		}, false);
 	} else {
-		alert("drag!")
+		alert("tactile detecté")
+		vit=12;
 		var drag = d3.behavior.drag() 
 			.on("drag", function() {
 				scrollanim2(d3.event.dy);
@@ -394,6 +395,7 @@ function scrollanim2(delta){
 	}
 	var L=pl_traces[scrollTime];
 	console.log("delta"+delta);
+	
 	///ALLER
 	if(delta>0&&av==true){
 		if(scrollTime>5&&(way>=L||way==0)){
@@ -403,7 +405,8 @@ function scrollanim2(delta){
 		
 			op=0;
 			op2=0;
-			way=way*1+vit*1;		
+			way=way*1+vit*1;
+			console.log("way aller"+way);			
 			if(way<lengthOp){
 				d3.select("#k_"+(scrollTime-1)).attr("opacity",function(){
 					op = way/lengthOp;
@@ -572,6 +575,7 @@ function scrollanim2(delta){
 			}
 		}
 	} else if(av==true) { ///RETOUR
+	
 		if(scrollTime==0&&way<=0){
 			d3.select("body").attr("class","descendre")
 			
@@ -584,7 +588,7 @@ function scrollanim2(delta){
 			op=0;
 			op2=0;
 			way=way*1-vit*1;
-			
+			console.log("way retour"+way);
 			if(way>L-lengthOp){
 				d3.select("#k_"+scrollTime).attr("opacity",function(){
 					op2 = (L-way)/lengthOp;
