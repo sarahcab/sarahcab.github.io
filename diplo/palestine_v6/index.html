@@ -27,9 +27,10 @@
 			</div>
 			<div class="maindiv" id="inner_debut">
 				<div id="indication_debut">
-					<img src="img/fleche.png" width="5%"/>
-					<p>Défiler vers le bas pour afficher le déplacement</p>
-					<p><img src="img/boutons.png" width="5%"/>&nbspCliquer pour afficher/masquer des éléments sur la carte centrale</p>
+					
+					<p><img src="img/fleche.png" width="6%"/>&nbspDéfiler vers le bas pour afficher le déplacement</p>
+					<p><img src="img/curseur.png" width="5%"/>&nbspModifier la vitesse du déplacement avec le curseur</p>
+					<p><img src="img/boutons.png" width="6%"/>&nbspCliquer pour afficher/masquer des éléments sur la carte centrale</p>
 					<p><img src="img/zoom.png" width="3%"/>&nbspCliquer pour réduire/agrandir la carte à droite</p>
 				</div>
 			</div>
@@ -5196,7 +5197,7 @@
 					</g>
 					
 						<g id="fleche">
-							<image overflow="visible" width="30" height="60" x="570.25" y="0" xlink:href="img/fleche.png"></image>
+							<image overflow="visible" width="60" height="60" x="555.25" y="0" xlink:href="img/fleche2.png"></image>
 								
 							<!-- <polyline points="200,100 595.25,200 990.5,100" fill="none" stroke-width="10" stroke="#ffffff"/> -->
 						</g>
@@ -5693,7 +5694,7 @@
 								<rect x="281.4" y="228.7" fill="#FFFFFF" stroke="#020304" stroke-width="1.7354" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" width="62.5" height="59.9"/>
 							</g>
 							<text transform="matrix(1 0 0 1 298.3486 224.542)" fill="#FFFFFF" font-size="21.5">km</text>
-							<text id="nbkm" transform="matrix(1 0 0 1 295.4929 266.6378)" fill="#92C022" font-size="28.5906" >0</text>
+							<text id="nbkm" transform="matrix(1 0 0 1 304.0847 266.6378)" fill="#92C022" font-size="28.5906" >0</text>
 						</g>
 					
 					</g>
@@ -6102,19 +6103,21 @@
 						</g>
 						<g id="rules" transform="translate(0,-200)">	
 							<text font-family="'WalbaumGrot'" font-weight="500" font-size="11" y="13" x="-10">Défiler vers le bas pour afficher le déplacement</text>
-							<text font-family="'WalbaumGrot'" font-weight="500" font-size="11" y="26" x="-10">Cliquer pour afficher/masquer des éléments sur la carte centrale</text>
-							<text font-family="'WalbaumGrot'" font-weight="500" font-size="11" y="39" x="-10">Cliquer pour réduire/agrandir la carte à droite</text>
+							<text font-family="'WalbaumGrot'" font-weight="500" font-size="11" y="26" x="-10">Modifier la vitesse du déplacement avec le curseur</text>
+							<text font-family="'WalbaumGrot'" font-weight="500" font-size="11" y="39" x="-10">Cliquer pour afficher/masquer des éléments sur la carte centrale</text>
+							<text font-family="'WalbaumGrot'" font-weight="500" font-size="11" y="52" x="-10">Cliquer pour réduire/agrandir la carte à droite</text>
 							<g id="retour_aide">
-								<!-- <polygon points="264,52 286,52 275,41" fill="#ffffff" stroke="#333333" stroke-width="0.5"/> -->
-								<polygon points="268,50 282,50 275,43" fill="#ffffff" stroke="#333333" stroke-width="0.5"/>
-								
+								<polygon points="268,63 282,63 275,56" fill="#ffffff" stroke="#333333" stroke-width="0.5"/>
 							</g>
 						</g>
 					</g>
 					
 
 				</svg>
-				
+				<div id="inner_range">
+					<input type="range" id="vitesse" min="1" max="20" value="7"/>
+					<p id="lab_vite" style="margin-top:-6%;color:#999999">Vitesse</p>
+				</div>
 				<!-- <div id="bloc_src"> -->
 					<!-- <p class="src">Réalisation : Cécile Marin et Boris Séméniako avec Akram Belkaïd et Olivier Pironet (et la collaboration d’Ayman Abu Zulof et de Sbeih Sbeih) - animation : Sarah Cabarry, décembre 2017 -->
 					<!-- </p> -->
