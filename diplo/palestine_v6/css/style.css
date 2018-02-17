@@ -108,7 +108,7 @@ body{
 
 #dessins{
 	/* overflow:hidden; */
-	position:relative;
+	position:fixed;
 }
 
 #svg_fix,#svg_scroll{
@@ -122,13 +122,59 @@ body{
 	width:42%;
 }
 
-/* #bloc_src{ */
-	/* opacity:0; */
-	/* width: 44.7%; */
-	/* margin-left: 55.2%; */
-	/* margin-top: 43.9%; */
-	/* position:absolute; */
-/* } */
+#inner_range{
+	position:absolute;
+	margin-left:87.5%;
+	margin-top:39%;
+	margin-bottom:0%;
+	width:12%;
+	text-align:center;
+	display:none;
+}
+
+input[type=range] {
+  height: 20%;
+  margin:0%;
+  -webkit-appearance: none;
+  width: 100%;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+  background: #999999;
+  margin:0%;
+}
+input[type=range]::-moz-range-thumb {
+  border: 4px solid #92C022;
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  margin:0%;
+}
+
+
+input[type=range]::-webkit-range-track {
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+  background: #999999;
+  margin:0%;
+}
+input[type=range]::-webkit-range-thumb {
+  border: 4px solid #92C022;
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  margin:0%;
+}
+
+
 
 #inner_debut{
 	position:absolute;
