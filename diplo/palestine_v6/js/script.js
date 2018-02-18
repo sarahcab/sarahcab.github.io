@@ -154,6 +154,7 @@ function demarrer(){
 }
 
 function adapt(){
+	alert("dapat");
 	d3.select("#inner_range").style("display","none");
 	// angular.module('hereApp.directive').directive('noPullToReload', function() {
 		// 'use strict';
@@ -246,7 +247,7 @@ function scrollable(){
 		vit=12;
 		var drag = d3.behavior.drag() 
 			.on("drag", function() {
-				scrollanim2(d3.event.dy);
+				scrollanim2(d3.event.dy*(-1));
 			})
 		d3.select("#svg_fix")//.data([{"x":0}])
 			.call(drag)
