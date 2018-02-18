@@ -95,7 +95,7 @@ function resize(){
 	//adaptation de la taille des textes <html> en fonction de la largeur de la page
 	widthPop = document.getElementById("dessins").offsetWidth;
 	var val = widthPop/100;
-	var val2 = widthPop/63;
+	var val2 = widthPop/75;
 	d3.selectAll(".src")
 		.style("font-size",val+"px")
 	d3.select("#indication_debut")
@@ -155,7 +155,7 @@ function demarrer(){
 
 function adapt(){
 	alert("dapat");
-	d3.select("#inner_range").style("display","none");
+	d3.select("#inner_range").remove();
 	// angular.module('hereApp.directive').directive('noPullToReload', function() {
 		// 'use strict';
 

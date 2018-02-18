@@ -14,6 +14,7 @@
 					d3.select("#attente").remove();
 					
 					d3.select("#bouton_l").attr("display","block")
+					d3.select("#inner_debut").style("display","block")
 				},300);
 			}
 		</script>
@@ -30,7 +31,7 @@
 					
 					<p><img src="img/fleche.png" width="6%"/>&nbspDéfiler vers le bas pour afficher le déplacement</p>
 					<p><img src="img/curseur.png" width="5%"/>&nbspModifier la vitesse du déplacement avec le curseur</p>
-					<p><img src="img/boutons.png" width="6%"/>&nbspCliquer pour afficher/masquer des éléments sur la carte centrale</p>
+					<p><img src="img/boutons.png" width="6%" style="vertical-align:-30%"/>&nbspCliquer pour afficher/masquer des éléments sur la carte centrale</p>
 					<p><img src="img/zoom.png" width="3%"/>&nbspCliquer pour réduire/agrandir la carte à droite</p>
 				</div>
 			</div>
@@ -6117,6 +6118,7 @@
 				<div id="inner_range">
 					<input type="range" id="vitesse" min="1" max="20" value="7"/>
 					<p id="lab_vite" style="margin-top:-6%;color:#999999">Vitesse</p>
+					
 				</div>
 				<!-- <div id="bloc_src"> -->
 					<!-- <p class="src">Réalisation : Cécile Marin et Boris Séméniako avec Akram Belkaïd et Olivier Pironet (et la collaboration d’Ayman Abu Zulof et de Sbeih Sbeih) - animation : Sarah Cabarry, décembre 2017 -->
