@@ -240,6 +240,7 @@ function scrollable(){
 			scrollanim2(e.deltaY);
 		}, false);
 	} else {
+		alert("tactile detecté")
 		vit=12;
 		var drag = d3.behavior.drag() 
 			.on("drag", function() {
@@ -291,7 +292,12 @@ function boutons(){
 			})	
 		
 		//actions
-		d3.select("#tout_"+nom)
+		if(tactile==true){
+			sel="legende";
+		}else {
+			sel="tout";
+		}
+		d3.select("#"+sel+"_"+nom)
 			.style("cursor","pointer")
 			.on("click",function(){
 				nom = (this.id).split("_")[1];

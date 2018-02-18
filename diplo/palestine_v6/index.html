@@ -8,16 +8,7 @@
 		<script src="ressources/scripts/d3.js"></script>
 	</head>	
 	<body>
-		<script type = "text/javascript">
-			function debut(){
-				setTimeout(function(){
-					d3.select("#attente").remove();
-					
-					d3.select("#bouton_l").attr("display","block")
-					d3.select("#inner_debut").style("display","block")
-				},300);
-			}
-		</script>
+		
 		<div id="dessins">
 			
 				
@@ -49,6 +40,16 @@
 					<text font-family="'WalbaumGrot'" font-weight="700" font-size="20" y="467" x="510">Démarrer l’exploration</text>
 				</g>
 			</svg>
+			<script type = "text/javascript">
+				function debut(){
+					setTimeout(function(){
+						d3.select("#attente").remove();
+						
+						d3.select("#bouton_l").attr("display","block")
+						d3.select("#inner_debut").style("display","block")
+					},300);
+				}
+			</script>
 			<div class="maindiv" id="div_svg">
 				<svg id="svg_scroll" viewBox="0 200 1190.5 600" onload="debut()" opacity="0">
 			
