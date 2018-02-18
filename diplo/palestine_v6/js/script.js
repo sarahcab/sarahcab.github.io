@@ -55,7 +55,7 @@ function initialize(){
 	alert("couc");
 	//test si c'est un écran tactile;
 	tactile = is_touch_device();
-	console.log("tactile "+tactile);
+	alert("tactile "+tactile);
 	if(tactile==true){
 		adapt();
 	}
