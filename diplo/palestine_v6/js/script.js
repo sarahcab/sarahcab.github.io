@@ -301,16 +301,16 @@ function boutons(){
 			.style("cursor","pointer")
 			.on("click",function(){
 				nom = (this.id).split("_")[1];
-				tst = this.attributes.lock.value;
+				tst = document.getElementById("tout_"+nom).attributes.lock.value;
 				if(tst=="false"){
-					d3.select(this).attr("lock","true")
+					d3.select("#tout_"+nom).attr("lock","true")
 					d3.selectAll(".elements_"+nom).transition().duration(400).attr("opacity",1)	
 
-					d3.select(this).select(".bou")
+					d3.select("#tout_"+nom).select(".bou")
 						.transition()
 						.duration(400)
 						.attr("transform","")
-					d3.select(this)
+					d3.select("#tout_"+nom)
 						.selectAll(".ti")
 						.attr("fill",function(){
 							var val = this.attributes.fill_on.value;
@@ -318,14 +318,14 @@ function boutons(){
 						})
 					
 				} else {
-					d3.select(this).attr("lock","false")
+					d3.select("#tout_"+nom).attr("lock","false")
 					d3.selectAll(".elements_"+nom).transition().duration(400).attr("opacity",0)
 
-					d3.select(this).select(".bou")
+					d3.select("#tout_"+nom).select(".bou")
 						.transition()
 						.duration(400)
 						.attr("transform","translate(-17,0)")
-					d3.select(this)
+					d3.select("#tout_"+nom)
 						.transition()
 						.selectAll(".ti")
 						.attr("fill",function(){
