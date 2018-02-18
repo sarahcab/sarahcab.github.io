@@ -52,10 +52,8 @@ tactile=false;
 ///général
 window.onload = initialize();
 function initialize(){
-	alert("couc");
 	//test si c'est un écran tactile;
 	tactile = is_touch_device();
-	alert("tactile "+tactile);
 	if(tactile==true){
 		adapt();
 	}
@@ -154,7 +152,6 @@ function demarrer(){
 }
 
 function adapt(){
-	alert("dapat");
 	d3.select("#inner_range").remove();
 	// angular.module('hereApp.directive').directive('noPullToReload', function() {
 		// 'use strict';
@@ -243,7 +240,6 @@ function scrollable(){
 			scrollanim2(e.deltaY);
 		}, false);
 	} else {
-		alert("tactile detecté")
 		vit=12;
 		var drag = d3.behavior.drag() 
 			.on("drag", function() {
@@ -258,11 +254,14 @@ function scrollable(){
 function boutons(){	
 	
 	//vitesse
-	document.getElementById("vitesse").value=vit;
-	d3.select("#inner_range").style("display","block");
-	document.getElementById("vitesse").addEventListener("change", function (e){
-		vit=this.value;
-	}, false);
+	
+	if(tactile==false){
+		document.getElementById("vitesse").value=vit;
+		d3.select("#inner_range").style("display","block");
+		document.getElementById("vitesse").addEventListener("change", function (e){
+			vit=this.value;
+		}, false);
+	}
 	
 	//afficher/masquer les éléments de la légende
 	for(i=0;i<parts_legende.length;i++){
@@ -399,7 +398,9 @@ function zooms(){
 					.style("cursor","zoom-out")
 					.transition()
 					.duration(700)
-					.attr("transform","translate(-275,-120),scale(1.25,1.25)")
+					.attr("transform","translate(-325,-120),scale(1.3,1.3)")
+				
+				d3.select("#inner_range").style("display","none")
 				
 				d3.select("#cible_caisson")
 					.transition()
@@ -412,6 +413,8 @@ function zooms(){
 					.transition()
 					.duration(700)
 					.attr("transform","scale(0.255) translate(2500,550)")
+				
+				d3.select("#inner_range").style("display","block")
 				
 				d3.select("#cible_caisson")
 					.transition()
