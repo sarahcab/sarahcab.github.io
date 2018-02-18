@@ -240,7 +240,6 @@ function scrollable(){
 			scrollanim2(e.deltaY);
 		}, false);
 	} else {
-		alert("tactile detecté")
 		vit=12;
 		var drag = d3.behavior.drag() 
 			.on("drag", function() {
