@@ -1,0 +1,38 @@
+
+body{
+	font-size:12px;
+	font-family:'Roboto';
+	font-weight:400;
+}
+
+div{
+	margin-top : 15px;
+}
+
+fieldset{
+	margin-top : 20px;
+}
+
+legend{
+	font-size:18px;
+}
+
+h3{
+	font-size:14px;
+	font-weight:400;
+}
+
+#ex_carte{
+	text-align:center;
+	color : blue;
+	font-style:italic;
+}
+
+form{
+	width:80%;
+	margin:auto;
+}
+
+h1{
+	text-align:center;
+}

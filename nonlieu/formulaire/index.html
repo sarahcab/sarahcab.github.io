@@ -1,0 +1,251 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+  		<meta charset="utf-8">
+		<title>Test formulaire cheminées</title>
+		<link rel="stylesheet" href="css/style.css" />
+		
+		<script src="ressources/Bibliotheques/d3.js"></script>
+	</head>	
+	<body>
+		<h1> -*-  Fiche cheminée  -*-</h1>
+		<form>
+			<fieldset id='localisation'>
+				<legend>Localisation</legend>
+				<div id="ex_carte">
+					<p> Emplacement de la carte (cheminée à localiser manuellement) </p>
+				</div>
+			</fieldset>
+			<fieldset id='denomination'>
+				<legend>Dénomination</legend>
+				<div>
+					<label>Nom historique du site : </label>
+					<input type="text" id="nom_site_historique"/>
+				</div>
+				<div>
+					<label>Nom actuel du site : </label>
+					<input type="text" id="nom_site_actuel"/>
+				</div>
+				<div>
+					<label>Nom de la cheminée : </label>
+					<input type="text" id="nom_cheminee"/>
+				</div>
+			</fieldset>
+			<fieldset id='description' class="additionnel">
+				<legend value="Description">Description</legend>
+				<div>
+					<label>Existence d’un bâti industriel : </label>
+					<select id="bati_industriel">
+						<option></option>
+						<option>Oui</option>
+						<option>Non</option>
+					</select>	
+				</div>
+				<div>
+					<label>Particularités architecturales et décoratives du bâti :</label>
+					<textarea id="particularite_architecturale_site">
+					</textarea>	
+				</div>
+				<div>
+					<label>Etat du site : </label>
+					<select id="etat_site">
+						<option></option>
+						<option>Bon</option>
+						<option>Moyen</option>
+						<option>Mauvais</option>
+					</select>	
+				</div>
+				<div>
+					<label>Etat de la cheminée : </label>
+					<select id="etat_cheminee">
+						<option></option>
+						<option>Bon</option>
+						<option>Moyen</option>
+						<option>Mauvais</option>
+					</select>	
+				</div>
+				<div id="ajout_contemporain" class="cochage">
+					<p style="margin-bottom:4px">Ajouts contemporains de la cheminée : </p>
+					<input type="checkbox" id="antenne" value="Antennes Relais"/>Antennes relais<br>	
+					<input type="checkbox" id="eclairage" value="Eclairage"/>Eclairage <br>	
+					<input type="checkbox" id="lettrage" value="Lettrage Publicitaire "/>Lettrage Publicitaire <br>							
+					Autre : <input type="text" id="autre"/>
+				</div>
+				<div>
+					<label>Visibilité de la cheminée dans le paysage depuis l'espace public :</label>
+					<select id="visibilite_appreciation">
+						<option></option>
+						<option>Forte</option>
+						<option>Bonne</option>
+						<option>Moyenne</option>
+						<option>Mauvaise</option>
+					</select>
+					<textarea id="visibilite_commentaire">
+					</textarea>	
+				</div>
+				<div>
+					<label>Hauteur de la cheminée (connaissance précise) : </label>
+					<input type="number" id="hauteur_distance"/>
+					<select id="hauteur_estimation">
+						<option></option>
+						<option>0 à 20 mètre</option>
+						<option>20 à 40 mètre</option>
+						<option>Plus de 40 mètre</option>
+					</select>
+				</div>
+				<div id="particularite_architecturale_cheminee" class="cochage">
+					<p style="margin-bottom:4px">Particularités architecturales et décoratives de la cheminée :</p>
+					<input type="checkbox" id="cerclages" value="Cerclages"/>Cerclages<br>	
+					<input type="checkbox" id="couronne" value="Couronne/bulbe"/>Couronne/bulbe<br>	
+					<input type="checkbox" id="briques" value="Briques émaillées"/>Briques émaillées<br>	
+					<input type="checkbox" id="date" value="Date de construction apparente"/>Date de construction apparente<br>							
+					Autre : <input type="text" id="autre"/>
+				</div>
+				<div id="materiau_cheminee" class="cochage">
+					<p style="margin-bottom:4px">Matériau(x) de la cheminée :</p>
+					<input type="checkbox" value="Béton"/>Béton<br>	
+					<input type="checkbox" value="Brique"/>Brique<br>	
+					<input type="checkbox" value="Métal"/>Métal<br>	
+					<input type="checkbox" value="Pierre"/>Pierre<br>							
+					Autre : <input type="text" id="autre"/>
+				</div>
+			</fieldset>
+			<fieldset id='usage' class="additionnel">
+				<legend value="Usage">Usage</legend>
+				<div id="usage_historique" class="cochage">
+					<p style="margin-bottom:4px">Usage historique du site :</p>						
+					Autre : <input type="text" id="autre"/>
+				</div>
+				<div id="usage_actuel" class="cochage">
+					<p style="margin-bottom:4px">Usage actuel du site :</p>						
+					Autre : <input type="text" id="autre"/>
+				</div>
+				
+				<div>
+					<label>Reconversion du site : </label>
+					<select id="reconversion">
+						<option></option>
+						<option>Reconverti</option>
+						<option>En reconversion</option>
+						<option>Non reconverti</option>
+					</select>
+				</div>
+				<div>
+					<label>Le site est-il actuellement occupé ?</label>
+					<select id="occupation">
+						<option></option>
+						<option>Majoritairement</option>
+						<option>Partiellement</option>
+						<option>Pas du tout</option>
+					</select>
+				</div>
+				<div>
+					<label>Type de propriétaire du site :</label>
+					<select id="type_proprietaire">
+						<option></option>
+						<option>Collectivité</option>
+						<option>Particulier</option>
+						<option>Société</option>
+					</select>
+				</div>
+				
+			</fieldset>
+			<fieldset id='histoire' class="additionnel">
+				<legend value="Histoire">Histoire</legend>
+				
+				<div>
+					<label>Informations historiques :</label>
+					<textarea id="informations_historiques">
+					</textarea>	
+				</div>
+			</fieldset>
+			<fieldset id='protection' class="additionnel">
+				<legend value="Protection">Protection</legend>
+				<div id="protection_site" class="cochage">
+					<p style="margin-bottom:4px">Protection du site :</p>						
+					Autre : <input type="text" id="autre"/>
+				</div>
+				<div id="protection_cheminee" class="cochage">
+					<p style="margin-bottom:4px">Protection de la cheminée :</p>						
+					Autre : <input type="text" id="autre"/>
+				</div>
+			</fieldset>
+			<fieldset  id='transformation' class="additionnel">
+				<legend value="Transformation">Transformations et valorisation à venir</legend>
+				<h3>Projets d’aménagement en cours </h3>
+				<div>
+					<label>Sur le site : </label>
+					<select id="projet_amenagement_site_actuel">
+						<option></option>
+						<option>Oui</option>
+						<option>Non</option>
+					</select>	
+					<label style="margin-left:5px">Si oui :</label>
+					<textarea id="projet_amenagement_site_actuel_detail">
+					</textarea>	
+				</div>
+				<div>
+					<label>Sur la cheminée : </label>
+					<select id="projet_amenagement_cheminee_actuel">
+						<option></option>
+						<option>Oui</option>
+						<option>Non</option>
+					</select>	
+					<label style="margin-left:5px">Si oui :</label>
+					<textarea id="projet_amenagement_cheminee_actuel_detail">
+					</textarea>	
+				</div>
+				<h3>Projets d’aménagement à venir</h3>
+				<div>
+					<label>Sur le site : </label>
+					<select id="projet_amenagement_site_avenir">
+						<option></option>
+						<option>Oui</option>
+						<option>Non</option>
+					</select>	
+					<label style="margin-left:5px">Si oui :</label>
+					<textarea id="projet_amenagement_site_avenir_detail">
+					</textarea>	
+				</div>
+				<div>
+					<label>Sur la cheminée : </label>
+					<select id="projet_amenagement_cheminee_avenir">
+						<option></option>
+						<option>Oui</option>
+						<option>Non</option>
+					</select>	
+					<label style="margin-left:5px">Si oui :</label>
+					<textarea id="projet_amenagement_cheminee_avenir_detail">
+					</textarea>	
+				</div>
+				<h3>Projets de valorisation et d'animation</h3>
+				<div>
+					<label>Sur le site :</label>
+					<select id="projet_valorisation_site">
+						<option></option>
+						<option>Oui</option>
+						<option>Non</option>
+					</select>	
+					<label style="margin-left:5px">Si oui :</label>
+					<textarea id="projet_valorisation_site_detail">
+					</textarea>	
+				</div>
+				<div>
+					<label>Sur la cheminée :</label>
+					<select id="projet_valorisation_cheminee">
+						<option></option>
+						<option>Oui</option>
+						<option>Non</option>
+					</select>	
+					<label style="margin-left:5px">Si oui :</label>
+					<textarea id="projet_valorisation_cheminee_detail">
+					</textarea>	
+				</div>
+			</fieldset>
+			<div style="text-align:center">
+				<input type="submit" value="Valider"/>
+			</div>
+		</form>
+		<script src="js/script.js"></script>
+	</body>
+</html>	
