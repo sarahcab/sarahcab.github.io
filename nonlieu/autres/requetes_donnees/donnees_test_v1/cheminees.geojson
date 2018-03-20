@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+                                                                                
+"features": [
+{ "type": "Feature", "properties": { "Id": "c000_00","nom_site":"site1", "nom": "Nom1", "photo_ind":2, "photo_site":1, "commune": "Roubaix", "x": 50.684780, "y": 3.190595 }, "geometry": { "type": "Point", "coordinates": [ 3.190595, 50.68478 ] } },
+{ "type": "Feature", "properties": { "Id": "c000_01","nom_site":"site1", "nom": "Nom2", "photo_ind":0, "photo_site":1, "commune": "Roubaix", "x": 50.685602, "y": 3.190906 }, "geometry": { "type": "Point", "coordinates": [ 3.190906, 50.685602 ] } },
+{ "type": "Feature", "properties": { "Id": "c001_00","nom_site":"site2", "nom": "Nom3", "photo_ind":0, "photo_site":0, "commune": "Roubaix", "x": 50.684589, "y": 3.182259 }, "geometry": { "type": "Point", "coordinates": [ 3.182259, 50.684589 ] } },
+{ "type": "Feature", "properties": { "Id": "c002_00","nom_site":"site3", "nom": "Nom4", "photo_ind":0, "photo_site":0, "commune": "Roubaix", "x": 50.682481, "y": 3.179139 }, "geometry": { "type": "Point", "coordinates": [ 3.179139, 50.682481 ] } },
+{ "type": "Feature", "properties": { "Id": "c003_00","nom_site":"site4", "nom": "Nom5", "photo_ind":1, "photo_site":0, "commune": "Roubaix", "x": 50.681945, "y": 3.186629 }, "geometry": { "type": "Point", "coordinates": [ 3.186629, 50.681945 ] } }
+]
+}
