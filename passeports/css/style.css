@@ -1,0 +1,13 @@
+
+@font-face {
+    font-family: 'Roboto';
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'RobotoBold';
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+
+body{
+	font-family: Roboto, helvetica, arial, sans-serif;
+}

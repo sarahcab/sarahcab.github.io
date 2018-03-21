@@ -1,0 +1,41 @@
+.pays:hover{
+	cursor : pointer;
+	opacity : 1;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'RobotoBold';
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+
+body{
+	font-family: Roboto, helvetica, arial, sans-serif;
+}
+
+.rules{
+	width : 100%;
+	text-align : center;
+}
+
+#zm, #zp{
+	position : absolute;
+	background : #72444D;
+	border-radius : 10px;
+}
+
+#zm:hover,#zp:hover{
+	cursor: pointer;
+	opacity : 0.5;
+}
+
+#zm{
+	margin-left : 600px;
+}
+
+#zp{
+	margin-left : 700px;
+}

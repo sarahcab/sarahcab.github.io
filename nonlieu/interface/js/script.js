@@ -33,10 +33,13 @@ function choixChapitres(){
 	d3.select("#cont_plus")
 		.append("div")
 		.attr("id","tout_infos")
-		
+		.append("h2")
+		.attr("id","titre_fiche");
+	
+	d3.select("#tout_infos")
 		.append("svg")
 		.style("width","100%")
-		.attr("viewBox","100 0 "+sizeI+" 100")
+		.attr("viewBox","100 0 "+sizeI+" 140")
 		.attr("id","fen_choix")
 		.append("g")
 		.attr("id","fonds")
@@ -55,14 +58,45 @@ function choixChapitres(){
 	yh = mar_yC-20,
 	yb = mar_yC-20+esp_yC*chapitres.length/2;
 	
+	d3.select("#fonds").append("rect").attr("fill","#ffffff").attr("opacity",0.7).attr("height",30)
+		.attr("x",sizeI-50)
+		.attr("y",yh*1+11)
+		.attr("width",115)
+
+	d3.select("#fonds").append("rect").attr("fill","#ffffff").attr("opacity",0.7).attr("height",30)
+		.attr("x",sizeI-50)
+		.attr("y",yb-49)
+		.attr("width",117)
+
 	d3.select("#fen_choix")
 		.append("g")
 		.attr("id","chaps")
-		// .append("line").attr("x1",xg).attr("x2",xg).attr("y1",yh).attr("y2",yb).attr("stroke","#000000")
-	// d3.select("#chaps")
-		// .append("line").attr("x1",xd).attr("x2",xd).attr("y1",yh).attr("y2",yb).attr("stroke","#000000")
+		.append("line").attr("x1",xg).attr("x2",xg).attr("y1",yh).attr("y2",yb).attr("stroke","#000000").attr("stroke-width",0.3)
+	d3.select("#chaps")
+		.append("line").attr("x1",xd).attr("x2",xd).attr("y1",yh).attr("y2",yb).attr("stroke","#000000").attr("stroke-width",0.3)
 		
-	// d3.select("#chaps")
+	d3.select("#chaps")
+		.append("text")
+		.text("INFORMATIONS")
+		.attr("x",xg-sizeC/2+24)
+		.attr("y",yb)
+		.attr("transform","rotate(-90 "+(xg-sizeC/2+24)+" "+(yb)+")")
+		.attr("font-size",16)
+		.attr("font-weight",500)
+
+	d3.select("#chaps").append("text").attr("font-size",16).attr("font-weight",500).style("cursor","pointer").attr("class","hl_bout")
+		.text("CONTRIBUER")
+		.attr("x",sizeI-40)
+		.attr("y",yh*1+30)
+		
+	
+	d3.select("#chaps").append("text").attr("font-size",16).attr("font-weight",500).style("cursor","pointer").attr("class","hl_bout")
+		.text("RECHERCHER")
+		.attr("x",sizeI-40)
+		.attr("y",yb-30)
+		
+		
+	d3.select("#chaps")
 		.selectAll(".chap")
 		.data(chapitres)
 		.enter()
@@ -173,11 +207,37 @@ function build_afficheInfo(){
 		
 	function callback0(error,datata){
 		datachem = datata;
-		d3.select("#tout_infos").append("h2").attr("id","titre_fiche");
 		for(c=0;c<chapitres.length;c++){
 			d3.select("#tout_infos").append("div").attr("id","d_"+chapitres[c]).attr("class","div_info").style("display","none")
 			d3.select("#d_Général").style("display","block")
 		}
+
+		d3.select("#d_Photographies")
+			.append("div")
+			.attr("id","div_photo")
+			.style("display","flex")
+			.append("svg")
+			.attr("id","svg_photos")
+			.attr("width","40%")
+			.attr("viewBox","-5 0 80 110")
+			.append("rect").attr("x",-5).attr("y",0).attr("width",80).attr("height",110).attr("fill","blue").attr("opacity",0.8)
+			.append("text")
+			.attr("id","indic_typephoto")
+			.attr("text","Site")
+			.attr("x",70)
+			.attr("y",50)
+			.attr("font-size",12)
+			.attr("transform","rotate(-90 70 50)")
+		
+		d3.select("#div_photo")
+			.append("div")
+			.attr("id","cont_main_photo")
+			.style("margin-left","1%")
+			.style("width","55%")
+			.append("img")
+			.attr("width","100%")
+			.attr("id","main_photo")
+
 		idfam=0;
 		for(i=0;i<datachem.length;i++){
 			famille=datachem[i].famille;
@@ -196,9 +256,7 @@ function build_afficheInfo(){
 						.attr("class","elmt targeted")
 						.attr("position",datachem[i].position)
 						.attr("type",datachem[i].type)
-					console.log("fam   "+idfam)
 				} else if(datachem[i].type=="in_fam"){
-					console.log("in_fam   "+idfam)
 					d3.select("#fam"+idfam)
 						.append("li")
 						.attr("id",datachem[i].variable)
@@ -422,12 +480,8 @@ function makemap(){
 		}
 		
 		
-		var photos_html="<div class='div_photos'>"
-		alert(props.nbphind)
-		alert(props.nbphsit)
-		
-	
-		
+		//var photos_html="<div class='div_photos'>"
+		var lsTot=[];
 		for(i=0;i<props.nbphind;i++){
 			if(i<10){
 				it="0"+(i*1+1);
@@ -435,7 +489,8 @@ function makemap(){
 				it=i*1+1;
 			}
 			idPhoto = props.id+"_"+it;
-			photos_html = photos_html+"<img class='img_max' src='img/"+idPhoto+".jpg'/>"
+			lsTot.push(idPhoto);
+			// photos_html = photos_html+"<img class='img_max' src='img/"+idPhoto+".jpg'/>"
 		}
 		for(j=0;j<props.nbphsit;j++){
 			if(j<10){
@@ -443,11 +498,140 @@ function makemap(){
 			} else {
 				it=+j*1+1;
 			}
+			
 			idPhoto = (props.id).split("_")[0]+"_"+(props.id).split("_")[1]+"_"+(props.id).split("_")[2]+"_99_"+it
-			photos_html = photos_html+"<img class='img_max' src='img/"+idPhoto+".jpg'/>"
+			lsTot.push(idPhoto);
+			//photos_html = photos_html+"<img class='img_max' src='img/"+idPhoto+".jpg'/>"
 		}
-		photos_html=photos_html+"</div>";
-		d3.select("#d_Photographies").html(photos_html)
+		if(i==0&&j==0){
+			alert("Pas de photo! à écrire")
+		}
+		photos_diapo(i,lsTot);
+		// photos_html=photos_html+"</div>";
+		// d3.select("#d_Photographies").html(photos_html)
 	}
 }
+
+function photos_diapo(nb,tot){
+		var ray = 15;
+		d3.select("#svg_photos")
+			
+			.selectAll("g")
+			.data(tot)
+			.enter()
+			.append("g")
+			.attr("class","cont_clip")
+			.attr("photo",function(d){return d})
+			.attr("typephoto",function(d,i){
+				if(i>=nb){
+					return "Site"
+				}else {
+					return "Cheminée"
+				}
+			})
+			.append("clipPath")
+			.attr("id",function(d,i){
+				return "cp"+i;
+			})
+			.append("circle")
+			.attr("cx",function(d,i){
+				return 15+20*(i%2);
+			})
+			.attr("cy",function(d,i){
+				console.log(d)
+				console.log("a"+i)
+				return 20+30*i;
+			})
+			.attr("r",ray)
+			
+			
+		//ajouter site et pas site test avec i et mettre le nbr de truc 
+		d3.select("#svg_photos")
+			.selectAll(".cont_clip")
+			
+			.on("mouseover",function(){
+				d3.select(this)
+					.select(".c_anim")
+					.transition()
+					.duration(100)
+					.attr("stroke-width",2.5)
+			})
+			.on("mouseout",function(){
+				d3.select(this)
+					.select(".c_anim")
+					.transition()
+					.duration(100)
+					.attr("stroke-width",0)
+			})
+			.on("click",function(){
+				var src =this.attributes.photo.value;
+				var type =this.attributes.typephoto.value;
+				d3.select("#main_photo")
+					.attr("src","img/"+src+".jpg")
+				var H = document.getElementById("main_photo").offsetHeight;
+				d3.select("#svg_photos").attr("viewBox","-5 0 80 "+H)
+				d3.select("#indic_typephoto")
+					.text(type)
+			})
+			.style("cursor","pointer")
+			.append("g")
+			
+			.attr("clip-path",function(d,i){
+				return "url(#cp"+i+")";
+			})
+			
+			.append("image")
+			.attr("x",function(d,i){
+				var val = 15+20*(i%2)-ray;
+				return val;
+			})
+			.attr("y",function(d,i){
+				console.log("b"+i)
+				return 20+30*i-ray*2
+			})
+			.attr("id",function(d,i){
+				return "ima_"+i;
+			})
+			.attr("xlink:href",function(d){
+				return "img/"+d+".jpg";
+			})
+			.attr("width",ray*2)
+			.attr("height",ray*4)	
+			
+		d3.select("#svg_photos")
+			.selectAll(".cont_clip")
+			.append("circle")
+			.attr("class","c_anim")
+			.attr("cx",function(d,i){
+				return 15+20*(i%2);
+			})
+			.attr("cy",function(d,i){
+				console.log(d)
+				console.log("s"+i)
+				return 20+30*i;
+			})
+			.attr("fill","none")
+			.attr("r",ray)
+			.attr("stroke",function(d,i){
+				if(i>=nb){
+					return "#329899"
+				}else{
+					return "blue"
+				}
+			})
+			.attr("stroke-width",0)
+		
+		d3.select("#main_photo")
+			.attr("src","img/"+tot[0]+".jpg")
+		var H = document.getElementById("main_photo").offsetHeight;
+		d3.select("#svg_photos").attr("viewBox","-5 0 80 110")
+		if(nb==0){
+			d3.select("#indic_typephoto")
+				.text("Site")
+		}else{
+			d3.select("#indic_typephoto")
+				.text("Cheminée")
+		}
+}
+
 });

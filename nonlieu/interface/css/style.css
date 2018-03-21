@@ -50,7 +50,9 @@ body{
 
 h2{
 	font-weight : 200;
-	margin-left:10%;
+	margin: 5%;
+	text-align:center;
+	margin-bottom: 1%;
 }
 
 #mapid {
@@ -83,22 +85,20 @@ h2{
     -o-filter: grayscale(100%);
 }
 
+.hl_bout:hover{
+	font-weight:700;
+}
+
 
 .img_min{
 	width:100%;
 }
 
-.img_max{
-	width:20%;
-	margin:1%;
-	margin-top:0%;
-}
-.div_photos{
-	
-}
+
 .div_infosmax{
 	text-align:center;
 }
+
 
 
 #tout_infos{
