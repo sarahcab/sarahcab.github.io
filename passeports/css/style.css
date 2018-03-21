@@ -11,3 +11,11 @@
 body{
 	font-family: Roboto, helvetica, arial, sans-serif;
 }
+
+#carte{
+	width:80%;
+}
+
+.pays:hover{
+	fill : brown;
+}
