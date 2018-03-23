@@ -59,7 +59,7 @@ h2{
 	height : 500px;
 }
 
-#cont_map,#infos{
+#cont_map{
 	width:99%;
 	z-index:-1;
 }
@@ -68,12 +68,6 @@ h2{
 	position:absolute;
 }
 
-#infos{
-	width:100%;
-	display:flex;
-	z-index:1;
-	text-align:center;
-}
 
 
 

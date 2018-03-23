@@ -6,7 +6,8 @@ mar_yC = 40, //marge en y de l'espace des chaptires
 esp_yC =27, //Espace entre les chapitres
 ecp=9,
 datachem,
-ect=ecp*2;
+ect=ecp*2,
+map;
 
 $(function() {
 //////////////////////////Variables/////////////
@@ -28,6 +29,8 @@ function initialize(){
 function drawInit(){
 	choixChapitres();
 	build_afficheInfo();
+
+		
 }
 function choixChapitres(){
 	d3.select("#cont_plus")
@@ -219,15 +222,13 @@ function build_afficheInfo(){
 			.append("svg")
 			.attr("id","svg_photos")
 			.attr("width","40%")
-			.attr("viewBox","-5 0 80 110")
-			.append("rect").attr("x",-5).attr("y",0).attr("width",80).attr("height",110).attr("fill","blue").attr("opacity",0.8)
+			.attr("viewBox","-5 0 80 200")
 			.append("text")
 			.attr("id","indic_typephoto")
-			.attr("text","Site")
-			.attr("x",70)
-			.attr("y",50)
+			.attr("x",75)
+			.attr("y",59)
 			.attr("font-size",12)
-			.attr("transform","rotate(-90 70 50)")
+			.attr("transform","rotate(-90 75 59)")
 		
 		d3.select("#div_photo")
 			.append("div")
@@ -316,7 +317,7 @@ function makemap(){
 // myLayer.addData(chem_feature);
 
 	/**** Tile */
-	var map = L.map('mapid').setView([50.681945, 3.186629], 15);
+	map = L.map('mapid').setView([50.681945, 3.186629], 15);
 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 	}).addTo(map);
@@ -346,37 +347,29 @@ function makemap(){
 		iconAnchor: [18,53],
 		popupAnchor:  [0, -53]
 	});
-	L.geoJSON(sites, {
-		pointToLayer: function (feature, latlng) {
-			return L.circleMarker(latlng, {
-				fillColor: '#303192',
-				fillOpacity:0.5,
-				color:'none',
-				stroke:'none',
-				radius : feature.properties.nbrchem*5
-			})
-		}
-	}).addTo(map);
 	
-	L.geoJSON(chemineur, {
-		pointToLayer: function (feature, latlng) {
-			return L.circleMarker(latlng, {
-				fillColor: 'red',
-				fillOpacity:0.9,
-				color:'none',
-				stroke:'none',
-				radius : 4
-			})
-		}
-	}).addTo(map);
+	// L.geoJSON(sites, {
+		// pointToLayer: function (feature, latlng) {
+			// return L.circleMarker(latlng, {
+				// fillColor: '#303192',
+				// fillOpacity:0.5,
+				// color:'none',
+				// stroke:'none',
+				// radius : feature.properties.nbrchem*5
+			// })
+		// }
+	// }).addTo(map);
 	
-	L.geoJSON(chem, {
+
+	
+	var clock = L.geoJSON(chem, {
 		pointToLayer: function (feature, latlng) {
-			
 			return L.marker(latlng, {icon: myIcon});
 		},
 		onEachFeature : target
 	}).addTo(map);
+	
+	var bloo;
 
 	function target(feature, layer) {
 		layer.on({
@@ -386,11 +379,31 @@ function makemap(){
 		});
 		
 	};
+	function target2(feature, layer) {
+		layer.on({
+			mouseover: infos_min2,
+			// mouseout: del_min2,
+			// click: infos_max2,
+		});
+		
+	};
 	
+	var ls_it=[];
 	
 	function infos_min(e){
-		$(e.target._icon).css("opacity",0.7) //.attr("class","leaflet-marker-icon leaflet-zoom-animated leaflet-interactive nb")
+		d3.select(e.target._icon).style("opacity",0.7).attr("class","leaflet-marker-icon leaflet-zoom-animated leaflet-interactive nb") //.attr("class","leaflet-marker-icon leaflet-zoom-animated leaflet-interactive nb")
 		var props = e.target.feature.properties;
+		i=0;
+		for(j in clock._layers){
+			var ID = chem.features[i].properties['id'];
+			if(ID.split("_")[0]+"_"+ID.split("_")[1]+"_"+ID.split("_")[2]==(props.id).split("_")[0]+"_"+(props.id).split("_")[1]+"_"+(props.id).split("_")[2]){
+				var ind=61+i*1;
+				ls_it.push(j);
+				d3.select(clock._layers[j]._icon).attr("class","leaflet-marker-icon leaflet-zoom-animated leaflet-interactive nb");
+			}
+			i++;
+		}
+		
 		if(props.nbphsit>0){
 			var idPhoto = (props.id).split("_")[0]+"_"+(props.id).split("_")[1]+"_"+(props.id).split("_")[2]+"_99_01"
 		} else {
@@ -403,9 +416,35 @@ function makemap(){
 		}
 	};
 	
+	function infos_min2(e){
+		e.target.setStyle({
+			fillColor : "red"
+		});
+		var props = e.target.feature.properties;
+		ls_ch = (props.cheminees).split("__")
+		for(C in ls_ch){
+			chem_id=ls_ch[C];
+		
+			i=0;
+			for(j in clock._layers){
+				var ID = chem.features[i].properties['id'];
+				if(ID.split("_")[0]+"_"+ID.split("_")[1]+"_"+ID.split("_")[2]==(chem_id).split("_")[0]+"_"+(chem_id).split("_")[1]+"_"+(chem_id).split("_")[2]){
+					var ind=61+i*1;
+					ls_it.push(j);
+					d3.select(clock._layers[j]._icon).attr("class","leaflet-marker-icon leaflet-zoom-animated leaflet-interactive nb");
+				}
+				i++;
+			}
+		}
+
+	};
+	
 	
 	function del_min(e){
-		$(e.target._icon).css("opacity",1) //.attr("class","leaflet-marker-icon leaflet-zoom-animated leaflet-interactive")
+		d3.select(e.target._icon).style("opacity",1) //.attr("class","leaflet-marker-icon leaflet-zoom-animated leaflet-interactive")
+		for(i in ls_it){
+			d3.select(clock._layers[ls_it[i]]._icon).attr("class","leaflet-marker-icon leaflet-zoom-animated leaflet-interactive")
+		}
 		e.target.closePopup();
 	};
 	
@@ -510,9 +549,39 @@ function makemap(){
 		// photos_html=photos_html+"</div>";
 		// d3.select("#d_Photographies").html(photos_html)
 	}
+	
+	function aff_chemineur() {
+		bloo = L.geoJSON(chemineur, {
+			pointToLayer: function (feature, latlng) {
+				return L.circleMarker(latlng, {
+					fillColor: '#0000ff',
+					fillOpacity:0.9,
+					color:'none',
+					stroke:'#ffffff',
+					radius : 5
+				})
+			},
+			onEachFeature : target2
+		}).addTo(map);
+	}
+	function del_chemineur() {
+		bloo.remove()
+	}
+	
+	
+	d3.select("#bout_chemineur")
+		.on("change",function(){
+			if(this.checked){
+				aff_chemineur();
+			} else {
+				del_chemineur();
+			}
+		})
 }
 
-function photos_diapo(nb,tot){
+
+
+	function photos_diapo(nb,tot){
 		var ray = 15;
 		d3.select("#svg_photos")
 			
@@ -538,8 +607,6 @@ function photos_diapo(nb,tot){
 				return 15+20*(i%2);
 			})
 			.attr("cy",function(d,i){
-				console.log(d)
-				console.log("a"+i)
 				return 20+30*i;
 			})
 			.attr("r",ray)
@@ -548,7 +615,6 @@ function photos_diapo(nb,tot){
 		//ajouter site et pas site test avec i et mettre le nbr de truc 
 		d3.select("#svg_photos")
 			.selectAll(".cont_clip")
-			
 			.on("mouseover",function(){
 				d3.select(this)
 					.select(".c_anim")
@@ -568,10 +634,16 @@ function photos_diapo(nb,tot){
 				var type =this.attributes.typephoto.value;
 				d3.select("#main_photo")
 					.attr("src","img/"+src+".jpg")
-				var H = document.getElementById("main_photo").offsetHeight;
-				d3.select("#svg_photos").attr("viewBox","-5 0 80 "+H)
 				d3.select("#indic_typephoto")
 					.text(type)
+					.attr("transform",function(){
+						if(type=="Site"){
+							return "rotate(-90 75 59) translate(33,0)"
+						}else {
+							return "rotate(-90 75 59)"
+						}
+					})
+					
 			})
 			.style("cursor","pointer")
 			.append("g")
@@ -586,7 +658,6 @@ function photos_diapo(nb,tot){
 				return val;
 			})
 			.attr("y",function(d,i){
-				console.log("b"+i)
 				return 20+30*i-ray*2
 			})
 			.attr("id",function(d,i){
@@ -606,8 +677,6 @@ function photos_diapo(nb,tot){
 				return 15+20*(i%2);
 			})
 			.attr("cy",function(d,i){
-				console.log(d)
-				console.log("s"+i)
 				return 20+30*i;
 			})
 			.attr("fill","none")
@@ -623,14 +692,15 @@ function photos_diapo(nb,tot){
 		
 		d3.select("#main_photo")
 			.attr("src","img/"+tot[0]+".jpg")
-		var H = document.getElementById("main_photo").offsetHeight;
-		d3.select("#svg_photos").attr("viewBox","-5 0 80 110")
 		if(nb==0){
 			d3.select("#indic_typephoto")
 				.text("Site")
+				.attr("transform","rotate(-90 75 59) translate(33,0)")
+				
 		}else{
 			d3.select("#indic_typephoto")
 				.text("Cheminée")
+				.attr("transform","rotate(-90 75 59)")
 		}
 }
 
