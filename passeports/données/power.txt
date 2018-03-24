@@ -1,0 +1,199 @@
+Afghanistan	visa required				
+Albania	visa required				
+Algeria	visa required				
+Andorra	visa required				
+Angola	visa required				
+Antigua and Barbuda	visa required / e-Visa				
+Argentina	visa required				
+Armenia	visa required				
+Australia	visa required / e-Visa				
+Austria	visa required				
+Azerbaijan	visa required / e-Visa				
+Bahamas	visa required				
+Bahrain	visa required / e-Visa				
+Bangladesh	visa on arrival				
+Barbados	visa required				
+Belarus	visa required				
+Belgium	visa required				
+Belize	visa required				
+Benin	visa on arrival				
+Bhutan	visa required				
+Bolivia	visa-free				
+Bosnia and Herzegovina	visa required				
+Botswana	visa required				
+Brazil	visa required				
+Brunei	visa required				
+Bulgaria	visa required				
+Burkina Faso	visa required				
+Burundi	visa required				
+Cambodia	visa on arrival / eVisa				
+Cameroon	visa required				
+Canada	visa required				
+Cape Verde	visa on arrival				
+Central African Republic	visa required				
+Chad	visa required				
+Chile	visa required				
+China	visa required				
+Colombia	visa required / e-Visa				
+Comoros	visa on arrival				
+Congo	visa required				
+Congo (Dem. Rep.)	visa required				
+Costa Rica	visa required				
+Cote d'Ivoire (Ivory Coast)	eTA				
+Croatia	visa required				
+Cuba	visa required				
+Cyprus	visa required				
+Czechia	visa required				
+Denmark	visa required				
+Djibouti	visa on arrival				
+Dominica	visa-free				
+Dominican Republic	visa required				
+Ecuador	visa-free				
+Egypt	visa required				
+El Salvador	visa required				
+Equatorial Guinea	visa required				
+Eritrea	visa required				
+Estonia	visa required				
+Ethiopia	visa required				
+Fiji	visa required				
+Finland	visa required				
+France	visa required				
+Gabon	visa required / e-Visa				
+Gambia	visa required				
+Georgia	visa required / e-Visa				
+Germany	visa required				
+Ghana	visa required				
+Greece	visa required				
+Grenada	visa required				
+Guatemala	visa required				
+Guinea	visa required				
+Guinea-Bissau	visa on arrival				
+Guyana	visa required				
+Haiti	visa-free				
+Honduras	visa required				
+Hong Kong	visa required				
+Hungary	visa required				
+Iceland	visa required				
+India	e-Visa				
+Indonesia	visa-free				
+Iran	visa on arrival				
+Iraq	visa required				
+Ireland	visa required				
+Israel	visa required				
+Italy	visa required				
+Jamaica	visa required				
+Japan	visa required				
+Jordan	visa-free				
+Kazakhstan	visa required				
+Kenya	visa required				
+Kiribati	visa required				
+Kosovo	visa required				
+Kuwait	visa required				
+Kyrgyzstan	visa required				
+Laos	visa on arrival				
+Latvia	visa required				
+Lebanon	visa required				
+Lesotho	visa required / e-Visa				
+Liberia	visa required				
+Libya	visa required				
+Liechtenstein	visa required				
+Lithuania	visa required				
+Luxembourg	visa required				
+Macao	visa on arrival				
+Macedonia	visa required				
+Madagascar	visa on arrival				
+Malawi	visa required				
+Malaysia	visa-free				
+Maldives	visa on arrival				
+Mali	visa required				
+Malta	visa required				
+Marshall Islands	visa required				
+Mauritania	visa on arrival				
+Mauritius	visa required				
+Mexico	visa required				
+Micronesia	visa-free				
+Moldova	visa required / e-Visa				
+Monaco	visa required				
+Mongolia	visa required				
+Montenegro	visa required				
+Morocco	visa required				
+Mozambique	visa on arrival				
+Myanmar [Burma]	visa required / e-Visa				
+Namibia	visa required				
+Nauru	visa required				
+Nepal	visa required				
+Netherlands	visa required				
+New Zealand	visa required				
+Nicaragua	visa-free				
+Niger	visa required				
+Nigeria	visa required				
+North Korea	visa required				
+Norway	visa required				
+Oman	visa required				
+Pakistan	visa required				
+Palau	visa on arrival				
+Palestinian Territories					
+Panama	visa required				
+Papua New Guinea	visa required				
+Paraguay	visa required				
+Peru	visa required				
+Philippines	visa required				
+Poland	visa required				
+Portugal	visa required				
+Qatar	visa required				
+Romania	visa required				
+Russian Federation	visa required				
+Rwanda	visa on arrival				
+Saint Kitts and Nevis	visa required / e-Visa				
+Saint Lucia	visa on arrival				
+Samoa	visa on arrival				
+San Marino	visa required				
+Sao Tome and Principe	visa required / e-Visa				
+Saudi Arabia	visa required				
+Senegal	visa required				
+Serbia	visa required				
+Seychelles	visitor’s permit				
+Sierra Leone	visa required				
+Singapore	visa-free				
+Slovakia	visa required				
+Slovenia	visa required				
+Solomon Islands	visa required				
+Somalia	visa on arrival				
+South Africa	visa required				
+South Korea	visa required				
+South Sudan	visa required				
+Spain	visa required				
+Sri Lanka	eTA				
+St. Vincent and the Grenadines	visa-free				
+Sudan	visa required				
+Suriname	visa required				
+Swaziland	visa-free				
+Sweden	visa required				
+Switzerland	visa required				
+Syria	visa required				
+Taiwan	visa required				
+Tajikistan	visa required				
+Tanzania	visa on arrival				
+Thailand	visa required				
+Timor-Leste	visa on arrival				
+Togo	visa on arrival				
+Tonga	visa required				
+Trinidad and Tobago	visa required				
+Tunisia	visa required				
+Turkey	visa required				
+Turkmenistan	visa required				
+Tuvalu	visa on arrival				
+Uganda	visa on arrival				
+Ukraine	visa required				
+United Arab Emirates	visa required / e-Visa				
+United Kingdom	visa required				
+United States of America	visa required				
+Uruguay	visa required				
+Uzbekistan	visa required				
+Vanuatu	visa required				
+Vatican City	visa required				
+Venezuela	visa-free				
+Viet Nam	visa required				
+Yemen	visa required				
+Zambia	visa required / e-Visa				
+Zimbabwe	visa on arrival				
