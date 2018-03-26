@@ -1,0 +1,10 @@
+id;adresse;commune;region;pays;nbPhInd;nbPhSit;nomChem;nomSitHist;nomSitUsa;nbrChem;batiIndus;archiSite;etatSite;etatChem;ajoutCont;visAppre;visComm;hauteurPr;hauteurEs;archiChem;materChem;usHist;usActu;reconv;occup;typePropr;infoHist;ptcSite;ptcChem;amSiteA;amSiteA_D;amChemA;amChemA_D;amSiteV;amSiteV_D;amChemV;amChemV_D;valSite;valSiteD;valChem;valChemD;Y;X;gid_site
+C_59512_001_001;;;;France;2;1;a;A;AA;2;Oui;blop;Bon ;Bon;Antennes relais_Eclairage;Moyenne;tr;10;;Cerclages_Briques ‚maill‚es;Brique;de_df;ey;Non reconverti;Pas du tout;Soci‚t‚;blabla;yh;yh;Oui;Dede;Oui;Dede;Non;;Non;;Non;;Non;;50.684780;3.190595;1
+C_59512_001_002;;;;France;1;1;b;A;AA;2;Oui;blop;Bon ;Mauvais;Eclairage;Bonne;tt;20;;Date de construction apparente;M‚tal;df_da;ey;Non reconverti;Pas du tout;Soci‚t‚;blublu;yh;yh;Oui;Dodo;Non;;Non;;Non;;Non;;Non;;50.685602;3.190906;1
+C_59512_002_001;;;;France;1;1;c;B;BB;1;Oui;blap;Mauvais;Mauvais;Antennes relais_Sarah;Mauvaise;te;;0-20;Date de construction apparente_Sarah;Mousse;di;ea_ei;En reconversion;Partiellement;Collectivit‚;bloblo;yu;yu;Non;;Non;;Non;;Non;;Non;;Non;;50.684589;3.182259;2
+C_59512_003_001;;;;France;1;0;d;C;CC;1;Non;blup;Moyen;Moyen; Lettrage Publicitaire;Bonne;tg;40;;Couronne/bulbe;B‚ton;dd;eu;Reconverti;Majoritairement;Collectivit‚;blibli;yu;yu;Non;;Non;;Non;;Non;;Oui;Dudu;Oui;Dudu;50.682481;3.179139;3
+C_59512_004_001;;;;France;1;0;e;D;DD;1;Non;blip;Bon ;Bon;Antennes relais;Forte;th;;40+;Couronne/bulbe;Pierre;dd;eu;Reconverti;Partiellement;Particulier;blelble;yh;yh;Non;;Non;;Non;;Non;;Non;;Non;;50.681945;3.186629;4
+CC;;;;France;0;0;f;F;DD;1;Non;blup;Bon ;Bon;Antennes relais;Forte;th;;40+;Couronne/bulbe;Pierre;dd;eu;Reconverti;Partiellement;Particulier;blelble;yh;yh;Non;;Non;;Non;;Non;;Non;;Non;;50.677668;3.142678;5
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

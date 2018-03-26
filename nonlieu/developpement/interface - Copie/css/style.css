@@ -1,0 +1,99 @@
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 500;
+    src:url('../ressources/polices/Roboto-Regular.ttf');
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-style : italic;
+	font-weight : 500;
+    src:url('../ressources/polices/Roboto-Italic.ttf');
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 700;
+    src:url('../ressources/polices/Roboto-Bold.ttf');
+	font-display:swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 300;
+    src:url('../ressources/polices/Roboto-Light.ttf');
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 200;
+    src:url('../ressources/polices/Roboto-Thin.ttf');
+	font-display: swap;
+}
+
+
+body{
+	font-family : 'Roboto';
+	font-weight : 300;
+}
+
+#mapid {
+	height : 500px;
+}
+
+#cont_map,#infos{
+	width:99%;
+	z-index:-1;
+}
+
+#cont_map{
+	position:absolute;
+}
+
+#infos{
+	width:100%;
+	display:flex;
+	z-index:1;
+	text-align:center;
+}
+
+
+
+.nb{
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+}
+
+.img_min{
+	width:100%;
+}
+
+.img_max{
+	width:20%;
+	margin:1%;
+	margin-top:0%;
+}
+.div_photos{
+	
+}
+.div_infosmax{
+	text-align:center;
+}
+
+
+#svg_infos{
+    background: rgba(255, 255, 255, 0.7);
+	position:absolute;
+	margin-left:70%;
+	width:30%;
+}
+
+.div_info{
+	margin : 5%;
+}

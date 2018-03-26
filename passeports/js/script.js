@@ -11,6 +11,8 @@ discretQuot = [0,0.2,0.5,0.8,1],
 discretPower = ["Visa free","Visa on arrival","Visa eTA","Visa required"],
 
 ///Géographiques
+rayon_terre =  6378140,
+super_total=0, //mise a jour dans drawMap, var pays = ..
 scale=320,
 pos_mapX=width/4,
 pos_mapY=height/3,
@@ -179,6 +181,14 @@ function drawMap(dataPays,iso,dataPower,supers){
 				}
 				return val;
 			})
+			
+			.on("click",function(){
+				affiPower(this.attributes);
+			})
+			.attr("id", function(){
+				var val = this.attributes.code.value;
+				return val;
+			})
 			.attr("superficie",function(d){
 				var code = this.attributes.code.value;
 				for(i=0;i<supers.length;i++){
@@ -186,13 +196,8 @@ function drawMap(dataPays,iso,dataPower,supers){
 						val = supers[i].superficie;
 					}
 				}
-				return val;
-			})
-			.on("click",function(){
-				affiPower(this.attributes);
-			})
-			.attr("id", function(){
-				var val = this.attributes.code.value;
+				
+				super_total =val*1+super_total*1;
 				return val;
 			})
 			.attr("centre",function(d,i){
@@ -209,7 +214,6 @@ function drawMap(dataPays,iso,dataPower,supers){
 				var val = this.attributes.nom.value;
 				d3.select("#indic").html(val);
 			})
-			
 		///Miroir et lumière			
 		miroir.append("rect")
 			.attr("x",0)
@@ -317,8 +321,8 @@ function drawMap(dataPays,iso,dataPower,supers){
 			.attr("font-size",24)
 		
 		map.append("text")
-			.attr("x",1400)
-			.attr("y",35)
+			.attr("x",1350)
+			.attr("y",95)
 			.attr("font-size",22)
 			.attr("font-weight",600)
 			.attr("id","titre_pays")
@@ -332,10 +336,47 @@ function drawMap(dataPays,iso,dataPower,supers){
 			
 		///Légende
 		legende_coast=legende.append("g").attr("id","legende_coast").on("click",function(){raz()}).style("cursor","pointer").attr("opacity",1)
-		legende_power=legende.append("g").attr("id","legende_power").attr("opacity",0.2)
+		legende_power=legende.append("g").attr("id","legende_power").attr("opacity",0.1)
 	
-		makeLegend(legende_coast,1200,discretQuot,nuancierQuot,true)
-		makeLegend(legende_power,1400,discretPower,nuancierPower,false)
+		makeLegend("Coût d'un passeport en pourcentage du salaire moyen",legende_coast,1200,70,discretQuot,nuancierQuot,true)
+		makeLegend("Accès privilégié",legende_power,1350,150,discretPower,nuancierPower,false)
+		
+		values_circle=["RU","FR"];
+		legende_super = legende.append("g").attr("id","legende_super").attr("opacity",0.1)
+		
+		legende_super.selectAll("circle")
+			.data(values_circle)
+			.enter()
+			.append("circle")
+			.attr("r",function(d){
+				var ar = document.getElementById(d).attributes.superficie.value;
+				var m = Math.sqrt(ar/Math.PI)
+				var val = m*scale/rayon_terre;
+				return val;
+			})
+			.attr("cx",1350)
+			.attr("cy",400)
+			.attr("fill","none")
+			.attr("stroke",nuancier[4])
+			.attr("stroke-width",1)
+			
+		legende_super.selectAll("text")
+			.data(values_circle)
+			.enter()
+			.append("text")
+			.attr("y",function(d){
+				var ar = document.getElementById(d).attributes.superficie.value;
+				
+				var m = Math.sqrt(ar/Math.PI)
+				var val = m*scale/rayon_terre;
+				return 420+val*1;
+			})
+			.attr("x",1300)
+			.text(function(d){
+				var ar = document.getElementById(d).attributes.superficie.value;
+				var nom = document.getElementById(d).attributes.nom.value;
+				return Math.round(ar/1000000)+" km² ("+nom+")";
+			})
 		
 		///echelle
 		var lmil = 55.5999755859375;
@@ -457,10 +498,13 @@ function drawMap(dataPays,iso,dataPower,supers){
 			})
 }
 
-function makeLegend(obj,debX,discret,nuanc,inter){
-	// var debX=1400,
-	var debY=50,
+function makeLegend(titre, obj,debX,debY,discret,nuanc,inter){
 	wCa = 20;
+	
+	obj.append("text")
+		.attr("x",debX)
+		.attr("y",debY-20)
+		.text(titre)
 	
 	obj.selectAll(".eltQuot")
 		.data(discret)
@@ -494,12 +538,13 @@ function makeLegend(obj,debX,discret,nuanc,inter){
 }
 		
 function raz(){
-	d3.select("#legende_coast").attr("opacity",1)
-	d3.select("#legende_power").attr("opacity",0.2)
-	d3.select("#super").selectAll("circle").remove();
-	d3.select("#super").selectAll("line").remove();
-	d3.selectAll(".pays").attr("fill",nuancier[2]).attr("stroke",nuancier[0]);
-	d3.selectAll(".pays2").attr("fill",nuancier[2]).attr("stroke",nuancier[0]); //a la place faire les couleurs par défaut et mettre un fill0
+	d3.select("#legende_coast").transition().duration(200).attr("opacity",1)
+	d3.select("#legende_power").transition().duration(200).attr("opacity",0.1)
+	d3.select("#legende_super").transition().duration(200).attr("opacity",0.1)
+	d3.select("#titre_pays").text("")
+	d3.select("#super").selectAll(".del_su").remove();
+	d3.selectAll(".pays").transition().duration(200).attr("fill",nuancier[2]).attr("stroke",nuancier[0]);
+	d3.selectAll(".pays2").transition().duration(200).attr("fill",nuancier[2]).attr("stroke",nuancier[0]); //a la place faire les couleurs par défaut et mettre un fill0
 }
 
 function dragMap(){
@@ -541,8 +586,9 @@ function affiPower(obj){
 	
 	d3.selectAll("."+obj.id.value).attr("fill","none").attr("stroke",nuancier[4])
 	
-	d3.select("#legende_coast").attr("opacity",0.2)
-	d3.select("#legende_power").attr("opacity",1)
+	d3.select("#legende_coast").transition().duration(200).attr("opacity",0.1)
+	d3.select("#legende_power").transition().duration(200).attr("opacity",1)
+	d3.select("#legende_super").transition().duration(200).attr("opacity",1)
 	
 	if(obj.visa_free){
 		var ls_vf = (obj.visa_free.value).split("_");
@@ -592,14 +638,23 @@ function affiPower(obj){
 }
 
 function makeSuperficie(values,listes){
-	rayon_terre =  6378140;
-	posenX=600;
-	posenY=680;
-	d3.select("#super").selectAll("circle").remove();
-	d3.select("#super").selectAll("line").remove();
+	posenX=1350;
+	posenY=650;
+	pourc_total=0;
+	d3.select("#super").selectAll(".del_su").remove();
 		
+	///v1
 	for(i=0;i<values.length;i++){
 		d3.select("#super")	
+			.append("g")
+			.attr("id","g_cam"+i)
+			.attr("class","del_su")
+		
+		d3.select("#super")	
+			.append("g")
+			.attr("id","g_su"+i)
+			.attr("opacity",0)
+			.attr("class","del_su")
 			.append("circle")
 			.attr("id","cc"+i)
 			.attr("r",function(){
@@ -612,11 +667,7 @@ function makeSuperficie(values,listes){
 			.attr("stroke-width",2)
 			.attr("fill",nuancier[0])
 			.attr("opacity",1)
-			.attr("cx",function(){
-				var r = this.attributes.r.value;
-				var val = posenX*1+r*1+i*50;
-				return val;
-			})
+			.attr("cx",posenX)
 			.attr("cy",posenY)
 			.attr("fill-opacity",0.5)
 			
@@ -626,18 +677,10 @@ function makeSuperficie(values,listes){
 		for(p=0;p<payss.length;p++){
 			part=payss[p]/values[i];
 			total=total*1+part*1;
-			d3.select("#super")
+			d3.select("#g_su"+i)
 				.append("line")
-				.attr("x1",function(){
-					var r = document.getElementById("cc"+i).attributes.r.value;
-					var val = posenX*1+r*1+i*50;
-					return val;
-				})
-				.attr("x2",function(){
-					var r = document.getElementById("cc"+i).attributes.r.value;
-					var val = posenX*1+r*1+i*50;
-					return val;
-				})
+				.attr("x1",posenX)
+				.attr("x2",posenX)
 				.attr("y1",function(){
 					var val = document.getElementById("cc"+i).attributes.r.value;
 					return posenY-val;
@@ -651,11 +694,78 @@ function makeSuperficie(values,listes){
 					return "rotate("+ro+center+")"
 				})
 		}
+	
+		///Camemberts
+		var met = Math.sqrt(super_total/Math.PI);
+		var rtotal = met*scale/rayon_terre;
+		var pourc = 100*values[i]/super_total;
+		
+		console.log(pourc_total+" "+pourc);
+		majCam(pourc,i,nuancierPower[i],1000,posenY,rtotal,"g_cam"+i,pourc_total)
+		
+		///maj values
 		var r = document.getElementById("cc"+i).attributes.r.value;
-		posenX= posenX*1+r*2;
-				
+		// posenX= posenX*1+r*2;
+		pourc_total = pourc_total + pourc;
 	}
-	
-	
+
 	
 };
+
+function majCam(valPerc, nb, couleur,centreX,centreY,r,ID,tot){
+	console.log(valPerc+" "+ nb+" "+ couleur+" "+centreX+" "+centreY+" "+r+" "+ID)
+	// d3.select("#super").selectAll(".debitDroite").attr("class","rond");
+	// d3.select("#part"+nb).remove();
+	
+	var angle = (2*Math.PI)*valPerc/100;
+	// var degres = 360*valPerc/100;
+	// var angle = (Math.PI/180)*degres;
+	
+	var ax  = centreX + (r * Math.cos(Math.PI*2));
+	var ay  = centreY + (r * Math.sin(Math.PI*2));
+	var bx  = centreX + (r * Math.cos(angle)) -ax;
+	var by  = centreY + (r * Math.sin(angle)) - ay;
+	
+	
+	//alert(ax+" "+ay+" "+bx+" "+by);
+	d3.select("#"+ID)
+		.append("path")
+		.attr("d", function(){
+			if(valPerc<=50){
+				return "m"+ax+" "+ay+" a"+r+" "+r+", 0, 0, 1, "+bx+" "+by+" L"+centreX+" "+centreY+" z"
+			} else {
+				
+				return "m"+ax+" "+ay+" a"+r+" "+r+", 0, 1, 1, "+bx+" "+by +" L"+centreX+" "+centreY+" z"
+			}	
+		})
+		//.attr("d", "m"+ax+" "+ay+" a"+r+" "+r+", 0, 0, 0, "+bx+" "+by +" L"+centreX+" "+centreY+" z")
+		.attr("class", "rond")
+		.attr("id","part"+nb)
+		.attr("nb",nb)
+		.attr("pourc",valPerc)
+		.attr("stroke",couleur)
+		.attr("fill","none")
+		// .style("transform-origin", centreX+"px "+centreY+"px")
+		.attr("transform",function(){
+			var val  = 180+tot*360/100;
+			return "rotate("+val+" "+centreX+" "+centreY+")"
+		})
+		.attr("fill",nuancier[0])
+		.attr("fill-opacity",0.5)
+		.style("cursor","crosshair")
+		.on("mouseover",function(){
+			var nb=this.attributes.nb.value;
+			d3.selectAll(".rond").transition().duration(500).attr("opacity",0.1)
+			d3.select(this).transition().duration(500).attr("opacity",1)
+			d3.select("#g_su"+nb).transition().duration(500).attr("opacity",1)
+		})
+		.on("mouseout",function(){
+			var nb=this.attributes.nb.value;
+			d3.selectAll(".rond").transition().duration(500).attr("opacity",1)
+			
+			d3.select("#g_su"+nb).transition().duration(500).attr("opacity",0)
+		})
+	
+	d3.select("#draw").selectAll(".rond").attr("class","debitDroite");
+}
+
