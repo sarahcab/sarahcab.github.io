@@ -1,4 +1,4 @@
-ls_var=["id","adresse","commune","region","pays","nbr_photo_ind","nbr_photo_site","nom_cheminee","nom_site_historique","nom_site_usage","nbr_cheminees","bati_industriel","particularite_architecturale_site","etat_site","etat_cheminee","ajout_contemporain","visibilite_appreciation","visibilite_commentaire","hauteur_distance","hauteur_estimation","particularite_architecturale_cheminee","materiau_cheminee","usage_historique","usage_actuel","reconversion","occupation","type_proprietaire","informations_historiques","protection_site","protection_cheminee","projet_amenagement_site","projet_amenagement_site_detail","projet_amenagement_cheminee","projet_amenagement_cheminee_detail","projet_amenagement_site_avenir","projet_amenagement_site_avenir_detail","projet_amenagement_cheminee_avenir","projet_amenagement_cheminee_avenir_detail","projet_valorisation_site","projet_valorisation_site_detail","projet_valorisation_cheminee","projet_valorisation_cheminee_detail"]
+ls_var=["id","adresse","commune","region","pays","nbr_photo_ind","nbr_photo_site","nom_cheminee","nom_site_historique","nom_site_usage","nbr_cheminees","bati_industriel","particularite_architecturale_site","etat_site","etat_cheminee","ajout_contemporain","visibilite_appreciation","visibilite_commentaire","hauteur_distance","hauteur_estimation","particularite_architecturale_cheminee","materiau_cheminee","usage_historique","usage_actuel","reconversion","occupation","type_proprietaire","informations_historiques","protection_site","protection_cheminee","projet_amenagement_site","projet_amenagement_site_detail","projet_amenagement_cheminee","projet_amenagement_cheminee_detail","projet_amenagement_site_avenir","projet_amenagement_site_avenir_detail","projet_amenagement_cheminee_avenir","projet_amenagement_cheminee_avenir_detail","projet_valorisation_site","projet_valorisation_site_detail","projet_valorisation_cheminee","projet_valorisation_cheminee_detail","num_site","gps"]
 
 data_ok=[]
 //////////////////////////Variables/////////////
@@ -9,38 +9,44 @@ function initialize(){
 	d3.selectAll(".additionnel")
 		.style("height","20px")
 		.style("overflow","hidden")
-		.on("mouseover",function(){
-			d3.select(this)
-				.transition()
-				.duration(500)
-				.style("height","")
-			// d3.select(this)
-				// .select("legend")
-				// .html(function(){
-					// var val = this.attributes.value.value;
-					// return val;
-				// })
-		})
-		.on("mouseout",function(){
-			d3.select(this)
-				.transition()
-				.duration(500)
-				.style("height","20px")
-			var obj=this;
-			// setTimeout(function(){
-				// d3.select(obj)
-					// .select("legend")
-					// .html(function(){
-						// var val = this.attributes.value.value;
-						// return val + " (Survoler pour dérouler)";
-					// })
-			// },250)
-		})
+		
 		.select("legend")
 			.html(function(){
 				var val = this.attributes.value.value;
-				return val + " (Survoler pour dérouler)";
+				return val + " <input type='button' value='+' etat='plie' class='bout'/>";
 			})
+		.select(".bout")
+		.style("color","red")
+		.on("click",function(){
+			if(this.attributes.etat.value=="plie"){
+				var dad = d3.select(d3.select(this).node().parentNode).node().parentNode;
+				d3.select(dad)
+					.transition()
+					.duration(500)
+					.style("height","")
+					
+				
+				d3.select(this)
+					.attr("value","-")
+					.attr("etat","deplie")
+			} else {
+				var dad = d3.select(d3.select(this).node().parentNode).node().parentNode;
+				d3.select(dad)
+					.transition()
+					.duration(500)
+					.style("height","20px")
+				// d3.select(dad)
+					// .select("legend")
+						// .html(function(){
+							// var val = this.attributes.value.value;
+							// return val + " (Survoler pour dérouler) <input type='button' value='+' etat='plie' class='bout'/>";
+						// })
+						
+				d3.select(this)
+					.attr("value","+")
+					.attr("etat","plie")
+			}
+		})
 			
 	d3.select("#validation")
 		.on("click",function(){
@@ -92,14 +98,17 @@ function initialize(){
 			data_ok=[];
 			// alert(A);
 			// alert(data_ok.length)
-			d3.select("body")
-				.append("p")
-				.style("margin-bottom","0px")
-				.html("Copier le texte dans l'encadré ci-dessous puis ajouter dans excel")
-			d3.select("body")
-				.append("div")
-				.style("margin-top","0px")
-				.style("border","dashed 1px black")
+			// d3.select("body")
+				// .append("p")
+				// .style("margin-bottom","0px")
+				// .html("Copier le texte dans l'encadré ci-dessous puis ajouter dans excel")
+			d3.select("#indic_valid")
+				.style("display","block")
+			d3.select("#resultatss")
+			.style("display","block")
+				// .append("div")
+				// .style("margin-top","0px")
+				// .style("border","dashed 1px black")
 				.append("p")
 				.html(A)
 		})

@@ -17,7 +17,15 @@
 				</div>
 			</fieldset>
 			<fieldset id='denomination'>
-				<legend>Dénomination</legend>
+				<legend>Dénomination </legend>
+				<div>
+					<label>Identifiant numérique du site (provisoire) : </label>
+					<input type="text" id="num_site"/>
+				</div>
+				<div>
+					<label>Coordonnées GPS (provisoire) : </label>
+					<input type="text" id="gps"/>
+				</div>
 				<div>
 					<label>Nom historique du site : </label>
 					<input type="text" id="nom_site_historique"/>
@@ -27,7 +35,7 @@
 					<input type="text" id="nom_site_usage"/>
 				</div>
 				<div>
-					<label>Nom de la cheminée : </label>
+					<label>Elément particulier de la cheminée (si plusieurs sur le site) : </label>
 					<input type="text" id="nom_cheminee"/>
 				</div>
 			</fieldset>
@@ -79,11 +87,13 @@
 						<option>Moyenne</option>
 						<option>Mauvaise</option>
 					</select>
+					<label>Commentaire :</label>
 					<textarea id="visibilite_commentaire"></textarea>	
 				</div>
 				<div>
 					<label>Hauteur de la cheminée (connaissance précise) : </label>
 					<input type="number" id="hauteur_distance"/>
+					<label>OU estimation : </label>
 					<select id="hauteur_estimation">
 						<option></option>
 						<option>0 à 20 mètre</option>
@@ -99,13 +109,16 @@
 					<input type="checkbox" id="date" value="Date de construction apparente"/>Date de construction apparente<br>							
 					Autre : <input type="text" id="autre"/>
 				</div>
-				<div id="materiau_cheminee" class="cochage">
-					<p style="margin-bottom:4px">Matériau(x) de la cheminée :</p>
-					<input type="checkbox" value="Béton"/>Béton<br>	
-					<input type="checkbox" value="Brique"/>Brique<br>	
-					<input type="checkbox" value="Métal"/>Métal<br>	
-					<input type="checkbox" value="Pierre"/>Pierre<br>							
-					Autre : <input type="text" id="autre"/>
+				<div>
+					<label>Principal matériau constitutif de la cheminée :</p>
+					<select id="materiau_cheminee">
+						<option></option>
+						
+						<option >Béton</option>	
+						<option>Brique</option>	
+						<option>Métal</option>	
+						<option>Pierre</option>
+					</select>					
 				</div>
 			</fieldset>
 			<fieldset id='usage' class="additionnel">
@@ -132,6 +145,7 @@
 					<label>Le site est-il actuellement occupé ?</label>
 					<select id="occupation">
 						<option></option>
+						<option>Entièrement</option>
 						<option>Majoritairement</option>
 						<option>Partiellement</option>
 						<option>Pas du tout</option>
@@ -141,9 +155,9 @@
 					<label>Type de propriétaire du site :</label>
 					<select id="type_proprietaire">
 						<option></option>
-						<option>Collectivité</option>
-						<option>Particulier</option>
-						<option>Société</option>
+						<option>Public</option>
+						<option>Privé</option>
+						<option>Autre</option>
 					</select>
 				</div>
 				
@@ -157,7 +171,7 @@
 				</div>
 			</fieldset>
 			<fieldset id='protection' class="additionnel">
-				<legend value="Protection">Protection</legend>
+				<legend value="Protection">Protection patrimoniale</legend>
 				<div id="protection_site" class="cochage">
 					<p style="margin-bottom:4px">Protection du site :</p>						
 					Autre : <input type="text" id="autre"/>
@@ -237,6 +251,8 @@
 				<input type="button" id="validation" value="Valider"/>
 			</div>
 		</form>
+		<p id="indic_valid" style="display:none">Copier le texte dans l'encadré ci-dessous puis ajouter dans excel</p>
+		<div id="resultatss" style="display:none;border:dashed 0.5px black"></div>
 		<script src="js/script.js"></script>
 	</body>
 </html>	
