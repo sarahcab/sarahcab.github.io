@@ -34,8 +34,8 @@ function initialize(){
 		data0 = datacsv;
 		data();
 		build_dessin();
-		// defile(vit);
-		build_cartogramme("2050");
+		defile(vit);
+		// build_cartogramme("2050");
 	}
 	
 }
