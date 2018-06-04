@@ -90,7 +90,6 @@ INSERT INTO chemineur (nomPerso,prenom,nomStru,objet,territoire,cheminees,action
         ''',{'nomPerso':lsvals[0],'prenom':lsvals[1],'nomStru':lsvals[2],'objet':lsvals[3],'territoire':lsvals[4],'cheminees':lsvals[5],'actions':lsvals[6],'agenda':lsvals[7],'envieProp':lsvals[8],'mail':lsvals[9],'tel':lsvals[10],'adresse':lsvals[11],'codePost':lsvals[12],'commune':lsvals[13],'site':lsvals[14],'geom':geom,'srid':srid})
 
     elif "__" in lsvals[5]:
-        ##Plusieurs cheminées : on récupère toutes les valeurs pour centroïde
         rayon=0
         rayon_m=0
         geomX=0
@@ -102,14 +101,18 @@ INSERT INTO chemineur (nomPerso,prenom,nomStru,objet,territoire,cheminees,action
         distances=[]
         distances_m=[]
         for c in ls_chems :
+            print(c)
             cur.execute('''
-                select st_astext(geom) from cheminee where Id LIKE %(site)s
-            ''',{'site':c})
+                select st_astext(geom) from cheminee where Id LIKE %(chemid)s
+            ''',{'chemid':c})
             fet = cur.fetchall()
+            print("---")
+            print(fet)
+            print("---")
             geom =""
             for g in fet :
                 geom = str(g).split("'")[1]
-
+            print(geom)
             g = geom.split("(")[1].split(")")[0].split(" ")
 
             geomX+=float(g[0])

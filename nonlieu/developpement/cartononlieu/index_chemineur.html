@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+  		<meta charset="utf-8">
+		<title>Test formulaire cheminées</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="ressources/scripts/d3.js"></script>
+		<script src="ressources/scripts/jquery.js"></script>
+		
+		<script src="ressources/scripts/queue.js"></script>
+	</head>	
+	<body>
+		
+		<p style="text-align:right"><input id="retour_identif" type="button" class="bout" value="Je ne souhaite plus m'identifier"/></p>
+		
+		<input type="button" class="bout non_connect" value="Ce n'est pas ma première connexion !" id="connect"/>
+		<div class="bou_connect" style="text-align:center">
+			<input type="button" class="bout" id="connect_retour" value="En fait si, c'est ma première connexion"/>
+		</div>
+		<form id="form_identif">
+			<!-- <fieldset id='general'> -->
+				<!-- <legend>Général</legend> -->
+
+				<fieldset class="fix_fieldset">
+					<label>Identifiant* : </label>
+					<input type="text" id="identifiant" value="bijour" />
+					<label style="margin-left:5%" >Mot de passe* : </label>
+					<input type="text" id="motdepasse"/>
+				</fieldset>
+				
+				<div class="bou_connect" style="text-align:center">
+					<input type="button" class="bout" id="connect_ok" value="Ok ! "/>
+				</div>
+				
+				<fieldset>
+					<label>Nom : </label>
+					<input type="text" id="nom_perso"/>
+					<label style="margin-left:5%" >Prénom : </label>
+					<input type="text" id="prenom"/>
+				</fieldset>
+				
+				<fieldset>
+					<p>
+						<label>Nom de la structure : </label>
+						<input type="text" id="nom_structure"/>
+					</p>
+					
+					<p>
+						<label>Objet de la structure / motivations : </label>
+						<input type="text" id="objet"/>
+					</p>
+					
+					<p>
+						<label>Lieu ou territoire d'intervention/de prédilection : </label>
+						<input type="text" id="territoire"/>
+					</p>
+					
+					<p>
+						<label>Site web :</label>
+						<input type="text" id="site_web"/>
+					</p>
+				</fieldset>
+				<fieldset>
+					<p>
+						<label>Types d'actions menées/envisagées autour des cheminées d'usine: </label>
+						<input type="text" id="actions"/>
+					</p>
+					
+					<p>
+						<label>Votre agenda d'actions récurrentes ou ponctuelles sur l'année:</label>
+						<input type="text" id="agenda"/>
+					</p>
+					
+					<p>
+						<label>Vos envies ou propositions : </label>
+						<input type="text" id="envie_propo"/>
+					</p>
+				</fieldset>
+				<fieldset>
+					<p>Pour vous contacter : </p>
+					
+					<label>E-mail* : </label>
+					<input type="text" id="mail"/>
+					
+					<label>Téléphone : </label>
+					<input type="text" id="tel"/>
+					
+					<label>Adresse : </label>
+					<input type="text" id="adresse"/>
+					
+					<label>Code postal : </label>
+					<input type="text" id="code_postal"/>
+					
+					<label>Commune : </label>
+					<input type="text" id="commune"/>
+					
+				</fieldset>
+				<fieldset class="fix_fieldset">
+					<p style="text-align:center"><input type="checkbox" id="verrouillage"/></p>
+					<p style="text-align:center">Verrouiller la cheminée (les autres utilisateurs ne pourront pas la supprimer)</p>
+				</fieldset>
+				<p style="display:none" id="iddchem" value="new"/>
+				<p id="result_chemineur"/>
+				
+			<!-- </fieldset> -->
+			<div class="non_connect" style="text-align:center">
+				<input class="bout" type="submit" value="S'enregistrer"/>
+			</div>
+		</form>
+		<script src="js/script_identif.js"></script>
+	</body>
+</html>	

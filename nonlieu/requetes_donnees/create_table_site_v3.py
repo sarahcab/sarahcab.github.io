@@ -46,7 +46,7 @@ cur.execute('''
         usActu TEXT,
         reconv TEXT,
         occup TEXT,
-        typePropr TEXT,
+        typeProSi TEXT,
         infoHist TEXT,
         ptcSite	TEXT,
         amSiteA BOOLEAN,
@@ -82,7 +82,7 @@ cur.execute('''
         usActu TEXT,
         reconv TEXT,
         occup TEXT,
-        typePropr TEXT,
+        typeProSi TEXT,
         infoHist TEXT,
         ptcSite	TEXT,
         amSiteA BOOLEAN,
@@ -101,10 +101,12 @@ cur.execute('''
 
 ##----------------------- Liste des entités ciblées
 cur.execute('''
-    select distinct substring(Id,0,12) from cheminee
+    select distinct substring(Id,0,19) from cheminee
 ''')
 for i in cur.fetchall() :
     ls_site.append(i[0])
+
+print ls_site
 
 ##----------------------- Valeurs par site
 for site in ls_site :
@@ -125,7 +127,8 @@ for site in ls_site :
     usActu=""
     reconv=""
     occup=""
-    typePropr=""
+    typeProCh=""
+    typeProSi=""
     infoHist=""
     ptcSite=""
     amSiteA=False
@@ -149,7 +152,7 @@ for site in ls_site :
 
     ##---- Récupération des valeurs des attributs
     cur.execute('''
-        select id, nbPhInd, nbPhSit, nomSitHist, nomSitUsa, batiIndus, archiSite, etatSite, ajoutCont, usHist, usActu, reconv, occup, typePropr, infoHist, ptcSite, amSiteA, amSiteA_D, amSiteV, amSiteV_D, valSite, valSiteD, st_astext(geom) from cheminee where Id LIKE %(site)s
+        select id, nbPhInd, nbPhSit, nomSitHist, nomSitUsa, batiIndus, archiSite, etatSite, ajoutCont, usHist, usActu, reconv, occup, typeProSi, infoHist, ptcSite, amSiteA, amSiteA_D, amSiteV, amSiteV_D, valSite, valSiteD, st_astext(geom), typeProCh from cheminee where Id LIKE %(site)s
     ''',{'site':site+'%'})
 
     infos = cur.fetchall()
@@ -166,7 +169,10 @@ for site in ls_site :
         if j[5] == "true":
             batiIndus = True
 
-        archiSite=archiSite+"_"+j[6]
+        if archiSite=="" :
+            archiSite=j[6]
+        else :
+            archiSite=archiSite+"_"+j[6]
 
         if j[7]=="Bon":
             ls_etatSite.append(2)
@@ -175,12 +181,22 @@ for site in ls_site :
         elif j[7]=="Mauvais":
             ls_etatSite.append(0)
 
-        if j[8] not in ajoutCont :
-            ajoutCont = ajoutCont+"_"+j[8]
+        if j[8]:
+            if j[8] not in ajoutCont :
+                if ajoutCont=="" :
+                    ajoutCont =j[8]
+                else :
+                    ajoutCont = ajoutCont+"_"+j[8]
         if j[9] not in usHist :
-            usHist=usHist+"_"+j[9]
-        if j[10] not in usHist :
-            usActu=usActu+"_"+j[10]
+            if usHist=="":
+                usHist=j[9]
+            else :
+                usHist=usHist+"_"+j[9]
+        if j[10] not in usActu :
+            if usActu=="":
+                usActu=j[10]
+            else :
+                usActu=usActu+"_"+j[10]
 
         if j[11] =="Reconverti" :
             reconv=j[11]
@@ -196,11 +212,14 @@ for site in ls_site :
         elif occup=="" and j[12]=="Pas du tout" :
             occup = j[12]
 
-        if j[13] not in typePropr :
-            typePropr=typePropr+"_"+j[13]
+        typeProSi = j[13]
 
-        if j[14] not in infoHist :
-            infoHist=infoHist+"_"+j[14]
+        if j[23] not in typeProCh :
+            typeProCh=typeProCh+"_"+j[23]
+
+        if j[14] :
+            if j[14] not in infoHist :
+                infoHist=infoHist+"_"+j[14]
 
         if j[15] not in ptcSite :
             ptcSite=ptcSite+"_"+j[15]
@@ -266,13 +285,13 @@ select st_distance(ST_Transform(st_geomfromtext(%(newpoint)s,%(srid)s),26986),ST
     ##---- Ecriture dans les nouvelles tables
     ##Ponctuelle
     cur.execute('''
-INSERT INTO sites (id, nbPhInd, nbPhSit, nomSitHist, nomSitUsa, nbrChem, batiIndus, archiSite, etatSite, ajoutCont, usHist, usActu, reconv, occup, typePropr, infoHist, ptcSite, amSiteA, amSiteA_D, amSiteV, amSiteV_D, valSite, valSiteD,rayon_m,geom) VALUES (%(id)s,%(nbPhInd)s,%(nbPhSit)s,%(nomSitHist)s,%(nomSitUsa)s,%(nbrChem)s,%(batiIndus)s,%(archiSite)s,%(etatSite)s,%(ajoutCont)s,%(usHist)s,%(usActu)s,%(reconv)s,%(occup)s,%(typePropr)s,%(infoHist)s,%(ptcSite)s,%(amSiteA)s,%(amSiteA_D)s,%(amSiteV)s,%(amSiteV_D)s,%(valSite)s,%(valSiteD)s,%(rayon_m)s,ST_GeomFromText(%(geo)s, %(srid)s))
-    ''',{'id':id, 'nbPhInd':nbPhInd, 'nbPhSit':nbPhSit, 'nomSitHist':nomSitHist, 'nomSitUsa':nomSitUsa, 'nbrChem':nbrChem, 'batiIndus':batiIndus, 'archiSite':archiSite, 'etatSite':etatSite, 'ajoutCont':ajoutCont, 'usHist':usHist, 'usActu':usActu, 'reconv':reconv, 'occup':occup, 'typePropr':typePropr, 'infoHist':infoHist, 'ptcSite':ptcSite, 'amSiteA':amSiteA, 'amSiteA_D':amSiteA_D, 'amSiteV':amSiteV, 'amSiteV_D':amSiteV_D, 'valSite':valSite, 'valSiteD':valSiteD,'rayon_m':rayon_m,'geo':newpoint,'srid':srid})
+INSERT INTO sites (id, nbPhInd, nbPhSit, nomSitHist, nomSitUsa, nbrChem, batiIndus, archiSite, etatSite, ajoutCont, usHist, usActu, reconv, occup, typeProSi, infoHist, ptcSite, amSiteA, amSiteA_D, amSiteV, amSiteV_D, valSite, valSiteD,rayon_m,geom) VALUES (%(id)s,%(nbPhInd)s,%(nbPhSit)s,%(nomSitHist)s,%(nomSitUsa)s,%(nbrChem)s,%(batiIndus)s,%(archiSite)s,%(etatSite)s,%(ajoutCont)s,%(usHist)s,%(usActu)s,%(reconv)s,%(occup)s,%(typePropr)s,%(infoHist)s,%(ptcSite)s,%(amSiteA)s,%(amSiteA_D)s,%(amSiteV)s,%(amSiteV_D)s,%(valSite)s,%(valSiteD)s,%(rayon_m)s,ST_GeomFromText(%(geo)s, %(srid)s))
+    ''',{'id':id, 'nbPhInd':nbPhInd, 'nbPhSit':nbPhSit, 'nomSitHist':nomSitHist, 'nomSitUsa':nomSitUsa, 'nbrChem':nbrChem, 'batiIndus':batiIndus, 'archiSite':archiSite, 'etatSite':etatSite, 'ajoutCont':ajoutCont, 'usHist':usHist, 'usActu':usActu, 'reconv':reconv, 'occup':occup, 'typePropr':typeProSi, 'infoHist':infoHist, 'ptcSite':ptcSite, 'amSiteA':amSiteA, 'amSiteA_D':amSiteA_D, 'amSiteV':amSiteV, 'amSiteV_D':amSiteV_D, 'valSite':valSite, 'valSiteD':valSiteD,'rayon_m':rayon_m,'geo':newpoint,'srid':srid})
 
     ##Zonale
     cur.execute('''
-INSERT INTO sites_zone (id, nbPhInd, nbPhSit, nomSitHist, nomSitUsa, nbrChem, batiIndus, archiSite, etatSite, ajoutCont, usHist, usActu, reconv, occup, typePropr, infoHist, ptcSite, amSiteA, amSiteA_D, amSiteV, amSiteV_D, valSite, valSiteD,rayon_m,geom) VALUES (%(id)s,%(nbPhInd)s,%(nbPhSit)s,%(nomSitHist)s,%(nomSitUsa)s,%(nbrChem)s,%(batiIndus)s,%(archiSite)s,%(etatSite)s,%(ajoutCont)s,%(usHist)s,%(usActu)s,%(reconv)s,%(occup)s,%(typePropr)s,%(infoHist)s,%(ptcSite)s,%(amSiteA)s,%(amSiteA_D)s,%(amSiteV)s,%(amSiteV_D)s,%(valSite)s,%(valSiteD)s,%(rayon_m)s,st_buffer(ST_GeomFromText(%(geo)s, %(srid)s),%(rayon)s))
-    ''',{'id':id, 'nbPhInd':nbPhInd, 'nbPhSit':nbPhSit, 'nomSitHist':nomSitHist, 'nomSitUsa':nomSitUsa, 'nbrChem':nbrChem, 'batiIndus':batiIndus, 'archiSite':archiSite, 'etatSite':etatSite, 'ajoutCont':ajoutCont, 'usHist':usHist, 'usActu':usActu, 'reconv':reconv, 'occup':occup, 'typePropr':typePropr, 'infoHist':infoHist, 'ptcSite':ptcSite, 'amSiteA':amSiteA, 'amSiteA_D':amSiteA_D, 'amSiteV':amSiteV, 'amSiteV_D':amSiteV_D, 'valSite':valSite, 'valSiteD':valSiteD,'rayon':rayon,'rayon_m':rayon_m,'geo':newpoint,'srid':srid})
+INSERT INTO sites_zone (id, nbPhInd, nbPhSit, nomSitHist, nomSitUsa, nbrChem, batiIndus, archiSite, etatSite, ajoutCont, usHist, usActu, reconv, occup, typeProSi, infoHist, ptcSite, amSiteA, amSiteA_D, amSiteV, amSiteV_D, valSite, valSiteD,rayon_m,geom) VALUES (%(id)s,%(nbPhInd)s,%(nbPhSit)s,%(nomSitHist)s,%(nomSitUsa)s,%(nbrChem)s,%(batiIndus)s,%(archiSite)s,%(etatSite)s,%(ajoutCont)s,%(usHist)s,%(usActu)s,%(reconv)s,%(occup)s,%(typePropr)s,%(infoHist)s,%(ptcSite)s,%(amSiteA)s,%(amSiteA_D)s,%(amSiteV)s,%(amSiteV_D)s,%(valSite)s,%(valSiteD)s,%(rayon_m)s,st_buffer(ST_GeomFromText(%(geo)s, %(srid)s),%(rayon)s))
+    ''',{'id':id, 'nbPhInd':nbPhInd, 'nbPhSit':nbPhSit, 'nomSitHist':nomSitHist, 'nomSitUsa':nomSitUsa, 'nbrChem':nbrChem, 'batiIndus':batiIndus, 'archiSite':archiSite, 'etatSite':etatSite, 'ajoutCont':ajoutCont, 'usHist':usHist, 'usActu':usActu, 'reconv':reconv, 'occup':occup, 'typePropr':typeProSi, 'infoHist':infoHist, 'ptcSite':ptcSite, 'amSiteA':amSiteA, 'amSiteA_D':amSiteA_D, 'amSiteV':amSiteV, 'amSiteV_D':amSiteV_D, 'valSite':valSite, 'valSiteD':valSiteD,'rayon':rayon,'rayon_m':rayon_m,'geo':newpoint,'srid':srid})
 
     ##Multilineaire
 ##    cur.execute('''

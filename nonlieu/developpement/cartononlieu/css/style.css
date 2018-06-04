@@ -1,0 +1,278 @@
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 500;
+    src:url('../ressources/polices/Roboto-Regular.ttf');
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 700;
+    src:url('../ressources/polices/Roboto-Bold.ttf');
+	font-display:swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 300;
+    src:url('../ressources/polices/Roboto-Light.ttf');
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-style : italic;
+	font-weight : 300;
+    src:url('../ressources/polices/Roboto-LightItalic.ttf');
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 200;
+    src:url('../ressources/polices/Roboto-Thin.ttf');
+	font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 200;
+	font-style : italic;
+    src:url('../ressources/polices/Roboto-ThinItalic.ttf');
+	font-display: swap;
+}
+
+
+body{
+	font-family : 'Roboto';
+	font-weight : 300;
+	font-weight:400;
+	font-size:12px;
+}
+
+
+h2{
+	font-weight : 200;
+	text-align:center;
+	margin-bottom: 1%;
+}
+
+#mapid {
+	height : 500px;
+}
+
+#cont_map{
+	width:99%;
+	z-index:-1;
+}
+
+#cont_map{
+	position:absolute;
+}
+
+#boutonss{
+	margin-top : 9%;
+	margin-left : 1%;
+	position:absolute;
+	width:10%;
+}
+
+#boutt_chemm{
+	background-color: #ffffff;
+	border: solid 0.1px #888888;
+	border-radius: 3px;
+	box-shadow: 1px 1px 3px #888888;
+	font-size: 14px;
+	padding: 0.25%;
+}
+
+#bout_chemineur{
+	cursor:pointer;
+}
+
+.nb{
+    filter: grayscale(80%);
+    -webkit-filter: grayscale(80%);
+    -moz-filter: grayscale(80%);
+    -ms-filter: grayscale(80%);
+    -o-filter: grayscale(80%);
+}
+
+.hl_bout:hover{
+	font-weight:700;
+}
+
+
+.img_min{
+	width:100%;
+}
+
+
+.div_infosmax{
+	text-align:center;
+}
+
+
+
+#tout_infos,#tout_infos2,#if_formulaire,#if_identif{
+    background: rgba(255, 255, 255, 0.7);
+	position:absolute;
+	margin-left:70%;
+	width:29%;
+	opacity:0;
+	height:80%;
+	overflow:auto;
+	display:none;
+	border: solid #999999 0.5px;
+}
+
+#if_formulaire,#if_identif{
+	margin-left:15%;
+	width:84%;
+}
+
+.div_info{
+	margin : 5%;
+}
+
+.elmt{
+	list-style-position: inside;
+	font-size:12px;
+	margin-top:2%;
+}
+
+li.elmt{
+	margin-left : 2%;
+}
+
+
+ul.elmt{
+	padding-left : 0.5%;
+	margin-left:0%;
+	border-left : dashed 1px grey;
+}
+
+
+.targeted{
+	color:#329899;
+	font-weight:500;
+}
+
+.targetedsite{
+	color:#c17130;
+	font-weight:500;
+}
+
+#chargement{
+	width:100%;
+	display:none; 
+	position:absolute;
+	cursor:wait;
+}
+
+.tourne{
+	animation: tourneD 5s linear;
+	animation-iteration-count : infinite;
+	transform-origin: 683px 332px;
+}
+
+#rond1{
+	animation-duration: 1s;
+	animation-name: tourneG;
+}
+#rond3{
+	animation-duration: 2s;
+	animation-name: tourneG;
+}
+#rond2{
+	animation-duration: 3.5s;
+}
+
+@keyframes tourneG {
+	from {transform: rotate(0deg);}
+
+	to   {transform: rotate(-360deg);}
+}
+
+@keyframes tourneD {
+	from {transform: rotate(0deg);}
+
+	to   {transform: rotate(360deg);}
+}
+
+#mapid{
+	background:#ffffff;
+}
+
+#localtemp{
+	position:absolute;
+	display:none;
+	background:#ffffff;
+	border-radius:20px;
+	padding:1%;
+	opacity:0.7;
+}
+
+/* COMMUN */
+
+.bout{
+	border:medium solid #EEEEEE;
+	background : #CCCCCC;
+	border-radius:15px;
+	color : #ffffff;
+	font-size : 16px;
+}
+
+.bout:hover{
+	background: #EEEEEE !important;
+	color: #000000 !important;
+	opacity:0.8;
+	cursor:pointer !important;
+}
+
+
+/* FORMULAIRE */
+
+.didi{
+	margin-top : 2.5%;
+}
+
+fieldset{
+	margin-top : 3.5%;
+}
+
+legend{
+	font-size:18px;
+}
+
+h3{
+	font-size:14px;
+	font-weight:400;
+}
+
+#ex_carte{
+	text-align:center;
+	color : blue;
+	font-style:italic;
+}
+
+form{
+	width:95%;
+	margin:auto;
+}
+
+h1{
+	text-align:center;
+}
+
+/* FORMULAIRE CHEMINEUR */
+
+.bou_connect{
+	display : none;
+}
+
+#connect{
+	text-align:center;
+	width:27%;
+	margin-left:36.5%;
+}

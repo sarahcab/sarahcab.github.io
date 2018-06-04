@@ -36,10 +36,11 @@ function initialize() {
 		.defer(d3.csv,"data/iso.csv")
 		.defer(d3.csv,"data/passeportpower.csv")
 		.defer(d3.csv,"data/eurostat_superficie.csv")
+		.defer(d3.csv,"data/coast.csv")
 		.await(callback0); 
 	
-	function callback0(error, dataPays,iso,dataPower,supers){
-		drawMap(dataPays,iso,dataPower,supers);
+	function callback0(error, dataPays,iso,dataPower,supers,coast){
+		drawMap(dataPays,iso,dataPower,supers,coast);
 		dragMap();
 	}
 	
@@ -48,7 +49,7 @@ function initialize() {
 	// alert(d3.select("#total").node().getTotalLength())
 }
 
-function drawMap(dataPays,iso,dataPower,supers){
+function drawMap(dataPays,iso,dataPower,supers,coast){
 		///SVG content
 		var map = d3.select("#carte") 
 			.append("svg")
@@ -95,8 +96,6 @@ function drawMap(dataPays,iso,dataPower,supers){
 			
 		var legende = map.append("g")
 			.attr("id","legende")
-		
-	
 		
 		var globe = map.append("g")
 			.attr("id","globe")
@@ -151,7 +150,6 @@ function drawMap(dataPays,iso,dataPower,supers){
 			.enter() 
 			.append("path") 
 			.attr("d", path) 
-			.attr("fill", nuancier[2]) ///fonction chroro ici et enregister un fill0
 			.attr("stroke",nuancier[0])
 			.attr("stroke-width",0.6)
 			.style("cursor","pointer")
@@ -181,7 +179,32 @@ function drawMap(dataPays,iso,dataPower,supers){
 				}
 				return val;
 			})
+			.attr("fill0",function(d){
+				var code = this.attributes.code.value;
+				var val;
+				for(i=0;i<coast.length;i++){
+					if(coast[i].code==code){
+						val = coast[i].Quotient;
+						d3.select(this).attr("medianGDP",coast[i].Median_GDP_per_capita/12);
+						d3.select(this).attr("passeportfees",coast[i].Fees);
+						d3.select(this).attr("quotient",coast[i].Quotient);
+					}
+				} 
+				fl = "";
+				for(v=0;v<discretQuot.length;v++){
+					if(val > discretQuot[v]){
+						fl=nuancierQuot[v];
+					}
+				}
+				if(fl==""){
+					fl=nuancier[2]
+				}
+				return fl;
+			})
 			
+			.attr("fill",function(){
+				return this.attributes.fill0.value;
+			})
 			.on("click",function(){
 				affiPower(this.attributes);
 			})
@@ -200,12 +223,10 @@ function drawMap(dataPays,iso,dataPower,supers){
 				super_total =val*1+super_total*1;
 				return val;
 			})
-			.attr("centre",function(d,i){
-				var centro = path.centroid(d);
-				// var blop = path.area(d)
-				// alert(this.id + blop);
-				return centro;
-			})
+			// .attr("centre",function(d,i){
+				// var centro = path.centroid(d);
+				// return centro;
+			// })
 			.attr("class",function(){
 				var val = this.attributes.code.value;
 				return val+" pays";
@@ -293,8 +314,7 @@ function drawMap(dataPays,iso,dataPower,supers){
 				dataPays.objects.countries).features)
 			.enter() 
 			.append("path") 
-			.attr("d", path) 
-			.attr("fill", nuancier[2])
+			.attr("d", path)
 			.attr("stroke",nuancier[0])
 			.attr("stroke-width",0.6)
 			.attr("code", function(d){
@@ -311,13 +331,39 @@ function drawMap(dataPays,iso,dataPower,supers){
 				var val = this.attributes.code.value;
 				return val+" pays2";
 			})
+			.attr("fill0",function(d){
+				var code = this.attributes.code.value;
+				var val;
+				for(i=0;i<coast.length;i++){
+					if(coast[i].code==code){
+						val = coast[i].Quotient;
+						d3.select(this).attr("medianGDP",coast[i].Median_GDP_per_capita/12);
+						d3.select(this).attr("passeportfees",coast[i].Fees);
+						d3.select(this).attr("quotient",coast[i].Quotient);
+					}
+				} 
+				fl = "";
+				for(v=0;v<discretQuot.length;v++){
+					if(val > discretQuot[v]){
+						fl=nuancierQuot[v];
+					}
+				}
+				if(fl==""){
+					fl=nuancier[2]
+				}
+				return fl;
+			})
+			
+			.attr("fill",function(){
+				return this.attributes.fill0.value;
+			})
 			
 	
 		///Titre
 		map.append("text")
 			.attr("x",400)
 			.attr("y",-10)
-			.text("Frontière : ligne imaginaire facile à traverser lorsqu'on est blanc")
+			.text("TITRE")
 			.attr("font-size",24)
 		
 		map.append("text")
@@ -519,7 +565,11 @@ function makeLegend(titre, obj,debX,debY,discret,nuanc,inter){
 			}
 		})
 		.text(function(d){
-			return d
+			if(discret == discretQuot){
+				return (d*100)+" %"
+			} else {
+				return d
+			}
 		})
 		
 	obj.selectAll(".eltQuot")
@@ -543,8 +593,8 @@ function raz(){
 	d3.select("#legende_super").transition().duration(200).attr("opacity",0.1)
 	d3.select("#titre_pays").text("")
 	d3.select("#super").selectAll(".del_su").remove();
-	d3.selectAll(".pays").transition().duration(200).attr("fill",nuancier[2]).attr("stroke",nuancier[0]);
-	d3.selectAll(".pays2").transition().duration(200).attr("fill",nuancier[2]).attr("stroke",nuancier[0]); //a la place faire les couleurs par défaut et mettre un fill0
+	d3.selectAll(".pays").transition().duration(200).attr("fill",function(){return this.attributes.fill0.value}).attr("stroke",nuancier[0]);
+	d3.selectAll(".pays2").transition().duration(200).attr("fill",function(){return this.attributes.fill0.value}).attr("stroke",nuancier[0]); //a la place faire les couleurs par défaut et mettre un fill0
 }
 
 function dragMap(){
