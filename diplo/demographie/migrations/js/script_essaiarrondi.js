@@ -89,6 +89,12 @@ function build_dessins(){
 				.duration(200)
 				.attr("r",ray)
 				.attr("opacity",0.3)
+			
+			// d3.select(this)
+				// .transition()
+				// .duration(200)
+				// .attr("opacity",0.3)
+				
 		})
 		.on("mouseout",function(){
 			var val = this.attributes.pays.value;
@@ -99,6 +105,11 @@ function build_dessins(){
 				.duration(200)
 				.attr("r",0)
 				.attr("opacity",0.8)
+			
+			// d3.select(this)
+				// .transition()
+				// .duration(200)
+				// .attr("opacity",0)
 		})
 }
 
@@ -167,7 +178,6 @@ function build_fleches(pays){
 				///identifiant de la flèche
 				id_fleche=id_fleche*1+1;
 		
-				
 				///Modification des coordonnées d'arrivées et de départ (x01->x1) en tenant compte d'un rayon 'ray' autour des centroides des pays
 				taille0=Math.sqrt((x01-x02)*(x01-x02)+(y01-y02)*(y01-y02));
 				dx=x02-x01;
@@ -191,17 +201,17 @@ function build_fleches(pays){
 				
 				d3.select("#place_fleches").append("g").attr("id","g_"+id_fleche).attr("class","line0");
 				
-				d3.select("#g_"+id_fleche)
-					.append("polyline").attr("transform","rotate("+angle+" "+x1+" "+y1+")")
-					.attr("stroke","#DAD9D3")
-					.attr("stroke-width",contourflech)
-					.attr("fill","none")
-					.attr("points",(x1*1+stW*0.5)+","+(y1*1-taille+stW*co_fl_y)+" "+x1+","+y1+" "+(x1-stW*0.5)+","+(y1-taille+stW*co_fl_y))
-					.attr("opacity",0)
-					.transition()
-					.delay(vit)
-					.duration(vit)
-					.attr("opacity",1)
+				// d3.select("#g_"+id_fleche)
+					// .append("polyline").attr("transform","rotate("+angle+" "+x1+" "+y1+")")
+					// .attr("stroke","#DAD9D3")
+					// .attr("stroke-width",contourflech)
+					// .attr("fill","none")
+					// .attr("points",(x1*1+stW*0.5)+","+(y1*1-taille+stW*co_fl_y)+" "+x1+","+y1+" "+(x1-stW*0.5)+","+(y1-taille+stW*co_fl_y))
+					// .attr("opacity",0)
+					// .transition()
+					// .delay(vit)
+					// .duration(vit)
+					// .attr("opacity",1)
 				
 				d3.select("#g_"+id_fleche).append("g").attr("id","fl_"+id_fleche).attr("transform","translate("+x1+","+y1+")")
 					.append("polygon").attr("transform","rotate("+angle+")")
@@ -221,11 +231,27 @@ function build_fleches(pays){
 					// .attr("fill","blue")
 					// .attr("opacity",0.5);
 				
-				d3.select("#g_"+id_fleche).append("line").attr("x1",x1).attr("y1",y1).attr("x2",x1).attr("y2",y1).attr("stroke-width",stW).attr("stroke","red")
-					.attr("clip-path","url(#cp_"+id_fleche+")")
+				//points de controle à -3
+				controle=taille*0.4;
+				
+				d3.select("#g_"+id_fleche)
+					// .append("line")
+					// .attr("x1",x1).attr("y1",y1).attr("x2",x1).attr("y2",y1)
+					// .attr("clip-path","url(#cp_"+id_fleche+")")
+					.append("path")
+					///Pour la ligne arrondi
+					// .attr("d","M "+x1+" "+y1+" C"+(x1-controle)+" "+(y1-controle*0.5)+","+(x1-controle)+" "+(y1-taille+controle*0.5)+","+x1+" "+(y1-taille))
+					///Pour le clip-path arrondi
+					.attr("d","M "+x1+" "+y1+" C"+(x1-controle)+" "+(y1-controle*0.5)+","+(x1-controle)+" "+(y1-taille+controle*0.5)+","+x1+" "+(y1-taille)+"h "+stW+" C"+(x2*1+stW*1-controle)+" "+(y1-taille+controle*0.5)+","+(x2*1+stW*1-controle)+" "+(y1-controle*0.5)+","+x1+" "+y1)
+					.attr("transform","rotate("+angle+" "+x1+" "+y1+")")
+					.attr("stroke-dasharray","0,100")
+					.attr("stroke-width",stW).attr("stroke","red")
+					.attr("stroke-width",0.5).attr("stroke","red")
+					// .attr("fill","red")
 					.transition()
 					.duration(vit)
-					.attr("x2",x2).attr("y2",y2)
+					// .attr("x2",x2).attr("y2",y2)
+					.attr("stroke-dasharray","100,0")
 					
 				
 					

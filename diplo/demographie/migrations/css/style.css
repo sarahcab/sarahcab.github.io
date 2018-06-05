@@ -50,20 +50,18 @@ body{
 	margin:0%;
 	display:flex;
 }
-
-#cont{
-	width:60%
-}
 #cont2{
 	width:20%
 }
 
 #fond_trame{
-	width:60%;
+	width:47%;
+	margin-left:26%;
 	position:absolute;
 }
 
 #dessin{
-	width:60%;
+	width:47%;
+	margin-left:26%;
 	position:absolute;
 }
