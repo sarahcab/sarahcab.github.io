@@ -32,7 +32,7 @@ window.onload = initialize();
 ///--------------------Fonctions
 function initialize(){
 	queue()											
-		.defer(d3.csv,"data/all_links_30000.csv")
+		.defer(d3.csv,"data/all_links_30000_7.csv")
 		.defer(d3.csv,"data/traductions.csv")
 		.await(callback0); 
 	
@@ -53,17 +53,17 @@ function boutons(){
 		.style("cursor","pointer")
 		.on("mouseover",function(){
 			d3.select(this).select("#blop")
-				.attr("r",0)
+				.attr("opacity",0)
 				.transition()
 				.duration(300)
-				.attr("r",5)
+				.attr("opacity",0.4)
 		})
 		.on("mouseout",function(){
 			d3.select(this).select("#blop")
-				.attr("r",5)
+				.attr("opacity",0.4)
 				.transition()
 				.duration(300)
-				.attr("r",0)
+				.attr("opacity",0)
 		})
 		.on("click",function(){
 			d3.select("#place_fleches")
@@ -92,12 +92,10 @@ function build_dessins(){
 	d3.select("#rep_cercles")
 		.selectAll("path")
 		.each(function(){
-			// var fill = this.attributes.fill.value;
 			var ID = "c-"+this.id;
 			var ID2 = "t-"+this.id;
 			
 			var paysOk=ls_pays_trad[ls_pays_tout.indexOf(this.id)];
-			// console.log(val+" "+paysOk);
 			
 			var X = ((this.attributes.d.value).split("M")[1]).split(",")[0];
 			var Y = (((this.attributes.d.value).split("M")[1]).split(",")[1]).split("C")[0];
@@ -108,24 +106,35 @@ function build_dessins(){
 		})
 		
 	for(i=0;i<ls_pays_autre.length;i++){
-		var ID = "c-"+ls_pays_autre[i];
-		var ID2 = "t-"+ls_pays_autre[i];
-		var paysOk=ls_pays_trad[ls_pays_tout.indexOf(ls_pays_autre[i])];
-		
-		var X = X_pays_autres;
-		var Y = Y_pays_autres;
-		
-		var angle = 10+52*i/ls_pays_autre.length;
-		angle=angle*Math.PI/180;
-		X1=X*1+Math.sin(angle)*cercle_pays_autres
-		Y1=Y*1+Math.cos(angle)*cercle_pays_autres
-		
-		d3.select("#place_cercles").append("circle").attr("cx",X1).attr("cy",Y1).attr("id",ID).attr("r",ray*0.8).attr("stroke","#ffffff").attr("fill","#EDEDED")
-		
-		d3.select("#place_cercles").append("text").attr("id",ID2).attr("opacity",1).attr("x",function(){
-			var val=(ls_pays_autre[i]).length*2;
-			return X1-val;
-		}).attr("y",Y1-ray).text(paysOk).attr("font-size",6.5).attr("font-style","italic");
+		if(ls_pays_autre[i]!="russie"){
+			var ID = "c-"+ls_pays_autre[i];
+			var ID2 = "t-"+ls_pays_autre[i];
+			var paysOk=ls_pays_trad[ls_pays_tout.indexOf(ls_pays_autre[i])];
+			
+			var X = X_pays_autres;
+			var Y = Y_pays_autres;
+			
+			var angle = 15+52*i/(ls_pays_autre.length-1);
+			angle=angle*Math.PI/180;
+			X1=X*1+Math.sin(angle)*cercle_pays_autres
+			Y1=Y*1+Math.cos(angle)*cercle_pays_autres
+			
+			d3.select("#place_cercles").append("circle").attr("cx",X1).attr("cy",Y1).attr("id",ID).attr("r",ray*0.8).attr("stroke","#ffffff").attr("fill","#EDEDED")
+			
+			d3.select("#place_cercles").append("text").attr("id",ID2).attr("opacity",1).attr("x",function(){
+				var val=(ls_pays_autre[i]).length*2;
+				return X1-val;
+			}).attr("y",Y1-ray).text(paysOk).attr("font-size",6.5).attr("font-style","italic");
+		}else {
+			X=310;
+			Y=115;
+			d3.select("#place_cercles").append("circle").attr("cx",X).attr("cy",Y).attr("id","c-russie").attr("r",ray*0.8).attr("stroke","#ffffff").attr("fill","#EDEDED")
+			
+			d3.select("#place_cercles").append("text").attr("id","t-russie").attr("opacity",1).attr("x",function(){
+				var val=(ls_pays_autre[i]).length*2.1;
+				return X-val;
+			}).attr("y",Y-ray*1.2).text("Russie").attr("font-size",6.5).attr("font-style","italic");
+		}
 	}
 	
 	d3.selectAll(".click-pays")
