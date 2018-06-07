@@ -20,7 +20,7 @@ Y_pays_autres=-60,
 cercle_pays_autres=180,
 // ls_pays=["Albania","Andorra","Austria","Belarus","Belgium","Bosnia_and_Herzegovina","Bulgaria","Croatia","Cyprus","Czech_Republic","Denmark","Estonia","Finland","France","Germany","Greece","Holy_See","Hungary","Iceland","Ireland","Italy","Latvia","Liechtenstein","Lithuania","Luxembourg","Macedonia_FYR","Malta","Moldova","Monaco","Montenegro","Netherlands","Norway","Poland","Portugal","Romania","Russia","San_Marino","Serbia","Slovak_Republic","Slovenia","Spain","Sweden","Switzerland","Ukraine","United_Kingdom"];
 ls_pays=[],
-paysActu='',
+paysActu=[],
 ls_pays_autre=[],
 ls_pays_tout=[],
 ls_pays_trad=[];
@@ -41,11 +41,47 @@ function initialize(){
 		datatrad=trad;
 		data();
 		build_dessins();
+		boutons();
+		// first=ls_pays[getRandomInt(ls_pays.length)];
 		
-		first=ls_pays[getRandomInt(ls_pays.length)];
-		
-		build_fleches(first)
+		// build_fleches(first)
 	}
+}
+
+function boutons(){
+	d3.select("#raz")
+		.style("cursor","pointer")
+		.on("mouseover",function(){
+			d3.select(this).select("#blop")
+				.attr("r",0)
+				.transition()
+				.duration(300)
+				.attr("r",5)
+		})
+		.on("mouseout",function(){
+			d3.select(this).select("#blop")
+				.attr("r",5)
+				.transition()
+				.duration(300)
+				.attr("r",0)
+		})
+		.on("click",function(){
+			d3.select("#place_fleches")
+				.selectAll("g")
+				.attr("opacity",1)
+				.transition()
+				.duration(400)
+				.attr("opacity",0)
+				.remove();
+			
+			d3.select("#place_fleches")
+				.select("defs")
+				.selectAll("clipPath")
+					.transition()
+				.duration(400)
+				.remove();
+			
+		})
 }
 
 function getRandomInt(max) {
@@ -137,22 +173,23 @@ function build_dessins(){
 
 
 function build_fleches(pays){
-	if(paysActu==pays){
-		paysActu='';
+	if(paysActu.indexOf(pays)!=-1){
+		paysActu.splice((paysActu.indexOf(pays)),1)
 		///effacement lignes d'avant
-		d3.selectAll(".line0").remove();
-		d3.selectAll(".line1").attr("class","line0").attr("opacity",1)
-		d3.selectAll(".line2").attr("class","line1").attr("opacity",0.8)
-		d3.selectAll(".line3").attr("class","line2").attr("opacity",0.6)
-		d3.selectAll(".line4").attr("class","line3").attr("opacity",0.4)
+		d3.selectAll(".line"+pays).remove();
+		
+		// d3.selectAll(".line1").attr("class","line0").attr("opacity",1)
+		// d3.selectAll(".line2").attr("class","line1").attr("opacity",0.8)
+		// d3.selectAll(".line3").attr("class","line2").attr("opacity",0.6)
+		// d3.selectAll(".line4").attr("class","line3").attr("opacity",0.4)
 	} else {
-		paysActu=pays;
+		paysActu.push(pays);
 		///effacement lignes d'avant
-		d3.selectAll(".line4").remove();
-		d3.selectAll(".line3").attr("class","line4").attr("opacity",0.2)
-		d3.selectAll(".line2").attr("class","line3").attr("opacity",0.4)
-		d3.selectAll(".line1").attr("class","line2").attr("opacity",0.6)
-		d3.selectAll(".line0").attr("class","line1").attr("opacity",0.8)
+		// d3.selectAll(".line4").remove();
+		// d3.selectAll(".line3").attr("class","line4").attr("opacity",0.2)
+		// d3.selectAll(".line2").attr("class","line3").attr("opacity",0.4)
+		// d3.selectAll(".line1").attr("class","line2").attr("opacity",0.6)
+		// d3.selectAll(".line0").attr("class","line1").attr("opacity",0.8)
 		
 		///nouvelles lignes
 		if(pays.indexOf("_")!=-1){
@@ -243,8 +280,8 @@ function build_fleches(pays){
 					
 					x1=x01*1+(dx*(ray/taille0));
 					y1=y01*1+(dy*(ray/taille0));
-					x2=x02-(dx*((ray*1+stW*co_fl_y)/taille0)); //pour l'arrivée on tient compte du bout de la fleche en plus (ajustement au bout : voir commentaires suivants)
-					y2=y02-(dy*((ray*1+stW*co_fl_y)/taille0)); //ajsutement : co_fl_y pour la auteur du bout et co_fl_x pour sa largeur, multipliés par l'épaisseur de la flèche
+					x2=x02-(dx*((ray*1+stW*0.5+co_fl_y*1)/taille0)); //pour l'arrivée on tient compte du bout de la fleche en plus (ajustement au bout : voir commentaires suivants)
+					y2=y02-(dy*((ray*1+stW*0.5+co_fl_y*1)/taille0)); //ajsutement : co_fl_y pour la auteur du bout et co_fl_x pour sa largeur, multipliés par l'épaisseur de la flèche
 					// alert(x2+" "+x02)
 					///Mesure pour assurer les transitions et dessins
 					taille=Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)) //taille du segment tracé
@@ -257,7 +294,7 @@ function build_fleches(pays){
 						angle=angle*-1;
 					}
 					
-					d3.select("#place_fleches").append("g").attr("id","g_"+id_fleche).attr("class","line0");
+					d3.select("#place_fleches").append("g").attr("id","g_"+id_fleche).attr("class","line"+pays);
 					
 					///contour
 					d3.select("#g_"+id_fleche)
@@ -284,7 +321,7 @@ function build_fleches(pays){
 					d3.select("#place_fleches")
 						.select("defs")
 						.append("clipPath")
-						.attr("class","line0")
+						.attr("class","line"+pays)
 						.attr("id","cp_"+id_fleche)
 						.append("polygon").attr("transform","rotate("+angle+" "+x1+" "+y1+")")
 						// .attr("points",x1+","+y1+" "+(x1*1+stW*0.5)+","+(y1*1-taille)+" "+(x1-stW*0.5)+","+(y1-taille)) //sans ajustement au bout

@@ -8,7 +8,7 @@ datedebut=1800,
 datefin=2050,
 dateA=datedebut,
 annees=[],
-vit=20,
+vit=25,
 data0 = [],
 data1 = [],
 fillAs='#f9b233',
@@ -93,11 +93,19 @@ function build_dessin(){
 function defile(vitt){
 	c = setInterval(function(){
 		if(dateA==datefin){
-			dateA=datedebut;
+			
 			clearInterval(c);
 			setTimeout(function(){
+				dateA=datedebut;
 				defile(vit);
-			},500);
+			},1000);
+		} else if(dateA==2017){
+			clearInterval(c);
+			
+			setTimeout(function(){
+				dateA=dateA*1+1;
+				defile(vit);
+			},700);
 		} else {
 			dateA=dateA*1+1;
 		}
@@ -154,7 +162,7 @@ function build_cartogramme(date){
 	var cyOc=y0*1+rAs;
 	
 	if(rAf>rEu){
-		var EL=rAf;
+		var EL=(rEu*1.25+rAf*0.75)/2;
 	}else {
 		var EL=rEu;
 	}
@@ -189,7 +197,7 @@ function build_cartogramme(date){
 	d3.select("#tx_af").attr("transform","translate("+(cxAf-15)+","+(cyAf*1+rAf*1+10)+")");
 	d3.select("#val_af").text(parseInt(dataDate[0]['af']/1000000))
 	
-	d3.select("#tx_oc").attr("transform","translate("+(cxOc)+","+(cyOc*1+rOc*1+10)+")");
+	d3.select("#tx_oc").attr("transform","translate("+(cxOc)+","+(cyOc*1+10)+")");
 	d3.select("#val_oc").text(parseInt(dataDate[0]['oc']/1000000))
 	
 	d3.select("#tx_an").attr("transform","translate("+(cxAn-rAn-20)+","+(cyAn-rAn-10)+")");
@@ -216,8 +224,8 @@ function build_cartogramme(date){
 		var globalTx = (parseInt(global/100000000))/10+" milliards ?"
 	}
 	
-	d3.select("#globalvalue").text(globalTx);
-	d3.select("#indicdate").text(date).attr("font-size",function(){
+	d3.select("#indicdate").text(date);
+	d3.select("#globalvalue").text(globalTx).attr("font-size",function(){
 		var fmin = this.attributes.fmin.value;
 		var fmax = this.attributes.fmax.value;
 		fs=fmin*1+(fmax-fmin)*(global-globalMin)/(globalMax-globalMin);

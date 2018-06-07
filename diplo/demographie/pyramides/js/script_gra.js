@@ -1,0 +1,173 @@
+///--------------------Variables géométriques
+
+///--Pour les pyramides
+var debXFe,
+debXHo,
+fillFe,
+fillHo,
+
+debY,
+coefX, //pour passer de la valeur en pourcentage à la largeur
+hauteurBarre,
+strokeBarre,
+strokeWidth,
+
+///--Pour le graphique
+
+
+///--------------------Variables logiques
+datedebut=1987,
+datefin=2017,
+dateA=datedebut,
+larg_pyr=147,
+larg_gra=140,
+annees=[],
+vit=200,
+ls_pays=['allemagne','bulgarie','croatie','france'],
+
+pays;
+
+///--------------------Action au chargement
+window.onload = initialize();
+
+///--------------------Fonctions
+function initialize() {
+	// pays = (document.getElementById("titre_pays").innerHTML).toLowerCase();
+	// queue()											
+		// .defer(d3.csv,"data/"+ls_pays[0]+".csv")
+		// .defer(d3.csv,"data/"+ls_pays[1]+".csv")
+		// .defer(d3.csv,"data/"+ls_pays[2]+".csv")
+		// .defer(d3.csv,"data/"+ls_pays[3]+".csv")
+		// .await(callback0); 
+	
+	// function callback0(error, data0,data1,data2,data3){
+		// csvAl=data0;
+		// csvBu=data1;
+		// csvCr=data2;
+		// csvFr=data3;
+		// lcsv=[csvAl,csvBu,csvCr,csvFr];
+		// data();
+		transformations();
+		
+		// build_pyramide(dateA+"",ls_pays[0]);
+		// build_pyramide(dateA+"",ls_pays[1]);
+		// build_pyramide(dateA+"",ls_pays[2]);
+		// build_pyramide(dateA+"",ls_pays[3]);
+		
+		defile(vit);
+	// }
+}
+
+function transformations(){
+	for(i=0;i<ls_pays.length;i++){
+		d3.select("#solde_"+ls_pays[i])
+			.attr("transform","translate("+(larg_gra*i-larg_pyr)+",0)")
+
+		d3.select("#contexte_"+ls_pays[i])
+			.attr("transform","translate("+(larg_gra*i-larg_pyr)+",0)")
+			
+		
+		X=document.getElementById("titre_pays").attributes.x.value;
+		Y=((document.getElementById("milliers"+i).attributes.transform.value).split(" ")[5]).split(")")[0];
+		
+		d3.select("#titres")
+			.append("text")
+			.attr("x",(larg_gra*i))
+			.attr("y",Y-15)
+			.text(ls_pays[i].toUpperCase())
+	}
+	
+	for(a=datedebut;a<(datefin*1+1);a++){
+		annees.push(a+"");
+	}
+}
+
+function defile(vitt){
+	c = setInterval(function(){
+		if(dateA==datefin){
+			
+			clearInterval(c);
+			setTimeout(function(){
+				dateA=datedebut;
+				defile(vit);
+			},1200);
+		} else if(dateA==2017){
+			clearInterval(c);
+			
+			setTimeout(function(){
+				dateA=dateA*1+1;
+				defile(vit);
+			},1200);
+		} else {
+			dateA=dateA*1+1;
+		}
+		build_pyramide(dateA+"",ls_pays[0]);
+		build_pyramide(dateA+"",ls_pays[1]);
+		build_pyramide(dateA+"",ls_pays[2]);
+		build_pyramide(dateA+"",ls_pays[3]);
+	},vitt)
+
+}
+
+
+function build_pyramide(date,p){
+	d3.select("#indic_date").text(date);
+	// alert(p);
+	///----Pour le graphique
+	posDate=annees.indexOf(date);
+	d3.select("#solde_"+p)
+		.selectAll("g")
+		.attr("display",function(d,i){
+			// console.log(i+" "+posDate);
+			if(i<=posDate){
+				return 'block';
+			}else {
+				return 'none';
+			}
+		})
+		.attr("stroke",function(d,i){
+			if(i==posDate){
+				return '#eeeeee';
+			}else {
+				return 'none';
+			}
+		})
+		// .attr("opacity",function(d,i){
+			// if(i==0){
+				// i=0.5;
+			// }
+			// return 0.1+Math.sqrt(1-(posDate-i)/posDate);
+		// })
+		
+	d3.select("#contexte_"+p).select("#indic_date_graphique")
+		.selectAll("g")
+		// .attr("opacity",function(){
+			// dateObj = (this.id).split("_")[1];
+			
+			// j = annees.indexOf(dateObj)
+			// if(j==0){
+				// j=2;
+			// }
+			// return 0.1+Math.sqrt(1-(posDate-j)/posDate);
+			
+		// })
+		.attr("display",function(){
+			dateObj = (this.id).split("_")[1];
+			if(parseInt(date)>=parseInt(dateObj)){
+				return 'block'
+			} else {
+				return 'none'
+			}
+		})
+		
+	if(pays=="bulgarie"){
+		if(parseInt(date)>=2001){
+			d3.select("#plus_bulgarie").attr("display",'block')
+			d3.selectAll(".linemove").attr("x2",214.7)
+		}else {
+			d3.select("#plus_bulgarie").attr("display",'none')
+			d3.selectAll(".linemove").attr("x2",261.5)
+		}
+		
+	}
+}

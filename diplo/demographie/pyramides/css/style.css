@@ -40,10 +40,20 @@ body{
 }
 
 #cont{
-	width:50%;
-	margin:auto;
+	
 }
 
 .rectPyr0{
 	opacity : 0.5;
+}
+
+
+#fond_trame{
+	width:100%;
+	position:absolute;
+}
+
+#dessin{
+	width:100%;
+	position:absolute;
 }

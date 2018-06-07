@@ -32,7 +32,7 @@ window.onload = initialize();
 ///--------------------Fonctions
 function initialize(){
 	queue()											
-		.defer(d3.csv,"data/immigration_30000.csv")
+		.defer(d3.csv,"data/immigration_eurostat_30000.csv")
 		.defer(d3.csv,"data/traductions.csv")
 		.await(callback0); 
 	
@@ -74,12 +74,19 @@ function build_dessins(){
 	for(i=0;i<ls_pays_autre.length;i++){
 		var ID = "c-"+ls_pays_autre[i];
 		var ID2 = "t-"+ls_pays_autre[i];
-		var paysOk=ls_pays_trad[ls_pays_tout.indexOf(ls_pays_autre[i])];
+		if(ls_pays_tout.indexOf(ls_pays_autre[i])!=-1){
+			console.log(ls_pays_tout.indexOf(ls_pays_autre[i]));
+			var paysOk=ls_pays_trad[ls_pays_tout.indexOf(ls_pays_autre[i])];
+		}else {
+			console.log(ls_pays_autre[i]);
+			var paysOk=ls_pays_autre[i];
+		}
+		
 		
 		var X = X_pays_autres;
 		var Y = Y_pays_autres;
 		
-		var angle = 10+52*i/ls_pays_autre.length;
+		var angle = 5+65*i/ls_pays_autre.length;
 		angle=angle*Math.PI/180;
 		X1=X*1+Math.sin(angle)*cercle_pays_autres
 		Y1=Y*1+Math.cos(angle)*cercle_pays_autres
@@ -89,7 +96,7 @@ function build_dessins(){
 		d3.select("#place_cercles").append("text").attr("id",ID2).attr("opacity",1).attr("x",function(){
 			var val=(ls_pays_autre[i]).length*2;
 			return X1-val;
-		}).attr("y",Y1-ray).text(paysOk).attr("font-size",6.5).attr("font-style","italic");
+		}).attr("y",Y1-ray).text(paysOk).attr("font-size",3).attr("font-style","italic");
 	}
 	
 	d3.selectAll(".click-pays")
@@ -162,7 +169,7 @@ function build_fleches(pays){
 			}
 		}else {
 			paysTx=pays;
-		}
+		};
 		var dataDate = data0[ls_pays.indexOf(paysTx)];
 		values=[];
 		total_countries=[];
@@ -203,7 +210,6 @@ function build_fleches(pays){
 			}
 			val = valeurs_ok[v];
 			if(val>30000){
-				
 				x02 = document.getElementById("c-"+pays.toLowerCase()).attributes.cx.value;
 				y02 = document.getElementById("c-"+pays.toLowerCase()).attributes.cy.value;
 				
@@ -326,6 +332,7 @@ function build_fleches(pays){
 function data(){
 	
 		for(i=0;i<data0.length;i++){
+			// console.log(data0[i].destination);
 			if(ls_pays.indexOf(data0[i].destination)==-1){
 				ls_pays.push(data0[i].destination)
 			} 
