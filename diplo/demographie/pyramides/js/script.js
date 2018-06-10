@@ -20,7 +20,6 @@ datedebut=1987,
 datefin=2050,
 dateA=datedebut,
 larg_pyr=147,
-haut_pyr=210,
 annees=[],
 vit=200,
 ls_pays=['allemagne','bulgarie','croatie','france'],
@@ -132,12 +131,12 @@ function recup_val_reperes(){
 		d3.select("#place_pyramides")
 			.append("g")
 			.attr("id","pyramide_"+ls_pays[i])
-			.attr("transform","translate("+larg_pyr*(i%2)+","+parseInt(i/2)*haut_pyr+")")
+			.attr("transform","translate("+larg_pyr*i+",0)")
 		if(i>0){
 			d3.select("#contextes_uses")
 				.append("use")
-				.attr("x",larg_pyr*(i%2))
-				.attr("y",parseInt(i/2)*haut_pyr)
+				.attr("x",larg_pyr*i)
+				.attr("y",0)
 				.attr("href","#contexte_pyramide")
 			
 			X=document.getElementById("titre_pays").attributes.x.value;
@@ -145,8 +144,8 @@ function recup_val_reperes(){
 			
 			d3.select("#titres")
 				.append("text")
-				.attr("x",X*1+larg_pyr*(i%2))
-				.attr("y",Y*1+parseInt(i/2)*haut_pyr)
+				.attr("x",X*1+larg_pyr*i)
+				.attr("y",Y)
 				.text(ls_pays[i].toUpperCase())
 		}
 	}
@@ -223,6 +222,63 @@ function build_pyramide(date,dataPyr,p){
 				.attr("stroke-width",strokeW)
 		}
 	}
+	
+	///----Pour le graphique
+	// posDate=annees.indexOf(date);
+	// d3.select("#solde_"+p)
+		// .selectAll("g")
+		// .attr("display",function(d,i){
+			// if(i<=posDate){
+				// return 'block';
+			// }else {
+				// return 'none';
+			// }
+		// })
+		// .attr("stroke",function(d,i){
+			// if(i==posDate){
+				// return '#eeeeee';
+			// }else {
+				// return 'none';
+			// }
+		// })
+		// .attr("opacity",function(d,i){
+			// if(i==0){
+				// i=0.5;
+			// }
+			// return 0.1+Math.sqrt(1-(posDate-i)/posDate);
+		// })
+		
+	// d3.select("#indic_date_graphique")
+		// .selectAll("g")
+		// .attr("opacity",function(){
+			// dateObj = (this.id).split("_")[1];
+			
+			// j = annees.indexOf(dateObj)
+			// if(j==0){
+				// j=2;
+			// }
+			// return 0.1+Math.sqrt(1-(posDate-j)/posDate);
+			
+		// })
+		// .attr("display",function(){
+			// dateObj = (this.id).split("_")[1];
+			// if(parseInt(date)>=parseInt(dateObj)){
+				// return 'block'
+			// } else {
+				// return 'none'
+			// }
+		// })
+		
+	// if(pays=="bulgarie"){
+		// if(parseInt(date)>=2001){
+			// d3.select("#plus_bulgarie").attr("display",'block')
+			// d3.selectAll(".linemove").attr("x2",214.7)
+		// }else {
+			// d3.select("#plus_bulgarie").attr("display",'none')
+			// d3.selectAll(".linemove").attr("x2",261.5)
+		// }
+		
+	// }
 }
 
 function data(){

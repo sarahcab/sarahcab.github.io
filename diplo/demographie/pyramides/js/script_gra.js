@@ -21,6 +21,7 @@ datefin=2017,
 dateA=datedebut,
 larg_pyr=147,
 larg_gra=140,
+haut_gra=230,
 annees=[],
 vit=200,
 ls_pays=['allemagne','bulgarie','croatie','france'],
@@ -61,10 +62,10 @@ function initialize() {
 function transformations(){
 	for(i=0;i<ls_pays.length;i++){
 		d3.select("#solde_"+ls_pays[i])
-			.attr("transform","translate("+(larg_gra*i-larg_pyr)+",0)")
+			.attr("transform","translate("+(larg_gra*(i%2)-larg_pyr)+","+parseInt(i/2)*haut_gra+")")
 
 		d3.select("#contexte_"+ls_pays[i])
-			.attr("transform","translate("+(larg_gra*i-larg_pyr)+",0)")
+			.attr("transform","translate("+(larg_gra*(i%2)-larg_pyr)+","+parseInt(i/2)*haut_gra+")")
 			
 		
 		X=document.getElementById("titre_pays").attributes.x.value;
@@ -72,8 +73,8 @@ function transformations(){
 		
 		d3.select("#titres")
 			.append("text")
-			.attr("x",(larg_gra*i))
-			.attr("y",Y-15)
+			.attr("x",larg_gra*(i%2))
+			.attr("y",Y-15+parseInt(i/2)*haut_gra)
 			.text(ls_pays[i].toUpperCase())
 	}
 	

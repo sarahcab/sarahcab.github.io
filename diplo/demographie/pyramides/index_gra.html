@@ -10,8 +10,8 @@
 	</head>		
 	<body>
 		<div id="cont">
-			<img src="img/trame_graphique.png" id="fond_trame"/>
-			<svg id="dessin" viewBox="-10 0 550 251">
+			<img src="img/fond_trame.png" id="fond_trame"/>
+			<svg id="dessin" viewBox="-10 0 275 540">
 				
 				<g id="fondu">
 					<defs >
@@ -21,13 +21,13 @@
 						</linearGradient>
 					</defs>
 					<g transform="translate(-10,0)">
-						<rect x='0' y='0' width='15' height='251' fill="url(#rad0)"/>
-						<rect x='-15' y='0' width='15' height='550' fill="url(#rad0)" transform="rotate(90 0 550) translate(-538,0)"/>
-						<rect x='0' y='0' width='15' height='550' fill="url(#rad0)" transform="rotate(-90 0 251) translate(0,251)"/>
-						<rect x='0' y='0' width='15' height='251' fill="url(#rad0)" transform="rotate(180 275 125.5)"/>
+						<rect x='0' y='0' width='15' height='440' fill="url(#rad0)"/>
+						<rect x='-15' y='0' width='15' height='275' fill="url(#rad0)" transform="rotate(90 0 275) translate(-263,0)"/>
+						<rect x='0' y='0' width='15' height='275' fill="url(#rad0)" transform="rotate(-90 0 440) translate(0,440)"/>
+						<rect x='0' y='0' width='15' height='440' fill="url(#rad0)" transform="rotate(180 137.5 220)"/>
 					</g>
 					
-					<rect x='0' y='251' width="550" height="20" fill="red"/>
+					<rect x='-10' y='440' width="275" height="100" fill="#ffffff"/>
 				</g>
 				
 				<g id="solde_allemagne">
@@ -746,22 +746,22 @@
 					<text transform="matrix(0.9697 0 0 1 0 12)">Variation annuelle</text>
 				</g>
 			
-				<g id="legende" transform="translate(210,210)">
+				<g id="legende" transform="translate(50,215)">
 					<g>
 						<rect x="0" y="0" fill-rule="evenodd" clip-rule="evenodd" fill="#A1DAF8" width="2.8" height="7"/>
 						
 						<text transform="matrix(0.95 0 0 1 5.37 6.07)" font-size="8">Solde naturel </text>
 						
 					</g>
-					<g>
+					<g transform="translate(40,0)">
 						<rect x="70" y="0" fill-rule="evenodd" clip-rule="evenodd" fill="#4CB4E7" width="2.8" height="7"/>
 						<text transform="matrix(0.95 0 0 1 75.37 6.07)" font-size="8">Solde migratoire </text>
 					</g>
 				</g>
 				
-				<text font-size="7" transform="matrix(0.95 0 0 1 464 239)">Sources : Eurostat ; Insee.</text>
+				<text font-size="7" transform="matrix(0.95 0 0 1 214 439)">Sources : Eurostat ; Insee.</text>
 				<g id="dada">
-					<text id="indic_date" fill="#575656" font-size="16" y="240" x="250">1987</text>
+					<text id="indic_date" fill="#575656" font-size="16" y="223" x="110">1987</text>
 				</g>
 			</svg>
 			
