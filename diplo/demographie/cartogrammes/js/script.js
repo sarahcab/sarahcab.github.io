@@ -1,6 +1,6 @@
 ///--------------------Variables géométriques
 
-var reducteur = 1200,
+var reducteur = 1250,
 
 
 ///--------------------Variables logiques
@@ -192,7 +192,7 @@ function build_cartogramme(date){
 	d3.select("#val_as").text(parseInt(dataDate[0]['as']/1000000))
 
 	d3.select("#tx_eu").attr("transform","translate("+(cxEu-rEu-5)+","+(cyEu-rEu-10)+")");
-	d3.select("#val_eu").text(parseInt(dataDate[0]['eu']/1000000))
+	d3.select("#val_eu").text(parseInt(dataDate[0]['eu']/1000000)+" millions")
 	
 	d3.select("#tx_af").attr("transform","translate("+(cxAf-15)+","+(cyAf*1+rAf*1+10)+")");
 	d3.select("#val_af").text(parseInt(dataDate[0]['af']/1000000))
@@ -218,6 +218,8 @@ function build_cartogramme(date){
 
 	if(global<1000000000){
 		var globalTx = parseInt(global/1000000)+" millions"
+	} else if(global<2000000000) {
+		var globalTx = (parseInt(global/100000000))/10+" milliard"
 	} else if(dateA<2019) {
 		var globalTx = (parseInt(global/100000000))/10+" milliards"
 	} else {

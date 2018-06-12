@@ -67,7 +67,6 @@ function transformations(){
 		d3.select("#contexte_"+ls_pays[i])
 			.attr("transform","translate("+(larg_gra*(i%2)-larg_pyr)+","+parseInt(i/2)*haut_gra+")")
 			
-		
 		X=document.getElementById("titre_pays").attributes.x.value;
 		Y=((document.getElementById("milliers"+i).attributes.transform.value).split(" ")[5]).split(")")[0];
 		
@@ -133,25 +132,9 @@ function build_pyramide(date,p){
 				return 'none';
 			}
 		})
-		// .attr("opacity",function(d,i){
-			// if(i==0){
-				// i=0.5;
-			// }
-			// return 0.1+Math.sqrt(1-(posDate-i)/posDate);
-		// })
 		
 	d3.select("#contexte_"+p).select("#indic_date_graphique")
 		.selectAll("g")
-		// .attr("opacity",function(){
-			// dateObj = (this.id).split("_")[1];
-			
-			// j = annees.indexOf(dateObj)
-			// if(j==0){
-				// j=2;
-			// }
-			// return 0.1+Math.sqrt(1-(posDate-j)/posDate);
-			
-		// })
 		.attr("display",function(){
 			dateObj = (this.id).split("_")[1];
 			if(parseInt(date)>=parseInt(dateObj)){
@@ -161,14 +144,12 @@ function build_pyramide(date,p){
 			}
 		})
 		
-	if(pays=="bulgarie"){
-		if(parseInt(date)>=2001){
-			d3.select("#plus_bulgarie").attr("display",'block')
-			d3.selectAll(".linemove").attr("x2",214.7)
-		}else {
-			d3.select("#plus_bulgarie").attr("display",'none')
-			d3.selectAll(".linemove").attr("x2",261.5)
-		}
-		
+	if(parseInt(date)>=2001){
+		d3.select("#plus_bulgarie").transition().duration(vit).attr("opacity",1).attr("display",'block')
+		d3.selectAll(".linemove").transition().duration(vit).attr("x2",214.7)
+	}else {
+		d3.select("#plus_bulgarie").transition().duration(vit).attr("opacity",0).attr("display",'none')
+		d3.selectAll(".linemove").transition().duration(vit).attr("x2",261.5)
 	}
+		
 }
