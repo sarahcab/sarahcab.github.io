@@ -1,0 +1,40 @@
+
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 400;
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'Roboto';
+	font-weight : 800;
+    src:url("../ressources/polices/Roboto-Bold.ttf");
+}
+
+/* @font-face { */
+    /* font-family: 'Roboto'; */
+	/* font-weight : 400; */
+	/* font-style : 'italic'; */
+    /* src:url("../ressources/polices/Roboto-LightItalic.ttf"); */
+/* } */
+
+body{
+	font-family : 'Roboto';
+	font-weight : 400;
+}
+
+#content{
+	display:flex;
+}
+
+#validation:hover,.choix:hover,.range:hover,.base:hover{
+	opacity:0.5;
+}
+
+table{
+	margin:20px;
+}
+td{
+    border: 1px solid black;
+	font-size:9px;
+	padding:5px;
+}
