@@ -97,7 +97,7 @@ function pas(){
 				ancX=X;
 				ancY=Y;
 				cont=false;
-				setTimeout(function(){cont=true},70)
+				setTimeout(function(){cont=true},30)
 			}
 			
 			
@@ -148,7 +148,7 @@ function mer(){
 							.remove()
 					}
 					cont2=false;
-					setTimeout(function(){cont2=true},100)
+					setTimeout(function(){cont2=true},50)
 				}
 			})
 		
