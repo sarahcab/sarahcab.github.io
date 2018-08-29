@@ -1,359 +1,527 @@
-# -*- coding: utf-8  -*-
+Help on Band in module osgeo.gdal object:
 
-import qgis
-from qgis.core import *
-from qgis.gui import *
-from qgis.analysis import  *
-import processing
-import os
-import shutil
-import string
+class Band(MajorObject)
+ |  Proxy of C++ GDALRasterBandShadow class
+ |  
+ |  Method resolution order:
+ |      Band
+ |      MajorObject
+ |      __builtin__.object
+ |  
+ |  Methods defined here:
+ |  
+ |  Checksum(self, *args, **kwargs)
+ |      Checksum(Band self, int xoff=0, int yoff=0, int * xsize=None, int * ysize=None) -> int
+ |  
+ |  ComputeBandStats(self, *args)
+ |      ComputeBandStats(Band self, int samplestep=1)
+ |  
+ |  ComputeRasterMinMax(self, *args)
+ |      ComputeRasterMinMax(Band self, int approx_ok=0)
+ |  
+ |  ComputeStatistics(self, *args)
+ |      ComputeStatistics(Band self, bool approx_ok, GDALProgressFunc callback=0, void * callback_data=None) -> CPLErr
+ |  
+ |  CreateMaskBand(self, *args)
+ |      CreateMaskBand(Band self, int nFlags) -> CPLErr
+ |  
+ |  DeleteNoDataValue(self, *args)
+ |      DeleteNoDataValue(Band self) -> CPLErr
+ |  
+ |  Fill(self, *args)
+ |      Fill(Band self, double real_fill, double imag_fill=0.0) -> CPLErr
+ |  
+ |  FlushCache(self, *args)
+ |      FlushCache(Band self)
+ |  
+ |  GetBand(self, *args)
+ |      GetBand(Band self) -> int
+ |  
+ |  GetBlockSize(self, *args)
+ |      GetBlockSize(Band self)
+ |  
+ |  GetCategoryNames(self, *args)
+ |      GetCategoryNames(Band self) -> char **
+ |  
+ |  GetColorInterpretation(self, *args)
+ |      GetColorInterpretation(Band self) -> GDALColorInterp
+ |  
+ |  GetColorTable(self, *args)
+ |      GetColorTable(Band self) -> ColorTable
+ |  
+ |  GetDataset(self, *args)
+ |      GetDataset(Band self) -> Dataset
+ |  
+ |  GetDefaultHistogram(self, *args, **kwargs)
+ |      GetDefaultHistogram(Band self, double * min_ret=None, double * max_ret=None, int * buckets_ret=None, GUIntBig ** ppanHistogram=None, 
+ |          int force=1, GDALProgressFunc callback=0, void * callback_data=None) -> CPLErr
+ |  
+ |  GetDefaultRAT(self, *args)
+ |      GetDefaultRAT(Band self) -> RasterAttributeTable
+ |  
+ |  GetHistogram(self, *args, **kwargs)
+ |      GetHistogram(Band self, double min=-0.5, double max=255.5, int buckets=256, int include_out_of_range=0, int approx_ok=1, 
+ |          GDALProgressFunc callback=0, void * callback_data=None) -> CPLErr
+ |  
+ |  GetMaskBand(self, *args)
+ |      GetMaskBand(Band self) -> Band
+ |  
+ |  GetMaskFlags(self, *args)
+ |      GetMaskFlags(Band self) -> int
+ |  
+ |  GetMaximum(self, *args)
+ |      GetMaximum(Band self)
+ |  
+ |  GetMinimum(self, *args)
+ |      GetMinimum(Band self)
+ |  
+ |  GetNoDataValue(self, *args)
+ |      GetNoDataValue(Band self)
+ |  
+ |  GetOffset(self, *args)
+ |      GetOffset(Band self)
+ |  
+ |  GetOverview(self, *args)
+ |      GetOverview(Band self, int i) -> Band
+ |  
+ |  GetOverviewCount(self, *args)
+ |      GetOverviewCount(Band self) -> int
+ |  
+ |  GetRasterCategoryNames(self, *args)
+ |      GetRasterCategoryNames(Band self) -> char **
+ |  
+ |  GetRasterColorInterpretation(self, *args)
+ |      GetRasterColorInterpretation(Band self) -> GDALColorInterp
+ |  
+ |  GetRasterColorTable(self, *args)
+ |      GetRasterColorTable(Band self) -> ColorTable
+ |  
+ |  GetScale(self, *args)
+ |      GetScale(Band self)
+ |  
+ |  GetStatistics(self, *args)
+ |      GetStatistics(Band self, int approx_ok, int force) -> CPLErr
+ |  
+ |  GetTiledVirtualMem(self, *args, **kwargs)
+ |      GetTiledVirtualMem(Band self, GDALRWFlag eRWFlag, int nXOff, int nYOff, int nXSize, int nYSize, int nTileXSize, 
+ |          int nTileYSize, GDALDataType eBufType, size_t nCacheSize, char ** options=None) -> VirtualMem
+ |  
+ |  GetTiledVirtualMemArray(self, eAccess=0, xoff=0, yoff=0, xsize=None, ysize=None, tilexsize=256, tileysize=256, datatype=None, cache_size=10485760, options=None)
+ |      Return a NumPy array for the band, seen as a virtual memory mapping with
+ |      a tile organization.
+ |      An element is accessed with array[tiley][tilex][y][x].
+ |      Any reference to the array must be dropped before the last reference to the
+ |      related dataset is also dropped.
+ |  
+ |  GetUnitType(self, *args)
+ |      GetUnitType(Band self) -> char const *
+ |  
+ |  GetVirtualMem(self, *args, **kwargs)
+ |      GetVirtualMem(Band self, GDALRWFlag eRWFlag, int nXOff, int nYOff, int nXSize, int nYSize, int nBufXSize, 
+ |          int nBufYSize, GDALDataType eBufType, size_t nCacheSize, size_t nPageSizeHint, 
+ |          char ** options=None) -> VirtualMem
+ |  
+ |  GetVirtualMemArray(self, eAccess=0, xoff=0, yoff=0, xsize=None, ysize=None, bufxsize=None, bufysize=None, datatype=None, cache_size=10485760, page_size_hint=0, options=None)
+ |      Return a NumPy array for the band, seen as a virtual memory mapping.
+ |      An element is accessed with array[y][x].
+ |      Any reference to the array must be dropped before the last reference to the
+ |      related dataset is also dropped.
+ |  
+ |  GetVirtualMemAuto(self, *args, **kwargs)
+ |      GetVirtualMemAuto(Band self, GDALRWFlag eRWFlag, char ** options=None) -> VirtualMem
+ |  
+ |  GetVirtualMemAutoArray(self, eAccess=0, options=None)
+ |      Return a NumPy array for the band, seen as a virtual memory mapping.
+ |      An element is accessed with array[y][x].
+ |      Any reference to the array must be dropped before the last reference to the
+ |      related dataset is also dropped.
+ |  
+ |  HasArbitraryOverviews(self, *args)
+ |      HasArbitraryOverviews(Band self) -> bool
+ |  
+ |  ReadAsArray(self, xoff=0, yoff=0, win_xsize=None, win_ysize=None, buf_xsize=None, buf_ysize=None, buf_type=None, buf_obj=None, resample_alg=0, callback=None, callback_data=None)
+ |      Reading a chunk of a GDAL band into a numpy array. The optional (buf_xsize,buf_ysize,buf_type)
+ |      parameters should generally not be specified if buf_obj is specified. The array is returned
+ |  
+ |  ReadBlock(self, *args, **kwargs)
+ |      ReadBlock(Band self, int xoff, int yoff) -> CPLErr
+ |  
+ |  ReadRaster(self, xoff=0, yoff=0, xsize=None, ysize=None, buf_xsize=None, buf_ysize=None, buf_type=None, buf_pixel_space=None, buf_line_space=None, resample_alg=0, callback=None, callback_data=None)
+ |  
+ |  ReadRaster1(self, *args, **kwargs)
+ |      ReadRaster1(Band self, double xoff, double yoff, double xsize, double ysize, int * buf_xsize=None, int * buf_ysize=None, 
+ |          int * buf_type=None, GIntBig * buf_pixel_space=None, GIntBig * buf_line_space=None, 
+ |          GDALRIOResampleAlg resample_alg=GRIORA_NearestNeighbour, 
+ |          GDALProgressFunc callback=0, void * callback_data=None) -> CPLErr
+ |  
+ |  SetCategoryNames(self, *args)
+ |      SetCategoryNames(Band self, char ** papszCategoryNames) -> CPLErr
+ |  
+ |  SetColorInterpretation(self, *args)
+ |      SetColorInterpretation(Band self, GDALColorInterp val) -> CPLErr
+ |  
+ |  SetColorTable(self, *args)
+ |      SetColorTable(Band self, ColorTable arg) -> int
+ |  
+ |  SetDefaultHistogram(self, *args)
+ |      SetDefaultHistogram(Band self, double min, double max, int buckets_in) -> CPLErr
+ |  
+ |  SetDefaultRAT(self, *args)
+ |      SetDefaultRAT(Band self, RasterAttributeTable table) -> int
+ |  
+ |  SetNoDataValue(self, *args)
+ |      SetNoDataValue(Band self, double d) -> CPLErr
+ |  
+ |  SetOffset(self, *args)
+ |      SetOffset(Band self, double val) -> CPLErr
+ |  
+ |  SetRasterCategoryNames(self, *args)
+ |      SetRasterCategoryNames(Band self, char ** names) -> CPLErr
+ |  
+ |  SetRasterColorInterpretation(self, *args)
+ |      SetRasterColorInterpretation(Band self, GDALColorInterp val) -> CPLErr
+ |  
+ |  SetRasterColorTable(self, *args)
+ |      SetRasterColorTable(Band self, ColorTable arg) -> int
+ |  
+ |  SetScale(self, *args)
+ |      SetScale(Band self, double val) -> CPLErr
+ |  
+ |  SetStatistics(self, *args)
+ |      SetStatistics(Band self, double min, double max, double mean, double stddev) -> CPLErr
+ |  
+ |  SetUnitType(self, *args)
+ |      SetUnitType(Band self, char const * val) -> CPLErr
+ |  
+ |  WriteArray(self, array, xoff=0, yoff=0, resample_alg=0, callback=None, callback_data=None)
+ |  
+ |  WriteRaster(self, *args, **kwargs)
+ |      WriteRaster(Band self, int xoff, int yoff, int xsize, int ysize, GIntBig buf_len, int * buf_xsize=None, 
+ |          int * buf_ysize=None, int * buf_type=None, GIntBig * buf_pixel_space=None, 
+ |          GIntBig * buf_line_space=None) -> CPLErr
+ |  
+ |  __get_array_interface__(self)
+ |  
+ |  __init__(self, *args, **kwargs)
+ |  
+ |  __repr__ = _swig_repr(self)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  DataType
+ |      Band_DataType_get(Band self) -> GDALDataType
+ |  
+ |  XSize
+ |      Band_XSize_get(Band self) -> int
+ |  
+ |  YSize
+ |      Band_YSize_get(Band self) -> int
+ |  
+ |  thisown
+ |      The membership flag
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from MajorObject:
+ |  
+ |  GetDescription(self, *args)
+ |      GetDescription(MajorObject self) -> char const *
+ |  
+ |  GetMetadata(self, domain='')
+ |  
+ |  GetMetadataDomainList(self, *args)
+ |      GetMetadataDomainList(MajorObject self) -> char **
+ |  
+ |  GetMetadataItem(self, *args)
+ |      GetMetadataItem(MajorObject self, char const * pszName, char const * pszDomain="") -> char const *
+ |  
+ |  GetMetadata_Dict(self, *args)
+ |      GetMetadata_Dict(MajorObject self, char const * pszDomain="") -> char **
+ |  
+ |  GetMetadata_List(self, *args)
+ |      GetMetadata_List(MajorObject self, char const * pszDomain="") -> char **
+ |  
+ |  SetDescription(self, *args)
+ |      SetDescription(MajorObject self, char const * pszNewDesc)
+ |  
+ |  SetMetadata(self, *args)
+ |      SetMetadata(MajorObject self, char ** papszMetadata, char const * pszDomain="") -> CPLErr
+ |      SetMetadata(MajorObject self, char * pszMetadataString, char const * pszDomain="") -> CPLErr
+ |  
+ |  SetMetadataItem(self, *args)
+ |      SetMetadataItem(MajorObject self, char const * pszName, char const * pszValue, char const * pszDomain="") -> CPLErr
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from MajorObject:
+ |  
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |  
+ |  __weakref__
+ |      list of weak references to the object (if defined)
 
-##Raster distance version 16=name
+None
+Help on Band in module osgeo.gdal object:
 
-# ##data=file
-# ##emprise=vector
-data="//gpsrv1.univ-lille1.fr/Dossier_Utilisateurs_2/GEOGRAPHIE/DOCTORANTS/cabarry/Bureau/eric_masson/eric_masson/clc_44/catalogue_tout.csv"
-emprise="//gpsrv1.univ-lille1.fr/Dossier_Utilisateurs_2/GEOGRAPHIE/DOCTORANTS/cabarry/Bureau/eric_masson/eric_masson/emprise/nord.shp"
-##sortie=string
+class Band(MajorObject)
+ |  Proxy of C++ GDALRasterBandShadow class
+ |  
+ |  Method resolution order:
+ |      Band
+ |      MajorObject
+ |      __builtin__.object
+ |  
+ |  Methods defined here:
+ |  
+ |  Checksum(self, *args, **kwargs)
+ |      Checksum(Band self, int xoff=0, int yoff=0, int * xsize=None, int * ysize=None) -> int
+ |  
+ |  ComputeBandStats(self, *args)
+ |      ComputeBandStats(Band self, int samplestep=1)
+ |  
+ |  ComputeRasterMinMax(self, *args)
+ |      ComputeRasterMinMax(Band self, int approx_ok=0)
+ |  
+ |  ComputeStatistics(self, *args)
+ |      ComputeStatistics(Band self, bool approx_ok, GDALProgressFunc callback=0, void * callback_data=None) -> CPLErr
+ |  
+ |  CreateMaskBand(self, *args)
+ |      CreateMaskBand(Band self, int nFlags) -> CPLErr
+ |  
+ |  DeleteNoDataValue(self, *args)
+ |      DeleteNoDataValue(Band self) -> CPLErr
+ |  
+ |  Fill(self, *args)
+ |      Fill(Band self, double real_fill, double imag_fill=0.0) -> CPLErr
+ |  
+ |  FlushCache(self, *args)
+ |      FlushCache(Band self)
+ |  
+ |  GetBand(self, *args)
+ |      GetBand(Band self) -> int
+ |  
+ |  GetBlockSize(self, *args)
+ |      GetBlockSize(Band self)
+ |  
+ |  GetCategoryNames(self, *args)
+ |      GetCategoryNames(Band self) -> char **
+ |  
+ |  GetColorInterpretation(self, *args)
+ |      GetColorInterpretation(Band self) -> GDALColorInterp
+ |  
+ |  GetColorTable(self, *args)
+ |      GetColorTable(Band self) -> ColorTable
+ |  
+ |  GetDataset(self, *args)
+ |      GetDataset(Band self) -> Dataset
+ |  
+ |  GetDefaultHistogram(self, *args, **kwargs)
+ |      GetDefaultHistogram(Band self, double * min_ret=None, double * max_ret=None, int * buckets_ret=None, GUIntBig ** ppanHistogram=None, 
+ |          int force=1, GDALProgressFunc callback=0, void * callback_data=None) -> CPLErr
+ |  
+ |  GetDefaultRAT(self, *args)
+ |      GetDefaultRAT(Band self) -> RasterAttributeTable
+ |  
+ |  GetHistogram(self, *args, **kwargs)
+ |      GetHistogram(Band self, double min=-0.5, double max=255.5, int buckets=256, int include_out_of_range=0, int approx_ok=1, 
+ |          GDALProgressFunc callback=0, void * callback_data=None) -> CPLErr
+ |  
+ |  GetMaskBand(self, *args)
+ |      GetMaskBand(Band self) -> Band
+ |  
+ |  GetMaskFlags(self, *args)
+ |      GetMaskFlags(Band self) -> int
+ |  
+ |  GetMaximum(self, *args)
+ |      GetMaximum(Band self)
+ |  
+ |  GetMinimum(self, *args)
+ |      GetMinimum(Band self)
+ |  
+ |  GetNoDataValue(self, *args)
+ |      GetNoDataValue(Band self)
+ |  
+ |  GetOffset(self, *args)
+ |      GetOffset(Band self)
+ |  
+ |  GetOverview(self, *args)
+ |      GetOverview(Band self, int i) -> Band
+ |  
+ |  GetOverviewCount(self, *args)
+ |      GetOverviewCount(Band self) -> int
+ |  
+ |  GetRasterCategoryNames(self, *args)
+ |      GetRasterCategoryNames(Band self) -> char **
+ |  
+ |  GetRasterColorInterpretation(self, *args)
+ |      GetRasterColorInterpretation(Band self) -> GDALColorInterp
+ |  
+ |  GetRasterColorTable(self, *args)
+ |      GetRasterColorTable(Band self) -> ColorTable
+ |  
+ |  GetScale(self, *args)
+ |      GetScale(Band self)
+ |  
+ |  GetStatistics(self, *args)
+ |      GetStatistics(Band self, int approx_ok, int force) -> CPLErr
+ |  
+ |  GetTiledVirtualMem(self, *args, **kwargs)
+ |      GetTiledVirtualMem(Band self, GDALRWFlag eRWFlag, int nXOff, int nYOff, int nXSize, int nYSize, int nTileXSize, 
+ |          int nTileYSize, GDALDataType eBufType, size_t nCacheSize, char ** options=None) -> VirtualMem
+ |  
+ |  GetTiledVirtualMemArray(self, eAccess=0, xoff=0, yoff=0, xsize=None, ysize=None, tilexsize=256, tileysize=256, datatype=None, cache_size=10485760, options=None)
+ |      Return a NumPy array for the band, seen as a virtual memory mapping with
+ |      a tile organization.
+ |      An element is accessed with array[tiley][tilex][y][x].
+ |      Any reference to the array must be dropped before the last reference to the
+ |      related dataset is also dropped.
+ |  
+ |  GetUnitType(self, *args)
+ |      GetUnitType(Band self) -> char const *
+ |  
+ |  GetVirtualMem(self, *args, **kwargs)
+ |      GetVirtualMem(Band self, GDALRWFlag eRWFlag, int nXOff, int nYOff, int nXSize, int nYSize, int nBufXSize, 
+ |          int nBufYSize, GDALDataType eBufType, size_t nCacheSize, size_t nPageSizeHint, 
+ |          char ** options=None) -> VirtualMem
+ |  
+ |  GetVirtualMemArray(self, eAccess=0, xoff=0, yoff=0, xsize=None, ysize=None, bufxsize=None, bufysize=None, datatype=None, cache_size=10485760, page_size_hint=0, options=None)
+ |      Return a NumPy array for the band, seen as a virtual memory mapping.
+ |      An element is accessed with array[y][x].
+ |      Any reference to the array must be dropped before the last reference to the
+ |      related dataset is also dropped.
+ |  
+ |  GetVirtualMemAuto(self, *args, **kwargs)
+ |      GetVirtualMemAuto(Band self, GDALRWFlag eRWFlag, char ** options=None) -> VirtualMem
+ |  
+ |  GetVirtualMemAutoArray(self, eAccess=0, options=None)
+ |      Return a NumPy array for the band, seen as a virtual memory mapping.
+ |      An element is accessed with array[y][x].
+ |      Any reference to the array must be dropped before the last reference to the
+ |      related dataset is also dropped.
+ |  
+ |  HasArbitraryOverviews(self, *args)
+ |      HasArbitraryOverviews(Band self) -> bool
+ |  
+ |  ReadAsArray(self, xoff=0, yoff=0, win_xsize=None, win_ysize=None, buf_xsize=None, buf_ysize=None, buf_type=None, buf_obj=None, resample_alg=0, callback=None, callback_data=None)
+ |      Reading a chunk of a GDAL band into a numpy array. The optional (buf_xsize,buf_ysize,buf_type)
+ |      parameters should generally not be specified if buf_obj is specified. The array is returned
+ |  
+ |  ReadBlock(self, *args, **kwargs)
+ |      ReadBlock(Band self, int xoff, int yoff) -> CPLErr
+ |  
+ |  ReadRaster(self, xoff=0, yoff=0, xsize=None, ysize=None, buf_xsize=None, buf_ysize=None, buf_type=None, buf_pixel_space=None, buf_line_space=None, resample_alg=0, callback=None, callback_data=None)
+ |  
+ |  ReadRaster1(self, *args, **kwargs)
+ |      ReadRaster1(Band self, double xoff, double yoff, double xsize, double ysize, int * buf_xsize=None, int * buf_ysize=None, 
+ |          int * buf_type=None, GIntBig * buf_pixel_space=None, GIntBig * buf_line_space=None, 
+ |          GDALRIOResampleAlg resample_alg=GRIORA_NearestNeighbour, 
+ |          GDALProgressFunc callback=0, void * callback_data=None) -> CPLErr
+ |  
+ |  SetCategoryNames(self, *args)
+ |      SetCategoryNames(Band self, char ** papszCategoryNames) -> CPLErr
+ |  
+ |  SetColorInterpretation(self, *args)
+ |      SetColorInterpretation(Band self, GDALColorInterp val) -> CPLErr
+ |  
+ |  SetColorTable(self, *args)
+ |      SetColorTable(Band self, ColorTable arg) -> int
+ |  
+ |  SetDefaultHistogram(self, *args)
+ |      SetDefaultHistogram(Band self, double min, double max, int buckets_in) -> CPLErr
+ |  
+ |  SetDefaultRAT(self, *args)
+ |      SetDefaultRAT(Band self, RasterAttributeTable table) -> int
+ |  
+ |  SetNoDataValue(self, *args)
+ |      SetNoDataValue(Band self, double d) -> CPLErr
+ |  
+ |  SetOffset(self, *args)
+ |      SetOffset(Band self, double val) -> CPLErr
+ |  
+ |  SetRasterCategoryNames(self, *args)
+ |      SetRasterCategoryNames(Band self, char ** names) -> CPLErr
+ |  
+ |  SetRasterColorInterpretation(self, *args)
+ |      SetRasterColorInterpretation(Band self, GDALColorInterp val) -> CPLErr
+ |  
+ |  SetRasterColorTable(self, *args)
+ |      SetRasterColorTable(Band self, ColorTable arg) -> int
+ |  
+ |  SetScale(self, *args)
+ |      SetScale(Band self, double val) -> CPLErr
+ |  
+ |  SetStatistics(self, *args)
+ |      SetStatistics(Band self, double min, double max, double mean, double stddev) -> CPLErr
+ |  
+ |  SetUnitType(self, *args)
+ |      SetUnitType(Band self, char const * val) -> CPLErr
+ |  
+ |  WriteArray(self, array, xoff=0, yoff=0, resample_alg=0, callback=None, callback_data=None)
+ |  
+ |  WriteRaster(self, *args, **kwargs)
+ |      WriteRaster(Band self, int xoff, int yoff, int xsize, int ysize, GIntBig buf_len, int * buf_xsize=None, 
+ |          int * buf_ysize=None, int * buf_type=None, GIntBig * buf_pixel_space=None, 
+ |          GIntBig * buf_line_space=None) -> CPLErr
+ |  
+ |  __get_array_interface__(self)
+ |  
+ |  __init__(self, *args, **kwargs)
+ |  
+ |  __repr__ = _swig_repr(self)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  DataType
+ |      Band_DataType_get(Band self) -> GDALDataType
+ |  
+ |  XSize
+ |      Band_XSize_get(Band self) -> int
+ |  
+ |  YSize
+ |      Band_YSize_get(Band self) -> int
+ |  
+ |  thisown
+ |      The membership flag
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from MajorObject:
+ |  
+ |  GetDescription(self, *args)
+ |      GetDescription(MajorObject self) -> char const *
+ |  
+ |  GetMetadata(self, domain='')
+ |  
+ |  GetMetadataDomainList(self, *args)
+ |      GetMetadataDomainList(MajorObject self) -> char **
+ |  
+ |  GetMetadataItem(self, *args)
+ |      GetMetadataItem(MajorObject self, char const * pszName, char const * pszDomain="") -> char const *
+ |  
+ |  GetMetadata_Dict(self, *args)
+ |      GetMetadata_Dict(MajorObject self, char const * pszDomain="") -> char **
+ |  
+ |  GetMetadata_List(self, *args)
+ |      GetMetadata_List(MajorObject self, char const * pszDomain="") -> char **
+ |  
+ |  SetDescription(self, *args)
+ |      SetDescription(MajorObject self, char const * pszNewDesc)
+ |  
+ |  SetMetadata(self, *args)
+ |      SetMetadata(MajorObject self, char ** papszMetadata, char const * pszDomain="") -> CPLErr
+ |      SetMetadata(MajorObject self, char * pszMetadataString, char const * pszDomain="") -> CPLErr
+ |  
+ |  SetMetadataItem(self, *args)
+ |      SetMetadataItem(MajorObject self, char const * pszName, char const * pszValue, char const * pszDomain="") -> CPLErr
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from MajorObject:
+ |  
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |  
+ |  __weakref__
+ |      list of weak references to the object (if defined)
 
-##size=number 100.0
-##tolerance=number 0.6
-##result=output raster
-##result_contmax=output raster
-##result_nodata=output raster
-##result_tolerance=output raster
-
-##out1=output file
-##out2=output file
-##out3=output file
-
-#Creation du repertoire de fichier temporaire (necessaire pour une boucle)
-rep_data= os.path.split(data)[0]
-rep_temp= rep_data+"/temp"+sortie
-var = "temp"+sortie
-
-if var not in os.listdir(rep_data) :
-    print("Creation du dossier \'temp\'")
-    os.mkdir(rep_temp)
-else :
-    print("Dossier \'temp\' existant")
-
-
-#Emprise : 
-layer_emprise = QgsVectorLayer(emprise, "salut", "ogr")
-
-temp_emprise0=rep_temp+"/emprise_t0.shp" #faut pas les appeler pareil au cas ou l'une des donnees s'appelerait comme ca
-temp_emprise1=rep_temp+"/emprise_t1.shp"
-raster_emprise=rep_temp+"/emprise_raster.tif"
-
-extent = layer_emprise.extent()
-xmin = extent.xMinimum()
-xmax = extent.xMaximum()
-ymin = extent.yMinimum()
-ymax = extent.yMaximum()
-
-processing.runalg('qgis:addfieldtoattributestable', emprise, 'CHAMPI', 2, 20, 0, temp_emprise0)
-processing.runalg('qgis:fieldcalculator', temp_emprise0, 'CHAMPI', 2, 20, 0, False,"1", temp_emprise1)
-
-processing.runalg("gdalogr:rasterize",
-              {"INPUT": temp_emprise1,
-              "FIELD":'CHAMPI',
-               "WIDTH":size,
-               "HEIGHT":size,
-               "RAST_EXT":"%f,%f,%f,%f"% (xmin, xmax, ymin, ymax),
-               "TFW":1,
-               "RTYPE":4,
-               "NO_DATA":0,
-               "COMPRESS":0,
-               "ZLEVEL":1,
-               "PREDICTOR":1,
-               "TILED":False,
-               "BIGTIFF":2,
-               "EXTRA": '',
-               "OUTPUT":raster_emprise})
-print("a")
-#Boucle dans les entites cibles
-#Variables
-ls_layers=[]
-
-ls_layers56=[]
-type56=[]
-facteurs=[]
-print("b")
-total = 0.0
-alpha = string.ascii_lowercase
-ind = -1
-ind1234=0
-ind56=0
-formule = ""
-content  = open(data,"r")
-
-print("c")
-#Premiere boucle (contraintes distance et perimetre)
-for i in content :
-    row = i.split(";")
-    print("d")
-    if ind > -1 and row[2]!="0":
-        row = i.split(";")
-        input = row[1]
-        layer = QgsVectorLayer(input, "salut", "ogr")
-        if not layer.isValid():
-            print "Layer failed to load : "+i
-        else :
-            temp0=rep_temp+"/"+ i.split(".")[0]+"_temp0.shp"
-            temp1=rep_temp+"/"+ i.split(".")[0]+"_temp1.shp"
-            extent = layer.extent()
-            #xmin = extent.xMinimum()
-            #xmax = extent.xMaximum()
-            #ymin = extent.yMinimum()
-            #ymax = extent.yMaximum()
-
-            processing.runalg('qgis:addfieldtoattributestable', input, 'CHAMPI', 2, 20, 0, temp0)
-            processing.runalg('qgis:fieldcalculator', temp0, 'CHAMPI', 2, 20, 0, False,"1", temp1)
-            print("e")
-
-            #Rasters distance
-            if row[2]=="1" or row[2]=="2" or row[2]=="7" or row[2]=="8":
-                temp2=rep_temp+"/"+ i.split(".")[0]+"_temp2.tif"
-                temp3=rep_temp+"/"+ i.split(".")[0]+"_r.tif"
-                temp4=rep_temp+"/"+ i.split(".")[0]+"_temp4.tif"
-                temp5=rep_temp+"/"+ i.split(".")[0]+"_rd.tif"
-
-                processing.runalg("gdalogr:rasterize",
-                               {"INPUT":temp1,
-                               "FIELD":'CHAMPI',
-                               "WIDTH":size,
-                               "HEIGHT":size,
-                               "RAST_EXT":"%f,%f,%f,%f"% (xmin, xmax, ymin, ymax),
-                               "TFW":1,
-                               "RTYPE":4,
-                               "NO_DATA":0,
-                               "COMPRESS":0,
-                               "ZLEVEL":1,
-                               "PREDICTOR":1,
-                               "TILED":False,
-                               "BIGTIFF":2,
-                               "EXTRA": '',
-                               "OUTPUT":temp2})
-                print("f")
-                processing.runalg('gdalogr:proximity', temp2,1, 0, -1, -1, -1,6, temp3)
-
-                #emprise : ici pas redondant car le rs distance renvoi un carrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ© par rapport a l'eextention max
-                processing.runalg('saga:rastercalculator', temp3, raster_emprise,  "ifelse(b=0,0/0,a)",0, 8,temp4)
-                #temp4=temp3
-                
-                #normalisation
-                blop = processing.runalg('qgis:rasterlayerstatistics',temp4 ,out1)
-                max = blop['MAX']
-                if row[4][:-1] !="":
-                    maxmin = float(row[4][:-1])
-                    if row[2]=="1" :
-                        form="ifelse(a>"+str(maxmin)+",1,a/"+str(maxmin)+")"  #si maxmin>max, la couche ira de 0 azx avec x<1 (x = maxmin/max)
-                    else :
-                        if float(maxmin)>max :
-                            form = 1
-                        else :
-                            form="ifelse(a<"+str(maxmin)+",0,(a-"+str(maxmin)+")/("+str(max)+"-"+str(maxmin)+"))"
-                else :
-                    form = "a/"+str(max)
-                processing.runalg('saga:rastercalculator', temp4, None, form ,0, 8,temp5)
-
-                ls_layers.append(temp5)
-
-            #Perimereres
-            if row[2]=="3" or row[2]=="4" or row[2]=="5" or row[2]=="6" or row[2]=="7" or row[2]=="8":
-                temp2=rep_temp+"/"+ i.split(".")[0]+"_ttemp2.shp"
-                temp3=rep_temp+"/"+ i.split(".")[0]+"_ttemp3.tif"
-                temp4=rep_temp+"/"+ i.split(".")[0]+"_ttemp4.tif"
-                temp5=rep_temp+"/"+ i.split(".")[0]+"_ras.tif"
-                print(temp4)
-                #buffer
-                if row[4][:-1] !="":
-
-                    buff = float(row[4][:-1])
-                    processing.runalg('qgis:fixeddistancebuffer', temp1, buff, 5,False, temp2)
-                else :
-                    temp2=temp1
-
-                processing.runalg("gdalogr:rasterize",
-                               {"INPUT":temp2,
-                               "FIELD":'CHAMPI',
-                               "WIDTH":size,
-                               "HEIGHT":size,
-                               "RAST_EXT":"%f,%f,%f,%f"% (xmin, xmax, ymin, ymax),
-                               "TFW":1,
-                               "RTYPE":4,
-                               "NO_DATA":0,
-                               "COMPRESS":0,
-                               "ZLEVEL":1,
-                               "PREDICTOR":1,
-                               "TILED":False,
-                               "BIGTIFF":2,
-                               "EXTRA": '',
-                               "OUTPUT":temp3})
-
-                #emprise : ici redonda=nt car dans la version 2.16 rasterise renvoie nodata et non 0 :aÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ  remmetre pr version 2.18
-                #processing.runalg('saga:rastercalculator', temp3, raster_emprise, "ifelse(b=1,ifelse(a=1,1,0),0/0)",0, 8,temp4)
-                processing.runalg('saga:rastercalculator', temp3, None,  "ifelse(a=1,a,0)",1, 8,temp4)
-                processing.runalg('saga:rastercalculator', temp4, raster_emprise,  "ifelse(b=0,0/0,a)",0, 8,temp5)
-                if row[2] == "3" or  row[2] == "4" :
-                    ls_layers.append(temp5)
-                elif row[2] == "5" or  row[2] == "6" or row[2]=="7" or row[2]=="8":
-                    ls_layers56.append(temp5)
-
-
-            #Formule et lettres
-            #...pour result (1,2,3 et 4,7 et 8)
-            if row[2]=="1" or row[2]=="2" or row[2]=="3" or row[2]=="4" or row[2]=="7" or row[2]=="8":
-                print("h")
-                if ind1234>25 :
-                    lettre = alpha[ind1234-26]
-                    formule = formule + " "
-                else :
-                    lettre = alpha[ind1234]
-                ind1234 +=1
-                if formule != "" :
-                    formule+=" + "
-                if row[2]=="1" or row[2]=="4" or row[2]=="8": #atetntion 3/4 et 7/8 sont inverses car l'itnerieur du peerimetre est caracerisÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂepar 1 , soit la valeur de cotnraitne max
-                    add= lettre+"*"+row[3]
-                    formule+=add
-                if row[2]=="2" or row[2]=="3" or row[2]=="7" :
-                    add= "(1-"+lettre+")*"+row[3]
-                    formule+=add
-                print("i")
-                total += float(row[3])
-
-            #...pour les exclusions/inclusion - result_contmax et result_nodata (5 et 6 et 7 et 8 qui sont doubles)
-            if row[2]=="5" or row[2]=="6"or row[2]=="7" or row[2]=="8":
-                print("j")
-                print(ind56)
-                if ind56>24 : #ya pas le a qui sera result dans la formule
-                    lettre = alpha[ind56-25]
-                    formule = formule + " "
-                else :
-                    lettre = alpha[ind56+1]
-                print("lettre"+str(lettre))
-                ind56 +=1
-                type56.append(lettre)
-
-            if row[2]=="5" or row[2]=="7":
-                facteurs.append("5")
-            if row[2]=="6"  or row[2]=="8":
-                facteurs.append("6")
-
-            print("k")
-    ind += 1
-
-#Premiere sortie
-print("l")
-print("Sortie 1")
-if len(ls_layers)> 26 :
-    print("Plus de 26 contraintes relatives")
-
-    nb = len(ls_layers)/26 - (len(ls_layers)%26)/26 +1
-    ls_inter=[]
-    alpha2=string.ascii_lowercase
-    formule2=""
-    for i in range(nb) :
-        inter=rep_temp+"/inter"+str(i)+".tif"
-        form = formule.split("  +")[i]
-        processing.runalg('saga:rastercalculator',ls_layers[i*26], ls_layers[i*26:(i+1)*26], form,0, 8,inter)
-        ls_inter.append(inter)
-        formule2+=alpha2[i]+"+"
-    print("blap")
-    formule2="("+formule2[:-1]+ ")/"+str(total)
-    print(formule2)
-    print(ls_inter)
-    processing.runalg('saga:rastercalculator',ls_inter[0], ls_inter[1:], formule2,0, 8,result)
-else :
-    print("Moins de 26 contraintes relatives")
-    formule ="("+formule+ ")/"+str(total)
-    print(formule)
-    processing.runalg('saga:rastercalculator',ls_layers[0], ls_layers[1:], formule,0, 8,result)
-
-indfiltre = [0]
-
-print("Sortie 2")
-def  filtre(fi,result_spe) :
-    indfiltre[0] += 1
-    #Deuxieme boucle(contraintes reglementiaires et redibitoires)
-    if len(ls_layers56)> 26 :
-        print("Plus de 26 inclusions/exclusions")
-        print(fi)
-        print(result_spe)
-        nb = len(ls_layers56)/26 - (len(ls_layers56)%26)/26 +1
-        lsinter=[]
-        alpha3=string.ascii_lowercase
-        #formule3=""
-        entree0 = result
-        for i in range(nb) :
-            print("entree0")
-            print(entree0)
-            print(i)
-            inter=rep_temp+"/in56_"+str(indfiltre)+"_"+str(i)+".tif"
-            formule_contmax="a"
-            ls_split=ls_layers56[i*25:(i+1)*25]
-            print("ls_split")
-            print(ls_split)
-            for j in range(len(ls_split)) :
-                print(j)
-                facteur=facteurs[j+(25*i)]
-                if facteur == "5" :
-                    formule_contmax = "ifelse("+type56[j]+"=1,"+formule_contmax+","+fi+")"
-                    
-                else :
-                    formule_contmax = "ifelse("+type56[j]+"=1,"+fi+","+formule_contmax+")"
-            print(formule_contmax)
-            print(ls_split)
-            processing.runalg('saga:rastercalculator',entree0,ls_split, formule_contmax,0, 8,inter)
-            entree0 = inter
-            #lsinter.append(inter)
-            #formule3+=alpha3[i]+"+"
-        #formule3="("+formule3[:-1]+")/"+str(nb)
-        print(entree0)
-        print(inter)
-        print("b")
-        processing.runalg('saga:rastercalculator',entree0, None,"a",0, 8,result_spe)
-
-    else :
-        print("Moins de 26 inclusions/exclusions")
-        formule_contmax="a"
-        for i in range(len(type56)) :
-            facteur=facteurs[i]
-            if facteur == "6" :
-                formule_contmax = "ifelse("+type56[i]+"=1,"+fi+","+formule_contmax+")"
-            else :
-                formule_contmax = "ifelse("+type56[i]+"=1,"+formule_contmax+","+fi+")"
-        print(formule_contmax)
-        print(ls_layers56)
-        processing.runalg('saga:rastercalculator',result,ls_layers56, formule_contmax,1, 8,result_spe)
-
-
-
-print("len")
-print(len(ls_layers56))
-print(type56)
-if len(type56) != 0 :
-    filtre("1",result_contmax)
-    filtre("0/0",result_nodata)
-
-
-#Quatrieme sortie : tolerance
-processing.runalg('saga:rastercalculator',result, None, "ifelse(a<"+str(tolerance)+",a,0/0)",0, 8,result_tolerance)
-
-print(ls_layers)
-print(ls_layers[0])
-print(ls_layers[1:])
-stats = processing.runalg('qgis:rasterlayerstatistics',result ,out1)
-print stats
-#stats2 = processing.runalg('qgis:rasterlayerstatistics',result_contmax ,out2)
-#print stats2
-#stats3 = processing.runalg('qgis:rasterlayerstatistics',result_nodata ,out3)
-#print stats3
-
-#Suppression (echec)
-try :
-    shutil.rmtree(rep_temp)
-except :
-    print "erreur dans la suppressions des fichiers temporaires : verouillage -> veuillez supprimer le dossier \'temp\'"
+None
+>>> 
