@@ -30,7 +30,7 @@ print "Imports : "+str(time.time())
 
 ##---------------------------------------Enrigstrement des données récoltées sur l'interface
 ls_gid=[]
-folder_out = "..//tableaux_recup"
+folder_out = r"C:\wamp\www\interface_catalogue_arbo_v3\tableaux_recup"
 
 #print(input_str_data)
 for i in os.listdir(folder_out) :
@@ -41,28 +41,23 @@ if len(ls_gid)>0 :
     it = max(ls_gid)
 else :
     it = 0
-
-rep_data="..//sorties_script"
-data = "..//tableaux_recup//catalogue_"+str(it)+".csv"
+data = r"C:\wamp\www\interface_catalogue_arbo_v3\tableaux_recup\\catalogue_"+str(it)+".csv"
 
 ##---------------------------------------Variables
-data_infos = open("..//tableaux_recup//infos_"+str(it)+".csv","r")
-variables_parametrees = []
-for row in data_infos :
-    variables_parametrees.append(row.split(";"))
-print variables_parametrees
-emprise = variables_parametrees[0][0]
-tolerance=variables_parametrees[0][1]
-print ("--")
-print emprise
-print tolerance
+#Paramètres
+#data=r"C:\wamp\www\interface_catalogue_arbo_v3\tableaux_recup\catalogue_2.csv"
+rep_data=r"C:\wamp\www\interface_catalogue_arbo_v3\tests_virer"
+#sortie=raw_input("num_sortie : ")
+emprise=r"C:\wamp\www\interface_catalogue_arbo_v3\tests_virer\emprise\nord.shp"
 
 pixel_size=100.0
+tolerance=0.6
 proj_leaflet= '''GEOGCS["GCS_WGS_1984",
     DATUM["WGS_1984",
         SPHEROID["WGS_84",6378137,298.257223563]],
     PRIMEM["Greenwich",0],
     UNIT["Degree",0.017453292519943295]]'''
+
 
 #Sortie
 result=rep_data+r"\final\resut.tif"
@@ -98,12 +93,12 @@ else :
 ##---------------------------------------Traitements du fichier d'emprise
 # Define pixel_size and NoData value of new raster
 NoData_value = -9999
-print("b")
+
 #Layer source
 emprise_ds = ogr.Open(emprise)
 emprise_layer = emprise_ds.GetLayer()
 source_srs = emprise_layer.GetSpatialRef()
-print ("a")
+
 # Filename of the raster Tiff that will be created
 raster_fn = rep_temp+r'\raster_emprise.tif'
 
@@ -121,40 +116,21 @@ raster_fn = rep_temp+r'\raster_emprise.tif'
 
 # Open the data source and read in the extent
 x_min, x_max, y_min, y_max = emprise_layer.GetExtent()
-#Il faut convertir ces points (et non la couche)  en truc style 2154 pr voir des coordonnées projetées (alors que genre le 4326 est en géographique, donc pour calculer uen distance en faisant xmax-xmin c pas possible :/ et après on reprojettera en ... 4326!!
-# Setup the source projection - you can also import from epsg, proj4...
-source = osr.SpatialReference()
-plouf =  emprise_layer.GetSpatialRef().ExportToWkt()
-source.ImportFromWkt(plouf)
-# The target projection
-target = osr.SpatialReference()
-target.ImportFromEPSG(2154)
-# Create the transform - this can be used repeatedly
-transform = osr.CoordinateTransformation(source, target)
-
-print 'xmin : ',x_min,' xmax : ',x_max,' ymin : ',y_min,' ymax : ',y_max
-for feature in emprise_layer: #inLayer is always of size one because polygon is a unique value
-    geom=feature.GetGeometryRef()
-    print geom.GetEnvelope()
-
-# Transform the point. You can also create an ogr geometry and use the more generic `point.Transform()`
-n_xmin, n_ymin,burp = transform.TransformPoint(x_min, y_min)
-n_xmax, n_ymax,barp = transform.TransformPoint(x_max, y_max)
-##x_res = int((n_xmax - n_xmin) / pixel_size)
-##y_res = int((n_ymax - n_ymin) / pixel_size)
-x_res = int((x_max -x_min) / pixel_size)
+x_res = int((x_max - x_min) / pixel_size)
 y_res = int((y_max - y_min) / pixel_size)
 
 print 'xmin : ',x_min,' xmax : ',x_max,' ymin : ',y_min,' ymax : ',y_max
-print x_res
+print source_srs.ExportToWkt()
 
 # Create the destination data source
+
 tar_emp_ds = gdal.GetDriverByName('GTiff').Create(raster_fn, x_res, y_res, 1,gdal.GDT_Float32)
-tar_emp_ds.SetGeoTransform((n_xmin, pixel_size, 0, n_ymax, 0, -pixel_size))
+tar_emp_ds.SetGeoTransform((x_min, pixel_size, 0, y_max, 0, -pixel_size))
 tar_emp_ds.SetProjection(source_srs.ExportToWkt())
 
 band_emp_ras = tar_emp_ds.GetRasterBand(1)
 band_emp_ras.SetNoDataValue(NoData_value)
+band_emp_ras.SetUnitType("m")
 
 #################☺A FAIRE CA EN FAIT https://www.google.fr/search?q=gdal+reprojeter&oq=gdal+reprojeter&aqs=chrome..69i57.1551j1j4&sourceid=chrome&ie=UTF-8
 
@@ -162,7 +138,7 @@ band_emp_ras.SetNoDataValue(NoData_value)
 #srs.ImportFromEPSG(2154)
 
 # Rasterize
-##gdal.RasterizeLayer(tar_emp_ds, [1], emprise_layer, burn_values=[1])
+gdal.RasterizeLayer(tar_emp_ds, [1], emprise_layer, burn_values=[1])
 
 b = band_emp_ras.ReadAsArray()#.astype(np.float)
 print("Traitements sur l'emprise : "+str(time.time()))
@@ -181,12 +157,11 @@ for i in content :
         ##---------------------------------------Rasterisation    (en format Byte, à copier pour le deuxième cas où il faudra un floatant)
         source_ds = ogr.Open(inputt)
         source_layer = source_ds.GetLayer()
-        source_src_data = source_layer.GetSpatialRef()
 
         raster_fn =rep_temp+r"\rast_byte_"+ i.split(".")[0]+".tif"
         target_ds = gdal.GetDriverByName('GTiff').Create(raster_fn, x_res, y_res,1, gdal.GDT_Byte)
         target_ds.SetGeoTransform((x_min, pixel_size, 0, y_max, 0, -pixel_size))
-        target_ds.SetProjection(source_src_data.ExportToWkt())
+        target_ds.SetProjection(source_srs.ExportToWkt())
 
         band = target_ds.GetRasterBand(1)
         band.SetNoDataValue(NoData_value)
@@ -195,6 +170,7 @@ for i in content :
         # Rasterize
         gdal.RasterizeLayer(target_ds, [1], source_layer, burn_values=[1])
 
+
         ##---------------------------------------Raster de distance
         if data_type=="1" or data_type=="2" or data_type=="7" or data_type=="8":
 
@@ -202,7 +178,7 @@ for i in content :
             proxy_fn = rep_temp+r'\proximity_'+i.split(".")[0]+'.tif'
             dst_ds = gdal.GetDriverByName( 'GTiff' ).Create(proxy_fn , x_res, y_res, 1,gdal.GDT_Float32)
             dst_ds.SetGeoTransform((x_min, pixel_size, 0, y_max, 0, -pixel_size))
-            dst_ds.SetProjection(source_src_data.ExportToWkt())
+            dst_ds.SetProjection(source_srs.ExportToWkt())
 
             dst_band = dst_ds.GetRasterBand(1)
             dst_band.SetNoDataValue(NoData_value)
@@ -292,7 +268,7 @@ for i in content :
 
                 prj = open(output_prj, 'w')
                 #proyeccion = 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]'
-                prj.write(source_src_data.ExportToWkt())
+                prj.write(source_srs.ExportToWkt())
                 prj.close()
 
                 #Afermer et réouvrir (je sais pas pk, on doit pouvoir éviter ça)
@@ -313,7 +289,7 @@ for i in content :
 
             target_float_ds = gdal.GetDriverByName('GTiff').Create(raster_float, x_res, y_res,1, gdal.GDT_Float32)
             target_float_ds.SetGeoTransform((x_min, pixel_size, 0, y_max, 0, -pixel_size))
-            target_float_ds.SetProjection(source_src_data.ExportToWkt())
+            target_float_ds.SetProjection(source_srs.ExportToWkt())
 
             band_float = target_float_ds.GetRasterBand(1)
             band_float.SetNoDataValue(NoData_value)
