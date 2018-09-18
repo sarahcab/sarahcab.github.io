@@ -89,8 +89,8 @@ function pas(){
 					.duration(120)
 					.attr("opacity",0.8)
 					.transition()
-					.delay(500)
-					.duration(1000)
+					.delay(2000)
+					.duration(6000)
 					.attr("opacity",0)
 					.remove()
 				
@@ -144,7 +144,11 @@ function mer(){
 							// .transition()
 							// .duration(700)
 							.attr("r",3)
-							.attr("opacity",0.1)
+							.attr("opacity",0.5)
+							.transition()
+							.duration(6000)
+							.attr("r",50)
+							.attr("opacity",0.05)
 							.remove()
 					}
 					cont2=false;
