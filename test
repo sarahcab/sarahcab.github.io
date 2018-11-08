@@ -14,12 +14,6 @@
 ##---------------------------------------MODULES
 import time
 
-minute =time.localtime()[4]
-if minute < 10 :
-    minute = "0"+str(minute)
-heure = str(time.localtime()[3])+":"+str(minute)
-date = str(time.localtime()[2])+"-"+str(time.localtime()[1])+"-"+str(time.localtime()[0])
-
 import osgeo
 from osgeo import ogr, osr, gdal
 from osgeo.gdalnumeric import *
@@ -31,634 +25,653 @@ import shutil
 import string
 import sys
 
+file_general_path=raw_input(u"Fichier général comprenant la liste des paramètres")
 
-##---------------------------------------Paramètres rentrés par l'utilisateur
-data = raw_input(u"1) Indiquer l'emplacement et le nom du tableau indexant les données à utiliser (.csv) :")
-##content  = open(data,"r")
+try :
+    open(file_general_path,"r")
+except :
+    file_general_path = r".\tableau_general.csv"
 
-tolerance = float(raw_input(u"2) Indiquer le seuil de contrainte estimée maximale (nombre décimal entre 0 et 1) :"))
-if tolerance >1 :
-    tolerance=1.0
-elif tolerance <0 :
-    tolerance = 0.0
+file_general =  open(file_general_path,"r")
 
-emprise = raw_input(u"3) Cibler le fichier dont la géométrie délimite l'étude (.shp) :")
-if emprise[-4:] != ".shp" :
-    emprise = emprise+".shp"
+it_test_general = 0
+for modele in file_general :
 
-pixel_size=float(raw_input(u"4) Indiquer la largeur des pixels de la grille en sortie (nombre décimal en mètres, compris entre 10 et 1000) :"))
-if pixel_size > 1000:
-    pixel_size = 1000.0
-elif pixel_size <10:
-    pixel_size = 10.0
+    it_test_general += 1
+    if it_test_general > 1 :
 
-srid = int(raw_input(u"5) Choisir le SRID des fichiers de sortie :"))
-out_folder= raw_input(u"6) Indiquer le répertoire des fichiers de sortie :")
-fichier_temp = raw_input(u"7) Ecrire 'NON' pour ne pas garder le dossier des fichiers temporaires (majuscules) : ")
-if fichier_temp != "NON":
-    fichier_temp = "OUI"
-
-identifiant = str(raw_input(u"8) Votre identifiant (pour nommer le dossier des fichiers de sortie : "))
-
-#Pour pas se faire chier mais à virer
-if data == "":
-    data = r".\entrees\catalogue_6.csv"
-content  = open(data,"r")
-
-if emprise ==".shp":
-    emprise = r".\entrees\hdf.shp"
-
-if out_folder == "":
-    out_folder = r".\sorties"
-
-debut = time.time()
-##---------------------------------------Variables définies pour le modèle
-# Projection pour avoir des mètres
-srs_meters = osr.SpatialReference()
-srs_meters.ImportFromEPSG(2154)
-# Projection de sortie
-SRS_target = osr.SpatialReference()
-SRS_target.ImportFromEPSG(srid)
-if str(SRS_target) =="" :
-    srid = 3857
-    SRS_target = osr.SpatialReference()
-    SRS_target.ImportFromEPSG(srid)
-# Projection des coordonnées d'extentions à mettre dans LEaflet
-srs_extentLeaflet = osr.SpatialReference()
-srs_extentLeaflet.ImportFromEPSG(4326)
-# Valeur Nodata
-NoData_value = -9999
-#Valeurs calage (table des trois rois)
-calageX = 395798.22137184744
-calageY = 6209308.02597751
-# Dosiers de sortie
-rep_temp = out_folder+r"\temp_"+identifiant
-rep_final= out_folder+r"\final_"+identifiant
-
-if "final_"+identifiant in os.listdir(out_folder):
-    rep_temp = rep_temp+"_"+str(int(time.time()))
-    rep_final =rep_final+"_"+str(int(time.time()))
-os.mkdir(rep_temp)
-os.mkdir(rep_final)
-# Fichier d'écriture du résultat
-resultat_file = open(rep_final+r"\informations.txt","w")
-
-# Variables globales implémentées dans la boucle
-ls_layers=[]
-ls_layers_abs=[]
-ls_type=[]
-ls_type_abs=[]
-ls_pond=[]
-ls_pond_abs=[]
-geotrans_ref = ""
-xres3857 = 0
-yres3857= 0
-ind = -1
-total = 0.0
-
-resultat_file.write("Exécuté le "+date+" à "+heure+"    --     "+identifiant)
-resultat_file.write("\n\nParamètres : ")
-resultat_file.write("\n1) Emplacement et nom du tableau indexant les données à utiliser (.csv) :")
-resultat_file.write(data)
-resultat_file.write("\n2) Seuil de contrainte estimée maximale (nombre décimal entre 0 et 1) : " +str(tolerance) )
-resultat_file.write("\n3) Fichier dont la géométrie délimite l'étude (.shp) : ")
-resultat_file.write(emprise)
-resultat_file.write("\n4) Largeur des pixels de la grille en sortie (nombre décimal en mètres, compris entre 10 et 1000)  : " +str(pixel_size))
-resultat_file.write("\n5) SRID des fichiers de sortie : "+str(srid))
-resultat_file.write("\n6) Répertoire des fichiers de sortie : ")
-resultat_file.write(out_folder)
-resultat_file.write("\n7) Ecriture des fichiers temporaires : "+fichier_temp)
-
-##---------------------------------------Premièer boucle pour avoir l'emprsie maximale des données et ses coordonnées
-#tous les rasters seront sur ce modèle :
-#Vu qu'on découpe à chaque fois, si l'on ne fait pas, il peut y a voir un décalage avec les raster générés et découpé par l'emprise..
-
-#Listes des valeurs qu'on va trier
-ls_xmin_dameters = []
-ls_xmax_dameters = []
-ls_ymin_dameters = []
-ls_ymax_dameters = []
-
-# Ouverture du fichier d'emprise
-emprise_ds = ogr.Open(emprise)
-emprise_layer = emprise_ds.GetLayer()
-
-#bouclage   pour récupérer les emprises et prendre la plus grande
-all_data_in = []
-for j in content :
-
-    line = j.split(";")
-    ttype=line[2]
-    pond=line[3]
-
-    if ind > -1 and ttype!="0" and pond!="0":
-        ##---------------------------------------Recherche des valeurs extent
-        level=line[7]
-        if level=="3" or "fusion" not in line[0]:
-            inputt = line[1]
-        else :
-            inputt = rep_fusions+"\\"+line[0]
-        all_data_in.append(inputt)
-
-    ind+=1
-
-all_data_in.append(emprise)
-#Répétition de l'action de la boucle pour le layer d'emprise (si plus grand)  #c'est dégueulasse!!
-for inputt in all_data_in :
-    source_ds = ogr.Open(inputt)
-    source_layer = source_ds.GetLayer()
-    source_srs_data = source_layer.GetSpatialRef()
-    x_min_da, x_max_da, y_min_da, y_max_da = source_layer.GetExtent()
-
-    # Transformation en projection métrique
-    srs_da = osr.SpatialReference()
-    srs_da.ImportFromWkt(source_srs_data.ExportToWkt())
-
-    # OSR transformation
-    print x_min_da,y_min_da
-    transform = osr.CoordinateTransformation(srs_da, srs_meters)
-    print transform
-
-    x_min_meters_da, y_min_meters_da, burp = transform.TransformPoint([x_min_da, y_min_da])
-    x_max_meters_da, y_max_meters_da, burp = transform.TransformPoint(x_max_da, y_max_da)
-
-    ls_xmin_dameters.append(x_min_meters_da)
-    ls_xmax_dameters.append(x_max_meters_da)
-    ls_ymin_dameters.append(y_min_meters_da)
-    ls_ymax_dameters.append(y_max_meters_da)
-
-#-------------------------------------------------------------------------------
-
-#Tri des valeurs
-x_min_meters_da = min(ls_xmin_dameters)
-x_max_meters_da = max(ls_xmax_dameters)
-y_min_meters_da = min(ls_ymin_dameters)
-y_max_meters_da = max(ls_ymax_dameters)
-
-#Calage
-#(On cale le x sur la valeur xMIN)
-nXmin = calageX+float(int((x_min_meters_da-calageX)/pixel_size))*pixel_size
-nXmax =x_max_meters_da-x_min_meters_da+nXmin#+pixel_size
-x_min_meters_da,x_max_meters_da=nXmin,nXmax
-
-#(Par contre on cale y sur la valeur ymin -> il faut faier attention à ça, car lespace entre les deux n'est pas un entier de la taille des cellules, donc l'un des des poinst n'est pas calé -> me raster se cale sur xmine t ymax donc..;)
-nYmax = calageY+float(int((y_max_meters_da-calageY)/pixel_size))*pixel_size
-
-nYmin = y_min_meters_da-y_max_meters_da+nYmax#+pixel_size
-y_min_meters_da,y_max_meters_da=nYmin,nYmax
-
-#Calcul des autres variables
-x_res_ref_da = (x_max_meters_da - x_min_meters_da) / pixel_size
-y_res_ref_da = (y_max_meters_da - y_min_meters_da) / pixel_size
-
-# OSR transformation
-transform_meterstotarget = osr.CoordinateTransformation(srs_meters,SRS_target)
-
-# Calcul des variables
-x_min_ampli_da, y_min_ampli_da, burp = transform_meterstotarget.TransformPoint(x_min_meters_da, y_min_meters_da)
-x_max_ampli_da, y_max_ampli_da, burp = transform_meterstotarget.TransformPoint(x_max_meters_da, y_max_meters_da)
-
-pixel_size_da_x = (x_max_ampli_da - x_min_ampli_da) / x_res_ref_da
-pixel_size_da_y = (y_max_ampli_da - y_min_ampli_da) / y_res_ref_da
-
-x_res_ampli = int((x_max_ampli_da - x_min_ampli_da) / pixel_size_da_x )
-y_res_ampli = int((y_max_ampli_da - y_min_ampli_da)/ pixel_size_da_y)
-
- # Creation du raster pour le découpage
-raster_fn_emp =rep_temp+r"\rast_emprise.tif"
-tar_emp_ds = gdal.GetDriverByName('GTiff').Create(raster_fn_emp, x_res_ampli, y_res_ampli,1, gdal.GDT_Float32)
-tar_emp_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
-tar_emp_ds.SetProjection(SRS_target.ExportToWkt())
-
-# Rasterize
-gdal.RasterizeLayer(tar_emp_ds, [1], emprise_layer, burn_values=[1])
-
-band_emp_ras = tar_emp_ds.GetRasterBand(1)
-band_emp_ras.SetNoDataValue(NoData_value)
-b = band_emp_ras.ReadAsArray()
-
-##---------------------------------------Bouclage pour le traitement des données
-ind=-1
-content.close()
-content  = open(data,"r")
-
-resultat_file.write("\n\n----- TRAITEMENTS INDIVIDUELS")
-for i in content :
-
-    row = i.split(";")
-    data_type=row[2]
-    pond=row[3]
-
-    if ind > -1 and data_type!="0" and pond!="0":
-        row = i.split(";")
-
-        level=row[7]
-        if level=="3" or "fusion" not in row[0]:
-            inputt = row[1]
-        else :
-            inputt = rep_fusions+"\\"+row[0]
-        ##---------------------------------------Rasterisation    (en format Byte, à copier pour le deuxième cas où il faudra un floatant)
-        source_ds = ogr.Open(inputt)
-        source_layer = source_ds.GetLayer()
+        minute =time.localtime()[4]
+        if minute < 10 :
+            minute = "0"+str(minute)
+        heure = str(time.localtime()[3])+":"+str(minute)
+        date = str(time.localtime()[2])+"-"+str(time.localtime()[1])+"-"+str(time.localtime()[0])
 
 
-        # Creation du raster pour les données
-        raster_fn =rep_temp+r"\rast_byte_"+ i.split(".")[0]+".tif"
-        target_ds = gdal.GetDriverByName('GTiff').Create(raster_fn, x_res_ampli, y_res_ampli,1, gdal.GDT_Byte)
-        target_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
-        target_ds.SetProjection(SRS_target.ExportToWkt())
+        params = modele.split(";")
+
+        ##---------------------------------------Paramètres rentrés par l'utilisateur
+        data = params[1]
+        ##content  = open(data,"r")
+
+        tolerance = float(params[2])
+        if tolerance >1 :
+            tolerance=1.0
+        elif tolerance <0 :
+            tolerance = 0.0
+
+        emprise = params[3]
+        if emprise[-4:] != ".shp" :
+            emprise = emprise+".shp"
+
+        pixel_size=float(params[4])
+        if pixel_size > 1000:
+            pixel_size = 1000.0
+        elif pixel_size <10:
+            pixel_size = 10.0
+
+        srid = int(params[5])
+        out_folder= params[6]
+        fichier_temp = params[7]
+        if fichier_temp != "NON":
+            fichier_temp = "OUI"
+
+        identifiant = params[0]
+
+        #Pour pas se faire chier mais à virer
+        if data == "":
+            data = r".\entrees\catalogue_6.csv"
+        content  = open(data,"r")
+
+        if emprise ==".shp":
+            emprise = r"\\gpsrv1.univ-lille1.fr\Dossier_Utilisateurs_2\GEOGRAPHIE\DOCTORANTS\cabarry\Documents\ordi_bureau\modelisation_rasters\rendu_suricate_v1\entrees\hdf.shp"
+
+        if out_folder == "":
+            out_folder = r".\sorties"
+
+        debut = time.time()
+        ##---------------------------------------Variables définies pour le modèle
+        # Projection pour avoir des mètres
+        srs_meters = osr.SpatialReference()
+        srs_meters.ImportFromEPSG(2154)
+        # Projection de sortie
+        SRS_target = osr.SpatialReference()
+        SRS_target.ImportFromEPSG(srid)
+        if str(SRS_target) =="" :
+            srid = 3857
+            SRS_target = osr.SpatialReference()
+            SRS_target.ImportFromEPSG(srid)
+        # Projection des coordonnées d'extentions à mettre dans LEaflet
+        srs_extentLeaflet = osr.SpatialReference()
+        srs_extentLeaflet.ImportFromEPSG(4326)
+        # Valeur Nodata
+        NoData_value = -9999
+        #Valeurs calage (table des trois rois)
+        calageX = 395798.22137184744
+        calageY = 6209308.02597751
+        # Dosiers de sortie
+        rep_temp = out_folder+r"\temp_"+identifiant
+        rep_final= out_folder+r"\final_"+identifiant
+
+        if "final_"+identifiant in os.listdir(out_folder):
+            rep_temp = rep_temp+"_"+str(int(time.time()))
+            rep_final =rep_final+"_"+str(int(time.time()))
+        os.mkdir(rep_temp)
+        os.mkdir(rep_final)
+        # Fichier d'écriture du résultat
+        resultat_file = open(rep_final+r"\informations.txt","w")
+
+        # Variables globales implémentées dans la boucle
+        ls_layers=[]
+        ls_layers_abs=[]
+        ls_type=[]
+        ls_type_abs=[]
+        ls_pond=[]
+        ls_pond_abs=[]
+        geotrans_ref = ""
+        xres3857 = 0
+        yres3857= 0
+        ind = -1
+        total = 0.0
+
+        resultat_file.write("Exécuté le "+date+" à "+heure+"    --     "+identifiant)
+        resultat_file.write("\n\nParamètres : ")
+        resultat_file.write("\n1) Emplacement et nom du tableau indexant les données à utiliser (.csv) :")
+        resultat_file.write(data)
+        resultat_file.write("\n2) Seuil de contrainte estimée maximale (nombre décimal entre 0 et 1) : " +str(tolerance) )
+        resultat_file.write("\n3) Fichier dont la géométrie délimite l'étude (.shp) : ")
+        resultat_file.write(emprise)
+        resultat_file.write("\n4) Largeur des pixels de la grille en sortie (nombre décimal en mètres, compris entre 10 et 1000)  : " +str(pixel_size))
+        resultat_file.write("\n5) SRID des fichiers de sortie : "+str(srid))
+        resultat_file.write("\n6) Répertoire des fichiers de sortie : ")
+        resultat_file.write(out_folder)
+        resultat_file.write("\n7) Ecriture des fichiers temporaires : "+fichier_temp)
+
+        ##---------------------------------------Premièer boucle pour avoir l'emprsie maximale des données et ses coordonnées
+        #tous les rasters seront sur ce modèle :
+        #Vu qu'on découpe à chaque fois, si l'on ne fait pas, il peut y a voir un décalage avec les raster générés et découpé par l'emprise..
+
+        #Listes des valeurs qu'on va trier
+        ls_xmin_dameters = []
+        ls_xmax_dameters = []
+        ls_ymin_dameters = []
+        ls_ymax_dameters = []
+
+        # Ouverture du fichier d'emprise
+        emprise_ds = ogr.Open(emprise)
+        emprise_layer = emprise_ds.GetLayer()
+
+        #bouclage   pour récupérer les emprises et prendre la plus grande
+        all_data_in = []
+        for j in content :
+
+            line = j.split(";")
+            ttype=line[2]
+            pond=line[3]
+
+            if ind > -1 and ttype!="0" and pond!="0":
+                ##---------------------------------------Recherche des valeurs extent
+                level=line[7]
+                if level=="3" or "fusion" not in line[0]:
+                    inputt = line[1]
+                else :
+                    inputt = rep_fusions+"\\"+line[0]
+                all_data_in.append(inputt)
+
+            ind+=1
+
+        all_data_in.append(emprise)
+        #Répétition de l'action de la boucle pour le layer d'emprise (si plus grand)  #c'est dégueulasse!!
+        for inputt in all_data_in :
+            source_ds = ogr.Open(inputt)
+            source_layer = source_ds.GetLayer()
+            source_srs_data = source_layer.GetSpatialRef()
+            x_min_da, x_max_da, y_min_da, y_max_da = source_layer.GetExtent()
+
+            # Transformation en projection métrique
+            srs_da = osr.SpatialReference()
+            srs_da.ImportFromWkt(source_srs_data.ExportToWkt())
+
+            # OSR transformation
+            transform = osr.CoordinateTransformation(srs_da, srs_meters)
+            x_min_meters_da, y_min_meters_da, burp = transform.TransformPoint(x_min_da, y_min_da)
+            x_max_meters_da, y_max_meters_da, burp = transform.TransformPoint(x_max_da, y_max_da)
+
+            ls_xmin_dameters.append(x_min_meters_da)
+            ls_xmax_dameters.append(x_max_meters_da)
+            ls_ymin_dameters.append(y_min_meters_da)
+            ls_ymax_dameters.append(y_max_meters_da)
+
+        #-------------------------------------------------------------------------------
+
+        #Tri des valeurs
+        x_min_meters_da = min(ls_xmin_dameters)
+        x_max_meters_da = max(ls_xmax_dameters)
+        y_min_meters_da = min(ls_ymin_dameters)
+        y_max_meters_da = max(ls_ymax_dameters)
+
+        #Calage
+        #(On cale le x sur la valeur xMIN)
+        nXmin = calageX+float(int((x_min_meters_da-calageX)/pixel_size))*pixel_size
+        nXmax =x_max_meters_da-x_min_meters_da+nXmin#+pixel_size
+        x_min_meters_da,x_max_meters_da=nXmin,nXmax
+
+        #(Par contre on cale y sur la valeur ymin -> il faut faier attention à ça, car lespace entre les deux n'est pas un entier de la taille des cellules, donc l'un des des poinst n'est pas calé -> me raster se cale sur xmine t ymax donc..;)
+        nYmax = calageY+float(int((y_max_meters_da-calageY)/pixel_size))*pixel_size
+
+        nYmin = y_min_meters_da-y_max_meters_da+nYmax#+pixel_size
+        y_min_meters_da,y_max_meters_da=nYmin,nYmax
+
+        #Calcul des autres variables
+        x_res_ref_da = (x_max_meters_da - x_min_meters_da) / pixel_size
+        y_res_ref_da = (y_max_meters_da - y_min_meters_da) / pixel_size
+        print(x_max_meters_da - x_min_meters_da)
+
+        # OSR transformation
+        transform_meterstotarget = osr.CoordinateTransformation(srs_meters,SRS_target)
+
+        # Calcul des variables
+        x_min_ampli_da, y_min_ampli_da, burp = transform_meterstotarget.TransformPoint(x_min_meters_da, y_min_meters_da)
+        x_max_ampli_da, y_max_ampli_da, burp = transform_meterstotarget.TransformPoint(x_max_meters_da, y_max_meters_da)
+
+        pixel_size_da_x = (x_max_ampli_da - x_min_ampli_da) / x_res_ref_da
+        pixel_size_da_y = (y_max_ampli_da - y_min_ampli_da) / y_res_ref_da
+
+        x_res_ampli = int((x_max_ampli_da - x_min_ampli_da) / pixel_size_da_x )
+        y_res_ampli = int((y_max_ampli_da - y_min_ampli_da)/ pixel_size_da_y)
+
+         # Creation du raster pour le découpage
+        raster_fn_emp =rep_temp+r"\rast_emprise.tif"
+        tar_emp_ds = gdal.GetDriverByName('GTiff').Create(raster_fn_emp, x_res_ampli, y_res_ampli,1, gdal.GDT_Float32)
+        tar_emp_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
+        tar_emp_ds.SetProjection(SRS_target.ExportToWkt())
 
         # Rasterize
-        gdal.RasterizeLayer(target_ds, [1], source_layer, burn_values=[1])
-
-        band = target_ds.GetRasterBand(1)
-        band.SetNoDataValue(NoData_value)
-
-        resultat_file.write("\n\n"+row[0]+" de type : "+data_type)
-        ##---------------------------------------Raster de distance
-        if data_type=="1" or data_type=="2" or data_type=="7" or data_type=="8":
-
-            # Création du raster de sortie
-            proxy_fn = rep_temp+r'\proximity_'+i.split(".")[0]+'.tif'
-            dst_ds = gdal.GetDriverByName( 'GTiff' ).Create(proxy_fn, x_res_ampli, y_res_ampli,1, gdal.GDT_Float32)
-            dst_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
-            dst_ds.SetProjection(SRS_target.ExportToWkt())
-
-            dst_band = dst_ds.GetRasterBand(1)
-            dst_band.SetNoDataValue(NoData_value)
-
-            # Fonction proximity
-            gdal.ComputeProximity(band, dst_band )   #ATTENTION, renvoie des valeurs en hm et non en m
-
-            ##---------------------------------------Calculatrices
-            a = dst_band.ReadAsArray()#.astype(np.float)
-            #Calcul 1 : découpe
-            c = np.where(b==1,a,NoData_value)
-            #Calcul 2 : normalisation (à faire après pour le maximum soit celui de l'emprise et pas de tout le rectangle
-            maxi_area = np.max(c)
-            #Si distance amx  -> noramlisation particulière enfonction de la valeur de la distance max et de la comapraison avec le maximum
-            if row[4] and float(row[4])>0 :
-                resultat_file.write("\Buffer effectué")
-                dist_buff=float(row[4])
-                maxOk = min(maxi_area,dist_buff)
-                d = np.where(c>maxOk,1,c/maxOk)
-
-
-            #Sinon, normalisation par rapport à la velru maximale trouvée sur le raster de distance
-            else:
-                d = np.where(c>maxi_area,1,c/maxi_area)
-            #Ajustement no_data (les valeurs ont été modifiées
-            e= np.where(d<0,NoData_value,d)
-
-            #Ecriture
-            dst_band.WriteArray(e)
-            ##---------------------------------------Variables :
-
-            #Listes pour le calcul final...
-            ls_layers.append(proxy_fn)
-            ls_type.append(data_type)
-            ls_pond.append(row[3])
-
-            #Et propriétés des rasters finaux
-            if geotrans_ref :
-                print "Geotransformation de référence déjà renseignée"
-            else :
-                geotrans_ref = dst_ds.GetGeoTransform()
-                xres3857 =dst_ds.RasterXSize
-                yres3857=dst_ds.RasterYSize
-
-
-            ##---------------------------------------Fermetures spécifiques
-            dst_band = None
-            dst_ds = None
-
-
-            resultat_file.write("\nRaster de distance effectué")
-        if data_type=="3" or data_type=="4" or data_type=="5" or data_type=="6" or data_type=="7" or data_type=="8":
-            if row[4] and float(row[4])>0 and data_type!="7" and data_type!="8":
-
-                #Application du buffer
-                dist_buff=float(row[4])
-                outputBufferfn = rep_temp+'/buffer_'+str(dist_buff)+'_'+i.split(".")[0]+'.shp'
-                output_prj = rep_temp+'/buffer_'+str(dist_buff)+'_'+i.split(".")[0]+'.prj'
-
-                shpdriver = ogr.GetDriverByName('ESRI Shapefile')
-                outputBufferds = shpdriver.CreateDataSource(outputBufferfn)
-                bufferlyr = outputBufferds.CreateLayer(outputBufferfn, geom_type=ogr.wkbPolygon)
-
-                featureDefn = bufferlyr.GetLayerDefn()
-                for feature in source_layer:
-                    ingeom = feature.GetGeometryRef()
-                    geomBuffer = ingeom.Buffer(dist_buff)
-
-                    outFeature = ogr.Feature(featureDefn)
-                    outFeature.SetGeometry(geomBuffer)
-                    bufferlyr.CreateFeature(outFeature)
-
-                prj = open(output_prj, 'w')
-                #proyeccion = 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]'
-                source_srs_data = source_layer.GetSpatialRef()
-                prj.write(source_srs_data.ExportToWkt())
-                prj.close()
-
-                #Afermer et réouvrir (je sais pas pk, on doit pouvoir éviter ça)
-                outputBufferds.Destroy()
-                source_buff = ogr.Open(outputBufferfn)
-                source_buff_lay = source_buff.GetLayer()
-
-
-                #Rasterisation du buffer (écrase la précédemet écriture de target_ds, pas raev puisque le cas 1 est exécuté avant)
-                gdal.RasterizeLayer(target_ds, [1], source_buff_lay, burn_values=[1])
-                source_buff = None
-                resultat_file.write("\nBuffer effectué")
-
-            #On repart de target_ds (le raster !) pour les passer au découpage puis...
-            #Il faut le copier dans un floattant et donc
-            raster_float =rep_temp+r"\rast_float_"+ i.split(".")[0]+".tif"
-
-            target_float_ds = gdal.GetDriverByName('GTiff').Create(raster_float,x_res_ampli, y_res_ampli,1, gdal.GDT_Float32)
-            target_float_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
-            target_float_ds.SetProjection(SRS_target.ExportToWkt())
-
-            band_float = target_float_ds.GetRasterBand(1)
-            band_float.SetNoDataValue(NoData_value)
-            band_float.SetUnitType("m")
-
-            a = band.ReadAsArray()
-            c = np.where(a==1,1,0)    #a quoi sert cette étape?
-            d = np.where(b==1,c,NoData_value)
-            band_float.WriteArray(d)
-            #Listes pour le calcul final
-            if data_type == "3" or  data_type == "4" :
-                ls_layers.append(raster_float)
-                ls_type.append(data_type)
-                ls_pond.append(row[3])
-            elif data_type == "5" or  data_type == "6" or data_type=="7" or data_type=="8":
-                ls_layers_abs.append(raster_float)
-                ls_type_abs.append(data_type)
-                ls_pond_abs.append(row[3])
-
-            resultat_file.write("\nPas de raster de distance")
-
-            band_float = None
-            target_float_ds = None
-
-        ##---------------------------------------Fermetures générales
-        target_ds = None
-        band  = None
-        source_ds.Destroy()
-    ind+=1
-
-
-##---------------------------------------Caculatrice raster : mise en commun des données
-resultat_file.write("\n\n----- DECOUPAGE ET MISE EN COMMUN")
-resultat_file.write("\n\nCouches définitives : ")
-
-for x in range(len(ls_layers)) :
-    ly = ls_layers[x]
-    resultat_file.write("\n"+ly)
-    ty = ls_type[x]
-    layer_src = gdal.Open(ly)
-
-    band_ly = layer_src.GetRasterBand(1)
-    pond=float(ls_pond[x])
-
-    n = band_ly.ReadAsArray()#.astype(np.float)
-    if x==0 :
-        t  = np.where(n==NoData_value,NoData_value,0)
-    if ty=="1" or ty=="7" or ty=="4": #Oui parce que la distance (1) équivautà l'éloignement, alors que pour le éprimètre, 1 sigifie à l'intérieur de
-        t = np.where(n==NoData_value,NoData_value,t+pond*n)
-    elif ty=="2" or ty=="8" or ty=="3":
-        t = np.where(n==NoData_value,NoData_value,t+pond*(1-n))
-    total = total + pond
-
-    layer_src = None
-    band_ly = None
-
-if len(ls_layers) >0 :
-    t = np.where(t==NoData_value,NoData_value,t/total)
-    u=v=t
-else :
-    u=v=np.where(b==NoData_value,NoData_value,0)
-
-for x in range(len(ls_layers_abs)) :
-    ly = ls_layers_abs[x]
-    resultat_file.write("\n"+ly+" (données absolues)")
-    ty = ls_type_abs[x]
-    layer_src = gdal.Open(ly)
-    band_ly = layer_src.GetRasterBand(1)
-    pond=float(ls_pond_abs[x])
-
-    n = band_ly.ReadAsArray()#.astype(np.float)
-    if ty=="5" or ty=="7": #Oui parce que la distance (1) équivautà l'éloignement, alors que pour le éprimètre, 1 sigifie à l'intérieur de
-        u = np.where(n>0.5,u,NoData_value)
-        v = np.where(n>0.5,v,1)
-    elif ty=="6" or ty=="8":
-        u = np.where(n>0.5,NoData_value,u)
-        v = np.where(n>0.5,1,v)
-
-    layer_src = None
-    band_ly = None
-
-
-
-
-##-------------------------Valeurs de découpage et coordonnées de sortie
-#Valeurs pour le découpage de la matrice
-
-cellGauche = 0
-cellDroite = 0
-cellBas = 0
-cellHaut =0
-it_raw = 0
-for raw_mx in t:
-    it_col = 0
-    for cel_mx in raw_mx:
-
-        if cel_mx != -9999.0 :
-            if cellHaut ==0:
-                cellHaut = it_raw
-            else :
-                cellBas = it_raw
-            if cellGauche ==0 or cellGauche > it_col:
-                cellGauche = it_col
-
-            if it_col>cellDroite :
-                cellDroite = it_col
-
-        it_col += 1
-    it_raw +=1
-
-#Valeurs pour les paramètres du raster
-xres_split = cellDroite-cellGauche+1
-yres_split = cellBas-cellHaut+1
-xmin_split = x_min_ampli_da+(cellGauche*pixel_size_da_x)
-ymax_split = y_max_ampli_da-(cellHaut*pixel_size_da_y)
-
-# OSR transformation to 4326 (coordonnées nécessaires dans cette projection pour afficher donner l'extension sur leaflet (alors qu'il faut mettre la couche en epsg) :
-xmax_split = xmin_split + xres_split*pixel_size_da_x
-ymin_split = ymax_split - yres_split*pixel_size_da_y
-
-transform_targettoleafletextent = osr.CoordinateTransformation(SRS_target, srs_extentLeaflet)
-x_min_4326, y_min_4326, burp = transform_targettoleafletextent.TransformPoint(xmin_split, ymin_split)
-x_max_4326, y_max_4326, burp = transform_targettoleafletextent.TransformPoint(xmax_split, ymax_split)
-
-##-------------------------Ecriture
-
-##Fichiers
-#Chemins des rasters de sortie
-result_fn = rep_final+r'\resultat.tif'
-result_fn_255 = rep_temp+r'\resultat_255.tif'
-result_fn_png = rep_final+r'\resultat.png'
-
-result_contmax_fn = rep_final+r'\resultat_contmax.tif'
-result_contmax_fn_255 = rep_temp+r'\resultat_contmax_255.tif'
-result_contmax_fn_png = rep_final+r'\resultat_contmax.png'
-
-result_nodata_fn = rep_final+r'\resultat_nodata.tif'
-result_nodata_fn_255 = rep_temp+r'\resultat_nodata_255.tif'
-result_nodata_fn_png = rep_final+r'\resultat_nodata.png'
-
-#Résultat sans les contraintes absolues (+ en convertible PNG)
-result_ds = gdal.GetDriverByName('GTiff').Create(result_fn, xres_split, yres_split, 1,gdal.GDT_Float32)
-result_ds.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-result_ds.SetProjection(SRS_target.ExportToWkt())
-result_band  = result_ds.GetRasterBand(1)
-result_band.SetNoDataValue(NoData_value)
-result_band.SetUnitType("m")
-
-result_ds_255 = gdal.GetDriverByName('GTiff').Create(result_fn_255, xres_split, yres_split, 4,gdal.GDT_Float32)
-result_ds_255.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-result_ds_255.SetProjection(SRS_target.ExportToWkt())
-result_band_255_1 = result_ds_255.GetRasterBand(1)
-result_band_255_2 = result_ds_255.GetRasterBand(2)
-result_band_255_3 = result_ds_255.GetRasterBand(3)
-result_band_255_4 = result_ds_255.GetRasterBand(4)
-
-#Résultat avec contraintes absolues = 1 (+ en convertible PNG)
-result_contmax_ds = gdal.GetDriverByName('GTiff').Create(result_contmax_fn, xres_split, yres_split, 1,gdal.GDT_Float32)
-result_contmax_ds.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-result_contmax_ds.SetProjection(SRS_target.ExportToWkt())
-result_contmax_band  = result_contmax_ds.GetRasterBand(1)
-result_contmax_band.SetNoDataValue(NoData_value)
-result_contmax_band.SetUnitType("m")
-
-result_contmax_ds_255 = gdal.GetDriverByName('GTiff').Create(result_contmax_fn_255, xres_split, yres_split, 4,gdal.GDT_Float32)
-result_contmax_ds_255.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0,-pixel_size_da_y))
-result_contmax_ds_255.SetProjection(SRS_target.ExportToWkt())
-result_contmax_band_255_1 = result_contmax_ds_255.GetRasterBand(1)
-result_contmax_band_255_2 = result_contmax_ds_255.GetRasterBand(2)
-result_contmax_band_255_3 = result_contmax_ds_255.GetRasterBand(3)
-result_contmax_band_255_4 = result_contmax_ds_255.GetRasterBand(4)
-
-#Résultat avec contraintes absolues = NoData (+ en convertible PNG)
-result_nodata_ds = gdal.GetDriverByName('GTiff').Create(result_nodata_fn, xres_split, yres_split, 1,gdal.GDT_Float32)
-result_nodata_ds.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-result_nodata_ds.SetProjection(SRS_target.ExportToWkt())
-result_nodata_band = result_nodata_ds.GetRasterBand(1)
-result_nodata_band.SetNoDataValue(NoData_value)
-result_nodata_band.SetUnitType("m")
-
-result_nodata_ds_255 = gdal.GetDriverByName('GTiff').Create(result_nodata_fn_255, xres_split, yres_split, 4,gdal.GDT_Float32)
-result_nodata_ds_255.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-result_nodata_ds_255.SetProjection(SRS_target.ExportToWkt())
-result_nodata_band_255_1 = result_nodata_ds_255.GetRasterBand(1)
-result_nodata_band_255_2 = result_nodata_ds_255.GetRasterBand(2)
-result_nodata_band_255_3 = result_nodata_ds_255.GetRasterBand(3)
-result_nodata_band_255_4 = result_nodata_ds_255.GetRasterBand(4)
-
-##Ecriture des matrices dans els ficheirs
-
-if len(ls_layers) > 0 :
-    resultat_file.write("\n\nAncienne matrice : "+str(t.shape))
-    t = t[cellHaut:cellBas,cellGauche:cellDroite]
-    resultat_file.write("   --   Nouvelle matrice : "+str(t.shape))
-    result_band.WriteArray(t)
-
-    t255 = np.where(t==NoData_value,NoData_value,t*255)
-    result_band_255_1.WriteArray(t255)
-    result_band_255_2.WriteArray(t255)
-    result_band_255_3.WriteArray(t255)
-
-    t255_op = np.where(t==NoData_value,0,255)
-    result_band_255_4.WriteArray(t255_op)
-
-if len(ls_layers_abs) >0 :
-    u = u[cellHaut:cellBas,cellGauche:cellDroite]
-    v = v[cellHaut:cellBas,cellGauche:cellDroite]
-    result_nodata_band.WriteArray(u)
-    result_contmax_band.WriteArray(v)
-
-    u255 = np.where(u==NoData_value,NoData_value,u*255)
-    v255 = np.where(u==NoData_value,NoData_value,v*255)
-
-    result_nodata_band_255_1.WriteArray(u255)
-    result_nodata_band_255_2.WriteArray(u255)
-    result_nodata_band_255_3.WriteArray(u255)
-
-    result_contmax_band_255_1.WriteArray(v255)
-    result_contmax_band_255_2.WriteArray(v255)
-    result_contmax_band_255_3.WriteArray(v255)
-
-    u255_op = np.where(u==NoData_value,0,255)
-    v255_op = np.where(v==NoData_value,0,255)
-
-    result_nodata_band_255_4.WriteArray(u255_op)
-    result_contmax_band_255_4.WriteArray(v255_op)
-
-#----Conversion du PNG
-saveOptions = []
-saveOptions.append("QUALITY=100")
-
-# Create the .JPG file
-jpegDriver0 = gdal.GetDriverByName("PNG")
-blop = jpegDriver0.CreateCopy(result_fn_png, result_ds_255, 0, saveOptions)
-
-jpegDriver1 = gdal.GetDriverByName("PNG")
-blap = jpegDriver1.CreateCopy(result_contmax_fn_png, result_contmax_ds_255, 0, saveOptions)
-
-jpegDriver2 = gdal.GetDriverByName("PNG")
-blip = jpegDriver2.CreateCopy(result_nodata_fn_png, result_nodata_ds_255, 0, saveOptions)
-
-##---------------------------------------Fermetures
-tar_emp_ds = None
-emprise_ds.Destroy()
-
-result_band = None
-result_ds = None
-
-result_contmax_band = None
-result_contmax_ds = None
-
-result_nodata_band = None
-result_nodata_ds = None
-
-result_band_255_1 = None
-result_band_255_2 = None
-result_band_255_3 = None
-result_band_255_4 = None
-result_ds_255 = None
-
-result_contmax_band_255_1 = None
-result_contmax_band_255_2 = None
-result_contmax_band_255_3 = None
-result_contmax_band_255_4 = None
-result_contmax_ds_255 = None
-
-result_nodata_band_255_1 = None
-result_nodata_band_255_2 = None
-result_nodata_band_255_3 = None
-result_nodata_band_255_4 = None
-result_nodata_ds_255 = None
-
-fin = time.time()
-timepass = fin-debut
-minutess = int(timepass/60)
-secondess=timepass-minutess*60
-resultat_file.write("\n\nTemps passé : "+str(minutess)+" min "+str(secondess)+" sec")
-
-content.close()
-resultat_file.close()
-
-if fichier_temp=="NON" :
-    shutil.rmtree(rep_temp)
+        gdal.RasterizeLayer(tar_emp_ds, [1], emprise_layer, burn_values=[1])
+
+        band_emp_ras = tar_emp_ds.GetRasterBand(1)
+        band_emp_ras.SetNoDataValue(NoData_value)
+        b = band_emp_ras.ReadAsArray()
+
+        ##---------------------------------------Bouclage pour le traitement des données
+        ind=-1
+        content.close()
+        content  = open(data,"r")
+
+        resultat_file.write("\n\n----- TRAITEMENTS INDIVIDUELS")
+        for i in content :
+
+            row = i.split(";")
+            data_type=row[2]
+            pond=row[3]
+
+            if ind > -1 and data_type!="0" and pond!="0":
+                row = i.split(";")
+
+                level=row[7]
+                if level=="3" or "fusion" not in row[0]:
+                    inputt = row[1]
+                else :
+                    inputt = rep_fusions+"\\"+row[0]
+                ##---------------------------------------Rasterisation    (en format Byte, à copier pour le deuxième cas où il faudra un floatant)
+                source_ds = ogr.Open(inputt)
+                source_layer = source_ds.GetLayer()
+
+
+                # Creation du raster pour les données
+                raster_fn =rep_temp+r"\rast_byte_"+ i.split(".")[0]+".tif"
+                target_ds = gdal.GetDriverByName('GTiff').Create(raster_fn, x_res_ampli, y_res_ampli,1, gdal.GDT_Byte)
+                target_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
+                target_ds.SetProjection(SRS_target.ExportToWkt())
+
+                # Rasterize
+                gdal.RasterizeLayer(target_ds, [1], source_layer, burn_values=[1])
+
+                band = target_ds.GetRasterBand(1)
+                band.SetNoDataValue(NoData_value)
+
+                resultat_file.write("\n\n"+row[0]+" de type : "+data_type)
+                ##---------------------------------------Raster de distance
+                if data_type=="1" or data_type=="2" or data_type=="7" or data_type=="8":
+
+                    # Création du raster de sortie
+                    proxy_fn = rep_temp+r'\proximity_'+i.split(".")[0]+'.tif'
+                    dst_ds = gdal.GetDriverByName( 'GTiff' ).Create(proxy_fn, x_res_ampli, y_res_ampli,1, gdal.GDT_Float32)
+                    dst_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
+                    dst_ds.SetProjection(SRS_target.ExportToWkt())
+
+                    dst_band = dst_ds.GetRasterBand(1)
+                    dst_band.SetNoDataValue(NoData_value)
+
+                    # Fonction proximity
+                    gdal.ComputeProximity(band, dst_band )   #ATTENTION, renvoie des valeurs en hm et non en m
+
+                    ##---------------------------------------Calculatrices
+                    a = dst_band.ReadAsArray()#.astype(np.float)
+                    #Calcul 1 : découpe
+                    c = np.where(b==1,a,NoData_value)
+                    #Calcul 2 : normalisation (à faire après pour le maximum soit celui de l'emprise et pas de tout le rectangle
+                    maxi_area = np.max(c)
+                    #Si distance amx  -> noramlisation particulière enfonction de la valeur de la distance max et de la comapraison avec le maximum
+                    if row[4] and float(row[4])>0 :
+                        resultat_file.write("\Buffer effectué")
+                        dist_buff=float(row[4])
+                        maxOk = min(maxi_area,dist_buff)
+                        d = np.where(c>maxOk,1,c/maxOk)
+
+
+                    #Sinon, normalisation par rapport à la velru maximale trouvée sur le raster de distance
+                    else:
+                        d = np.where(c>maxi_area,1,c/maxi_area)
+                    #Ajustement no_data (les valeurs ont été modifiées
+                    e= np.where(d<0,NoData_value,d)
+
+                    #Ecriture
+                    dst_band.WriteArray(e)
+                    ##---------------------------------------Variables :
+
+                    #Listes pour le calcul final...
+                    ls_layers.append(proxy_fn)
+                    ls_type.append(data_type)
+                    ls_pond.append(row[3])
+
+                    #Et propriétés des rasters finaux
+                    if geotrans_ref =="":
+                        geotrans_ref = dst_ds.GetGeoTransform()
+                        xres3857 =dst_ds.RasterXSize
+                        yres3857=dst_ds.RasterYSize
+
+
+                    ##---------------------------------------Fermetures spécifiques
+                    dst_band = None
+                    dst_ds = None
+
+
+                    resultat_file.write("\nRaster de distance effectué")
+                if data_type=="3" or data_type=="4" or data_type=="5" or data_type=="6" or data_type=="7" or data_type=="8":
+                    if row[4] and float(row[4])>0 and data_type!="7" and data_type!="8":
+
+                        #Application du buffer
+                        dist_buff=float(row[4])
+                        outputBufferfn = rep_temp+'/buffer_'+str(dist_buff)+'_'+i.split(".")[0]+'.shp'
+                        output_prj = rep_temp+'/buffer_'+str(dist_buff)+'_'+i.split(".")[0]+'.prj'
+
+                        shpdriver = ogr.GetDriverByName('ESRI Shapefile')
+                        outputBufferds = shpdriver.CreateDataSource(outputBufferfn)
+                        bufferlyr = outputBufferds.CreateLayer(outputBufferfn, geom_type=ogr.wkbPolygon)
+
+                        featureDefn = bufferlyr.GetLayerDefn()
+                        for feature in source_layer:
+                            ingeom = feature.GetGeometryRef()
+                            geomBuffer = ingeom.Buffer(dist_buff)
+
+                            outFeature = ogr.Feature(featureDefn)
+                            outFeature.SetGeometry(geomBuffer)
+                            bufferlyr.CreateFeature(outFeature)
+
+                        prj = open(output_prj, 'w')
+                        #proyeccion = 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]'
+                        source_srs_data = source_layer.GetSpatialRef()
+                        prj.write(source_srs_data.ExportToWkt())
+                        prj.close()
+
+                        #Afermer et réouvrir (je sais pas pk, on doit pouvoir éviter ça)
+                        outputBufferds.Destroy()
+                        source_buff = ogr.Open(outputBufferfn)
+                        source_buff_lay = source_buff.GetLayer()
+
+
+                        #Rasterisation du buffer (écrase la précédemet écriture de target_ds, pas raev puisque le cas 1 est exécuté avant)
+                        gdal.RasterizeLayer(target_ds, [1], source_buff_lay, burn_values=[1])
+                        source_buff = None
+                        resultat_file.write("\nBuffer effectué")
+
+                    #On repart de target_ds (le raster !) pour les passer au découpage puis...
+                    #Il faut le copier dans un floattant et donc
+                    raster_float =rep_temp+r"\rast_float_"+ i.split(".")[0]+".tif"
+
+                    target_float_ds = gdal.GetDriverByName('GTiff').Create(raster_float,x_res_ampli, y_res_ampli,1, gdal.GDT_Float32)
+                    target_float_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
+                    target_float_ds.SetProjection(SRS_target.ExportToWkt())
+
+                    band_float = target_float_ds.GetRasterBand(1)
+                    band_float.SetNoDataValue(NoData_value)
+                    band_float.SetUnitType("m")
+
+                    a = band.ReadAsArray()
+                    c = np.where(a==1,1,0)    #a quoi sert cette étape?
+                    d = np.where(b==1,c,NoData_value)
+                    band_float.WriteArray(d)
+                    #Listes pour le calcul final
+                    if data_type == "3" or  data_type == "4" :
+                        ls_layers.append(raster_float)
+                        ls_type.append(data_type)
+                        ls_pond.append(row[3])
+                    elif data_type == "5" or  data_type == "6" or data_type=="7" or data_type=="8":
+                        ls_layers_abs.append(raster_float)
+                        ls_type_abs.append(data_type)
+                        ls_pond_abs.append(row[3])
+
+                    resultat_file.write("\nPas de raster de distance")
+
+                    band_float = None
+                    target_float_ds = None
+
+                ##---------------------------------------Fermetures générales
+                target_ds = None
+                band  = None
+                source_ds.Destroy()
+            ind+=1
+
+
+        ##---------------------------------------Caculatrice raster : mise en commun des données
+        resultat_file.write("\n\n----- DECOUPAGE ET MISE EN COMMUN")
+        resultat_file.write("\n\nCouches définitives : ")
+
+        for x in range(len(ls_layers)) :
+            ly = ls_layers[x]
+            resultat_file.write("\n"+ly)
+            ty = ls_type[x]
+            layer_src = gdal.Open(ly)
+
+            band_ly = layer_src.GetRasterBand(1)
+            pond=float(ls_pond[x])
+
+            n = band_ly.ReadAsArray()#.astype(np.float)
+            if x==0 :
+                t  = np.where(n==NoData_value,NoData_value,0)
+            if ty=="1" or ty=="7" or ty=="4": #Oui parce que la distance (1) équivautà l'éloignement, alors que pour le éprimètre, 1 sigifie à l'intérieur de
+                t = np.where(n==NoData_value,NoData_value,t+pond*n)
+            elif ty=="2" or ty=="8" or ty=="3":
+                t = np.where(n==NoData_value,NoData_value,t+pond*(1-n))
+            total = total + pond
+
+            layer_src = None
+            band_ly = None
+
+        if len(ls_layers) >0 :
+            t = np.where(t==NoData_value,NoData_value,t/total)
+            u=v=t
+        else :
+            u=v=np.where(b==NoData_value,NoData_value,0)
+
+        for x in range(len(ls_layers_abs)) :
+            ly = ls_layers_abs[x]
+            resultat_file.write("\n"+ly+" (données absolues)")
+            ty = ls_type_abs[x]
+            layer_src = gdal.Open(ly)
+            band_ly = layer_src.GetRasterBand(1)
+            pond=float(ls_pond_abs[x])
+
+            n = band_ly.ReadAsArray()#.astype(np.float)
+            if ty=="5" or ty=="7": #Oui parce que la distance (1) équivautà l'éloignement, alors que pour le éprimètre, 1 sigifie à l'intérieur de
+                u = np.where(n>0.5,u,NoData_value)
+                v = np.where(n>0.5,v,1)
+            elif ty=="6" or ty=="8":
+                u = np.where(n>0.5,NoData_value,u)
+                v = np.where(n>0.5,1,v)
+
+            layer_src = None
+            band_ly = None
+
+
+
+
+        ##-------------------------Valeurs de découpage et coordonnées de sortie
+        #Valeurs pour le découpage de la matrice
+
+        cellGauche = 0
+        cellDroite = 0
+        cellBas = 0
+        cellHaut =0
+        it_raw = 0
+        for raw_mx in t:
+            it_col = 0
+            for cel_mx in raw_mx:
+
+                if cel_mx != -9999.0 :
+                    if cellHaut ==0:
+                        cellHaut = it_raw
+                    else :
+                        cellBas = it_raw
+                    if cellGauche ==0 or cellGauche > it_col:
+                        cellGauche = it_col
+
+                    if it_col>cellDroite :
+                        cellDroite = it_col
+
+                it_col += 1
+            it_raw +=1
+
+        #Valeurs pour les paramètres du raster
+        xres_split = cellDroite-cellGauche+1
+        yres_split = cellBas-cellHaut+1
+        xmin_split = x_min_ampli_da+(cellGauche*pixel_size_da_x)
+        ymax_split = y_max_ampli_da-(cellHaut*pixel_size_da_y)
+
+        # OSR transformation to 4326 (coordonnées nécessaires dans cette projection pour afficher donner l'extension sur leaflet (alors qu'il faut mettre la couche en epsg) :
+        xmax_split = xmin_split + xres_split*pixel_size_da_x
+        ymin_split = ymax_split - yres_split*pixel_size_da_y
+
+        transform_targettoleafletextent = osr.CoordinateTransformation(SRS_target, srs_extentLeaflet)
+        x_min_4326, y_min_4326, burp = transform_targettoleafletextent.TransformPoint(xmin_split, ymin_split)
+        x_max_4326, y_max_4326, burp = transform_targettoleafletextent.TransformPoint(xmax_split, ymax_split)
+
+        ##-------------------------Ecriture
+
+        ##Fichiers
+        #Chemins des rasters de sortie
+        result_fn = rep_final+r'\resultat.tif'
+        result_fn_255 = rep_temp+r'\resultat_255.tif'
+        result_fn_png = rep_final+r'\resultat.png'
+
+        result_contmax_fn = rep_final+r'\resultat_contmax.tif'
+        result_contmax_fn_255 = rep_temp+r'\resultat_contmax_255.tif'
+        result_contmax_fn_png = rep_final+r'\resultat_contmax.png'
+
+        result_nodata_fn = rep_final+r'\resultat_nodata.tif'
+        result_nodata_fn_255 = rep_temp+r'\resultat_nodata_255.tif'
+        result_nodata_fn_png = rep_final+r'\resultat_nodata.png'
+
+        #Résultat sans les contraintes absolues (+ en convertible PNG)
+        result_ds = gdal.GetDriverByName('GTiff').Create(result_fn, xres_split, yres_split, 1,gdal.GDT_Float32)
+        result_ds.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
+        result_ds.SetProjection(SRS_target.ExportToWkt())
+        result_band  = result_ds.GetRasterBand(1)
+        result_band.SetNoDataValue(NoData_value)
+        result_band.SetUnitType("m")
+
+        result_ds_255 = gdal.GetDriverByName('GTiff').Create(result_fn_255, xres_split, yres_split, 4,gdal.GDT_Float32)
+        result_ds_255.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
+        result_ds_255.SetProjection(SRS_target.ExportToWkt())
+        result_band_255_1 = result_ds_255.GetRasterBand(1)
+        result_band_255_2 = result_ds_255.GetRasterBand(2)
+        result_band_255_3 = result_ds_255.GetRasterBand(3)
+        result_band_255_4 = result_ds_255.GetRasterBand(4)
+
+        #Résultat avec contraintes absolues = 1 (+ en convertible PNG)
+        result_contmax_ds = gdal.GetDriverByName('GTiff').Create(result_contmax_fn, xres_split, yres_split, 1,gdal.GDT_Float32)
+        result_contmax_ds.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
+        result_contmax_ds.SetProjection(SRS_target.ExportToWkt())
+        result_contmax_band  = result_contmax_ds.GetRasterBand(1)
+        result_contmax_band.SetNoDataValue(NoData_value)
+        result_contmax_band.SetUnitType("m")
+
+        result_contmax_ds_255 = gdal.GetDriverByName('GTiff').Create(result_contmax_fn_255, xres_split, yres_split, 4,gdal.GDT_Float32)
+        result_contmax_ds_255.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0,-pixel_size_da_y))
+        result_contmax_ds_255.SetProjection(SRS_target.ExportToWkt())
+        result_contmax_band_255_1 = result_contmax_ds_255.GetRasterBand(1)
+        result_contmax_band_255_2 = result_contmax_ds_255.GetRasterBand(2)
+        result_contmax_band_255_3 = result_contmax_ds_255.GetRasterBand(3)
+        result_contmax_band_255_4 = result_contmax_ds_255.GetRasterBand(4)
+
+        #Résultat avec contraintes absolues = NoData (+ en convertible PNG)
+        result_nodata_ds = gdal.GetDriverByName('GTiff').Create(result_nodata_fn, xres_split, yres_split, 1,gdal.GDT_Float32)
+        result_nodata_ds.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
+        result_nodata_ds.SetProjection(SRS_target.ExportToWkt())
+        result_nodata_band = result_nodata_ds.GetRasterBand(1)
+        result_nodata_band.SetNoDataValue(NoData_value)
+        result_nodata_band.SetUnitType("m")
+
+        result_nodata_ds_255 = gdal.GetDriverByName('GTiff').Create(result_nodata_fn_255, xres_split, yres_split, 4,gdal.GDT_Float32)
+        result_nodata_ds_255.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
+        result_nodata_ds_255.SetProjection(SRS_target.ExportToWkt())
+        result_nodata_band_255_1 = result_nodata_ds_255.GetRasterBand(1)
+        result_nodata_band_255_2 = result_nodata_ds_255.GetRasterBand(2)
+        result_nodata_band_255_3 = result_nodata_ds_255.GetRasterBand(3)
+        result_nodata_band_255_4 = result_nodata_ds_255.GetRasterBand(4)
+
+        ##Ecriture des matrices dans els ficheirs
+
+        if len(ls_layers) > 0 :
+            resultat_file.write("\n\nAncienne matrice : "+str(t.shape))
+            t = t[cellHaut:cellBas,cellGauche:cellDroite]
+            resultat_file.write("   --   Nouvelle matrice : "+str(t.shape))
+            result_band.WriteArray(t)
+
+            t255 = np.where(t==NoData_value,NoData_value,t*255)
+            result_band_255_1.WriteArray(t255)
+            result_band_255_2.WriteArray(t255)
+            result_band_255_3.WriteArray(t255)
+
+            t255_op = np.where(t==NoData_value,0,255)
+            result_band_255_4.WriteArray(t255_op)
+
+        if len(ls_layers_abs) >0 :
+            u = u[cellHaut:cellBas,cellGauche:cellDroite]
+            v = v[cellHaut:cellBas,cellGauche:cellDroite]
+            result_nodata_band.WriteArray(u)
+            result_contmax_band.WriteArray(v)
+
+            u255 = np.where(u==NoData_value,NoData_value,u*255)
+            v255 = np.where(u==NoData_value,NoData_value,v*255)
+
+            result_nodata_band_255_1.WriteArray(u255)
+            result_nodata_band_255_2.WriteArray(u255)
+            result_nodata_band_255_3.WriteArray(u255)
+
+            result_contmax_band_255_1.WriteArray(v255)
+            result_contmax_band_255_2.WriteArray(v255)
+            result_contmax_band_255_3.WriteArray(v255)
+
+            u255_op = np.where(u==NoData_value,0,255)
+            v255_op = np.where(v==NoData_value,0,255)
+
+            result_nodata_band_255_4.WriteArray(u255_op)
+            result_contmax_band_255_4.WriteArray(v255_op)
+
+        #----Conversion du PNG
+        saveOptions = []
+        saveOptions.append("QUALITY=100")
+
+        # Create the .JPG file
+        jpegDriver0 = gdal.GetDriverByName("PNG")
+        blop = jpegDriver0.CreateCopy(result_fn_png, result_ds_255, 0, saveOptions)
+
+        jpegDriver1 = gdal.GetDriverByName("PNG")
+        blap = jpegDriver1.CreateCopy(result_contmax_fn_png, result_contmax_ds_255, 0, saveOptions)
+
+        jpegDriver2 = gdal.GetDriverByName("PNG")
+        blip = jpegDriver2.CreateCopy(result_nodata_fn_png, result_nodata_ds_255, 0, saveOptions)
+
+        ##---------------------------------------Fermetures
+        tar_emp_ds = None
+        emprise_ds.Destroy()
+
+        result_band = None
+        result_ds = None
+
+        result_contmax_band = None
+        result_contmax_ds = None
+
+        result_nodata_band = None
+        result_nodata_ds = None
+
+        result_band_255_1 = None
+        result_band_255_2 = None
+        result_band_255_3 = None
+        result_band_255_4 = None
+        result_ds_255 = None
+
+        result_contmax_band_255_1 = None
+        result_contmax_band_255_2 = None
+        result_contmax_band_255_3 = None
+        result_contmax_band_255_4 = None
+        result_contmax_ds_255 = None
+
+        result_nodata_band_255_1 = None
+        result_nodata_band_255_2 = None
+        result_nodata_band_255_3 = None
+        result_nodata_band_255_4 = None
+        result_nodata_ds_255 = None
+
+        fin = time.time()
+        timepass = fin-debut
+        minutess = int(timepass/60)
+        secondess=timepass-minutess*60
+        resultat_file.write("\n\nTemps passé : "+str(minutess)+" min "+str(secondess)+" sec")
+
+        content.close()
+        resultat_file.close()
+
+        if fichier_temp=="NON" :
+            shutil.rmtree(rep_temp)
