@@ -13,7 +13,12 @@
 
 ##---------------------------------------MODULES
 import time
-print "Début : "+str(time.time())
+
+minute =time.localtime()[4]
+if minute < 10 :
+    minute = "0"+str(minute)
+heure = str(time.localtime()[3])+":"+str(minute)
+date = str(time.localtime()[2])+"-"+str(time.localtime()[1])+"-"+str(time.localtime()[0])
 
 import osgeo
 from osgeo import ogr, osr, gdal
@@ -25,8 +30,6 @@ import os
 import shutil
 import string
 import sys
-
-print "Imports : "+str(time.time())
 
 ##---------------------------------------Paramètres rentrés par l'utilisateur
 #Tableau de données
@@ -58,8 +61,10 @@ rep_fusions = r"..\catalogue_donnees_v1\fusions"
 ##identifiant=sys.argv[1]
 identifiant='identifiant'
 
-pixel_size=150.0 #PARAMETRE!!!!!
+pixel_size=100.0 #PARAMETRE!!!!!
 srid = 3857 #on parametrable
+
+debut = time.time()
 
 ##---------------------------------------Variables définies pour le modèle
 # Projection pour avoir des mètres
@@ -71,11 +76,25 @@ SRS_target.ImportFromEPSG(srid)
 # Projection des coordonnées d'extentions à mettre dans LEaflet
 srs_extentLeaflet = osr.SpatialReference()
 srs_extentLeaflet.ImportFromEPSG(4326)
-#Valeurs calage (table des trois rois)
-calageX = 395798.22137184744
-calageY = 6209308.02597751
 # Valeur Nodata
 NoData_value = -9999
+#Valeurs calage (table des trois rois - friche saint sauveur)
+calageX = 395798.22137184744
+calageY = 6209308.02597751
+calageX2 = 705116.906434
+calageY2 = 7058744.78037
+# Dosiers de sortie
+out_test = r"\sortie_"+str(it)
+if out_test in os.listdir(out_folder):
+    out_test = r"\sortie_"+str(it)+"_"+str(int(time.time()))
+
+out_folder= rep_data+out_test
+rep_temp = out_folder+r"\temp"
+rep_final= out_folder+r"\final"
+
+os.mkdir(out_folder)
+os.mkdir(rep_temp)
+os.mkdir(rep_final)
 
 # Variables globales implémentées dans la boucle
 ls_layers=[]
@@ -84,36 +103,23 @@ ls_type=[]
 ls_type_abs=[]
 ls_pond=[]
 ls_pond_abs=[]
-geotrans_ref = ""
-xres3857 = 0
-yres3857= 0
 ind = -1
 total = 0.0
 
-#Pour l'écriture
-minute =time.localtime()[4]
-if minute < 10 :
-    minute = "0"+str(minute)
-heure = str(time.localtime()[3])+":"+str(minute)
-date = str(time.localtime()[2])+"-"+str(time.localtime()[1])+"-"+str(time.localtime()[0])
-
-##---------------------------------------Creation du repertoire de fichier temporaire (necessaire pour une boucle)
-out_test = r"\sortie_"+str(it)+"_"+str(int(time.time()))
-out_folder= rep_data+out_test
-rep_temp = out_folder+r"\temp"
-rep_final= out_folder+r"\final"
-
-if out_test not in os.listdir(rep_data) :
-    print("Creation du dossier de sortie "+str(time.time()))
-    os.mkdir(out_folder)
-    os.mkdir(rep_temp)
-    os.mkdir(rep_final)
-else :
-    print("Dossier de sortie existant "+str(time.time()))
+print("Exécuté le "+date+" à "+heure+"    --     "+identifiant)
+print("\n\nParamètres : ")
+print("\n1) Emplacement et nom du tableau indexant les données à utiliser (.csv) :")
+print(data)
+print("\n2) Seuil de contrainte estimée maximale (nombre décimal entre 0 et 1) : " +str(tolerance) )
+print("\n3) Fichier dont la géométrie délimite l'étude (.shp) : ")
+print(emprise)
+print("\n4) Largeur des pixels de la grille en sortie (nombre décimal en mètres, compris entre 10 et 1000)  : " +str(pixel_size))
+print("\n5) SRID des fichiers de sortie : "+str(srid))
+print("\n6) Répertoire des fichiers de sortie : ")
+print(out_folder)
+print("\n7) Ecriture des fichiers temporaires : "+fichier_temp)
 
 ##---------------------------------------Premièer boucle pour avoir l'emprsie maximale des données et ses coordonnées
-#tous les rasters seront sur ce modèle :
-#Vu qu'on découpe à chaque fois, si l'on ne fait pas, il peut y a voir un décalage avec les raster générés et découpé par l'emprise..
 
 #Listes des valeurs qu'on va trier
 ls_xmin_dameters = []
@@ -128,14 +134,12 @@ emprise_layer = emprise_ds.GetLayer()
 #bouclage   pour récupérer les emprises et prendre la plus grande
 all_data_in = []
 for j in content :
-    print "ind",ind
 
     line = j.split(";")
     ttype=line[2]
     pond=line[3]
 
     if ind > -1 and ttype!="0" and pond!="0":
-        print "ind_if", ind
         ##---------------------------------------Recherche des valeurs extent
         level=line[7]
         if level=="3" or "fusion" not in line[0]:
@@ -147,7 +151,6 @@ for j in content :
     ind+=1
 
 all_data_in.append(emprise)
-print all_data_in
 #Répétition de l'action de la boucle pour le layer d'emprise (si plus grand)  #c'est dégueulasse!!
 for inputt in all_data_in :
     source_ds = ogr.Open(inputt)
@@ -169,8 +172,6 @@ for inputt in all_data_in :
     ls_ymin_dameters.append(y_min_meters_da)
     ls_ymax_dameters.append(y_max_meters_da)
 
-
-print ls_xmin_dameters
 #-------------------------------------------------------------------------------
 
 #Tri des valeurs
@@ -179,20 +180,32 @@ x_max_meters_da = max(ls_xmax_dameters)
 y_min_meters_da = min(ls_ymin_dameters)
 y_max_meters_da = max(ls_ymax_dameters)
 
-#Calcul des autres variables
-x_res_ref_da = (x_max_meters_da - x_min_meters_da) / pixel_size
-y_res_ref_da = (y_max_meters_da - y_min_meters_da) / pixel_size
-
-# OSR transformation
+#OSR transformation - valeurs d'origine
 transform_meterstotarget = osr.CoordinateTransformation(srs_meters,SRS_target)
+x_min_ampli_da, y_max_ampli_da, dellvalue = transform_meterstotarget.TransformPoint(x_min_meters_da,y_max_meters_da)
+x_max_ampli_da, y_min_ampli_da, dellvalue = transform_meterstotarget.TransformPoint(x_max_meters_da,y_min_meters_da)
 
-# Calcul des variables
-x_min_ampli_da, y_min_ampli_da, burp = transform_meterstotarget.TransformPoint(x_min_meters_da, y_min_meters_da)
-x_max_ampli_da, y_max_ampli_da, burp = transform_meterstotarget.TransformPoint(x_max_meters_da, y_max_meters_da)
+calageX_proj,calageY_proj, dellvalue = transform_meterstotarget.TransformPoint(calageX,calageY)
+calageX_proj2,calageY_proj2, dellvalue = transform_meterstotarget.TransformPoint(calageX2,calageY2)
 
-pixel_size_da_x = (x_max_ampli_da - x_min_ampli_da) / x_res_ref_da
-pixel_size_da_y = (y_max_ampli_da - y_min_ampli_da) / y_res_ref_da
+#Calcul des variables de résolution selon le calage
+x_res_ref_da = (calageX2 - calageX) / pixel_size
+y_res_ref_da = (calageY2 - calageY) / pixel_size
 
+pixel_size_da_x = (calageX_proj2 - calageX_proj) / x_res_ref_da
+pixel_size_da_y = (calageY_proj2 - calageY_proj) / y_res_ref_da
+
+#Calage des valeurs d'origine : X
+nXmin = calageX+float(int((x_min_ampli_da-calageX)/pixel_size_da_x))*pixel_size_da_x
+nXmax =x_max_ampli_da-x_min_ampli_da+nXmin#+pixel_size
+x_min_ampli_da,x_max_ampli_da=nXmin,nXmax
+
+#Calage des valeurs d'origine : Y (Par contre on cale y sur la valeur ymin -> il faut faier attention à ça, car lespace entre les deux n'est pas un entier de la taille des cellules, donc l'un des des poinst n'est pas calé -> me raster se cale sur xmine t ymax donc..;)
+nYmax = calageY+float(int((y_max_ampli_da-calageY)/pixel_size_da_y))*pixel_size_da_y
+nYmin = y_min_ampli_da-y_max_ampli_da+nYmax#+pixel_size
+y_min_ampli_da,y_max_ampli_da=nYmin,nYmax
+
+#Calcul des variables de taille
 x_res_ampli = int((x_max_ampli_da - x_min_ampli_da) / pixel_size_da_x )
 y_res_ampli = int((y_max_ampli_da - y_min_ampli_da)/ pixel_size_da_y)
 
@@ -214,13 +227,11 @@ ind=-1
 content.close()
 content  = open(data,"r")
 
+print("\n\n----- TRAITEMENTS INDIVIDUELS")
 for i in content :
-    print ("bb")
-
     row = i.split(";")
     data_type=row[2]
     pond=row[3]
-    print row[0]
 
     if ind > -1 and data_type!="0" and pond!="0":
         row = i.split(";")
@@ -230,16 +241,13 @@ for i in content :
             inputt = row[1]
         else :
             inputt = rep_fusions+"\\"+row[0]
-        print inputt
+
         ##---------------------------------------Rasterisation    (en format Byte, à copier pour le deuxième cas où il faudra un floatant)
         source_ds = ogr.Open(inputt)
         source_layer = source_ds.GetLayer()
 
-
-        print x_res_ampli,y_res_ampli,pixel_size_da_x,pixel_size_da_y,x_min_ampli_da,y_max_ampli_da
         # Creation du raster pour les données
         raster_fn =rep_temp+r"\rast_byte_"+ i.split(".")[0]+".tif"
-        print raster_fn
         target_ds = gdal.GetDriverByName('GTiff').Create(raster_fn, x_res_ampli, y_res_ampli,1, gdal.GDT_Byte)
         target_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
         target_ds.SetProjection(SRS_target.ExportToWkt())
@@ -250,8 +258,8 @@ for i in content :
         band = target_ds.GetRasterBand(1)
         band.SetNoDataValue(NoData_value)
 
+        print("\n\n"+row[0]+" de type : "+data_type)
         ##---------------------------------------Raster de distance
-
         if data_type=="1" or data_type=="2" or data_type=="7" or data_type=="8":
 
             # Création du raster de sortie
@@ -272,39 +280,25 @@ for i in content :
             c = np.where(b==1,a,NoData_value)
             #Calcul 2 : normalisation (à faire après pour le maximum soit celui de l'emprise et pas de tout le rectangle
             maxi_area = np.max(c)
-            print maxi_area
-            #Si distance amx  -> noramlisation particulière enfonction de la valeur de la distance max et de la comapraison avec le maximum
-            if row[4] and float(row[4])>0 :
-                print("buffer")
-                dist_buff=float(row[4])
-                #Positifs
-##                if data_type=="1" or data_type=="7":
-                maxOk = min(maxi_area,dist_buff)
-                d = np.where(c>maxOk,1,c/maxOk)
-##                else : #cad data_type=2 ou 8     ##ce truc est bizarre ca correspond a contrainte effective jusqu'à...
-##                    if maxi_area>dist_buff:
-##                        print "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-##                        print np.max(c),dist_buff,maxi_area
-##                        d = np.where(c<dist_buff,(c-dist_buff)/(maxi_area-dist_buff),1)
-##                    else:
-##                        print "BBBBBBBBBBBBBBBBBB"
-##                        print np.max(c)
-##                        d = np.where(c==NoData_value,NoData_value,1)
 
+            #s'il y a un buffer, la valeur de normalisation peut changer
+            if row[4] and float(row[4])>0 :
+                dist_buff=float(row[4])
+                maxOk = min(maxi_area,dist_buff)
+                print("\Buffer effectué - "+str(maxOk)+" mètres")
+
+                #Normalisation
+                d = np.where(c>maxOk,1,c/maxOk)
 
             #Sinon, normalisation par rapport à la velru maximale trouvée sur le raster de distance
             else:
                 d = np.where(c>maxi_area,1,c/maxi_area)
-            print np.max(d)
+
             #Ajustement no_data (les valeurs ont été modifiées
             e= np.where(d<0,NoData_value,d)
 
             #Ecriture
             dst_band.WriteArray(e)
-
-##            #Conversion dans la projection
-##            proxy_fn_3857 = rep_temp+r'\proximity3857_'+i.split(".")[0]+'.tif'
-##            gdal.Warp(proxy_fn_3857,dst_ds,dstSRS='EPSG:'+str(srid))
 
             ##---------------------------------------Variables :
 
@@ -313,21 +307,12 @@ for i in content :
             ls_type.append(data_type)
             ls_pond.append(row[3])
 
-            #Et propriétés des rasters finaux
-            if geotrans_ref :
-                print "Geotransformation de référence déjà renseignée"
-            else :
-                geotrans_ref = dst_ds.GetGeoTransform()
-                xres3857 =dst_ds.RasterXSize
-                yres3857=dst_ds.RasterYSize
-
 
             ##---------------------------------------Fermetures spécifiques
             dst_band = None
             dst_ds = None
 
-
-            print "Raster de distance (type "+data_type+") : "+str(time.time())
+        print("\nRaster de distance effectué")
         if data_type=="3" or data_type=="4" or data_type=="5" or data_type=="6" or data_type=="7" or data_type=="8":
             if row[4] and float(row[4])>0 and data_type!="7" and data_type!="8":
 
@@ -360,20 +345,10 @@ for i in content :
                 source_buff = ogr.Open(outputBufferfn)
                 source_buff_lay = source_buff.GetLayer()
 
-
                 #Rasterisation du buffer (écrase la précédemet écriture de target_ds, pas raev puisque le cas 1 est exécuté avant)
                 gdal.RasterizeLayer(target_ds, [1], source_buff_lay, burn_values=[1])
                 source_buff = None
-
-##                 #Conversion dans la projection   ("écrase la variable")
-##                raster_fn_3857 =rep_temp+r"\rast_buff_3857_byte_"+ i.split(".")[0]+".tif"
-##                gdal.Warp(raster_fn_3857,target_ds,dstSRS='EPSG:3857')
-##
-##                target_ds = None
-##
-##                target_ds = gdal.Open(raster_fn_3857)
-
-                print "Buffer ok : ",time.time()
+                print("\nBuffer effectué - "+str(dist_buff)+" mètres")
 
             #On repart de target_ds (le raster !) pour les passer au découpage puis...
             #Il faut le copier dans un floattant et donc
@@ -392,16 +367,6 @@ for i in content :
             d = np.where(b==1,c,NoData_value)
             band_float.WriteArray(d)
 
-##         #Conversion das la projection   ("écrase la variable")
-##            raster_float_3857 =rep_temp+r"\rast3857_float_"+ i.split(".")[0]+".tif"
-##            gdal.Warp(raster_fn_3857,raster_float_3857,dstSRS='EPSG:3857')
-##
-##            target_float_ds = None
-##
-##            target_float_ds = gdal.Open(raster_fn_3857)
-
-            print "Buffer ok : ",time.time()
-
             #Listes pour le calcul final
             if data_type == "3" or  data_type == "4" :
                 ls_layers.append(raster_float)
@@ -412,7 +377,7 @@ for i in content :
                 ls_type_abs.append(data_type)
                 ls_pond_abs.append(row[3])
 
-            print "Pas de raster de distance (type "+data_type+") : "+str(time.time())
+            print("\nPas de raster de distance")
 
             band_float = None
             target_float_ds = None
@@ -423,12 +388,13 @@ for i in content :
         source_ds.Destroy()
     ind+=1
 
-print "Traitements individuels terminés : "+str(time.time())
-
 ##---------------------------------------Caculatrice raster : mise en commun des données
-print ls_layers
+print("\n\n----- DECOUPAGE ET MISE EN COMMUN")
+print("\n\nCouches définitives : ")
+
 for x in range(len(ls_layers)) :
     ly = ls_layers[x]
+    print("\n"+ly)
     ty = ls_type[x]
     layer_src = gdal.Open(ly)
 
@@ -443,7 +409,6 @@ for x in range(len(ls_layers)) :
     elif ty=="2" or ty=="8" or ty=="3":
         t = np.where(n==NoData_value,NoData_value,t+pond*(1-n))
     total = total + pond
-    print total
 
 if len(ls_layers) >0 :
     t = np.where(t==NoData_value,NoData_value,t/total)
@@ -452,6 +417,7 @@ else :
     u=v=np.where(b==NoData_value,NoData_value,0)
 
 for x in range(len(ls_layers_abs)) :
+    print("\n"+ly+" (données absolues)")
     ly = ls_layers_abs[x]
     ty = ls_type_abs[x]
     layer_src = gdal.Open(ly)
@@ -474,7 +440,6 @@ cellGauche = 0
 cellDroite = 0
 cellBas = 0
 cellHaut =0
-print "CEST PARTIIIIIIIIIIIIIIIIIIIIIIIIIIII", time.clock()
 it_raw = 0
 for raw_mx in t:
     it_col = 0
@@ -494,7 +459,6 @@ for raw_mx in t:
         it_col += 1
     it_raw +=1
 
-print pixel_size_da_y
 #Valeurs pour les paramètres du raster
 xres_split = cellDroite-cellGauche+1
 yres_split = cellBas-cellHaut+1
@@ -575,13 +539,11 @@ result_nodata_band_255_4 = result_nodata_ds_255.GetRasterBand(4)
 
 ##Ecriture des matrices dans els ficheirs
 if len(ls_layers) > 0 :
-    print "shape"
-    print t.shape
+    print("\n\nAncienne matrice : "+str(t.shape))
     t = t[cellHaut:cellBas,cellGauche:cellDroite]
-    print t.shape
+    print("   --   Nouvelle matrice : "+str(t.shape))
     result_band.WriteArray(t)
-##    result_band = None
-##    result_ds = None
+
     t255 = np.where(t==NoData_value,NoData_value,t*255)
     result_band_255_1.WriteArray(t255)
     result_band_255_2.WriteArray(t255)
@@ -658,12 +620,16 @@ result_nodata_band_255_3 = None
 result_nodata_band_255_4 = None
 result_nodata_ds_255 = None
 
+fin = time.time()
+timepass = fin-debut
+minutess = int(timepass/60)
+secondess=timepass-minutess*60
+print("\n\nTemps passé : "+str(minutess)+" min "+str(secondess)+" sec")
 
 ##---------------------------------------Ecriture dans le fichier index!
 
 contenu_index = ""
 if "index_resultats.csv" in os.listdir(r"..\data/") :
-    print "ecrase"
 
     read_index=open(r"..\data\index_resultats.csv",'r')
     for roww in read_index :
@@ -676,7 +642,7 @@ if "index_resultats.csv" in os.listdir(r"..\data/") :
     indexRes.write(contenu_index)
 
 else :
-    print "nouveau"
+    print "Nouveau fichier d'index des résultats"
     indexRes=open(r"..\data\index_resultats.csv",'w')
     indexRes.write('"identifiant","date","heure","resultats","resultats_contmax","resultats_nodata","xmin","ymin","xmax","ymax"')
 
