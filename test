@@ -564,7 +564,7 @@ if len(ls_layers) > 0 :
     resultat_file.write("   --   Nouvelle matrice : "+str(t.shape))
     result_band.WriteArray(t)
 
-    t255 = np.where(t==NoData_value,NoData_value,t*255)
+    t255 = np.where(t==NoData_value,NoData_value,255-t*255)
     result_band_255_1.WriteArray(t255)
     result_band_255_2.WriteArray(t255)
     result_band_255_3.WriteArray(t255)
@@ -578,8 +578,8 @@ if len(ls_layers_abs) >0 :
     result_nodata_band.WriteArray(u)
     result_contmax_band.WriteArray(v)
 
-    u255 = np.where(u==NoData_value,NoData_value,u*255)
-    v255 = np.where(u==NoData_value,NoData_value,v*255)
+    u255 = np.where(u==NoData_value,NoData_value,255-u*255)
+    v255 = np.where(u==NoData_value,NoData_value,255-v*255)
 
     result_nodata_band_255_1.WriteArray(u255)
     result_nodata_band_255_2.WriteArray(u255)
