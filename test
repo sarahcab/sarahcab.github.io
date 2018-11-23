@@ -1,763 +1,619 @@
-# -*- coding: utf-8 -*-
-
-#-------------------------------------------------------------------------------
-# Name:        module1
-# Purpose:
-#
-# Author:      cabarry
-#
-# Created:     26/07/2018
-# Copyright:   (c) cabarry 2018
-# Licence:     <your licence>
-#-------------------------------------------------------------------------------
-
-##---------------------------------------MODULES
-import time
-
-minute =time.localtime()[4]
-if minute < 10 :
-    minute = "0"+str(minute)
-heure = str(time.localtime()[3])+":"+str(minute)
-date = str(time.localtime()[2])+"-"+str(time.localtime()[1])+"-"+str(time.localtime()[0])
-
-import osgeo
-from osgeo import ogr, osr, gdal
-from osgeo.gdalnumeric import *
-from osgeo.gdalconst import *
-
-import numpy as np
-import os
-import shutil
-import string
-import sys
-
-##---------------------------------------Paramètres rentrés par l'utilisateur
-#Tableau de données
-ls_gid=[]
-folder_out_interface = r"..\tableaux_recup"
-for i in os.listdir(folder_out_interface) :
-    if len(i.split("_")) > 1:
-        ls_gid.append(int((i.split("_")[1]).split(".")[0]))
-
-if len(ls_gid)>0 :
-    it = max(ls_gid)
-else :
-    it = 0
-
-rep_data=r"..\sorties_script"
-data = folder_out_interface+"\catalogue_"+str(it)+".csv"
-content  = open(data,"r")
-
-#Autres infos
-data_infos = open(folder_out_interface+"\infos_"+str(it)+".csv","r")
-variables_parametrees = []
-for row in data_infos :
-    variables_parametrees.append(row.split(";"))
-data_infos.close()
-emprise = variables_parametrees[0][0]
-tolerance = float(variables_parametrees[0][1])
-rep_fusions = r"..\catalogue_donnees_v1\fusions"
-
-##identifiant=sys.argv[1]
-identifiant='identifiant'
-
-pixel_size=100.0 #PARAMETRE!!!!!
-srid = 3857 #on parametrable
-
-debut = time.time()
-
-##---------------------------------------Variables définies pour le modèle
-# Projection pour avoir des mètres
-srs_meters = osr.SpatialReference()
-srs_meters.ImportFromEPSG(2154)
-
-# Projection de sortie
-SRS_target = osr.SpatialReference()
-SRS_target.ImportFromEPSG(srid)
-
-# Projection des coordonnées d'extentions à mettre dans LEaflet
-srs_extentLeaflet = osr.SpatialReference()
-srs_extentLeaflet.ImportFromEPSG(4326)
-
-# Conversion en PNG
-saveOptions = []
-saveOptions.append("QUALITY=100")
-
-# Valeur Nodata
-NoData_value = -9999
-
-#Valeurs calage (table des trois rois - friche saint sauveur)
-calageX = 395798.22137184744
-calageY = 6209308.02597751
-calageX2 = 705116.906434
-calageY2 = 7058744.78037
-
-# Dosiers de sortie
-out_test = r"sortie_"+str(it)
-if out_test in os.listdir(rep_data):
-    out_test = r"sortie_"+str(it)+"_"+str(int(time.time()))
-
-out_folder= rep_data+"\\"+out_test
-rep_temp = out_folder+r"\temp"
-rep_final= out_folder+r"\final"
-
-os.mkdir(out_folder)
-os.mkdir(rep_temp)
-os.mkdir(rep_final)
-
-# Variables globales implémentées dans la boucle
-ls_layers=[]
-ls_layers_abs=[]
-ls_type=[]
-ls_type_abs=[]
-ls_pond=[]
-ls_pond_abs=[]
-ind = -1
-total = 0.0
-
-print("Exécuté le "+date+" à "+heure+"    --     "+identifiant)
-print("\n\nParamètres : ")
-print("\n1) Emplacement et nom du tableau indexant les données à utiliser (.csv) :")
-print(data)
-print("\n2) Seuil de contrainte estimée maximale (nombre décimal entre 0.01 et 1.00) : " +str(tolerance) )
-print("\n3) Fichier dont la géométrie délimite l'étude (.shp) : ")
-print(emprise)
-print("\n4) Largeur des pixels de la grille en sortie (nombre décimal en mètres, compris entre 10 et 1000)  : " +str(pixel_size))
-print("\n5) SRID des fichiers de sortie : "+str(srid))
-print("\n6) Répertoire des fichiers de sortie : ")
-print(out_folder)
-print("\n7) Ecriture des fichiers temporaires : OUI")
-
-##---------------------------------------Premièer boucle pour avoir l'emprsie maximale des données et ses coordonnées
-
-#Listes des valeurs qu'on va trier
-ls_xmin_dameters = []
-ls_xmax_dameters = []
-ls_ymin_dameters = []
-ls_ymax_dameters = []
-
-# Ouverture du fichier d'emprise
-emprise_ds = ogr.Open(emprise)
-emprise_layer = emprise_ds.GetLayer()
-
-#bouclage   pour récupérer les emprises et prendre la plus grande
-all_data_in = []
-for j in content :
-
-    line = j.split(";")
-    ttype=line[2]
-    pond=line[3]
-
-    if ind > -1 and ttype!="0" and pond!="0":
-        ##---------------------------------------Recherche des valeurs extent
-        level=line[7]
-        if level=="3" or "fusion" not in line[0]:
-            inputt = line[1]
-        else :
-            inputt = rep_fusions+"\\"+line[0]
-        all_data_in.append(inputt)
-
-    ind+=1
-
-all_data_in.append(emprise)
-#Répétition de l'action de la boucle pour le layer d'emprise (si plus grand)  #c'est dégueulasse!!
-for inputt in all_data_in :
-    source_ds = ogr.Open(inputt)
-    source_layer = source_ds.GetLayer()
-    source_srs_data = source_layer.GetSpatialRef()
-    x_min_da, x_max_da, y_min_da, y_max_da = source_layer.GetExtent()
-
-    # Transformation en projection métrique
-    srs_da = osr.SpatialReference()
-    srs_da.ImportFromWkt(source_srs_data.ExportToWkt())
-
-    # OSR transformation
-    transform = osr.CoordinateTransformation(srs_da, srs_meters)
-    x_min_meters_da, y_min_meters_da, burp = transform.TransformPoint(x_min_da, y_min_da)
-    x_max_meters_da, y_max_meters_da, burp = transform.TransformPoint(x_max_da, y_max_da)
-
-    ls_xmin_dameters.append(x_min_meters_da)
-    ls_xmax_dameters.append(x_max_meters_da)
-    ls_ymin_dameters.append(y_min_meters_da)
-    ls_ymax_dameters.append(y_max_meters_da)
-
-#-------------------------------------------------------------------------------
-
-#Tri des valeurs
-x_min_meters_da = min(ls_xmin_dameters)
-x_max_meters_da = max(ls_xmax_dameters)
-y_min_meters_da = min(ls_ymin_dameters)
-y_max_meters_da = max(ls_ymax_dameters)
-
-#OSR transformation - valeurs d'origine
-transform_meterstotarget = osr.CoordinateTransformation(srs_meters,SRS_target)
-x_min_ampli_da, y_max_ampli_da, dellvalue = transform_meterstotarget.TransformPoint(x_min_meters_da,y_max_meters_da)
-x_max_ampli_da, y_min_ampli_da, dellvalue = transform_meterstotarget.TransformPoint(x_max_meters_da,y_min_meters_da)
-
-calageX_proj,calageY_proj, dellvalue = transform_meterstotarget.TransformPoint(calageX,calageY)
-calageX_proj2,calageY_proj2, dellvalue = transform_meterstotarget.TransformPoint(calageX2,calageY2)
-
-#Calcul des variables de résolution selon le calage
-x_res_ref_da = (calageX2 - calageX) / pixel_size
-y_res_ref_da = (calageY2 - calageY) / pixel_size
-
-pixel_size_da_x = (calageX_proj2 - calageX_proj) / x_res_ref_da
-pixel_size_da_y = (calageY_proj2 - calageY_proj) / y_res_ref_da
-
-#Calage des valeurs d'origine : X
-nXmin = calageX+float(int((x_min_ampli_da-calageX)/pixel_size_da_x))*pixel_size_da_x
-nXmax =x_max_ampli_da-x_min_ampli_da+nXmin#+pixel_size
-x_min_ampli_da,x_max_ampli_da=nXmin,nXmax
-
-#Calage des valeurs d'origine : Y (Par contre on cale y sur la valeur ymin -> il faut faier attention à ça, car lespace entre les deux n'est pas un entier de la taille des cellules, donc l'un des des poinst n'est pas calé -> me raster se cale sur xmine t ymax donc..;)
-nYmax = calageY+float(int((y_max_ampli_da-calageY)/pixel_size_da_y))*pixel_size_da_y
-nYmin = y_min_ampli_da-y_max_ampli_da+nYmax#+pixel_size
-y_min_ampli_da,y_max_ampli_da=nYmin,nYmax
-
-#Calcul des variables de taille
-x_res_ampli = int((x_max_ampli_da - x_min_ampli_da) / pixel_size_da_x )
-y_res_ampli = int((y_max_ampli_da - y_min_ampli_da)/ pixel_size_da_y)
-
- # Creation du raster pour le découpage
-raster_fn_emp =rep_temp+r"\rast_emprise.tif"
-tar_emp_ds = gdal.GetDriverByName('GTiff').Create(raster_fn_emp, x_res_ampli, y_res_ampli,1, gdal.GDT_Float32)
-tar_emp_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
-tar_emp_ds.SetProjection(SRS_target.ExportToWkt())
-
-# Rasterize
-gdal.RasterizeLayer(tar_emp_ds, [1], emprise_layer, burn_values=[1])
-
-band_emp_ras = tar_emp_ds.GetRasterBand(1)
-band_emp_ras.SetNoDataValue(NoData_value)
-b = band_emp_ras.ReadAsArray()
-
-##---------------------------------------Bouclage pour le traitement des données
-ind=-1
-content.close()
-content  = open(data,"r")
-
-print("\n\n----- TRAITEMENTS INDIVIDUELS")
-for i in content :
-    row = i.split(";")
-    data_type=row[2]
-    pond=row[3]
-
-    if ind > -1 and data_type!="0" and pond!="0":
-        row = i.split(";")
-
-        level=row[7]
-        if level=="3" or "fusion" not in row[0]:
-            inputt = row[1]
-        else :
-            inputt = rep_fusions+"\\"+row[0]
-
-        ##---------------------------------------Rasterisation    (en format Byte, à copier pour le deuxième cas où il faudra un floatant)
-        source_ds = ogr.Open(inputt)
-        source_layer = source_ds.GetLayer()
-
-        # Creation du raster pour les données
-        raster_fn =rep_temp+r"\rast_byte_"+ i.split(".")[0]+".tif"
-        target_ds = gdal.GetDriverByName('GTiff').Create(raster_fn, x_res_ampli, y_res_ampli,1, gdal.GDT_Byte)
-        target_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
-        target_ds.SetProjection(SRS_target.ExportToWkt())
-
-        # Rasterize
-        gdal.RasterizeLayer(target_ds, [1], source_layer, burn_values=[1])
-
-        band = target_ds.GetRasterBand(1)
-        band.SetNoDataValue(NoData_value)
-
-        print("\n\n"+row[0]+" de type : "+data_type)
-        ##---------------------------------------Raster de distance
-        if data_type=="1" or data_type=="2" or data_type=="7" or data_type=="8":
-
-            # Création du raster de sortie
-            proxy_fn = rep_temp+r'\proximity_'+i.split(".")[0]+'.tif'
-            dst_ds = gdal.GetDriverByName( 'GTiff' ).Create(proxy_fn, x_res_ampli, y_res_ampli,1, gdal.GDT_Float32)
-            dst_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
-            dst_ds.SetProjection(SRS_target.ExportToWkt())
-
-            dst_band = dst_ds.GetRasterBand(1)
-            dst_band.SetNoDataValue(NoData_value)
-
-            # Fonction proximity
-            gdal.ComputeProximity(band, dst_band )   #ATTENTION, renvoie des valeurs en hm et non en m
-
-            ##---------------------------------------Calculatrices
-            a = dst_band.ReadAsArray()#.astype(np.float)
-
-            #Calcul 1 : découpe
-            c = np.where(b==1,a,NoData_value)
-
-            #Calcul 2 : normalisation (à faire après pour le maximum soit celui de l'emprise et pas de tout le rectangle
-            maxi_area = np.max(c)
-
-            #s'il y a un buffer, la valeur de normalisation peut changer
-            if row[4] and float(row[4])>0 :
-                dist_buff=float(row[4])
-                maxOk = min(maxi_area,dist_buff)
-                print("\Buffer effectué - "+str(maxOk)+" mètres")
-
-                #Normalisation
-                d = np.where(c>maxOk,1,c/maxOk)
-
-            #Sinon, normalisation par rapport à la velru maximale trouvée sur le raster de distance
-            else:
-                d = np.where(c>maxi_area,1,c/maxi_area)
-
-            #Ajustement no_data (les valeurs ont été modifiées
-            e= np.where(d<0,NoData_value,d)
-
-            #Ecriture
-            dst_band.WriteArray(e)
-
-            ##---------------------------------------Variables :
-            #Listes pour le calcul final...
-            ls_layers.append(proxy_fn)
-            ls_type.append(data_type)
-            ls_pond.append(row[3])
-
-            ##---------------------------------------Fermetures spécifiques
-            dst_band = None
-            dst_ds = None
-
-            print("\nRaster de distance effectué")
-
-        if data_type=="3" or data_type=="4" or data_type=="5" or data_type=="6" or data_type=="7" or data_type=="8":
-            if row[4] and float(row[4])>0 and data_type!="7" and data_type!="8":
-
-                #Application du buffer
-                dist_buff=float(row[4])
-                outputBufferfn = rep_temp+'/buffer_'+str(dist_buff)+'_'+i.split(".")[0]+'.shp'
-                output_prj = rep_temp+'/buffer_'+str(dist_buff)+'_'+i.split(".")[0]+'.prj'
-
-                shpdriver = ogr.GetDriverByName('ESRI Shapefile')
-                outputBufferds = shpdriver.CreateDataSource(outputBufferfn)
-                bufferlyr = outputBufferds.CreateLayer(outputBufferfn, geom_type=ogr.wkbPolygon)
-
-                featureDefn = bufferlyr.GetLayerDefn()
-                for feature in source_layer:
-                    ingeom = feature.GetGeometryRef()
-                    geomBuffer = ingeom.Buffer(dist_buff)
-
-                    outFeature = ogr.Feature(featureDefn)
-                    outFeature.SetGeometry(geomBuffer)
-                    bufferlyr.CreateFeature(outFeature)
-
-                prj = open(output_prj, 'w')
-                #proyeccion = 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]'
-                source_srs_data = source_layer.GetSpatialRef()
-                prj.write(source_srs_data.ExportToWkt())
-                prj.close()
-
-                #Afermer et réouvrir (je sais pas pk, on doit pouvoir éviter ça)
-                outputBufferds.Destroy()
-                source_buff = ogr.Open(outputBufferfn)
-                source_buff_lay = source_buff.GetLayer()
-
-                #Rasterisation du buffer (écrase la précédemet écriture de target_ds, pas raev puisque le cas 1 est exécuté avant)
-                gdal.RasterizeLayer(target_ds, [1], source_buff_lay, burn_values=[1])
-                source_buff = None
-                print("\nBuffer effectué - "+str(dist_buff)+" mètres")
-
-            #On repart de target_ds (le raster !) pour les passer au découpage puis...
-            #Il faut le copier dans un floattant et donc
-            raster_float =rep_temp+r"\rast_float_"+ i.split(".")[0]+".tif"
-
-            target_float_ds = gdal.GetDriverByName('GTiff').Create(raster_float,x_res_ampli, y_res_ampli,1, gdal.GDT_Float32)
-            target_float_ds.SetGeoTransform((x_min_ampli_da, pixel_size_da_x, 0, y_max_ampli_da, 0, -pixel_size_da_y))
-            target_float_ds.SetProjection(SRS_target.ExportToWkt())
-
-            band_float = target_float_ds.GetRasterBand(1)
-            band_float.SetNoDataValue(NoData_value)
-            band_float.SetUnitType("m")
-
-            a = band.ReadAsArray()
-            c = np.where(a==1,1,0)    #a quoi sert cette étape?
-            d = np.where(b==1,c,NoData_value)
-            band_float.WriteArray(d)
-
-            #Listes pour le calcul final
-            if data_type == "3" or  data_type == "4" :
-                ls_layers.append(raster_float)
-                ls_type.append(data_type)
-                ls_pond.append(row[3])
-            elif data_type == "5" or  data_type == "6" or data_type=="7" or data_type=="8":
-                ls_layers_abs.append(raster_float)
-                ls_type_abs.append(data_type)
-                ls_pond_abs.append(row[3])
-
-            print("\nPas de raster de distance")
-
-            band_float = None
-            target_float_ds = None
-
-        ##---------------------------------------Fermetures générales
-        target_ds = None
-        band  = None
-        source_ds.Destroy()
-    ind+=1
-
-
-##---------------------------------------Caculatrice raster : mise en commun des données
-print("\n\n----- DECOUPAGE ET MISE EN COMMUN")
-print("\n\nCouches définitives : ")
-
-#Calculatrice raster
-for x in range(len(ls_layers)) :
-    ly = ls_layers[x]
-    print("\n"+ly)
-    ty = ls_type[x]
-    layer_src = gdal.Open(ly)
-
-    band_ly = layer_src.GetRasterBand(1)
-    pond=float(ls_pond[x])
-
-    n = band_ly.ReadAsArray()#.astype(np.float)
-    if x==0 :
-        t  = np.where(n==NoData_value,NoData_value,0)
-    if ty=="1" or ty=="7" or ty=="4": #Oui parce que la distance (1) équivautà l'éloignement, alors que pour le éprimètre, 1 sigifie à l'intérieur de
-        t = np.where(n==NoData_value,NoData_value,t+pond*n)
-    elif ty=="2" or ty=="8" or ty=="3":
-        t = np.where(n==NoData_value,NoData_value,t+pond*(1-n))
-    total = total + pond
-
-    layer_src = None
-    band_ly = None
-
-#Division du total par la pondérations
-if len(ls_layers) > 0 :
-    t = np.where(t==NoData_value,NoData_value,t/total)
-    w = np.where(t>tolerance,NoData_value,t)
-
-#Création du t de base s'il n'y a pas de données non-absoles
-else :
-    t = np.where(b==0,NoData_value,0)
-
-#Matrices pour les sorties spé des données absolues
-if len(ls_layers_abs) >0 :
-    u=v=t
-
-for x in range(len(ls_layers_abs)) :
-    ly = ls_layers_abs[x]
-    print("\n"+ly+" (données absolues)")
-    ty = ls_type_abs[x]
-    layer_src = gdal.Open(ly)
-    band_ly = layer_src.GetRasterBand(1)
-    pond=float(ls_pond_abs[x])
-    n = band_ly.ReadAsArray()#.astype(np.float)
-    print np.min(n),np.max(n)
-    print np.min(v),np.max(v)
-
-    if ty=="5" or ty=="7": #Oui parce que la distance (1) équivaut à l'éloignement, alors que pour le éprimètre, 1 sigifie à l'intérieur de
-        u = np.where(n>0.5,u,NoData_value)
-        v = np.where(n>0.5,v,1)
-        v = np.where(n==NoData_value,NoData_value,v) #correction
-    elif ty=="6" or ty=="8":
-        u = np.where(n>0.5,NoData_value,u)
-        v = np.where(n>0.5,1,v)
-    print np.min(v),np.max(v)
-
-    layer_src = None
-    band_ly = None
-
-if len(ls_layers_abs) >0 :
-    w = np.where(u>tolerance,NoData_value,u)
-
-#pour la boucle de découpage
-    mat_base = v
-else :
-    mat_base = t
-
-##-------------------------Valeurs de découpage et coordonnées de sortie
-#Valeurs pour le découpage de la matrice
-cellGauche = 0
-cellDroite = 0
-cellBas = 0
-cellHaut =0
-it_raw = 0
-for raw_mx in mat_base:
-    it_col = 0
-    for cel_mx in raw_mx:
-        if cel_mx != -9999.0 :
-            if cellHaut ==0:
-                cellHaut = it_raw
-            else :
-                cellBas = it_raw
-            if cellGauche ==0 or cellGauche > it_col:
-                cellGauche = it_col
-
-            if it_col>cellDroite :
-                cellDroite = it_col
-
-        it_col += 1
-    it_raw +=1
-print(cellGauche,cellDroite,cellBas,cellHaut)
-
-#Valeurs pour les paramètres du raster
-xres_split = cellDroite-cellGauche+1
-yres_split = cellBas-cellHaut+1
-xmin_split = x_min_ampli_da+(cellGauche*pixel_size_da_x)
-ymax_split = y_max_ampli_da-(cellHaut*pixel_size_da_y)
-
-# OSR transformation to 4326 (coordonnées nécessaires dans cette projection pour afficher donner l'extension sur leaflet (alors qu'il faut mettre la couche en epsg) :
-xmax_split = xmin_split + xres_split*pixel_size_da_x
-ymin_split = ymax_split - yres_split*pixel_size_da_y
-
-transform_targettoleafletextent = osr.CoordinateTransformation(SRS_target, srs_extentLeaflet)
-x_min_4326, y_min_4326, burp = transform_targettoleafletextent.TransformPoint(xmin_split, ymin_split)
-x_max_4326, y_max_4326, burp = transform_targettoleafletextent.TransformPoint(xmax_split, ymax_split)
-
-##-------------------------Ecriture des résultats pour les contraintes non-absolues
-
-if len(ls_layers) >0 :
-    ##---Fichiers
-    #Résultat sans les contraintes absolue
-    result_fn = rep_final+r'\resultat.tif'
-    result_fn_255 = rep_temp+r'\resultat_255.tif'
-    result_fn_png = rep_final+r'\resultat.png'
-
-    result_ds = gdal.GetDriverByName('GTiff').Create(result_fn, xres_split, yres_split, 1,gdal.GDT_Float32)
-    result_ds.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-    result_ds.SetProjection(SRS_target.ExportToWkt())
-    result_band  = result_ds.GetRasterBand(1)
-    result_band.SetNoDataValue(NoData_value)
-    result_band.SetUnitType("m")
-
-    result_ds_255 = gdal.GetDriverByName('GTiff').Create(result_fn_255, xres_split, yres_split, 4,gdal.GDT_Float32)
-    result_ds_255.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-    result_ds_255.SetProjection(SRS_target.ExportToWkt())
-    result_band_255_1 = result_ds_255.GetRasterBand(1)
-    result_band_255_2 = result_ds_255.GetRasterBand(2)
-    result_band_255_3 = result_ds_255.GetRasterBand(3)
-    result_band_255_4 = result_ds_255.GetRasterBand(4)
-
-    ##---Ecriture de la matrice
-    print("\n\nAncienne matrice (valeurs non absolues) : "+str(t.shape))
-    t = t[cellHaut:cellBas,cellGauche:cellDroite]
-    print("   --   Nouvelle matrice : "+str(t.shape))
-    result_band.WriteArray(t)
-
-    #PNG : couleurs
-    t255 = np.where(t==NoData_value,NoData_value,255-t*255)
-    t000 = np.where(t==NoData_value,NoData_value,0)
-    result_band_255_1.WriteArray(t000)
-    result_band_255_2.WriteArray(t000)
-    result_band_255_3.WriteArray(t255)
-
-    #PNG : transparence
-    t255_op = np.where(t==NoData_value,0,255)
-    result_band_255_4.WriteArray(t255_op)
-
-    ##---Conversion du PNG
-    jpegDriver0 = gdal.GetDriverByName("PNG")
-    blop = jpegDriver0.CreateCopy(result_fn_png, result_ds_255, 0, saveOptions)
-
-##-------------------------Ecriture des résultats pour les contraintes absolues
-if len(ls_layers_abs) >0 :
-    ##---Fichiers
-    #Chemins des rasters de sortie
-    result_contmax_fn = rep_final+r'\resultat_contmax.tif'
-    result_contmax_fn_255 = rep_temp+r'\resultat_contmax_255.tif'
-    result_contmax_fn_png = rep_final+r'\resultat_contmax.png'
-
-    result_nodata_fn = rep_final+r'\resultat_nodata.tif'
-    result_nodata_fn_255 = rep_temp+r'\resultat_nodata_255.tif'
-    result_nodata_fn_png = rep_final+r'\resultat_nodata.png'
-
-    #Résultat avec contraintes absolues = 1 (+ en convertible PNG)
-    result_contmax_ds = gdal.GetDriverByName('GTiff').Create(result_contmax_fn, xres_split, yres_split, 1,gdal.GDT_Float32)
-    result_contmax_ds.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-    result_contmax_ds.SetProjection(SRS_target.ExportToWkt())
-    result_contmax_band  = result_contmax_ds.GetRasterBand(1)
-    result_contmax_band.SetNoDataValue(NoData_value)
-    result_contmax_band.SetUnitType("m")
-
-    result_contmax_ds_255 = gdal.GetDriverByName('GTiff').Create(result_contmax_fn_255, xres_split, yres_split, 4,gdal.GDT_Float32)
-    result_contmax_ds_255.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0,-pixel_size_da_y))
-    result_contmax_ds_255.SetProjection(SRS_target.ExportToWkt())
-    result_contmax_band_255_1 = result_contmax_ds_255.GetRasterBand(1)
-    result_contmax_band_255_2 = result_contmax_ds_255.GetRasterBand(2)
-    result_contmax_band_255_3 = result_contmax_ds_255.GetRasterBand(3)
-    result_contmax_band_255_4 = result_contmax_ds_255.GetRasterBand(4)
-
-    #Résultat avec contraintes absolues = NoData (+ en convertible PNG)
-    result_nodata_ds = gdal.GetDriverByName('GTiff').Create(result_nodata_fn, xres_split, yres_split, 1,gdal.GDT_Float32)
-    result_nodata_ds.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-    result_nodata_ds.SetProjection(SRS_target.ExportToWkt())
-    result_nodata_band = result_nodata_ds.GetRasterBand(1)
-    result_nodata_band.SetNoDataValue(NoData_value)
-    result_nodata_band.SetUnitType("m")
-
-    result_nodata_ds_255 = gdal.GetDriverByName('GTiff').Create(result_nodata_fn_255, xres_split, yres_split, 4,gdal.GDT_Float32)
-    result_nodata_ds_255.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-    result_nodata_ds_255.SetProjection(SRS_target.ExportToWkt())
-    result_nodata_band_255_1 = result_nodata_ds_255.GetRasterBand(1)
-    result_nodata_band_255_2 = result_nodata_ds_255.GetRasterBand(2)
-    result_nodata_band_255_3 = result_nodata_ds_255.GetRasterBand(3)
-    result_nodata_band_255_4 = result_nodata_ds_255.GetRasterBand(4)
-
-    ##---Ecriture de la matrice
-    print("\n\nAncienne matrice (valeurs absolues) : "+str(u.shape))
-    u = u[cellHaut:cellBas,cellGauche:cellDroite]
-    v = v[cellHaut:cellBas,cellGauche:cellDroite]
-    print("   --   Nouvelle matrice : "+str(u.shape))
-    result_nodata_band.WriteArray(u)
-    result_contmax_band.WriteArray(v)
-
-    #PNG : couleurs
-    u255 = np.where(u==NoData_value,NoData_value,255-u*255)
-    v255 = np.where(u==NoData_value,NoData_value,255-v*255)
-
-    result_nodata_band_255_1.WriteArray(u255)
-    result_nodata_band_255_2.WriteArray(u255)
-    result_nodata_band_255_3.WriteArray(u255)
-
-    result_contmax_band_255_1.WriteArray(v255)
-    result_contmax_band_255_2.WriteArray(v255)
-    result_contmax_band_255_3.WriteArray(v255)
-
-    #PNG : transparence
-    u255_op = np.where(u==NoData_value,0,255)
-    v255_op = np.where(v==NoData_value,0,255)
-
-    result_nodata_band_255_4.WriteArray(u255_op)
-    result_contmax_band_255_4.WriteArray(v255_op)
-
-    ##---Conversion du PNG
-    jpegDriver1 = gdal.GetDriverByName("PNG")
-    blap = jpegDriver1.CreateCopy(result_contmax_fn_png, result_contmax_ds_255, 0, saveOptions)
-
-    jpegDriver2 = gdal.GetDriverByName("PNG")
-    blip = jpegDriver2.CreateCopy(result_nodata_fn_png, result_nodata_ds_255, 0, saveOptions)
-
-if len(ls_layers) >0 or len(ls_layers_abs) >0  :
-
-    #Résultat où l'on applique le filtre de tolérance
-    result_tol_fn = rep_final+r'\resultat_tol.tif'
-    result_tol_fn_255 = rep_temp+r'\resultat_tol_255.tif'
-    result_tol_fn_png = rep_final+r'\resultat_tol.png'
-
-    result_tol_ds = gdal.GetDriverByName('GTiff').Create(result_tol_fn, xres_split, yres_split, 1,gdal.GDT_Float32)
-    result_tol_ds.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0, -pixel_size_da_y))
-    result_tol_ds.SetProjection(SRS_target.ExportToWkt())
-    result_tol_band  = result_tol_ds.GetRasterBand(1)
-    result_tol_band.SetNoDataValue(NoData_value)
-    result_tol_band.SetUnitType("m")
-
-    result_tol_ds_255 = gdal.GetDriverByName('GTiff').Create(result_tol_fn_255, xres_split, yres_split, 4,gdal.GDT_Float32)
-    result_tol_ds_255.SetGeoTransform((xmin_split, pixel_size_da_x, 0, ymax_split, 0,-pixel_size_da_y))
-    result_tol_ds_255.SetProjection(SRS_target.ExportToWkt())
-    result_tol_band_255_1 = result_tol_ds_255.GetRasterBand(1)
-    result_tol_band_255_2 = result_tol_ds_255.GetRasterBand(2)
-    result_tol_band_255_3 = result_tol_ds_255.GetRasterBand(3)
-    result_tol_band_255_4 = result_tol_ds_255.GetRasterBand(4)
-
-    ##---Ecriture de la matrice
-    w = w[cellHaut:cellBas,cellGauche:cellDroite]
-    result_tol_band.WriteArray(w)
-
-    #PNG : couleurs
-    w255 = np.where(w==NoData_value,NoData_value,255-w*255)
-    result_tol_band_255_1.WriteArray(w255)
-    result_tol_band_255_2.WriteArray(w255)
-    result_tol_band_255_3.WriteArray(w255)
-
-    #PNG : transparence
-    w255_op = np.where(w==NoData_value,0,255)
-    result_tol_band_255_4.WriteArray(w255_op)
-
-    ##---Conversion du PNG
-    jpegDriver3 = gdal.GetDriverByName("PNG")
-    blup = jpegDriver3.CreateCopy(result_tol_fn_png, result_tol_ds_255, 0, saveOptions)
-
-##---------------------------------------Fermetures des fichiers géo
-tar_emp_ds = None
-emprise_ds.Destroy()
-
-if len(ls_layers) >0 :
-    result_band = None
-    result_ds = None
-
-    result_band_255_1 = None
-    result_band_255_2 = None
-    result_band_255_3 = None
-    result_band_255_4 = None
-    result_ds_255 = None
-
-else :
- #écriture des champs vides pour le fichier index
-    result_fn_png="..\\none"
-
-
-if len(ls_layers_abs) >0 :
-    result_contmax_band = None
-    result_contmax_ds = None
-
-    result_contmax_band_255_1 = None
-    result_contmax_band_255_2 = None
-    result_contmax_band_255_3 = None
-    result_contmax_band_255_4 = None
-    result_contmax_ds_255 = None
-
-    result_nodata_band = None
-    result_nodata_ds = None
-
-    result_nodata_band_255_1 = None
-    result_nodata_band_255_2 = None
-    result_nodata_band_255_3 = None
-    result_nodata_band_255_4 = None
-    result_nodata_ds_255 = None
-
-else :
-#écriture des champs vides pour le fichier index
-    result_contmax_fn_png="..\\none"
-    result_nodata_fn_png="..\\none"
-
-
-if len(ls_layers) >0 or len(ls_layers_abs) >0  :
-    result_tol_band = None
-    result_tol_ds = None
-
-    result_tol_band_255_1 = None
-    result_tol_band_255_2 = None
-    result_tol_band_255_3 = None
-    result_tol_band_255_4 = None
-    result_tol_ds_255 = None
-
-else :
- #écriture des champs vides pour le fichier index
-    result_fn_png="..\\none"
-    result_tol_fn_png="..\\none"
-
-
-##---------------------------------------Ecriture dans le fichier index et fermetures des fichiers texet
-
-contenu_index = ""
-if "index_resultats.csv" in os.listdir(r"..\data/") :
-
-    read_index=open(r"..\data\index_resultats.csv",'r')
-    for roww in read_index :
-        contenu_index=contenu_index+roww
-
-    read_index.close()
-    os.remove(r"..\data\index_resultats.csv")
-
-    indexRes=open(r"..\data\index_resultats.csv",'w')
-    indexRes.write(contenu_index)
-
-else :
-    print "Nouveau fichier d'index des résultats"
-    indexRes=open(r"..\data\index_resultats.csv",'w')
-    indexRes.write('"identifiant","date","heure","resultats","resultats_tolerance","resultats_contmax","resultats_nodata","xmin","ymin","xmax","ymax"')
-
-indexRes.write('\n"'+identifiant+'","'+date+'","'+heure+'","'+result_fn_png.split("..\\")[1]+'","'+result_tol_fn_png.split("..\\")[1]+'","'+result_contmax_fn_png.split("..\\")[1]+'","'+result_nodata_fn_png.split("..\\")[1]+'","'+str(x_min_4326)+'","'+str(y_min_4326)+'","'+str(x_max_4326)+'","'+str(y_max_4326)+'"')
-indexRes.close()
-content.close()
-
-fin = time.time()
-timepass = fin-debut
-minutess = int(timepass/60)
-secondess=timepass-minutess*60
-print("\n\nTemps passé : "+str(minutess)+" min "+str(secondess)+" sec")
-
+var widthCase=22.5,
+marg=20,
+nbCase=19,
+lorem="",
+itlorem=0,
+vbHauteur=348,
+vbWidth=491,
+csv_dj=[]
+nuancier=["black","white"];
+window.onload = initialize();
+
+function initialize(){
+	queue()											
+		.defer(d3.csv,"data/ex_dij.csv")
+		.defer(d3.csv,"data/laby.csv")
+		.defer(d3.csv,"data/lorem.csv")
+		.await(callback1); 
+	
+	function callback1(error,datata,datata1,datata2){
+		csv_dj=datata;
+		dataLab=datata1;
+		loremcsv = datata2;
+		laby();
+		pas();
+		mer();
+		path_finding();
+		A = djikstra("A");
+		console.log(A)
+	}
+	
+}
+
+function path_finding(){
+	
+}
+
+function laby(){
+		lorem = loremcsv[0].txt;
+		d3.select("#dessin").append("g")
+			.attr("id","lab")
+		
+		d3.select("#lab").selectAll(".case")
+			.data(dataLab)
+			.enter()
+			.append("g")
+			.attr("width",widthCase)
+			.attr("height",widthCase)
+			.attr("id",function(d){
+				return "c"+d.ID;
+			})
+			.attr("idData",function(d){
+				return d.ID;
+			})
+			.attr("X",function(d){
+				var larg = this.attributes.width.value;
+				return d.it_x*larg+marg*1;
+			})
+			.attr("Y",function(d){
+				var larg = this.attributes.width.value;
+				return d.it_y*larg+marg*1;
+			})
+			.attr("it_x",function(d){
+				return d.it_x;
+			})
+			.attr("it_y",function(d){
+				return d.it_y;
+			})
+			.attr("transform",function(d){
+				var x = this.attributes.X.value;
+				var y = this.attributes.Y.value;
+				return "translate("+x+","+y+")";
+			})
+			.attr("mur",function(d){
+				return d.mur;
+			})
+			.attr("class","case")
+			
+		
+		d3.selectAll(".case")
+			.attr("node","false")
+			.each(function(){
+				if(this.attributes.mur.value=="true"){
+					d3.select(this).attr("class","case mur")
+					build_mur(this.attributes.idData.value,this.attributes.it_x.value,this.attributes.it_y.value);
+				} else {
+					d3.select(this).attr("class","case sol")
+					build_node(this.attributes.idData.value,this.attributes.it_x.value,this.attributes.it_y.value);
+				}
+			})
+			
+	
+	
+}
+
+function build_node(id,X,Y){
+	it_carefour=0;
+	var tstGauche = (d3.select("[it_x='"+(X-1)+"'][it_y='"+Y+"']"))[0][0].attributes.mur.value;
+	var tstDroite = (d3.select("[it_x='"+(X*1+1)+"'][it_y='"+Y+"']"))[0][0].attributes.mur.value;
+	var tstHaut = (d3.select("[it_x='"+(X)+"'][it_y='"+(Y-1)+"']"))[0][0].attributes.mur.value;
+	var tstBas = (d3.select("[it_x='"+(X)+"'][it_y='"+(Y*1+1)+"']"))[0][0].attributes.mur.value;
+	
+	if(tstGauche=="false"){
+		it_carefour=it_carefour*1+1;
+	}
+	if(tstDroite=="false"){
+		it_carefour=it_carefour*1+1;
+	}
+	if(tstHaut=="false"){
+		it_carefour=it_carefour*1+1;
+	}
+	if(tstBas=="false"){
+		it_carefour=it_carefour*1+1;
+	}
+	if(it_carefour==1||it_carefour==3||it_carefour==4){
+		d3.select("#c"+id).attr("node","true")
+			.append("circle")
+			.attr("cx",widthCase*0.5)
+			.attr("cy",widthCase*0.5)
+			.attr("r",widthCase*0.25)
+			.attr("fill","blue")
+	}
+	if(it_carefour==2){
+		if(tstBas=="false"&&tstHaut=="false"){}else if(tstGauche=="false"&&tstDroite=="false"){}else{
+			d3.select("#c"+id).attr("node","true")
+				.append("circle")
+				.attr("cx",widthCase*0.5)
+				.attr("cy",widthCase*0.5)
+				.attr("r",widthCase*0.25)
+				.attr("fill","blue")
+		}
+	}
+}
+
+function build_mur(id,X,Y){
+	// console.log("--"+id+"------------------")
+	d3.select("#c"+id)
+		.append("rect")
+		.attr("x",0)
+		.attr("y",0)
+		.attr("width",widthCase)
+		.attr("height",widthCase)
+		.attr("fill","none")
+		.attr("stroke","black")
+	// console.log(X);
+	// console.log(Y);
+	// var tst = d3.select('it_x': X-1, 'it_y': Y-1}).each(function(){console.log(this.attributes.id.value)})
+	
+	
+	function append_text_mur(angle,y,nbtxt){
+		txt=lorem.substr(itlorem,nbtxt);
+		if(itlorem>lorem.length){
+			itlorem=0;
+		}
+		itlorem=itlorem*1+nbtxt*1;
+		d3.select("#c"+id)
+			.append("text")
+			.text(txt)
+			.attr("x",0)
+			.attr("y",y)
+			.attr("font-size",5)
+			.attr("transform","rotate("+angle+" "+(widthCase*0.5)+" "+(widthCase*0.5)+")")
+	}
+	if(X>0){
+		var tstGauche = (d3.select("[it_x='"+(X-1)+"'][it_y='"+Y+"']"))[0][0].attributes.mur.value;
+	} else {
+		var tstGauche="false";
+	}
+	if(tstGauche=="false"){
+		// d3.select("#c"+id)
+			// .append("circle")
+			// .attr("cx",0)
+			// .attr("cy",widthCase*0.5)
+			// .attr("r",widthCase*0.2)
+			// .attr("fill","blue")
+		
+		angle=-90;
+		append_text_mur(angle,2,10)
+		append_text_mur(angle,6,9)
+		append_text_mur(angle,10,8)
+		
+	}
+		
+	if(X<nbCase){
+		var tstDroite = (d3.select("[it_x='"+(X*1+1)+"'][it_y='"+Y+"']"))[0][0].attributes.mur.value;
+	}else {
+		var tstDroite="false";
+	}
+	if(tstDroite=="false"){
+		// d3.select("#c"+id)
+			// .append("circle")
+			// .attr("cx",widthCase)
+			// .attr("cy",widthCase*0.5)
+			// .attr("r",widthCase*0.2)
+			// .attr("fill","blue")
+		angle=90;
+		append_text_mur(angle,2,10)
+		append_text_mur(angle,6,9)
+		append_text_mur(angle,10,8)
+	}
+	
+	if(Y>0){
+		var tstHaut = (d3.select("[it_x='"+(X)+"'][it_y='"+(Y-1)+"']"))[0][0].attributes.mur.value;
+	} else {
+		var tstHaut="false";
+	}
+	if(tstHaut=="false"){
+		// d3.select("#c"+id)
+			// .append("circle")
+			// .attr("cy",0)
+			// .attr("cx",widthCase*0.5)
+			// .attr("r",widthCase*0.2)
+			// .attr("fill","blue")
+		angle=0;
+		append_text_mur(angle,2,10)
+		append_text_mur(angle,6,9)
+		append_text_mur(angle,10,8)
+	}
+	
+	if(Y<nbCase){
+		var tstBas = (d3.select("[it_x='"+(X)+"'][it_y='"+(Y*1+1)+"']"))[0][0].attributes.mur.value;
+	} else {
+		var tstBas="false";
+	}
+	
+	if(tstBas=="false"){
+		// d3.select("#c"+id)
+			// .append("circle")
+			// .attr("cy",widthCase)
+			// .attr("cx",widthCase*0.5)
+			// .attr("r",widthCase*0.2)
+			// .attr("fill","blue")
+		angle=180;
+		append_text_mur(angle,2,10)
+		append_text_mur(angle,6,9)
+		append_text_mur(angle,10,8)
+	}
+
+	
+	
+}
+function adapt_vb(Y){
+	Ybase=Y-vbHauteur/2;
+	if(Ybase<0){
+		Ybase=0
+	}else if(Ybase>vbHauteur/2){
+		Ybase=vbHauteur/2;
+	}
+	
+	d3.select("#dessin").attr("viewBox",0+" "+Ybase+" "+vbWidth+" "+vbHauteur)
+}
+
+function check_node(X,Y){
+	console.log("------------"+X);
+	min_dist=0;
+	node_ok="";
+	d3.selectAll(".case")
+		.each(function(){
+			
+			if(this.attributes.node.value=="true"){
+				if(this.attributes.it_x.value==X){
+					diff=Math.abs(this.attributes.it_y.value-Y);
+					if(min_dist==0||min_dist>diff){
+						min_dist=diff;
+						node_ok=this.attributes.idData.value;
+					}
+				}
+				if(this.attributes.it_y.value==Y){
+					diff=Math.abs(this.attributes.it_x.value-X);
+					if(min_dist==0||min_dist>diff){
+						min_dist=diff;
+						node_ok=this.attributes.idData.value;
+					}
+				}
+			}
+		})
+	if(node_ok!=""){
+		console.log(node_ok);
+		d3.selectAll(".case").select("circle").attr("fill","blue")
+		d3.select("#c"+node_ok).select("circle").attr("fill","red")
+	}
+}
+
+function pas(){
+	d3.select("svg").append("g").attr("id","place_pas")
+	
+	var ancX=widthCase*2.4;
+	var ancY=widthCase*2.4;
+	var itp=0;
+	var cont=true; //régulateur
+	var gauche =["M0,123.668c0.534-26.24,3.635-54.223,16.996-80.082 C24.16,29.721,33.861,18.062,47.059,9.511c22.273-14.431,44.854-11.887,63.239,7.255c13.819,14.388,21.013,32.197,25.624,51.186 c9.493,39.091,4.783,77.338-7.355,115.062c-2.138,6.646-4.439,13.26-7.079,19.72c-2.912,7.128-6.05,8.901-13.67,7.548 c-19.83-3.523-39.738-4.081-59.715-1.92c-7.76,0.84-15.495,2.075-23.164,3.537c-10.482,2-13.963-0.254-16.116-10.689 C3.7,176.372,0.178,151.357,0,123.668z","M21.646,267.26c12.761-1.664,24.943-3.277,37.132-4.838 c19.313-2.473,38.642-4.822,57.933-7.461c2.72-0.371,4.063-0.058,4.68,2.662c4.713,20.77,9.846,41.424,7.732,63.098 c-2.272,23.301-16.255,39.738-38.59,44.395c-24.625,5.133-45.652-4.442-56.794-25.814c-7.496-14.377-9.382-30.066-10.668-45.863 C22.382,284.992,22.134,276.51,21.646,267.26z"]
+	var droite = ["M298.188,135.517c-1.526,12.622-4.033,33.761-6.676,54.882 c-0.576,4.606-1.297,9.248-2.552,13.704c-1.928,6.846-5.096,9.074-12.144,8.247c-10.064-1.182-20.024-3.36-30.105-4.254 c-17.612-1.563-35.219-1.733-52.703,2.038c-11.626,2.508-14.801,0.479-18.793-10.577c-6.727-18.629-13.146-37.328-16.354-56.992 c-3.783-23.209-1.962-46.113,2.792-68.958c3.876-18.627,10.177-36.23,21.708-51.571c19.406-25.821,48.104-29.239,73.231-8.726 c19.296,15.753,29.483,36.94,35.432,60.551C296.406,91.252,297.647,108.999,298.188,135.517z","M276.421,267.248c-1.52,21.725-1.541,42.804-8.453,62.926 c-6.861,19.977-19.676,33.723-41.605,35.948c-31.424,3.19-53.537-14.477-56.785-45.78c-2.311-22.268,1.943-44.022,8.074-65.812 C210.617,258.775,243.216,262.973,276.421,267.248z"]
+	
+	//adaptation
+	var Wpage = document.getElementById("cont").offsetWidth//*ajust;
+	var vbW = (document.getElementById("dessin").attributes.viewBox.value).split(" ")[2];
+	var vbX = (document.getElementById("dessin").attributes.viewBox.value).split(" ")[0];
+	var coeffW=vbW/Wpage;
+		
+	var vbH = (document.getElementById("dessin").attributes.viewBox.value).split(" ")[3];
+	var vbY = (document.getElementById("dessin").attributes.viewBox.value).split(" ")[1];
+	var vbW = (document.getElementById("dessin").attributes.viewBox.value).split(" ")[2];
+	var vbX = (document.getElementById("dessin").attributes.viewBox.value).split(" ")[0];
+	
+	var Hpage = document.getElementById("cont").offsetWidth*vbH/vbW//*ajust;
+	
+	var coeffH=vbH/Hpage;
+		
+	//PAs souris
+	d3.selectAll(".paspas")
+		.on("mousemove",function(){
+			if(cont==true){
+				// console.log(ancX-X)
+				if(itp%2==0){
+					var data = gauche;
+					trans=-100;
+				}else {
+					var data = droite;
+					trans=100;
+				}
+				itp++;
+				X = d3.event.clientX*coeffW+vbX*1;
+				Y = d3.event.clientY*coeffH+vbY*1;
+				// console.log(d3.event.clientX+" "+X+" "+Wpage+" "+vbW+" "+vbX);
+				// d3.select("#dessin").append("circle").attr("cx",X).attr("cy",Y).attr("r",5).attr("fill","red")
+				append_pas(X,Y,data)
+				
+			}
+			
+		})
+	
+	//PAs clavier
+	window.onkeypress = function(e){
+		distance=widthCase*0.2;
+		
+		if(e.key=="ArrowUp"||e.key=="8"){
+			dir="haut";
+			X=ancX;
+			Y=ancY-distance;
+		} else if(e.key=="ArrowLeft"||e.key=="4"){
+			dir="gauche";
+			X=ancX-distance;
+			Y=ancY;
+		} else if(e.key=="ArrowRight"||e.key=="6"){
+			dir="droite";
+			X=ancX*1+1*distance;
+			Y=ancY;
+		} else if(e.key=="ArrowDown"||e.key=="2"){
+			dir="bas";
+			X=ancX;
+			Y=ancY*1+1*distance;
+		}
+		var tstX=(X-X%widthCase)/widthCase;
+		var tstY=(Y-Y%widthCase)/widthCase;
+		var testcont="true";
+		d3.select("[it_x='"+(tstX-1)+"'][it_y='"+(tstY-1)+"']").each(function(){
+			if(this.attributes.mur.value=="true"){
+				testcont="false"
+			}
+		})
+		
+		if(testcont=="true"){
+			if(itp%2==0){
+				var data = gauche;
+				trans=-100;
+			}else {
+				var data = droite;
+				trans=100;
+			}
+			
+			itp++;
+			
+			adapt_vb(Y);
+			check_node((tstX-1),(tstY-1));
+			append_pas(X,Y,data);
+		}
+	}
+	
+	//Pas base
+	function append_pas(X,Y,data){
+		d3.select("#place_pas")
+			.append("g")
+			.attr("opacity",0.7)
+			.attr("transform","translate("+(X)+","+Y+")")
+			.append("g")
+			.attr("transform","translate(-3,-3) scale(0.01)")
+			.selectAll("path")
+			
+			.data(data)
+			.enter()
+			// .append("circle")
+			// .attr("cx",X)
+			// .attr("cy",Y)
+			// .attr("r",200)
+			// .attr("fill","red")
+			.append("path")
+			.attr("d",function(d){
+				return d
+			})
+			.attr("opacity",0.4)
+			.attr("transform",function(){
+				angle=Math.atan((X-ancX)/(Y-ancY))*180/Math.PI; 
+				if(ancX>X&&ancY>Y){ 
+					angle=angle*-1
+				} else if(ancX<X&&ancY>Y){
+					angle=angle*-1
+				} else {
+					angle=angle*-1-180;
+				}
+				return "rotate("+angle+" 149.094 184.452)"
+			})
+			.transition()
+			.duration(120)
+			.attr("opacity",0.8)
+			.transition()
+			.delay(2000)
+			.duration(6000)
+			.attr("opacity",0)
+			.remove()
+		
+		ancX=X;
+		ancY=Y;
+		// cont=false;
+		// setTimeout(function(){cont=true},30)
+	}
+}
+
+function mer(){
+	var cont2=true; //régulateur
+	
+		//adaptation
+	var Wpage = document.getElementById("cont").offsetWidth//*ajust;
+	var vbW = (document.getElementById("dessin").attributes.viewBox.value).split(" ")[2];
+	var vbX = (document.getElementById("dessin").attributes.viewBox.value).split(" ")[0];
+	var coeffW=vbW/Wpage;
+		
+	var Hpage = document.getElementById("cont").offsetHeight//*ajust;
+	var vbH = (document.getElementById("dessin").attributes.viewBox.value).split(" ")[3];
+	var vbY = (document.getElementById("dessin").attributes.viewBox.value).split(" ")[1];
+	var coeffH=vbH/Hpage;
+		
+	
+		d3.select("svg")
+			// .style("cursor","none")
+			.on("mousemove",function(){
+				if(cont2==true){
+					X = d3.event.clientX*coeffW+vbX*1;
+					Y = d3.event.clientY*coeffH+vbY*1;
+					for(i=0;i<3;i++){
+						d3.select("#Calque_2")
+							.append("circle")
+							.attr("cx",X)
+							.attr("cy",Y)
+							.attr("r",0)
+							.attr("opacity",1)
+							.attr("fill","none")
+							.attr("stroke","#000000")
+							.attr("stroke-width",0.1)
+							.transition()
+							.delay(i*100)
+							.transition()
+							.duration(5000)
+							.attr("r",50)
+							.attr("opacity",0.05)
+							.remove()
+						d3.select("#Calque_2b")
+							.append("circle")
+							.attr("cx",X)
+							.attr("cy",Y)
+							.attr("r",0)
+							.attr("opacity",0.25)
+							.attr("stroke","none")
+							.attr("fill","#D6D8E5")
+							.transition()
+							.delay(i*100)
+							.transition()
+							.duration(5000)
+							.attr("r",50)
+							.remove()
+					}
+					cont2=false;
+					setTimeout(function(){cont2=true},50)
+				}
+			})
+		
+	
+}
+
+function djikstra(src){
+	//https://www.normalesup.org/~dconduche/informatique/PT/Cours/Dijkstra.pdf
+	//https://fr.wikipedia.org/wiki/Algorithme_de_Dijkstra
+	//https://www.youtube.com/watch?v=rHylCtXtdNs
+	gloup = new Object();
+	gloup2 = new Object();
+	
+	
+	etape=0
+	
+	ls_finish=[src];
+	ls_res=[]
+	// ls_poids=[];
+	// ls_node=[];
+	
+	// if(ls_finish.indexOf(nodeOk)==-1){
+	etape_dj(src,0);
+	// }
+	function etape_dj(start,resid){
+		console.log(src)
+		etape=etape*1+1;
+		if(etape<15){
+			// ls_res = [];
+			var poids_plume=0;
+			var nodeOk="";
+			console.log(csv_dj);
+			for(i=0;i<csv_dj.length;i++){
+				
+				if(csv_dj[i].depart==start||csv_dj[i].arrivee==start){
+					if(csv_dj[i].depart==start){
+						point=csv_dj[i].arrivee;
+					}else{
+						point=csv_dj[i].depart;
+					}
+					if(ls_finish.indexOf(point)==-1){
+						console.log(point);
+						if(gloup[point]){}else{ //implémenter pdt u'on fait le tableau des noeuds!!
+							gloup[point]=[];
+						}
+						poids_targeted=csv_dj[i].poids*1+resid;
+						gloup[point].push([start,poids_targeted])
+						// ls_poids.push(csv_dj[i].poids)
+						// ls_node.push(point)
+						// if(poids_plume==0||poids_plume>poids_targeted){
+							// poids_plume=poids_targeted;
+							// nodeOk=point;
+						// }else{
+							ls_res.push([point,poids_targeted])
+						// }
+					}
+				}
+				
+			}
+			// var premer_res=[nodeOk,poids_plume,start]
+			// remplace=false;
+			for(j=0;j<ls_res.length;j++){
+				if(ls_finish.indexOf(ls_res[j][0])==-1){
+					if(poids_plume==0||poids_plume>ls_res[j][1]){
+					// if(ls_res[j][1]<poids_plume&&ls_finish.indexOf(ls_res[j][1])==-1){
+						// console.log("aaaaaaaaaaaaaaaaaaaaaaa")
+						// ls_res.push(premer_res);
+						poids_plume=ls_res[j][1];
+						nodeOk=ls_res[j][0];
+						// remplace=true;
+					}
+				}
+			}
+			// if(remplace==true){
+				// console.log(premer_res);
+				// ls_res.push(premer_res)
+			// }
+			// console.log(ls_res.indexOf([nodeOk,poids_plume]))
+			// ls_res=ls_res;
+			
+			if(nodeOk!=""){
+				ls_finish.push(nodeOk);
+				etape_dj(nodeOk,poids_plume)
+			}
+		}else{
+			console.log("perdu")
+		}
+	}
+	console.log(gloup)
+	// console.log(ls_poids)
+	// console.log(ls_node)
+	// min = Math.min(...ls_poids);
+	// console.log(min)
+	// console.log(ls_poids.indexOf(min))
+	// nodeOk = ls_node[(ls_poids.indexOf(min))];
+	// console.log(nodeOk)
+	nodes=["A","B","C","D","E","F","G"];
+	for(g=0;g<nodes.length;g++){
+		node = nodes[g];
+		if(node!=src){
+			console.log(node);
+			console.log(gloup[node]);
+			ls=[];
+			mindist=0;
+			gloup2[node]=[];
+			it_function=0;
+			function cherche_pluscours(noeud){
+				it_function=it_function*1+1;
+				for (b=0;b<gloup[noeud].length;b++){
+					if(mindist==0||mindist>gloup[noeud][b][1]){
+						mindist=gloup[noeud][b][1];
+						min_noed = gloup[noeud][b][0];
+					}
+				}
+				ls.push(min_noed);
+				if(it_function==1){
+					gloup2[node].push(mindist);
+				}
+				if(min_noed!=src){
+					cherche_pluscours(min_noed);
+				}
+				
+			}
+			cherche_pluscours(node)
+			// for (b=0;b<gloup[node].length;b++){
+				// if(mindist==0||mindist>gloup[node][b][1]){
+					// mindist=gloup[node][b][1];
+					// ls.push(gloup[node][b][0])
+				// }
+			// }
+			
+			
+			gloup2[node].push(ls);
+		}
+	}
+	return gloup2;
+		
+}
