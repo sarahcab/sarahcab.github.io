@@ -3,38 +3,222 @@ marg=20,
 nbCase=19,
 lorem="",
 itlorem=0,
-vbHauteur=348,
+vbHauteur=200,
 vbWidth=491,
-csv_dj=[]
+ancX=widthCase*2.4,
+ancY=widthCase*2.4,
+posX_harry=ancX,
+posY_harry=ancY,
+ls_sol=[],
+c,
+vit_ennemi=1200,
+gauche =["M0,123.668c0.534-26.24,3.635-54.223,16.996-80.082 C24.16,29.721,33.861,18.062,47.059,9.511c22.273-14.431,44.854-11.887,63.239,7.255c13.819,14.388,21.013,32.197,25.624,51.186 c9.493,39.091,4.783,77.338-7.355,115.062c-2.138,6.646-4.439,13.26-7.079,19.72c-2.912,7.128-6.05,8.901-13.67,7.548 c-19.83-3.523-39.738-4.081-59.715-1.92c-7.76,0.84-15.495,2.075-23.164,3.537c-10.482,2-13.963-0.254-16.116-10.689 C3.7,176.372,0.178,151.357,0,123.668z","M21.646,267.26c12.761-1.664,24.943-3.277,37.132-4.838 c19.313-2.473,38.642-4.822,57.933-7.461c2.72-0.371,4.063-0.058,4.68,2.662c4.713,20.77,9.846,41.424,7.732,63.098 c-2.272,23.301-16.255,39.738-38.59,44.395c-24.625,5.133-45.652-4.442-56.794-25.814c-7.496-14.377-9.382-30.066-10.668-45.863 C22.382,284.992,22.134,276.51,21.646,267.26z"],
+droite = ["M298.188,135.517c-1.526,12.622-4.033,33.761-6.676,54.882 c-0.576,4.606-1.297,9.248-2.552,13.704c-1.928,6.846-5.096,9.074-12.144,8.247c-10.064-1.182-20.024-3.36-30.105-4.254 c-17.612-1.563-35.219-1.733-52.703,2.038c-11.626,2.508-14.801,0.479-18.793-10.577c-6.727-18.629-13.146-37.328-16.354-56.992 c-3.783-23.209-1.962-46.113,2.792-68.958c3.876-18.627,10.177-36.23,21.708-51.571c19.406-25.821,48.104-29.239,73.231-8.726 c19.296,15.753,29.483,36.94,35.432,60.551C296.406,91.252,297.647,108.999,298.188,135.517z","M276.421,267.248c-1.52,21.725-1.541,42.804-8.453,62.926 c-6.861,19.977-19.676,33.723-41.605,35.948c-31.424,3.19-53.537-14.477-56.785-45.78c-2.311-22.268,1.943-44.022,8.074-65.812 C210.617,258.775,243.216,262.973,276.421,267.248z"],
+	
 nuancier=["black","white"];
 window.onload = initialize();
 
+
+
 function initialize(){
-	queue()											
-		.defer(d3.csv,"data/ex_dij.csv")
-		.defer(d3.csv,"data/laby.csv")
-		.defer(d3.csv,"data/lorem.csv")
-		.await(callback1); 
+	laby();
 	
-	function callback1(error,datata,datata1,datata2){
-		csv_dj=datata;
-		dataLab=datata1;
-		loremcsv = datata2;
-		laby();
+	mer();
+	setTimeout(function(){ //a vreir car ca sera dans le queue
 		pas();
-		mer();
-		path_finding();
-		A = djikstra("A");
-		console.log(A)
-	}
+		add_ennemi("snape");
+	},1000)
 	
+}
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
 }
 
-function path_finding(){
+function add_ennemi(name){
+	possibilites = ls_sol.length; //factoriser avec le moove();
+	ind = getRandomInt(ls_sol.length);
+	case_id=ls_sol[ind];
+	X=document.getElementById(case_id).attributes.X.value;
+	Y=document.getElementById(case_id).attributes.Y.value;
+	itx=document.getElementById(case_id).attributes.it_x.value;
+	ity=document.getElementById(case_id).attributes.it_y.value;
 	
+	width_img=25;
+	dim_img=600/420;
+	height_img=width_img/dim_img;
+	
+	d3.select("#dessin")
+		.append("g")
+		.attr("id",name)
+		.attr("itx",itx)
+		.attr("ity",ity)
+		.attr("X",X)
+		.attr("Y",Y)
+		.attr("anc_case","")
+		.attr("case_actu",case_id)
+		.attr("transform","translate("+X+","+(Y-1+(widthCase-height_img)*0.5)+")")
+		.append("image")
+		.attr("x",0)
+		.attr("y",0)
+		.attr("width",width_img)
+		.attr("height",height_img)
+		.attr("xlink:href","img/parchemin_petit.png")
+		
+	d3.select("#"+name)
+		.append("text")
+		.text(name)
+		.attr("font-size",9)
+		.attr("font-family",'abh1')
+		.attr("y",widthCase*0.5)
+		.attr("x",widthCase*0.2)
+		
+	moove(name);
 }
+
+function moove(name){
+	c = setInterval(function(){
+		var itx=document.getElementById(name).attributes.itx.value;
+		var ity=document.getElementById(name).attributes.ity.value;
+		var anc_X=document.getElementById(name).attributes.X.value;
+		var anc_Y=document.getElementById(name).attributes.Y.value;
+		var anc_case=document.getElementById(name).attributes.anc_case.value;
+		var case_actu=document.getElementById(name).attributes.case_actu.value;
+		var ls_poss=[];
+		
+		ls_dir=["gauche","haut","bas","droite"];
+		it_dir=0
+		d3.selectAll("[it_x='"+(itx-1)+"'][it_y='"+ity+"'],[it_x='"+(itx*1+1)+"'][it_y='"+ity+"'],[it_x='"+itx+"'][it_y='"+(ity*1+1)+"'],[it_x='"+itx+"'][it_y='"+(ity-1)+"']").each(function(){
+			
+			if(this.attributes.mur.value=="false"){
+				// ls_poss.push([this.id,ls_dir[it_dir]])
+				if(this.id!=anc_case){
+					ls_poss.push([this.id,ls_dir[it_dir]])
+				}
+				
+			}
+			it_dir++;
+		})
+		ind = getRandomInt(ls_poss.length);
+		case_id=ls_poss[ind][0];
+		dir=ls_poss[ind][1];
+		posX=document.getElementById(case_id).attributes.X.value;
+		posY=document.getElementById(case_id).attributes.Y.value;
+		itx=document.getElementById(case_id).attributes.it_x.value;
+		ity=document.getElementById(case_id).attributes.it_y.value;
+		
+		d3.select("#"+name)
+			.attr("itx",itx)
+			.attr("ity",ity)
+			.attr("X",posX)
+			.attr("Y",posY)
+			.attr("anc_case",case_actu)
+			.transition()
+			.duration(vit_ennemi*1.5)
+			.attr("transform","translate("+posX+","+(posY-1+(widthCase-height_img)*0.5)+")")
+			
+		append_pas((anc_X*1+widthCase*0.5),(anc_Y*1+widthCase*0.5),gauche,dir,"red")
+		check_harry(name,(anc_X*1+widthCase*0.5),(anc_Y*1+widthCase*0.5));
+		
+		setTimeout(function(){
+			Xinter=(anc_X*3+posX*1)*0.25+widthCase*0.5;
+			Yinter=(anc_Y*3+posY*1)*0.25+widthCase*0.5;
+			append_pas(Xinter,Yinter,droite,dir,"red")
+			check_harry(name,Xinter,Yinter);
+		
+		},vit_ennemi*0.25)
+		setTimeout(function(){
+			Xinter=(anc_X*1+posX*1)*0.5+widthCase*0.5;
+			Yinter=(anc_Y*1+posY*1)*0.5+widthCase*0.5;
+			append_pas(Xinter,Yinter,gauche,dir,"red")
+			check_harry(name,Xinter,Yinter);
+		
+		},vit_ennemi*0.5)
+		setTimeout(function(){
+			Xinter=(anc_X*1+posX*3)*0.25+widthCase*0.5;
+			Yinter=(anc_Y*1+posY*3)*0.25+widthCase*0.5;
+			append_pas(Xinter,Yinter,droite,dir,"red")
+			check_harry(name,Xinter,Yinter);
+		},vit_ennemi*0.75)
+		
+	},vit_ennemi)
+}
+
+
+function check_harry(name,xtest,ytest){
+	var cellEnn_X=-1+(xtest-xtest%widthCase)/widthCase;
+	var cellEnn_Y=-1+(ytest-ytest%widthCase)/widthCase;
+	
+	var cellHarr_X=-1+(posX_harry-posX_harry%widthCase)/widthCase;
+	var cellHarr_Y=-1+(posY_harry-posY_harry%widthCase)/widthCase;
+	
+	Xmin = Math.min(...[cellHarr_X,cellEnn_X])
+	Xmax = Math.max(...[cellHarr_X,cellEnn_X])
+	Ymin = Math.min(...[cellHarr_Y,cellEnn_Y])
+	Ymax = Math.max(...[cellHarr_Y,cellEnn_Y])
+	
+	cache="false";
+	// console.log(cellEnn_X+" "+cellHarr_X+" "+Xmin+" "+Xmax)
+	d3.selectAll(".case").each(function(){
+		if(this.attributes.it_x.value>=Xmin&&this.attributes.it_x.value<=Xmax&&this.attributes.it_y.value<=Ymax&&this.attributes.it_y.value>=Ymin){
+			if(this.attributes.mur.value=="true"){
+				cache="true";
+			}
+			// console.log(this.id);
+			// d3.select(this).append("circle")
+				// .attr("cx",0)
+				// .attr("cy",widthCase*0.5)
+				// .attr("r",widthCase*0.2)
+				// .attr("fill","blue")
+		}
+	})
+	if(cache=="false"){
+		// alert("perdu")
+		window.onkeypress = function(e){
+			console.log("plouf")
+		}
+		clearInterval(c);
+		d3.select("#"+name)
+			.selectAll(".excla")
+			.data([0,1,2,3,4,5,6])
+			.enter()
+			.append("text")
+			.text("!")
+			.attr("font-size",5)
+			.attr("x",function(d){
+				return d*2.5;
+			})
+			.attr("y",function(){
+				it = getRandomInt(5);
+				return it;
+			})
+			.attr("class","excla")
+			.attr("opacity",0)
+			.transition()
+			.duration(function(d){
+				return d * 200;
+			})
+			.attr("opacity",1)
+		ancX=widthCase*2.4;
+		ancY=widthCase*2.4;
+		posX_harry=ancX;
+		posY_harry=ancY;
+		
+		setTimeout(function(){
+			pas()
+			add_ennemi("McGonagall")
+		},3200)
+	}
+}
+
 
 function laby(){
+	
+	queue()											
+		.defer(d3.csv,"data/laby.csv")
+		.defer(d3.csv,"data/lorem.csv")
+		.await(callback0); 
+		
+	function callback0(error,dataLab,loremcsv){
 		lorem = loremcsv[0].txt;
 		d3.select("#dessin").append("g")
 			.attr("id","lab")
@@ -43,8 +227,8 @@ function laby(){
 			.data(dataLab)
 			.enter()
 			.append("g")
-			.attr("width",widthCase)
-			.attr("height",widthCase)
+			// .attr("width",widthCase)
+			// .attr("height",widthCase)
 			.attr("id",function(d){
 				return "c"+d.ID;
 			})
@@ -52,12 +236,12 @@ function laby(){
 				return d.ID;
 			})
 			.attr("X",function(d){
-				var larg = this.attributes.width.value;
-				return d.it_x*larg+marg*1;
+				// var larg = this.attributes.width.value;
+				return d.it_x*widthCase+marg*1;
 			})
 			.attr("Y",function(d){
-				var larg = this.attributes.width.value;
-				return d.it_y*larg+marg*1;
+				// var larg = this.attributes.width.value;
+				return d.it_y*widthCase+marg*1;
 			})
 			.attr("it_x",function(d){
 				return d.it_x;
@@ -77,58 +261,20 @@ function laby(){
 			
 		
 		d3.selectAll(".case")
-			.attr("node","false")
 			.each(function(){
 				if(this.attributes.mur.value=="true"){
 					d3.select(this).attr("class","case mur")
 					build_mur(this.attributes.idData.value,this.attributes.it_x.value,this.attributes.it_y.value);
+					
 				} else {
 					d3.select(this).attr("class","case sol")
-					build_node(this.attributes.idData.value,this.attributes.it_x.value,this.attributes.it_y.value);
+					ls_sol.push(this.id);
 				}
 			})
 			
+	}
 	
 	
-}
-
-function build_node(id,X,Y){
-	it_carefour=0;
-	var tstGauche = (d3.select("[it_x='"+(X-1)+"'][it_y='"+Y+"']"))[0][0].attributes.mur.value;
-	var tstDroite = (d3.select("[it_x='"+(X*1+1)+"'][it_y='"+Y+"']"))[0][0].attributes.mur.value;
-	var tstHaut = (d3.select("[it_x='"+(X)+"'][it_y='"+(Y-1)+"']"))[0][0].attributes.mur.value;
-	var tstBas = (d3.select("[it_x='"+(X)+"'][it_y='"+(Y*1+1)+"']"))[0][0].attributes.mur.value;
-	
-	if(tstGauche=="false"){
-		it_carefour=it_carefour*1+1;
-	}
-	if(tstDroite=="false"){
-		it_carefour=it_carefour*1+1;
-	}
-	if(tstHaut=="false"){
-		it_carefour=it_carefour*1+1;
-	}
-	if(tstBas=="false"){
-		it_carefour=it_carefour*1+1;
-	}
-	if(it_carefour==1||it_carefour==3||it_carefour==4){
-		d3.select("#c"+id).attr("node","true")
-			.append("circle")
-			.attr("cx",widthCase*0.5)
-			.attr("cy",widthCase*0.5)
-			.attr("r",widthCase*0.25)
-			.attr("fill","blue")
-	}
-	if(it_carefour==2){
-		if(tstBas=="false"&&tstHaut=="false"){}else if(tstGauche=="false"&&tstDroite=="false"){}else{
-			d3.select("#c"+id).attr("node","true")
-				.append("circle")
-				.attr("cx",widthCase*0.5)
-				.attr("cy",widthCase*0.5)
-				.attr("r",widthCase*0.25)
-				.attr("fill","blue")
-		}
-	}
 }
 
 function build_mur(id,X,Y){
@@ -157,7 +303,7 @@ function build_mur(id,X,Y){
 			.text(txt)
 			.attr("x",0)
 			.attr("y",y)
-			.attr("font-size",5)
+			.attr("font-size",6)
 			.attr("transform","rotate("+angle+" "+(widthCase*0.5)+" "+(widthCase*0.5)+")")
 	}
 	if(X>0){
@@ -174,9 +320,9 @@ function build_mur(id,X,Y){
 			// .attr("fill","blue")
 		
 		angle=-90;
-		append_text_mur(angle,2,10)
-		append_text_mur(angle,6,9)
-		append_text_mur(angle,10,8)
+		append_text_mur(angle,2,13)
+		append_text_mur(angle,6,12)
+		append_text_mur(angle,10,11)
 		
 	}
 		
@@ -193,9 +339,9 @@ function build_mur(id,X,Y){
 			// .attr("r",widthCase*0.2)
 			// .attr("fill","blue")
 		angle=90;
-		append_text_mur(angle,2,10)
-		append_text_mur(angle,6,9)
-		append_text_mur(angle,10,8)
+		append_text_mur(angle,2,13)
+		append_text_mur(angle,6,12)
+		append_text_mur(angle,10,11)
 	}
 	
 	if(Y>0){
@@ -211,9 +357,9 @@ function build_mur(id,X,Y){
 			// .attr("r",widthCase*0.2)
 			// .attr("fill","blue")
 		angle=0;
-		append_text_mur(angle,2,10)
-		append_text_mur(angle,6,9)
-		append_text_mur(angle,10,8)
+		append_text_mur(angle,2,13)
+		append_text_mur(angle,6,12)
+		append_text_mur(angle,10,11)
 	}
 	
 	if(Y<nbCase){
@@ -230,65 +376,32 @@ function build_mur(id,X,Y){
 			// .attr("r",widthCase*0.2)
 			// .attr("fill","blue")
 		angle=180;
-		append_text_mur(angle,2,10)
-		append_text_mur(angle,6,9)
-		append_text_mur(angle,10,8)
+		append_text_mur(angle,2,13)
+		append_text_mur(angle,6,12)
+		append_text_mur(angle,10,11)
 	}
 
 	
 	
 }
 function adapt_vb(Y){
+	// alert(vbWidth-vbHauteur/2);
+	
 	Ybase=Y-vbHauteur/2;
 	if(Ybase<0){
 		Ybase=0
-	}else if(Ybase>vbHauteur/2){
-		Ybase=vbHauteur/2;
+	}else if(Ybase>vbWidth-vbHauteur){
+		Ybase=vbWidth-vbHauteur;
 	}
-	
 	d3.select("#dessin").attr("viewBox",0+" "+Ybase+" "+vbWidth+" "+vbHauteur)
 }
-
-function check_node(X,Y){
-	console.log("------------"+X);
-	min_dist=0;
-	node_ok="";
-	d3.selectAll(".case")
-		.each(function(){
-			
-			if(this.attributes.node.value=="true"){
-				if(this.attributes.it_x.value==X){
-					diff=Math.abs(this.attributes.it_y.value-Y);
-					if(min_dist==0||min_dist>diff){
-						min_dist=diff;
-						node_ok=this.attributes.idData.value;
-					}
-				}
-				if(this.attributes.it_y.value==Y){
-					diff=Math.abs(this.attributes.it_x.value-X);
-					if(min_dist==0||min_dist>diff){
-						min_dist=diff;
-						node_ok=this.attributes.idData.value;
-					}
-				}
-			}
-		})
-	if(node_ok!=""){
-		console.log(node_ok);
-		d3.selectAll(".case").select("circle").attr("fill","blue")
-		d3.select("#c"+node_ok).select("circle").attr("fill","red")
-	}
-}
-
 function pas(){
+	d3.select("#place_pas").remove();
 	d3.select("svg").append("g").attr("id","place_pas")
 	
-	var ancX=widthCase*2.4;
-	var ancY=widthCase*2.4;
+	
 	var itp=0;
 	var cont=true; //régulateur
-	var gauche =["M0,123.668c0.534-26.24,3.635-54.223,16.996-80.082 C24.16,29.721,33.861,18.062,47.059,9.511c22.273-14.431,44.854-11.887,63.239,7.255c13.819,14.388,21.013,32.197,25.624,51.186 c9.493,39.091,4.783,77.338-7.355,115.062c-2.138,6.646-4.439,13.26-7.079,19.72c-2.912,7.128-6.05,8.901-13.67,7.548 c-19.83-3.523-39.738-4.081-59.715-1.92c-7.76,0.84-15.495,2.075-23.164,3.537c-10.482,2-13.963-0.254-16.116-10.689 C3.7,176.372,0.178,151.357,0,123.668z","M21.646,267.26c12.761-1.664,24.943-3.277,37.132-4.838 c19.313-2.473,38.642-4.822,57.933-7.461c2.72-0.371,4.063-0.058,4.68,2.662c4.713,20.77,9.846,41.424,7.732,63.098 c-2.272,23.301-16.255,39.738-38.59,44.395c-24.625,5.133-45.652-4.442-56.794-25.814c-7.496-14.377-9.382-30.066-10.668-45.863 C22.382,284.992,22.134,276.51,21.646,267.26z"]
-	var droite = ["M298.188,135.517c-1.526,12.622-4.033,33.761-6.676,54.882 c-0.576,4.606-1.297,9.248-2.552,13.704c-1.928,6.846-5.096,9.074-12.144,8.247c-10.064-1.182-20.024-3.36-30.105-4.254 c-17.612-1.563-35.219-1.733-52.703,2.038c-11.626,2.508-14.801,0.479-18.793-10.577c-6.727-18.629-13.146-37.328-16.354-56.992 c-3.783-23.209-1.962-46.113,2.792-68.958c3.876-18.627,10.177-36.23,21.708-51.571c19.406-25.821,48.104-29.239,73.231-8.726 c19.296,15.753,29.483,36.94,35.432,60.551C296.406,91.252,297.647,108.999,298.188,135.517z","M276.421,267.248c-1.52,21.725-1.541,42.804-8.453,62.926 c-6.861,19.977-19.676,33.723-41.605,35.948c-31.424,3.19-53.537-14.477-56.785-45.78c-2.311-22.268,1.943-44.022,8.074-65.812 C210.617,258.775,243.216,262.973,276.421,267.248z"]
 	
 	//adaptation
 	var Wpage = document.getElementById("cont").offsetWidth//*ajust;
@@ -306,51 +419,50 @@ function pas(){
 	var coeffH=vbH/Hpage;
 		
 	//PAs souris
-	d3.selectAll(".paspas")
-		.on("mousemove",function(){
-			if(cont==true){
-				// console.log(ancX-X)
-				if(itp%2==0){
-					var data = gauche;
-					trans=-100;
-				}else {
-					var data = droite;
-					trans=100;
-				}
-				itp++;
-				X = d3.event.clientX*coeffW+vbX*1;
-				Y = d3.event.clientY*coeffH+vbY*1;
-				// console.log(d3.event.clientX+" "+X+" "+Wpage+" "+vbW+" "+vbX);
-				// d3.select("#dessin").append("circle").attr("cx",X).attr("cy",Y).attr("r",5).attr("fill","red")
-				append_pas(X,Y,data)
+	// d3.selectAll(".paspas")
+		// .on("mousemove",function(){
+			// if(cont==true){
 				
-			}
+				// if(itp%2==0){
+					// var data = gauche;
+					// trans=-100;
+				// }else {
+					// var data = droite;
+					// trans=100;
+				// }
+				// itp++;
+				// X = d3.event.clientX*coeffW+vbX*1;
+				// Y = d3.event.clientY*coeffH+vbY*1;
+				
+				// append_pas(X,Y,data,)
+				
+			// }
 			
-		})
+		// })
 	
 	//PAs clavier
 	window.onkeypress = function(e){
-		distance=widthCase*0.2;
+		distance=widthCase/5;
 		
 		if(e.key=="ArrowUp"||e.key=="8"){
 			dir="haut";
-			X=ancX;
-			Y=ancY-distance;
+			posX_harry=ancX;
+			posY_harry=ancY-distance;
 		} else if(e.key=="ArrowLeft"||e.key=="4"){
 			dir="gauche";
-			X=ancX-distance;
-			Y=ancY;
+			posX_harry=ancX-distance;
+			posY_harry=ancY;
 		} else if(e.key=="ArrowRight"||e.key=="6"){
 			dir="droite";
-			X=ancX*1+1*distance;
-			Y=ancY;
+			posX_harry=ancX*1+1*distance;
+			posY_harry=ancY;
 		} else if(e.key=="ArrowDown"||e.key=="2"){
 			dir="bas";
-			X=ancX;
-			Y=ancY*1+1*distance;
+			posX_harry=ancX;
+			posY_harry=ancY*1+1*distance;
 		}
-		var tstX=(X-X%widthCase)/widthCase;
-		var tstY=(Y-Y%widthCase)/widthCase;
+		var tstX=(posX_harry-posX_harry%widthCase)/widthCase;
+		var tstY=(posY_harry-posY_harry%widthCase)/widthCase;
 		var testcont="true";
 		d3.select("[it_x='"+(tstX-1)+"'][it_y='"+(tstY-1)+"']").each(function(){
 			if(this.attributes.mur.value=="true"){
@@ -369,14 +481,21 @@ function pas(){
 			
 			itp++;
 			
-			adapt_vb(Y);
-			check_node((tstX-1),(tstY-1));
-			append_pas(X,Y,data);
+			adapt_vb(posY_harry);
+			append_pas(posX_harry,posY_harry,data,dir,"black");
+			ancX=posX_harry;
+			ancY=posY_harry;
+		}else{
+			posX_harry=ancX;
+			posY_harry=ancY;
 		}
 	}
 	
 	//Pas base
-	function append_pas(X,Y,data){
+	
+}
+
+function append_pas(X,Y,data,dir,coul){
 		d3.select("#place_pas")
 			.append("g")
 			.attr("opacity",0.7)
@@ -396,15 +515,25 @@ function pas(){
 			.attr("d",function(d){
 				return d
 			})
+			.attr("fill",coul)
 			.attr("opacity",0.4)
 			.attr("transform",function(){
-				angle=Math.atan((X-ancX)/(Y-ancY))*180/Math.PI; 
-				if(ancX>X&&ancY>Y){ 
-					angle=angle*-1
-				} else if(ancX<X&&ancY>Y){
-					angle=angle*-1
-				} else {
-					angle=angle*-1-180;
+				// angle=Math.atan((X-ancX)/(Y-ancY))*180/Math.PI; 
+				// if(ancX>X&&ancY>Y){ 
+					// angle=angle*-1
+				// } else if(ancX<X&&ancY>Y){
+					// angle=angle*-1
+				// } else {
+					// angle=angle*-1-180;
+				// }
+				if(dir=="haut"){
+					angle=0
+				}else if(dir=="bas"){
+					angle=180
+				}else if(dir=="gauche"){
+					angle=-90
+				}else if(dir=="droite"){
+					angle=90
 				}
 				return "rotate("+angle+" 149.094 184.452)"
 			})
@@ -417,12 +546,11 @@ function pas(){
 			.attr("opacity",0)
 			.remove()
 		
-		ancX=X;
-		ancY=Y;
+		// ancX=X;
+		// ancY=Y;
 		// cont=false;
 		// setTimeout(function(){cont=true},30)
 	}
-}
 
 function mer(){
 	var cont2=true; //régulateur
@@ -483,137 +611,4 @@ function mer(){
 			})
 		
 	
-}
-
-function djikstra(src){
-	//https://www.normalesup.org/~dconduche/informatique/PT/Cours/Dijkstra.pdf
-	//https://fr.wikipedia.org/wiki/Algorithme_de_Dijkstra
-	//https://www.youtube.com/watch?v=rHylCtXtdNs
-	gloup = new Object();
-	gloup2 = new Object();
-	
-	
-	etape=0
-	
-	ls_finish=[src];
-	ls_res=[]
-	// ls_poids=[];
-	// ls_node=[];
-	
-	// if(ls_finish.indexOf(nodeOk)==-1){
-	etape_dj(src,0);
-	// }
-	function etape_dj(start,resid){
-		console.log(src)
-		etape=etape*1+1;
-		if(etape<15){
-			// ls_res = [];
-			var poids_plume=0;
-			var nodeOk="";
-			console.log(csv_dj);
-			for(i=0;i<csv_dj.length;i++){
-				
-				if(csv_dj[i].depart==start||csv_dj[i].arrivee==start){
-					if(csv_dj[i].depart==start){
-						point=csv_dj[i].arrivee;
-					}else{
-						point=csv_dj[i].depart;
-					}
-					if(ls_finish.indexOf(point)==-1){
-						console.log(point);
-						if(gloup[point]){}else{ //implémenter pdt u'on fait le tableau des noeuds!!
-							gloup[point]=[];
-						}
-						poids_targeted=csv_dj[i].poids*1+resid;
-						gloup[point].push([start,poids_targeted])
-						// ls_poids.push(csv_dj[i].poids)
-						// ls_node.push(point)
-						// if(poids_plume==0||poids_plume>poids_targeted){
-							// poids_plume=poids_targeted;
-							// nodeOk=point;
-						// }else{
-							ls_res.push([point,poids_targeted])
-						// }
-					}
-				}
-				
-			}
-			// var premer_res=[nodeOk,poids_plume,start]
-			// remplace=false;
-			for(j=0;j<ls_res.length;j++){
-				if(ls_finish.indexOf(ls_res[j][0])==-1){
-					if(poids_plume==0||poids_plume>ls_res[j][1]){
-					// if(ls_res[j][1]<poids_plume&&ls_finish.indexOf(ls_res[j][1])==-1){
-						// console.log("aaaaaaaaaaaaaaaaaaaaaaa")
-						// ls_res.push(premer_res);
-						poids_plume=ls_res[j][1];
-						nodeOk=ls_res[j][0];
-						// remplace=true;
-					}
-				}
-			}
-			// if(remplace==true){
-				// console.log(premer_res);
-				// ls_res.push(premer_res)
-			// }
-			// console.log(ls_res.indexOf([nodeOk,poids_plume]))
-			// ls_res=ls_res;
-			
-			if(nodeOk!=""){
-				ls_finish.push(nodeOk);
-				etape_dj(nodeOk,poids_plume)
-			}
-		}else{
-			console.log("perdu")
-		}
-	}
-	console.log(gloup)
-	// console.log(ls_poids)
-	// console.log(ls_node)
-	// min = Math.min(...ls_poids);
-	// console.log(min)
-	// console.log(ls_poids.indexOf(min))
-	// nodeOk = ls_node[(ls_poids.indexOf(min))];
-	// console.log(nodeOk)
-	nodes=["A","B","C","D","E","F","G"];
-	for(g=0;g<nodes.length;g++){
-		node = nodes[g];
-		if(node!=src){
-			console.log(node);
-			console.log(gloup[node]);
-			ls=[];
-			mindist=0;
-			gloup2[node]=[];
-			it_function=0;
-			function cherche_pluscours(noeud){
-				it_function=it_function*1+1;
-				for (b=0;b<gloup[noeud].length;b++){
-					if(mindist==0||mindist>gloup[noeud][b][1]){
-						mindist=gloup[noeud][b][1];
-						min_noed = gloup[noeud][b][0];
-					}
-				}
-				ls.push(min_noed);
-				if(it_function==1){
-					gloup2[node].push(mindist);
-				}
-				if(min_noed!=src){
-					cherche_pluscours(min_noed);
-				}
-				
-			}
-			cherche_pluscours(node)
-			// for (b=0;b<gloup[node].length;b++){
-				// if(mindist==0||mindist>gloup[node][b][1]){
-					// mindist=gloup[node][b][1];
-					// ls.push(gloup[node][b][0])
-				// }
-			// }
-			
-			
-			gloup2[node].push(ls);
-		}
-	}
-	return gloup2;
-		
 }
