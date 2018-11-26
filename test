@@ -32,62 +32,37 @@ import string
 import sys
 
 ##---------------------------------------Paramètres rentrés par l'utilisateur
-data = raw_input(u"1) Indiquer l'emplacement et le nom du tableau indexant les données à utiliser (.csv) :")
-##content  = open(data,"r")
+#Tableau de données
+ls_gid=[]
+folder_out_interface = r"..\tableaux_recup"
+for i in os.listdir(folder_out_interface) :
+    if len(i.split("_")) > 1:
+        ls_gid.append(int((i.split("_")[1]).split(".")[0]))
 
-tolerance = raw_input(u"2) Indiquer le seuil de contrainte estimée maximale (nombre décimal entre 0.01 et 1.00) :")
-try :
-    tolerance = float(tolerance)
-except :
-    tolerance = 1.0
+if len(ls_gid)>0 :
+    it = max(ls_gid)
+else :
+    it = 0
 
-if tolerance >1 :
-    tolerance=1.0
-elif tolerance <0.01 :
-    tolerance = 0.01
-
-emprise = raw_input(u"3) Cibler le fichier dont la géométrie délimite l'étude (.shp) :")
-if emprise[-4:] != ".shp" :
-    emprise = emprise+".shp"
-
-pixel_size=raw_input(u"4) Indiquer la largeur des pixels de la grille en sortie (nombre décimal en mètres, compris entre 10 et 1000) :")
-try:
-    pixel_size = float(pixel_size)
-except :
-    pixel_size = 100.0
-
-if pixel_size > 1000:
-    pixel_size = 1000.0
-elif pixel_size <10:
-    pixel_size = 10.0
-
-srid = raw_input(u"5) Choisir le SRID des fichiers de sortie :")
-try:
-    srid = int(srid)
-except :
-    srid = 2154
-
-out_folder= raw_input(u"6) Indiquer le répertoire des fichiers de sortie :")
-fichier_temp = raw_input(u"7) Ecrire 'NON' pour ne pas garder le dossier des fichiers temporaires (majuscules) : ")
-if fichier_temp != "NON":
-    fichier_temp = "OUI"
-
-identifiant = str(raw_input(u"8) Votre identifiant (pour nommer le dossier des fichiers de sortie) : "))
-
-#Pour pas se faire chier mais à virer---------------------------------------------------
-if data == "":
-    data = r".\entrees\catalogue_6.csv"
+rep_data=r"..\sorties_script"
+data = folder_out_interface+"\catalogue_"+str(it)+".csv"
 content  = open(data,"r")
 
-if emprise ==".shp":
-    emprise = r".\entrees\epci_246000871.shp"
+#Autres infos
+data_infos = open(folder_out_interface+"\infos_"+str(it)+".csv","r")
+variables_parametrees = []
+for row in data_infos :
+    variables_parametrees.append(row.split(";"))
+data_infos.close()
+emprise = variables_parametrees[0][0]
+tolerance = float(variables_parametrees[0][1])
+rep_fusions = r"..\catalogue_donnees_v1\fusions"
 
-if out_folder == "":
-    out_folder = r".\sorties"
+##identifiant=sys.argv[1]
+identifiant='identifiant'
 
-rep_fusions = r".\entrees\fusions"
-
-#--------fin virer----------------------------
+pixel_size=100.0 #PARAMETRE!!!!!
+srid = 3857 #on parametrable
 
 debut = time.time()
 
@@ -99,10 +74,6 @@ srs_meters.ImportFromEPSG(2154)
 # Projection de sortie
 SRS_target = osr.SpatialReference()
 SRS_target.ImportFromEPSG(srid)
-if str(SRS_target) =="" :
-    srid = 2154
-    SRS_target = osr.SpatialReference()
-    SRS_target.ImportFromEPSG(srid)
 
 # Projection des coordonnées d'extentions à mettre dans LEaflet
 srs_extentLeaflet = osr.SpatialReference()
@@ -122,17 +93,17 @@ calageX2 = 705116.906434
 calageY2 = 7058744.78037
 
 # Dosiers de sortie
-rep_temp = out_folder+r"\temp_"+identifiant
-rep_final= out_folder+r"\final_"+identifiant
+out_test = r"sortie_"+str(it)
+if out_test in os.listdir(rep_data):
+    out_test = r"sortie_"+str(it)+"_"+str(int(time.time()))
 
-if "final_"+identifiant in os.listdir(out_folder):
-    rep_temp = rep_temp+"_"+str(int(time.time()))
-    rep_final =rep_final+"_"+str(int(time.time()))
+out_folder= rep_data+"\\"+out_test
+rep_temp = out_folder+r"\temp"
+rep_final= out_folder+r"\final"
 
+os.mkdir(out_folder)
 os.mkdir(rep_temp)
 os.mkdir(rep_final)
-# Fichier d'écriture du résultat
-resultat_file = open(rep_final+r"\informations.txt","w")
 
 # Variables globales implémentées dans la boucle
 ls_layers=[]
@@ -144,18 +115,18 @@ ls_pond_abs=[]
 ind = -1
 total = 0.0
 
-resultat_file.write("Exécuté le "+date+" à "+heure+"    --     "+identifiant)
-resultat_file.write("\n\nParamètres : ")
-resultat_file.write("\n1) Emplacement et nom du tableau indexant les données à utiliser (.csv) :")
-resultat_file.write(data)
-resultat_file.write("\n2) Seuil de contrainte estimée maximale (nombre décimal entre 0.01 et 1.00) : " +str(tolerance) )
-resultat_file.write("\n3) Fichier dont la géométrie délimite l'étude (.shp) : ")
-resultat_file.write(emprise)
-resultat_file.write("\n4) Largeur des pixels de la grille en sortie (nombre décimal en mètres, compris entre 10 et 1000)  : " +str(pixel_size))
-resultat_file.write("\n5) SRID des fichiers de sortie : "+str(srid))
-resultat_file.write("\n6) Répertoire des fichiers de sortie : ")
-resultat_file.write(out_folder)
-resultat_file.write("\n7) Ecriture des fichiers temporaires : "+fichier_temp)
+print("Exécuté le "+date+" à "+heure+"    --     "+identifiant)
+print("\n\nParamètres : ")
+print("\n1) Emplacement et nom du tableau indexant les données à utiliser (.csv) :")
+print(data)
+print("\n2) Seuil de contrainte estimée maximale (nombre décimal entre 0.01 et 1.00) : " +str(tolerance) )
+print("\n3) Fichier dont la géométrie délimite l'étude (.shp) : ")
+print(emprise)
+print("\n4) Largeur des pixels de la grille en sortie (nombre décimal en mètres, compris entre 10 et 1000)  : " +str(pixel_size))
+print("\n5) SRID des fichiers de sortie : "+str(srid))
+print("\n6) Répertoire des fichiers de sortie : ")
+print(out_folder)
+print("\n7) Ecriture des fichiers temporaires : OUI")
 
 ##---------------------------------------Premièer boucle pour avoir l'emprsie maximale des données et ses coordonnées
 
@@ -176,6 +147,7 @@ for j in content :
     line = j.split(";")
     ttype=line[2]
     pond=line[3]
+    buff=line[4]
 
     if ind > -1 and ttype!="0" and pond!="0":
         ##---------------------------------------Recherche des valeurs extent
@@ -184,13 +156,14 @@ for j in content :
             inputt = line[1]
         else :
             inputt = rep_fusions+"\\"+line[0]
-        all_data_in.append(inputt)
-
+        all_data_in.append([inputt,buff]) #pour la conversion
     ind+=1
 
-all_data_in.append(emprise)
+all_data_in.append([emprise,""])
 #Répétition de l'action de la boucle pour le layer d'emprise (si plus grand)  #c'est dégueulasse!!
-for inputt in all_data_in :
+for entree in all_data_in :
+    #--Pour l'emprise maximale
+    inputt=entree[0]
     source_ds = ogr.Open(inputt)
     source_layer = source_ds.GetLayer()
     source_srs_data = source_layer.GetSpatialRef()
@@ -199,12 +172,11 @@ for inputt in all_data_in :
     # Transformation en projection métrique
     srs_da = osr.SpatialReference()
     srs_da.ImportFromWkt(source_srs_data.ExportToWkt())
-
-    # OSR transformation
     transform = osr.CoordinateTransformation(srs_da, srs_meters)
     x_min_meters_da, y_min_meters_da, burp = transform.TransformPoint(x_min_da, y_min_da)
     x_max_meters_da, y_max_meters_da, burp = transform.TransformPoint(x_max_da, y_max_da)
 
+    #Implementation
     ls_xmin_dameters.append(x_min_meters_da)
     ls_xmax_dameters.append(x_max_meters_da)
     ls_ymin_dameters.append(y_min_meters_da)
@@ -265,7 +237,7 @@ ind=-1
 content.close()
 content  = open(data,"r")
 
-resultat_file.write("\n\n----- TRAITEMENTS INDIVIDUELS")
+print("\n\n----- TRAITEMENTS INDIVIDUELS")
 for i in content :
     row = i.split(";")
     data_type=row[2]
@@ -296,7 +268,7 @@ for i in content :
         band = target_ds.GetRasterBand(1)
         band.SetNoDataValue(NoData_value)
 
-        resultat_file.write("\n\n"+row[0]+" de type : "+data_type)
+        print("\n\n"+row[0]+" de type : "+data_type)
         ##---------------------------------------Raster de distance
         if data_type=="1" or data_type=="2" or data_type=="7" or data_type=="8":
 
@@ -325,7 +297,7 @@ for i in content :
             if row[4] and float(row[4])>0 :
                 dist_buff=float(row[4])
                 maxOk = min(maxi_area,dist_buff)
-                resultat_file.write("\nBuffer effectué - "+str(maxOk)+" mètres")
+                print("\Buffer effectué - "+str(maxOk)+" mètres")
 
                 #Normalisation
                 d = np.where(c>maxOk,1,c/maxOk)
@@ -350,7 +322,7 @@ for i in content :
             dst_band = None
             dst_ds = None
 
-            resultat_file.write("\nRaster de distance effectué")
+            print("\nRaster de distance effectué")
 
         if data_type=="3" or data_type=="4" or data_type=="5" or data_type=="6" or data_type=="7" or data_type=="8":
             if row[4] and float(row[4])>0 and data_type!="7" and data_type!="8":
@@ -364,9 +336,16 @@ for i in content :
                 outputBufferds = shpdriver.CreateDataSource(outputBufferfn)
                 bufferlyr = outputBufferds.CreateLayer(outputBufferfn, geom_type=ogr.wkbPolygon)
 
+                # Transformation en projection métrique
+                source_srs_data = source_layer.GetSpatialRef()
+                srs_da = osr.SpatialReference()
+                srs_da.ImportFromWkt(source_srs_data.ExportToWkt())
+                transform = osr.CoordinateTransformation(srs_da, srs_meters)
+
                 featureDefn = bufferlyr.GetLayerDefn()
                 for feature in source_layer:
                     ingeom = feature.GetGeometryRef()
+                    ingeom.Transform(transform)
                     geomBuffer = ingeom.Buffer(dist_buff)
 
                     outFeature = ogr.Feature(featureDefn)
@@ -375,8 +354,7 @@ for i in content :
 
                 prj = open(output_prj, 'w')
                 #proyeccion = 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]'
-                source_srs_data = source_layer.GetSpatialRef()
-                prj.write(source_srs_data.ExportToWkt())
+                prj.write(srs_meters.ExportToWkt())
                 prj.close()
 
                 #Afermer et réouvrir (je sais pas pk, on doit pouvoir éviter ça)
@@ -387,7 +365,7 @@ for i in content :
                 #Rasterisation du buffer (écrase la précédemet écriture de target_ds, pas raev puisque le cas 1 est exécuté avant)
                 gdal.RasterizeLayer(target_ds, [1], source_buff_lay, burn_values=[1])
                 source_buff = None
-                resultat_file.write("\nBuffer effectué - "+str(dist_buff)+" mètres")
+                print("\nBuffer effectué - "+str(dist_buff)+" mètres")
 
             #On repart de target_ds (le raster !) pour les passer au découpage puis...
             #Il faut le copier dans un floattant et donc
@@ -416,7 +394,7 @@ for i in content :
                 ls_type_abs.append(data_type)
                 ls_pond_abs.append(row[3])
 
-            resultat_file.write("\nPas de raster de distance")
+            print("\nPas de raster de distance")
 
             band_float = None
             target_float_ds = None
@@ -429,13 +407,13 @@ for i in content :
 
 
 ##---------------------------------------Caculatrice raster : mise en commun des données
-resultat_file.write("\n\n----- DECOUPAGE ET MISE EN COMMUN")
-resultat_file.write("\n\nCouches définitives : ")
+print("\n\n----- DECOUPAGE ET MISE EN COMMUN")
+print("\n\nCouches définitives : ")
 
 #Calculatrice raster
 for x in range(len(ls_layers)) :
     ly = ls_layers[x]
-    resultat_file.write("\n"+ly)
+    print("\n"+ly)
     ty = ls_type[x]
     layer_src = gdal.Open(ly)
 
@@ -469,7 +447,7 @@ if len(ls_layers_abs) >0 :
 
 for x in range(len(ls_layers_abs)) :
     ly = ls_layers_abs[x]
-    resultat_file.write("\n"+ly+" (données absolues)")
+    print("\n"+ly+" (données absolues)")
     ty = ls_type_abs[x]
     layer_src = gdal.Open(ly)
     band_ly = layer_src.GetRasterBand(1)
@@ -558,17 +536,17 @@ if len(ls_layers) >0 :
     result_band_255_4 = result_ds_255.GetRasterBand(4)
 
     ##---Ecriture de la matrice
-    resultat_file.write("\n\nAncienne matrice (valeurs non absolues) : "+str(t.shape))
+    print("\n\nAncienne matrice (valeurs non absolues) : "+str(t.shape))
     t = t[cellHaut:cellBas,cellGauche:cellDroite]
-    resultat_file.write("   --   Nouvelle matrice : "+str(t.shape))
+    print("   --   Nouvelle matrice : "+str(t.shape))
     result_band.WriteArray(t)
 
     #PNG : couleurs
     t255 = np.where(t==NoData_value,NoData_value,255-t*255)
     t000 = np.where(t==NoData_value,NoData_value,0)
     result_band_255_1.WriteArray(t000)
-    result_band_255_2.WriteArray(t255)
-    result_band_255_3.WriteArray(t000)
+    result_band_255_2.WriteArray(t000)
+    result_band_255_3.WriteArray(t255)
 
     #PNG : transparence
     t255_op = np.where(t==NoData_value,0,255)
@@ -623,10 +601,10 @@ if len(ls_layers_abs) >0 :
     result_nodata_band_255_4 = result_nodata_ds_255.GetRasterBand(4)
 
     ##---Ecriture de la matrice
-    resultat_file.write("\n\nAncienne matrice (valeurs absolues) : "+str(u.shape))
+    print("\n\nAncienne matrice (valeurs absolues) : "+str(u.shape))
     u = u[cellHaut:cellBas,cellGauche:cellDroite]
     v = v[cellHaut:cellBas,cellGauche:cellDroite]
-    resultat_file.write("   --   Nouvelle matrice : "+str(u.shape))
+    print("   --   Nouvelle matrice : "+str(u.shape))
     result_nodata_band.WriteArray(u)
     result_contmax_band.WriteArray(v)
 
@@ -758,14 +736,31 @@ else :
 
 ##---------------------------------------Ecriture dans le fichier index et fermetures des fichiers texet
 
+contenu_index = ""
+if "index_resultats.csv" in os.listdir(r"..\data/") :
+
+    read_index=open(r"..\data\index_resultats.csv",'r')
+    for roww in read_index :
+        contenu_index=contenu_index+roww
+
+    read_index.close()
+    os.remove(r"..\data\index_resultats.csv")
+
+    indexRes=open(r"..\data\index_resultats.csv",'w')
+    indexRes.write(contenu_index)
+
+else :
+    print "Nouveau fichier d'index des résultats"
+    indexRes=open(r"..\data\index_resultats.csv",'w')
+    indexRes.write('"identifiant","date","heure","resultats","resultats_tolerance","resultats_contmax","resultats_nodata","xmin","ymin","xmax","ymax"')
+
+indexRes.write('\n"'+identifiant+'","'+date+'","'+heure+'","'+result_fn_png.split("..\\")[1]+'","'+result_tol_fn_png.split("..\\")[1]+'","'+result_contmax_fn_png.split("..\\")[1]+'","'+result_nodata_fn_png.split("..\\")[1]+'","'+str(x_min_4326)+'","'+str(y_min_4326)+'","'+str(x_max_4326)+'","'+str(y_max_4326)+'"')
+indexRes.close()
+content.close()
+
 fin = time.time()
 timepass = fin-debut
 minutess = int(timepass/60)
 secondess=timepass-minutess*60
-resultat_file.write("\n\nTemps passé : "+str(minutess)+" min "+str(secondess)+" sec")
+print("\n\nTemps passé : "+str(minutess)+" min "+str(secondess)+" sec")
 
-content.close()
-resultat_file.close()
-
-if fichier_temp=="NON" :
-    shutil.rmtree(rep_temp)
