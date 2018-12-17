@@ -1653,6 +1653,24 @@
 							</linear>
 						</defs>
 						
+						
+						<image class="carte_p ly5" id="carte_p_scan"/>
+						<rect id="cache_scan" class="carte_p" opacity="0" fill="#FFFFFF"/>
+						<image class="carte_p ly0" id="carte_p_toutcorridor" opacity="1"/>
+						<image class="carte_p ly1" id="carte_p_corridor" opacity="1"/>
+						<image class="carte_p ly0" id="carte_p_cont1" opacity="1"/>
+						<image class="carte_p ly1" id="carte_p_cont2" opacity="1"/>
+						<image class="carte_p ly2" id="carte_p_reservoir" opacity="1"/>
+						<image class="carte_p ly3" id="carte_p_chemins" opacity="1"/>
+						
+						<image class="carte_zoom ly0" id="carte_z_toutcorridor" opacity="1"/>
+						<image class="carte_zoom ly1" id="carte_z_corridor" opacity="1"/>
+						<image class="carte_zoom ly0" id="carte_z_cont1" opacity="1"/>
+						<image class="carte_zoom ly1" id="carte_z_cont2" opacity="1"/>
+						<image class="carte_zoom ly2" id="carte_z_reservoir" opacity="1"/>
+						<image class="carte_zoom ly3" id="carte_z_chemins" opacity="1"/>
+						<g id="cont_add"></g>
+						
 						<g id="tete">
 							<text id="titre_carte" transform="matrix(1 0 0 1 51.8071 50)" class="transf" transform1="matrix(1 0 0 1 -256.644 50)" transform3="matrix(1 0 0 1 20 50)" transform2="matrix(1 0 0 1 -256.644 50)" transform4="matrix(1 0 0 1 -256.644 50)" font-size="50">
 								<tspan x="0" y="0" class="disp conf3">Réservoirs 104 et 109</tspan>
@@ -1675,7 +1693,7 @@
 								<tspan x="0" y="125"  font-size="20" class="disp conf1 conf4">chemins et des couloirs de moindre</tspan>		
 								<tspan x="0" y="150"  font-size="20" class="disp conf1 conf4">coût).</tspan>		
 							</text>
-							<line id="barre_titre" class="changex1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="96.233" x1_1="542.7" x1_3="542.7" x1_2="96.233" x1_4="96.233" y1="54.341" x2="1918.7" y2="54.341"/>
+							<line id="barre_titre" class="changex1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="96.233" x1_1="96.233" x1_3="542.7" x1_2="96.233" x1_4="96.233" y1="54.341" x2="1918.7" y2="54.341"/>
 							<circle id="bout_tirte" cx="1918.7" cy="54.341" r="4.127"/>
 						</g>
 						<g id="indics_retour" class="transf" transform1="matrix(1 0 0 1 -174.0195 840)" transform4="matrix(1 0 0 1 -174.0195 926)" transform2="matrix(1 0 0 1 -174.0195 840)" transform3="matrix(1 0 0 1 -174.0195 75.3811)">
@@ -1687,24 +1705,8 @@
 							<text id="lab_local" x="40" y="210">Localisation</text>
 							<rect id="elt_local" x="0" y="200" width="20" height="10" fill="#996666" fill-opacity="0.5" stroke="#996666"/>
 						</g>
-						<image class="carte_p ly5" id="carte_p_scan"/>
-						<rect id="cache_scan" class="carte_p" opacity="0" fill="#FFFFFF"/>
-						<image class="carte_p ly0" id="carte_p_toutcorridor" opacity="1"/>
-						<image class="carte_p ly1" id="carte_p_corridor" opacity="1"/>
-						<image class="carte_p ly0" id="carte_p_cont1" opacity="1"/>
-						<image class="carte_p ly1" id="carte_p_cont2" opacity="1"/>
-						<image class="carte_p ly2" id="carte_p_reservoir" opacity="1"/>
-						<image class="carte_p ly3" id="carte_p_chemins" opacity="1"/>
 						
-						<image class="carte_zoom ly0" id="carte_z_toutcorridor" opacity="1"/>
-						<image class="carte_zoom ly1" id="carte_z_corridor" opacity="1"/>
-						<image class="carte_zoom ly0" id="carte_z_cont1" opacity="1"/>
-						<image class="carte_zoom ly1" id="carte_z_cont2" opacity="1"/>
-						<image class="carte_zoom ly2" id="carte_z_reservoir" opacity="1"/>
-						<image class="carte_zoom ly3" id="carte_z_chemins" opacity="1"/>
-						<g id="cont_add"></g>
-						
-						<g class="transf" transform1="translate(989.3615,1100)" transform2="translate(812.199,1130)" transform3="translate(436.359,1100)" transform4="translate(593.466,1130)" id="scalebar">
+						<g class="transf" transform1="translate(989.3615,1100)" transform2="translate(812.199,1130)" transform3="translate(436.359,1130)" transform4="translate(593.466,1130)" id="scalebar">
 							<rect id="fond_scalebar" x="-5" y="-25" width="150" height="50" fill="#FFFFFF" opacity="0.9"/>
 							<text id="lab_scalebar" x="0" y="-11"> </text>
 							<rect id="elt_scalebar" x="0" y="0" width="150" height="5" fill="none" stroke="#000000"/>
@@ -1714,7 +1716,7 @@
 							<rect id="elt_scalebar2" x="0" y="10" width="150" height="5" fill="none" stroke="#000000"/>
 						</g>
 						
-						<g id="legende" class="transf" transform1="translate(0,-50)" transform2="translate(0,-80)" transform4="translate(0,-30)" transform3="translate(800,-350)">
+						<g id="legende" class="transf" transform1="translate(0,-50)" transform2="translate(0,-80)" transform4="translate(0,-30)" transform3="translate(800,-340)">
 							<text id="lab_cliqu" font-weight="800" font-style="italic" font-size="20" transform="matrix(1 0 0 1 -269.644 380)">
 								<tspan x="0" y="0">Cliquer sur les</tspan>
 								<tspan x="140" y="0">pour masquer les éléments</tspan>
@@ -1747,7 +1749,7 @@
 									<line stroke="#333333" stroke-width="2" x1="-266.644" x2="-257.644" y1="904" y2="913"></line>
 								</g>
 							</g>
-							<g class="transf" transform1="translate(0,-8)" transform2="translate(0,-8)" transform4="translate(0,-8)" transform3="translate(311.1694,-96.0235)" >
+							<g class="transf" transform1="translate(0,-8)" transform2="translate(0,-8)" transform4="translate(0,-8)" transform3="translate(280.1694,-96.0235)" >
 								<g id="sel_corridor" class="selectable">
 									<rect x="-269.644" y="618" width="15" height="15" fill="#FFFFFF" stroke="#333333"/>
 									<g class="sld">
@@ -1777,7 +1779,7 @@
 									<tspan x="0" y="0" font-weight="800" font-size="20" >REPÈRE</tspan>
 								</text>
 							</g>
-							<g id="legende_cout" class="transf" transform1="translate(0,-8)" transform2="translate(0,-8)" transform4="translate(0,-8)" transform3="translate(311.1694,-96.0235)" >
+							<g id="legende_cout" class="transf" transform1="translate(0,-8)" transform2="translate(0,-8)" transform4="translate(0,-8)" transform3="translate(280.1694,-96.0235)" >
 								<text id="lab_cout" transform="matrix(1 0 0 1 -256.644 521.6697)" enable-background="new    "><tspan x="0" y="0" font-weight="800" font-size="24">Coût de passage</tspan><tspan x="0" y="18" font-size="15">- échelle commune pour toutes les cartes</tspan></text>
 								<g id="legende_corridor" >
 									<text id="lab_corridor" transform="matrix(1 0 0 1 -249.644 633)"  font-size="20">Coût du chemin alternatif (corridor)</text>

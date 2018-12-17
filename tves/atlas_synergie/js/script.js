@@ -7,6 +7,8 @@ wi_vbzomm = vbzoom.split(" ")[2],
 lsRes0 = [],
 lsRes = [],
 lsCouple = [],
+mode_selection=false,
+pre_selection,
 projection = d3.geo.albers() 
 	.center([2.9,50.9])
 	.rotate([0, 0])
@@ -221,7 +223,6 @@ function drawmap(){
 
 ///----Affichage de l'emprise des cartes individuelles sur la carte sommaire (au survol)
 function affEmprise(obj){
-	// alert(obj.id)
 	var id=obj.id;
 	var XMIN = obj.attributes.XMIN.value;
 	var YMIN = obj.attributes.YMIN.value;
@@ -251,6 +252,8 @@ function affEmprise(obj){
 
 ///----Sélection d'un réservoir relié  à plusieurs autres : une autre choix est nécessaire à la redirection (se déclenche aussi au clic)
 function selection(idd,liste){
+	mode_selection=true;
+	pre_selection=idd;
 	d3.select("#cache")
 		.transition()
 		.duration(300)
@@ -362,13 +365,6 @@ function affFiche(obj){
 
 	d3.select("#select_spe")
 		.attr("display","none")
-		
-
-	
-	
-	
-	
-	
 	// setTimeout(function(){fiche(code,vb,zoom,centrex,centrey,centrex_zoom,centrey_zoom,echelle1,echelle2)},3500)
 }
 
@@ -376,10 +372,8 @@ function affFiche(obj){
 function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 	coeff = vb.split(" ")[3]/vb.split(" ")[2]
 
-	
 	d3.select("#indic").style("display","none")
 	d3.select("#typodept").attr("display","none")
-		
 		
 	//Format de la mise en page en fonction de la taille de la carte et de la présence d'un zoom ou non (fichier emprise.csv)
 	if(z=="False"){
@@ -396,7 +390,6 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		}
 	}
 	trans(config)
-	
 	
 	//carte principale
 	var width_rep = document.getElementById("rep_carte").attributes.width.value;
@@ -457,8 +450,6 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 	d3.select("#fond_scalebar")
 		.attr("width",w_sca2*1.2)
 		.attr("x",-w_sca2*1.2/2)
-		
-		
 			
 		
 	//carte zoomée
@@ -474,10 +465,11 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 	
 	//titre
 	d3.select("#titre_carte")
-		.select(".conf1")
+		.select(".conf3")
 		.text("Réservoirs "+ind.split("_")[0]+" et "+ind.split("_")[1])
 
 	it = 0
+	
 	d3.select("#titre_carte")
 		.selectAll(".conf2")
 		.text(function(){
@@ -488,7 +480,6 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 				return "et "+ind.split("_")[1]
 			}
 		})
-		
 		
 	//zoom
 	if(z=="True"){
@@ -501,7 +492,13 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		var zy = document.getElementById("rep_z").attributes.y.value*1+(czy-vbzoom.split(" ")[1])*document.getElementById("rep_z").attributes.width.value/vbzoom.split(" ")[3];
 		var agrand = 30;
 		
+		if(ech2==0){
+			console.log("exception: chemin inexistant")
+			ech2=1;
+		}
+		
 		diffscale=ech2*agrand/ech1;
+		
 		d3.select("#cont_add")
 			.append("g")
 			.attr("id","indiczoom1")
@@ -535,7 +532,6 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		//echelle2
 		var w_sca = document.getElementById("elt_scalebar2").attributes.width.value;
 		var sca = w_sca * ech2*wi_vbzomm/document.getElementById("rep_z").attributes.width.value;
-		console.log(ech2)
 		if(sca < 20){ 
 			sca2 = 10
 		}else if(sca < 100){
@@ -549,19 +545,12 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		}
 	
 		w_sca2=w_sca*sca2/sca
-		console.log(sca)
 		sca_tx = sca2+" mètres";
 		
 		d3.select("#lab_scalebar2")
 			.text(sca_tx)
 			.attr("x",function(){
 				var val = w_sca2*0.5-sca_tx.length*4;
-				console.log("---------")
-				console.log(w_sca2*0.5)
-				console.log(w_sca)
-				console.log(sca_tx.length)
-				console.log(val)
-				console.log("---------")
 				return val;
 			})
 		d3.select("#elt_scalebar2")
@@ -630,8 +619,7 @@ function trans(n){
 		})
 		
 	if(n==3||n==4||n==2){
-		d3.select("#pied")
-		.style("margin-top","1.3%")
+		d3.select("#pied").style("margin-top","45.3%")
 	}
 }
 
@@ -823,17 +811,21 @@ function buildInd(indiv,data){
 			})
 			.on("click",function(){
 				var liste=this.attributes.liste.value;
-				var idd= this.id;
-				if(liste.split(",").length==1){
-					var ind = liste.split(",")[0];
-					if(document.getElementById("e"+idd.split("_")[1]+"_"+ind)){
-						obj = document.getElementById("e"+idd.split("_")[1]+"_"+ind)
-					} else {
-						obj = document.getElementById("e"+ind+"_"+idd.split("_")[1])
+				var idd_num= (this.id).split("_")[1];
+				if(liste.split(",").length==1||mode_selection==true){
+					if(mode_selection==false){
+						var ind = liste.split(",")[0];
+					}else{
+						var ind = pre_selection;
 					}
+					mi=Math.min(parseInt(ind),parseInt(idd_num));
+					ma=Math.max(parseInt(ind),parseInt(idd_num));
+					
+					obj = document.getElementById("e"+mi+"_"+ma)
 					affFiche(obj)
-				} else {
-					selection(idd.split("_")[1],liste)
+					mode_selection=false;
+				}else{
+					selection(idd_num,liste)
 				}
 			})
 			.append("text")
@@ -940,8 +932,7 @@ function actions(){
 				
 				d3.select("#typodept").attr("display","block")
 				
-				d3.select("#pied")
-					.style("margin-top","")
+				d3.select("#pied").style("margin-top","44%")
 				
 				d3.select("#sel_corridor").attr("lock","true")
 				d3.select("#sel_reservoirs").attr("lock","true")
@@ -959,8 +950,6 @@ function actions(){
 				
 				d3.selectAll(".sld").selectAll("line").attr("stroke-dasharray","12,0")
 
-				d3.selectAll(".ly0").attr("opacity",0.7).attr("display","block")
-				d3.selectAll(".ly1").attr("opacity",0.7).attr("display","none")
 				d3.selectAll(".ly2").attr("opacity",1)
 				d3.selectAll(".ly3").attr("opacity",1)
 				d3.selectAll(".ly4").attr("opacity",1)
