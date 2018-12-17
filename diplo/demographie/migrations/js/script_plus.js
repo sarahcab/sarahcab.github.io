@@ -471,8 +471,11 @@ function mer(){
 		d3.select("#fond")
 			.on("mousemove",function(){
 				if(cont2==true){
+					console.log("hello");
 					X = d3.event.clientX;
 					Y = d3.event.clientY;
+					margX=document.getElementById("dessin").style//["margin-left"];
+					console.log(margX);
 					for(i=0;i<3;i++){
 						d3.select("#fond")
 							.append("circle")

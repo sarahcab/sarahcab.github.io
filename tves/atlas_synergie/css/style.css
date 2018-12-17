@@ -16,9 +16,15 @@
     src:url("../ressources/polices/Roboto-Italic.ttf");
 }
 
+
 body{
 	font-family : 'Roboto';
+	background-color:#ffffff;
 	font-weight : 400;
+}
+
+#principal{
+	display:flex;
 }
 
 .choix:hover{
@@ -27,20 +33,25 @@ body{
 }
 
 #content{
-	width:100%;
+	width:88%;
 	position:absolute;
 }
 
 #base{
-	width:100%;
+	width:88%;
 	display : none;
 	position:absolute;
 }
 
 #tout{
-	display:flex;
+	/* width:90%; */
 }
 
+#bandeau{
+	width:12%;
+	margin-left:87.5%;
+	border-left:solid #eeeeee 0.5px;
+}
 
 .eltCh,#centro{
 	cursor:pointer;
@@ -68,7 +79,8 @@ body{
 #carte{
 	border-radius : 50%;
 	width:49%;
-	margin-left:42.4%;
+	margin-left:40.5%;
+	margin-top:-0.5%;
 }
 
 #habillage{
@@ -83,15 +95,12 @@ body{
 	display:none;
 }
 
-#bandeau{
-	display:inline;
-	position:absolute;
-	margin-top:55.5%;
-}
-
 .logos_b{
 	vertical-align:middle;
-	margin-left:4%;
+	margin-left:0.7%;
+	margin-top:3%;
+	margin-bottom:23.5%;
+	width:48%;
 }
 
 #dezoom:hover{

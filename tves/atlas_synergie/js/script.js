@@ -42,8 +42,6 @@ function drawmap(){
 			.attr("width",VBbase.split(" ")[2])
 			.attr("height",VBbase.split(" ")[3])
 		
-		
-		
 		var depts = map.append("g")
 			.attr("id","departements")
 			.selectAll(".dept") //implémentation des départements
@@ -219,8 +217,7 @@ function drawmap(){
 }
 
 function affEmprise(obj){
-	// alert(obj)
-	
+
 	var id=obj.id;
 	var XMIN = obj.attributes.XMIN.value;
 	var YMIN = obj.attributes.YMIN.value;
@@ -270,9 +267,7 @@ function affFiche(obj){
 			.style("display","none")
 	
 	d3.select("#wait")
-		.attr("display","block")
-	d3.select("#ittecop")
-		.style("display","none")	
+		.attr("display","block")	
 	
 	d3.select("#carte")
 		.attr("vb",x+" "+y+" "+width+" "+height)
@@ -281,6 +276,8 @@ function affFiche(obj){
 		.duration(800)
 		.attr("viewBox",x+" "+y+" "+width+" "+height)
 		.attr("opacity",0)
+		
+	
 	
 	waiting(2500);
 	
@@ -409,6 +406,9 @@ function waiting(duree){
 	d3.select("#rond_pat")
 		.style("animation","tourneG 3s linear infinite")
 		.style("transform-origin","-113.4px 339.7px") 
+		
+	//pied
+	d3.select("#pied").style("display","none")
 	
 	//zero
 	setTimeout(function(){
@@ -427,10 +427,9 @@ function waiting(duree){
 		d3.select("#dezoom").style("display","block")
 		d3.select("#wait")
 			.attr("display","none")
-		d3.select("#ittecop")
-			.style("display","block")
 			
-
+		//pied
+		d3.select("#pied").style("display","block")
 
 	},duree)
 }
@@ -664,8 +663,8 @@ function actions(){
 				.attr("viewBox",function(){
 					return this.attributes.vb.value;
 				})
-				.style("margin-left","42.4%")
-				.style("margin-top","0%")
+				.style("margin-left","40.5%")
+				.style("margin-top","-0.5%")
 				.style("width","49%")
 				.transition()
 				.delay(150)
@@ -719,6 +718,9 @@ function actions(){
 				d3.selectAll(".c_cache").remove()
 				
 				d3.select("#typodept").attr("display","block")
+				
+				d3.select("#pied")
+					.style("margin-top","")
 				
 				d3.select("#sel_corridor").attr("lock","true")
 				d3.select("#sel_reservoirs").attr("lock","true")
@@ -1247,4 +1249,8 @@ function trans(n){
 			return val;
 		})
 		
+	if(n==3||n==4||n==2){
+		d3.select("#pied")
+		.style("margin-top","1.3%")
+	}
 }
