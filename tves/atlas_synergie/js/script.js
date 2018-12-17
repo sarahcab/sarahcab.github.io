@@ -1026,7 +1026,7 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		.attr("y",Yc)
 		.attr("width",Wc)
 		.attr("height",Hc)
-		.attr("href",function(){
+		.attr("xlink:href",function(){
 			var n = (this.id).split("_")[2];
 			return "resultats/resultatsA_"+ind+"_"+n+".svg"
 		})
@@ -1071,7 +1071,7 @@ function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
 		.attr("y",document.getElementById("rep_z").attributes.y.value)
 		.attr("width",document.getElementById("rep_z").attributes.width.value)
 		.attr("height",document.getElementById("rep_z").attributes.width.value)
-		.attr("href",function(){
+		.attr("xlink:href",function(){
 			var n = (this.id).split("_")[2];
 			return "resultats/zoomA_"+ind+"_"+n+".svg"
 		})	
