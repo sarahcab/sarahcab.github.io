@@ -1,3 +1,5 @@
+///----Variables globales
+
 var VBbase="0 0 1000 1000",
 diffLEgende = 203.52,
 vbzoom="25 148.377955 545.50236 545.50236",
@@ -5,7 +7,7 @@ wi_vbzomm = vbzoom.split(" ")[2],
 lsRes0 = [],
 lsRes = [],
 lsCouple = [],
-projection = d3.geo.albers() //définition de la projection  : carte centrée manuellement, l'échelle est définie en variabe globale
+projection = d3.geo.albers() 
 	.center([2.9,50.9])
 	.rotate([0, 0])
 	.parallels([43, 62])
@@ -13,16 +15,16 @@ projection = d3.geo.albers() //définition de la projection  : carte centrée ma
 	
 nuancier = ["#FFFFFF","#91c497","#0d562c","#c9c19b","#000000","#123456","#996666"] //[0]blanc, [1]couleurs princiaples(point), [2]couleur de sélection, [3]contours depts, [4]noir, [5]ittecop, [6]rosé emrpises et typo detps
 
+///----Fonctions principales
+	
 window.onload = initialize();
-
 function initialize(){
 	drawmap()
 }
-
 function drawmap(){
-	queue()	//chargement des donénes					 
-		.defer(d3.json, "data/dept3.json") //geoDepts : polygones de la carte (départements)
-		.defer(d3.csv, "data/emprises.csv") //http://geofree.fr/gf/coordinateconv.asp#listSys
+	queue()	//chargement des donnéees					 
+		.defer(d3.json, "data/dept3.json") 
+		.defer(d3.csv, "data/emprises.csv") 
 		.defer(d3.csv, "data/res_indiv.csv") 
 		.await(callback0);
 	
@@ -35,7 +37,6 @@ function drawmap(){
 		
 		map.append("rect")
 			.attr("fill","url(#rad_fond)")
-			// .attr("fill",nuancier[2])
 			.attr("id","coucou")
 			.attr("x",0)
 			.attr("y",0)
@@ -44,13 +45,13 @@ function drawmap(){
 		
 		var depts = map.append("g")
 			.attr("id","departements")
-			.selectAll(".dept") //implémentation des départements
+			.selectAll(".dept")
 			.data(topojson.feature(geoDepts,
 				geoDepts.objects.nuts3).features)
 			.enter()
 			.append("path")
 			.attr("d", path) 
-			.attr("code", function(d){ //code
+			.attr("code", function(d){ 
 				var code = d.properties.nuts_id;
 				var result = "";
 				if(code.length==8){
@@ -61,13 +62,14 @@ function drawmap(){
 				return result;
 			})
 			.attr("fill",nuancier[0])
-			.attr("fill-opacity",function(){
-				if(this.attributes.code.value==62 || this.attributes.code.value==59){
-					return 0
-				} else {
-					return 0.5
-				}
-			})
+			.attr("fill-opacity",0.5)
+			// .attr("fill-opacity",function(){
+				// if(this.attributes.code.value==62 || this.attributes.code.value==59){
+					// return 0
+				// } else {
+					// return 0.5
+				// }
+			// })
 			.attr("stroke",nuancier[3])
 			.attr("stroke-width",0.75)
 			
@@ -216,6 +218,8 @@ function drawmap(){
 	}
 }
 
+
+///----Affichage de l'emprise des cartes individuelles sur la carte sommaire (au survol)
 function affEmprise(obj){
 
 	var id=obj.id;
@@ -245,6 +249,50 @@ function affEmprise(obj){
 }
 
 
+///----Sélection d'un réservoir relié  à plusieurs autres : une autre choix est nécessaire à la redirection (se déclenche aussi au clic)
+function selection(idd,liste){
+	d3.select("#cache")
+		.transition()
+		.duration(300)
+		.attr("opacity",0.6)
+		
+	d3.selectAll(".eltCh")
+		.attr("display","none")
+
+	d3.selectAll(".lien")
+		.attr("display","none")
+		
+	d3.select("#select_spe")
+		.attr("display","block")
+		
+	var x = document.getElementById("g_"+idd).attributes.xc.value;
+	var y = document.getElementById("g_"+idd).attributes.yc.value;
+	
+	d3.select("#carte")
+		.append("circle")
+		.attr("r",6)
+		.attr("fill","#FFFFFF")
+		.attr("fill-opacity",0.6)
+		.attr("cx",x)
+		.attr("cy",y)
+		.attr("class","c_cache")
+	
+	for(i=0;i<liste.split(",").length;i++){
+		d3.select("#g_"+liste.split(",")[i])
+			.attr("display","block")
+		
+		if(document.getElementById("e"+idd+"_"+liste.split(",")[i])){
+			obj = document.getElementById("e"+idd+"_"+liste.split(",")[i])
+		} else {
+			obj = document.getElementById("e"+liste.split(",")[i]+"_"+idd)
+		}
+		d3.select(obj)
+			.attr("display","block")
+	}
+}
+
+
+///----Redirection vers la carte indivuelle (au click)
 function affFiche(obj){
 	var x = obj.attributes.XMIN.value;
 	var x = obj.attributes.XMIN.value;
@@ -279,7 +327,7 @@ function affFiche(obj){
 		
 	
 	
-	waiting(2500);
+	waiting(2500,code);
 	
 	setTimeout(function(){	
 		
@@ -324,72 +372,282 @@ function affFiche(obj){
 	// setTimeout(function(){fiche(code,vb,zoom,centrex,centrey,centrex_zoom,centrey_zoom,echelle1,echelle2)},3500)
 }
 
-
-function waiting(duree){
-	// alert("h")
-	// d3.select("#wait")
-		// .attr("display","block")
-	// d3.select("#ittecop")
-		// .style("display","none")
-
-	///faon
-	// d3.select("#faon")
-		// .transition()
-		// .duration(duree)
-		// .attr("transform","translate(1000,0)")
-	
-	// tps0 = duree/6;
-	// d3.select("#faon_1_") //mettre une classe css
-		// .transition()
-		// .duration(tps0)
-		// .attr("transform","translate(0,50)")
-		// .transition()
-		// .duration(tps0)
-		// .attr("transform","translate(0,-10)")
-		// .transition()
-		// .duration(tps0)
-		// .attr("transform","translate(0,50)")
-		// .transition()
-		// .duration(tps0)
-		// .attr("transform","translate(0,-10)")
-		// .transition()
-		// .duration(tps0)
-		// .attr("transform","translate(0,50)")
-		// .transition()
-		// .duration(tps0)
-		// .attr("transform","translate(0,-10)")
-	
+///---Création de la mise en page pour els cartes indivuelles
+function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
+	coeff = vb.split(" ")[3]/vb.split(" ")[2]
 
 	
-	///pates
-	// it_pat = 0;
+	d3.select("#indic").style("display","none")
+	d3.select("#typodept").attr("display","none")
+		
+		
+	//Format de la mise en page en fonction de la taille de la carte et de la présence d'un zoom ou non (fichier emprise.csv)
+	if(z=="False"){
+		if(coeff<=1){
+			config=1;
+		} else {
+			config=2;
+		}
+	} else {
+		if(coeff<=1){
+			config=3;
+		} else {
+			config=4;
+		}
+	}
+	trans(config)
+	
+	
+	//carte principale
+	var width_rep = document.getElementById("rep_carte").attributes.width.value;
+	var height_rep =document.getElementById("rep_carte").attributes.height.value;
+	var x_rep =document.getElementById("rep_carte").attributes.x.value;
+	var y_rep =document.getElementById("rep_carte").attributes.y.value;
+	var coeff_rep = height_rep/width_rep;
+		
+	if(coeff<=coeff_rep){
+		var Xc = x_rep;
+		var Wc = width_rep;
+		var Hc = Wc*coeff;
+		var Yc = y_rep*1+(height_rep-Hc)*0.5;
+	} else {
+		var Yc = y_rep;
+		var Hc = height_rep;
+		var Wc = Hc/coeff;
+		var Xc = x_rep*1+(width_rep-Wc)*0.5;
+	}
+	
+	d3.selectAll(".carte_p")
+		.attr("x",Xc)
+		.attr("y",Yc)
+		.attr("width",Wc)
+		.attr("height",Hc)
+		.attr("xlink:href",function(){
+			var n = (this.id).split("_")[2];
+			return "resultats/resultatsA_"+ind+"_"+n+".svg"
+		})
+		
+	//echelle
+	var w_sca = document.getElementById("elt_scalebar").attributes.width.value;
+	var sca = w_sca * ech1*vb.split(" ")[2]/Wc;
+	if(sca < 200){ 
+		sca2 = 100
+	}else if(sca < 500){
+		sca2=sca-sca%100;
+	} else if(sca < 10000){
+		sca2=sca-sca%500;
+	} else if(sca < 20000){
+		sca2=sca-sca%1000;
+	} else {
+		sca2=sca-sca%5000;
+	}
+	
+	w_sca2=w_sca*sca2/sca;
+	sca_tx = sca2+" mètres";
+	d3.select("#lab_scalebar")
+		.text(sca_tx)
+		.attr("x",function(){
+			var val = -sca_tx.length*4;
+			return val;
+		})
+	d3.select("#elt_scalebar")
+		.attr("width",w_sca2)
+		.attr("x",-w_sca2/2)
+
+	d3.select("#fond_scalebar")
+		.attr("width",w_sca2*1.2)
+		.attr("x",-w_sca2*1.2/2)
+		
+		
+			
+		
+	//carte zoomée
+	d3.selectAll(".carte_zoom")
+		.attr("x",document.getElementById("rep_z").attributes.x.value)
+		.attr("y",document.getElementById("rep_z").attributes.y.value)
+		.attr("width",document.getElementById("rep_z").attributes.width.value)
+		.attr("height",document.getElementById("rep_z").attributes.width.value)
+		.attr("xlink:href",function(){
+			var n = (this.id).split("_")[2];
+			return "resultats/zoomA_"+ind+"_"+n+".svg"
+		})	
+	
+	//titre
+	d3.select("#titre_carte")
+		.select(".conf1")
+		.text("Réservoirs "+ind.split("_")[0]+" et "+ind.split("_")[1])
+
+	it = 0
+	d3.select("#titre_carte")
+		.selectAll(".conf2")
+		.text(function(){
+			if(it==0){
+				it++;
+				return "Réservoirs "+ind.split("_")[0]
+			} else {
+				return "et "+ind.split("_")[1]
+			}
+		})
+		
+		
+	//zoom
+	if(z=="True"){
+		//var pr indic zoom1
+		var xx = Xc*1+(ccx-vb.split(" ")[0])*Wc/vb.split(" ")[2];
+		var yy = Yc*1+(ccy-vb.split(" ")[1])*Hc/vb.split(" ")[3];
+
+		//var pr indic zoom2
+		var zx = document.getElementById("rep_z").attributes.x.value*1+(czx-vbzoom.split(" ")[0])*document.getElementById("rep_z").attributes.width.value/vbzoom.split(" ")[2];
+		var zy = document.getElementById("rep_z").attributes.y.value*1+(czy-vbzoom.split(" ")[1])*document.getElementById("rep_z").attributes.width.value/vbzoom.split(" ")[3];
+		var agrand = 30;
+		
+		diffscale=ech2*agrand/ech1;
+		d3.select("#cont_add")
+			.append("g")
+			.attr("id","indiczoom1")
+			.attr("class","ly4")
+			.attr("opacity",1)
+			.attr("transform","scale("+diffscale+") translate("+xx/diffscale+","+yy/diffscale+")")
+			.append("use")
+			.attr("xlink:href",function(){
+				if(diffscale<2){
+					return "#use_p"
+				} else {
+					return "#use_z"
+				}
+			})
+			
+		
+		d3.select("#cont_add")
+			.append("svg")
+			.attr("x",document.getElementById("rep_z").attributes.x.value)
+			.attr("y",document.getElementById("rep_z").attributes.y.value)
+			.attr("width",document.getElementById("rep_z").attributes.width.value)
+			.attr("height",document.getElementById("rep_z").attributes.width.value)
+			.attr("viewBox",document.getElementById("rep_z").attributes.x.value+" "+document.getElementById("rep_z").attributes.y.value+" "+document.getElementById("rep_z").attributes.width.value+" "+document.getElementById("rep_z").attributes.height.value)
+			.attr("id","indiczoom2")
+			.attr("class","ly4")
+			.append("g")
+			.attr("transform","scale("+agrand+") translate("+zx/agrand+","+zy/agrand+")")
+			.append("use")
+			.attr("xlink:href","#use_z")
+
+		//echelle2
+		var w_sca = document.getElementById("elt_scalebar2").attributes.width.value;
+		var sca = w_sca * ech2*wi_vbzomm/document.getElementById("rep_z").attributes.width.value;
+		console.log(ech2)
+		if(sca < 20){ 
+			sca2 = 10
+		}else if(sca < 100){
+			sca2= 50
+		} else if(sca < 500){
+			sca2=sca-sca%100;
+		} else if(sca < 1000){
+			sca2=500;
+		} else {
+			sca2=sca-sca%500;
+		}
+	
+		w_sca2=w_sca*sca2/sca
+		console.log(sca)
+		sca_tx = sca2+" mètres";
+		
+		d3.select("#lab_scalebar2")
+			.text(sca_tx)
+			.attr("x",function(){
+				var val = w_sca2*0.5-sca_tx.length*4;
+				console.log("---------")
+				console.log(w_sca2*0.5)
+				console.log(w_sca)
+				console.log(sca_tx.length)
+				console.log(val)
+				console.log("---------")
+				return val;
+			})
+		d3.select("#elt_scalebar2")
+			.attr("width",w_sca2)
+		
+	}
+	
+}
+
+///---Activation de la transformation des objets  qui se déplacent en fonction du format des cartes
+function trans(n){
+	d3.selectAll(".disp").attr("display","none")
+	d3.selectAll(".conf"+n).attr("display","block")
+	d3.selectAll(".transf")
+		.attr("transform",function(){
+			if(this.attributes["transform"+n]){
+				var val = this.attributes["transform"+n].value;
+				return val;
+			} else {
+				alert(this.id)
+			}
+		})
+		
+	d3.selectAll(".changex1")
+		.attr("x1",function(){
+			var val = this.attributes["x1_"+n].value;
+			return val;
+		})
+		
+	d3.selectAll(".changeRec")
+		.attr("x",function(){
+			var val = this.attributes["x"+n].value;
+			return val;
+		})
+		.attr("y",function(){
+			var val = this.attributes["y"+n].value;
+			return val;
+		})	
+		.attr("width",function(){
+			var val = this.attributes["width"+n].value;
+			return val;
+		})
+		.attr("height",function(){
+			var val = this.attributes["height"+n].value;
+			return val;
+		})		
+		
+	d3.selectAll(".changeCir")
+		.attr("cx",function(){
+			var val = this.attributes["cx"+n].value;
+			return val;
+		})
+		.attr("cy",function(){
+			var val = this.attributes["cy"+n].value;
+			return val;
+		})	
+		.attr("r",function(){
+			var val = this.attributes["r"+n].value;
+			return val;
+		})
+		
+	d3.selectAll(".styyle")
+		.attr("style",function(){
+			var val = this.attributes["style"+n].value;
+			return val;
+		})
+		
+	if(n==3||n==4||n==2){
+		d3.select("#pied")
+		.style("margin-top","1.3%")
+	}
+}
+
+
+///----Ecran de chargement (lors de la redirection
+function waiting(duree,ind){
+	
 	d3.select("#pattes")
 		.selectAll(".trace")
 		.attr("opacity",0)
-		// .each(function(){
-			// tps=duree/42;
-			// it_pat = (this.id).split("p")[1];
-			// d3.select(this).transition().delay(it_pat*tps/2).duration(tps/2).attr("opacity",1)
-			// d3.select(this).transition().delay((it_pat*1+1)*tps/2).duration(tps*7).attr("opacity",0)
-			// console.log(it_pat)
-			// console.log(it_pat*tps/2)
-		// })
 		.style("animation","pas 1s linear")
 		.style("animation-delay",function(){
 			tps=duree/42;
 			it_pat = (this.id).split("p")[1];
 			return (it_pat*tps/2)+"ms";
 		})
-		
-		
-	//trace
-	// d3.select("#chemin_trace")
-		// .attr("stroke-dasharray","0,700")
-		// .transition()
-		// .duration(duree*0.8)
-		// .attr("stroke-dasharray","700,0")
-		
-	//papillon
 	xpap=497;
 	ypap=319;
 		
@@ -410,10 +668,13 @@ function waiting(duree){
 	//pied
 	d3.select("#pied").style("display","none")
 	
-	//zero
+	//fin du temps de chargement
 	setTimeout(function(){
-		// d3.select("#faon").attr("transform","")
-		// d3.select("#faon_1_").attr("transform","")
+		affEmprise(document.getElementById("e"+ind))
+			d3.selectAll(".emp")
+				.attr("fill",nuancier[6])
+				.attr("fill-opacity",0.5)
+		
 		d3.selectAll(".aile_mvt").style("animation","")
 		d3.select("#papillon").style("animation","")
 		d3.select("#rond_pat")
@@ -434,53 +695,14 @@ function waiting(duree){
 	},duree)
 }
 
-function selection(idd,liste){
-	d3.select("#cache")
-		.transition()
-		.duration(300)
-		.attr("opacity",0.6)
-		
-	d3.selectAll(".eltCh")
-		.attr("display","none")
 
-	d3.selectAll(".lien")
-		.attr("display","none")
-		
-	d3.select("#select_spe")
-		.attr("display","block")
-		
-	var x = document.getElementById("g_"+idd).attributes.xc.value;
-	var y = document.getElementById("g_"+idd).attributes.yc.value;
-	
-	d3.select("#carte")
-		.append("circle")
-		.attr("r",6)
-		.attr("fill","#FFFFFF")
-		.attr("fill-opacity",0.6)
-		.attr("cx",x)
-		.attr("cy",y)
-		.attr("class","c_cache")
-	
-	for(i=0;i<liste.split(",").length;i++){
-		d3.select("#g_"+liste.split(",")[i])
-			.attr("display","block")
-		
-		if(document.getElementById("e"+idd+"_"+liste.split(",")[i])){
-			obj = document.getElementById("e"+idd+"_"+liste.split(",")[i])
-		} else {
-			obj = document.getElementById("e"+liste.split(",")[i]+"_"+idd)
-		}
-		d3.select(obj)
-			.attr("display","block")
-	}
-}
-
+///----Création des objets SVG sur la carte sommaire qui serviront à la redirection (actions au clic et au survol)
 function buildInd(indiv,data){
 	var centreX=VBbase.split(" ")[2]/2,
 	centreY=VBbase.split(" ")[3]/2,
 	rayon=0.97*VBbase.split(" ")[2]/2;
-	// lockCercle="false";
 	
+	//cercle autour de la carte
 	d3.select("#carte")
 			.append("g")
 			.attr("id","cercleChoix")
@@ -490,8 +712,7 @@ function buildInd(indiv,data){
 			.attr("stroke-width",35)
 			.attr("cx",centreX)
 			.attr("cy",centreY)
-			.attr("r",rayon)		
-			// .attr("opacity",0.8)			
+			.attr("r",rayon)			
 						
 	for(i=0;i<indiv.length;i++){
 		if((indiv[i].Id).length==2){
@@ -519,6 +740,8 @@ function buildInd(indiv,data){
 			} 
 		}
 		var angle = 2*Math.PI*j/lsRes.length;
+		
+		//création textes dans le cercle autour de la carte
 		d3.select("#cercleChoix")
 			.append("g")
 			.attr("class","eltCh")
@@ -585,7 +808,7 @@ function buildInd(indiv,data){
 				} 
 			})
 			.on("mouseout",function(){
-				d3.selectAll(".emp").remove()
+				d3.selectAll(".emp_").remove()
 				d3.select("#cercleChoix").selectAll("text").attr("font-weight",400).attr("fill",nuancier[4])
 				d3.select("#cercleChoix")
 					.selectAll(".colore")
@@ -620,6 +843,7 @@ function buildInd(indiv,data){
 			.attr("y", centreY*1+rayon*Math.sin(angle)+5)
 			.attr("font-size",15)
 			
+		//création des cercles localisés sur la carte (dans le même groupe, pas besoin de ré-écrire l'évènement)
 		d3.select("#g_"+lsRes[j])
 			.selectAll("circle")
 			.data([[nuancier[1],0.5,10],[nuancier[1],1,7],[nuancier[0],1,2.5]])
@@ -649,13 +873,11 @@ function buildInd(indiv,data){
 	}	
 }
 
+
+///----Autre action (boutons)
 function actions(){
-	// d3.select("#bloup")
-		// .style("opacity",0.5)
-		// .on("click",function(){
-			// waiting(3000)
-		// })
 	
+	//retour vers la carte sommaire (action au click sur la carte elle-même devenue miniature)
 	d3.select("#dezoom")
 		.on("click",function(){
 				
@@ -672,7 +894,6 @@ function actions(){
 				.attr("viewBox",VBbase)
 
 		
-			// setTimeout(function(){
 				d3.select("#base")
 					.style("display","none")
 					.style("opacity",1)
@@ -746,7 +967,6 @@ function actions(){
 				d3.selectAll(".ly5").attr("opacity",1)
 				d3.select("#cache_scan").attr("opacity",0)
 				d3.select("#fififi").attr("display","block")
-			// },1155)
 
 		})
 		.on("mouseover",function(){
@@ -900,7 +1120,6 @@ function actions(){
 			
 		d3.selectAll(".filtre")
 			.on("mouseover",function(){
-				// var pc = (this.id).split("_")[1]/100;
 				var mat = this.attributes.mat.value;
 				var op = this.attributes.op.value;
 				d3.select("#elt_corridor").transition().duration(500).attr("width",mat)
@@ -932,15 +1151,14 @@ function actions(){
 				d3.selectAll(".ly"+ref).attr("display","block")
 			})
 		
-
 }
+ 
 
-function brandon(){
+ ///----Fonction pour vérifir la taille des éléments (non appelée)
+function check_espaces(){
 	d3.select("#carte_indiv")
 		.on("mousemove",function(){
-			// alert("j")
 			m = d3.mouse(this)
-			// alert(m)
 			d3.select(this)
 				.append("circle")
 				.attr("fill","none")
@@ -959,298 +1177,4 @@ function brandon(){
 		
 		
 	
-}
-
-function fiche(ind,vb,z,ccx,ccy,czx,czy,ech1,ech2){
-	coeff = vb.split(" ")[3]/vb.split(" ")[2]
-	
-	// d3.select("#dezoom").style("display","block")
-	// d3.select("#titree").text(ind.split("_")[0]+" - "+ind.split("_")[1])
-
-	// d3.select("#habillage")
-		// .attr("display","none")
-	
-	// d3.select("#wait")
-		// .attr("display","none")
-	
-	
-	d3.select("#indic").style("display","none")
-	d3.select("#typodept").attr("display","none")
-		
-	affEmprise(document.getElementById("e"+ind))
-	d3.select(".emp")
-		.attr("fill",nuancier[6])
-		.attr("fill-opacity",0.5)
-		
-	//---------------------------------------------------------------------------------------ancien truc avant a virer
-	
-	if(z=="False"){
-		if(coeff<=1){
-			config=1;
-		} else {
-			config=2;
-		}
-	} else {
-		if(coeff<=1){
-			config=3;
-		} else {
-			config=4;
-		}
-	}
-	trans(config)
-	
-	
-	
-		
-	//carte principale
-	var width_rep = document.getElementById("rep_carte").attributes.width.value;
-	var height_rep =document.getElementById("rep_carte").attributes.height.value;
-	var x_rep =document.getElementById("rep_carte").attributes.x.value;
-	var y_rep =document.getElementById("rep_carte").attributes.y.value;
-	var coeff_rep = height_rep/width_rep;
-		
-	if(coeff<=coeff_rep){
-		var Xc = x_rep;
-		var Wc = width_rep;
-		var Hc = Wc*coeff;
-		var Yc = y_rep*1+(height_rep-Hc)*0.5;
-	} else {
-		var Yc = y_rep;
-		var Hc = height_rep;
-		var Wc = Hc/coeff;
-		var Xc = x_rep*1+(width_rep-Wc)*0.5;
-	}
-	
-	d3.selectAll(".carte_p")
-		.attr("x",Xc)
-		.attr("y",Yc)
-		.attr("width",Wc)
-		.attr("height",Hc)
-		.attr("xlink:href",function(){
-			var n = (this.id).split("_")[2];
-			return "resultats/resultatsA_"+ind+"_"+n+".svg"
-		})
-		
-	//echelle
-	var w_sca = document.getElementById("elt_scalebar").attributes.width.value;
-	var sca = w_sca * ech1*vb.split(" ")[2]/Wc;
-	if(sca < 200){ 
-		sca2 = 100
-	}else if(sca < 500){
-		sca2=sca-sca%100;
-	} else if(sca < 10000){
-		sca2=sca-sca%500;
-	} else if(sca < 20000){
-		sca2=sca-sca%1000;
-	} else {
-		sca2=sca-sca%5000;
-	}
-	
-	w_sca2=w_sca*sca2/sca;
-	sca_tx = sca2+" mètres";
-	d3.select("#lab_scalebar")
-		.text(sca_tx)
-		.attr("x",function(){
-			var val = -sca_tx.length*4;
-			return val;
-		})
-	d3.select("#elt_scalebar")
-		.attr("width",w_sca2)
-		.attr("x",-w_sca2/2)
-
-	d3.select("#fond_scalebar")
-		.attr("width",w_sca2*1.2)
-		.attr("x",-w_sca2*1.2/2)
-		
-		
-			
-		
-	//carte zoomée
-	d3.selectAll(".carte_zoom")
-		.attr("x",document.getElementById("rep_z").attributes.x.value)
-		.attr("y",document.getElementById("rep_z").attributes.y.value)
-		.attr("width",document.getElementById("rep_z").attributes.width.value)
-		.attr("height",document.getElementById("rep_z").attributes.width.value)
-		.attr("xlink:href",function(){
-			var n = (this.id).split("_")[2];
-			return "resultats/zoomA_"+ind+"_"+n+".svg"
-		})	
-	
-	//titre
-	d3.select("#titre_carte")
-		.select(".conf1")
-		.text("Réservoirs "+ind.split("_")[0]+" et "+ind.split("_")[1])
-
-	it = 0
-	d3.select("#titre_carte")
-		.selectAll(".conf2")
-		.text(function(){
-			if(it==0){
-				it++;
-				return "Réservoirs "+ind.split("_")[0]
-			} else {
-				return "et "+ind.split("_")[1]
-			}
-		})
-		
-		
-	//zoom
-	if(z=="True"){
-		//var pr indic zoom1
-		var xx = Xc*1+(ccx-vb.split(" ")[0])*Wc/vb.split(" ")[2];
-		var yy = Yc*1+(ccy-vb.split(" ")[1])*Hc/vb.split(" ")[3];
-
-		//var pr indic zoom2
-		var zx = document.getElementById("rep_z").attributes.x.value*1+(czx-vbzoom.split(" ")[0])*document.getElementById("rep_z").attributes.width.value/vbzoom.split(" ")[2];
-		var zy = document.getElementById("rep_z").attributes.y.value*1+(czy-vbzoom.split(" ")[1])*document.getElementById("rep_z").attributes.width.value/vbzoom.split(" ")[3];
-		var agrand = 30;
-		
-		diffscale=ech2*agrand/ech1;
-		d3.select("#cont_add")
-			.append("g")
-			.attr("id","indiczoom1")
-			.attr("class","ly4")
-			.attr("opacity",1)
-			.attr("transform","scale("+diffscale+") translate("+xx/diffscale+","+yy/diffscale+")")
-			.append("use")
-			.attr("xlink:href",function(){
-				if(diffscale<2){
-					return "#use_p"
-				} else {
-					return "#use_z"
-				}
-			})
-
-		
-		
-		// d3.select("#carte_indiv")
-			// .append("clipPath")
-			// .attr("id","clip_re_z")
-			// .append("use")
-			// .attr("xlink:href","#rep_z")
-			
-		
-		d3.select("#cont_add")
-			.append("svg")
-			.attr("x",document.getElementById("rep_z").attributes.x.value)
-			.attr("y",document.getElementById("rep_z").attributes.y.value)
-			.attr("width",document.getElementById("rep_z").attributes.width.value)
-			.attr("height",document.getElementById("rep_z").attributes.width.value)
-			.attr("viewBox",document.getElementById("rep_z").attributes.x.value+" "+document.getElementById("rep_z").attributes.y.value+" "+document.getElementById("rep_z").attributes.width.value+" "+document.getElementById("rep_z").attributes.height.value)
-			.attr("id","indiczoom2")
-			.attr("class","ly4")
-			.append("g")
-			.attr("transform","scale("+agrand+") translate("+zx/agrand+","+zy/agrand+")")
-			.append("use")
-			.attr("xlink:href","#use_z")
-			// .attr("clip-path","url(#clip_re_z)")
-			
-			// .append("circle")
-			// .attr("id","indiczoom2")
-			// .attr("r",20)
-			// .attr("fill","red")
-			// .attr("cx",zx)
-			// .attr("cy",zy)
-		
-			
-		//echelle2
-		var w_sca = document.getElementById("elt_scalebar2").attributes.width.value;
-		var sca = w_sca * ech2*wi_vbzomm/document.getElementById("rep_z").attributes.width.value;
-		console.log(ech2)
-		if(sca < 20){ 
-			sca2 = 10
-		}else if(sca < 100){
-			sca2= 50
-		} else if(sca < 500){
-			sca2=sca-sca%100;
-		} else if(sca < 1000){
-			sca2=500;
-		} else {
-			sca2=sca-sca%500;
-		}
-	
-		w_sca2=w_sca*sca2/sca
-		console.log(sca)
-		sca_tx = sca2+" mètres";
-		
-		d3.select("#lab_scalebar2")
-			.text(sca_tx)
-			.attr("x",function(){
-				var val = w_sca2*0.5-sca_tx.length*4;
-				console.log("---------")
-				console.log(w_sca2*0.5)
-				console.log(w_sca)
-				console.log(sca_tx.length)
-				console.log(val)
-				console.log("---------")
-				return val;
-			})
-		d3.select("#elt_scalebar2")
-			.attr("width",w_sca2)
-		
-	}
-	
-}
-
-function trans(n){
-	d3.selectAll(".disp").attr("display","none")
-	d3.selectAll(".conf"+n).attr("display","block")
-	d3.selectAll(".transf")
-		.attr("transform",function(){
-			if(this.attributes["transform"+n]){
-				var val = this.attributes["transform"+n].value;
-				return val;
-			} else {
-				alert(this.id)
-			}
-		})
-		
-	d3.selectAll(".changex1")
-		.attr("x1",function(){
-			var val = this.attributes["x1_"+n].value;
-			return val;
-		})
-		
-	d3.selectAll(".changeRec")
-		.attr("x",function(){
-			var val = this.attributes["x"+n].value;
-			return val;
-		})
-		.attr("y",function(){
-			var val = this.attributes["y"+n].value;
-			return val;
-		})	
-		.attr("width",function(){
-			var val = this.attributes["width"+n].value;
-			return val;
-		})
-		.attr("height",function(){
-			var val = this.attributes["height"+n].value;
-			return val;
-		})		
-		
-	d3.selectAll(".changeCir")
-		.attr("cx",function(){
-			var val = this.attributes["cx"+n].value;
-			return val;
-		})
-		.attr("cy",function(){
-			var val = this.attributes["cy"+n].value;
-			return val;
-		})	
-		.attr("r",function(){
-			var val = this.attributes["r"+n].value;
-			return val;
-		})
-		
-	d3.selectAll(".styyle")
-		.attr("style",function(){
-			var val = this.attributes["style"+n].value;
-			return val;
-		})
-		
-	if(n==3||n==4||n==2){
-		d3.select("#pied")
-		.style("margin-top","1.3%")
-	}
 }
