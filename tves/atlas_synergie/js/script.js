@@ -221,7 +221,7 @@ function drawmap(){
 
 ///----Affichage de l'emprise des cartes individuelles sur la carte sommaire (au survol)
 function affEmprise(obj){
-
+	// alert(obj.id)
 	var id=obj.id;
 	var XMIN = obj.attributes.XMIN.value;
 	var YMIN = obj.attributes.YMIN.value;
@@ -671,9 +671,9 @@ function waiting(duree,ind){
 	//fin du temps de chargement
 	setTimeout(function(){
 		affEmprise(document.getElementById("e"+ind))
-			d3.selectAll(".emp")
-				.attr("fill",nuancier[6])
-				.attr("fill-opacity",0.5)
+		d3.selectAll(".emp")
+			.attr("fill",nuancier[6])
+			.attr("fill-opacity",0.5)
 		
 		d3.selectAll(".aile_mvt").style("animation","")
 		d3.select("#papillon").style("animation","")
@@ -808,7 +808,7 @@ function buildInd(indiv,data){
 				} 
 			})
 			.on("mouseout",function(){
-				d3.selectAll(".emp_").remove()
+				d3.selectAll(".emp").remove()
 				d3.select("#cercleChoix").selectAll("text").attr("font-weight",400).attr("fill",nuancier[4])
 				d3.select("#cercleChoix")
 					.selectAll(".colore")
