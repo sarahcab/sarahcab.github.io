@@ -196,7 +196,7 @@ function drawMap(dataIris,datalog,datavar){
 						for(i=0;i<datalog.length;i++){
 							if(datalog[i].IRIS==code){
 								val = datalog[i][varid];
-								prc = datalog[i][varid]/datalog[i]["P15_LOG"];
+								prc = 100*datalog[i][varid]/datalog[i]["P15_LOG"];
 							}
 						}
 						d3.select(this).attr("prc",prc);
@@ -309,7 +309,7 @@ function val_abs(){
 		})
 		
 	d3.selectAll(".iris_centroide")
-		.transition().duration(500)
+		.transition().duration(350)
 		.attr("r",function(){
 			return this.attributes.ray.value;
 		})
@@ -320,7 +320,7 @@ function val_abs(){
 function pourcentage(){	
 
 	d3.selectAll(".iris_centroide")
-		.transition().duration(500)
+		.transition().duration(350)
 		.attr("r",0)
 	
 	for(i=0;i<discretP.length;i++){
@@ -332,6 +332,8 @@ function pourcentage(){
 		.attr("blop",function(){
 			return this.attributes.prc.value+"%";
 		})
+		.transition()
+		.duration(350)
 		.attr("fill",function(){
 			var valeur = parseFloat(this.attributes.prc.value);
 			var fill="#333333";
