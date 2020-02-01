@@ -1,0 +1,24 @@
+body{
+	font-family: Calibri;
+	margin-left: 1%;
+}
+
+.map {
+	height: 400px;
+	width: 80%;
+	/* margin-left : 10%; */
+  }
+  
+#svgDates{
+	/* margin-left : 10%; */
+	width: 100%;
+	/* border : solid #bbbbbb 0.5px; */
+}
+
+#deuxiemeNiveau{
+	display:flex;
+}
+
+#svgCSP{
+	width:20%;
+}
