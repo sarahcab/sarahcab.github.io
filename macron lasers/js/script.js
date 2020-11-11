@@ -41,7 +41,7 @@ function initialize(){
 		
 	c = setInterval(function(){
 		if(activelaser==true){
-			d3.selectAll("circle").transition().duration(150).attr("r",50)
+			d3.selectAll("circle").transition().duration(150).attr("r",5)
 				.transition().delay(1500).duration(200).attr("r",0)
 			
 			d3.selectAll("line").transition().duration(100).attr("stroke-opacity",1).transition().duration(200).attr("stroke-dasharray",function(){
