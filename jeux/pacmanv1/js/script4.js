@@ -230,8 +230,9 @@ function pacMan(){
 		.attr("class","clignote")
 	
 	mange();
-	alert(e.keyCode);
+	
 	window.onkeypress = function(e){
+		alert(e.keyCode);
 		var sens  = e.keyCode;
 		if(sens==37){
 			nextCase = nextCase - nbX-1;
