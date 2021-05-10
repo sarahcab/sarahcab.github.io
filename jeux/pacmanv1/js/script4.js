@@ -174,6 +174,7 @@ function permanent() {
 				bouge(nextCaseM,"monstre"+i);
 				// find = true;
 			} else {
+				permanent()
 				// find = false;
 				// nextCaseM = choix(nextCaseM,val)
 			}
