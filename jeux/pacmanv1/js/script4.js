@@ -232,18 +232,18 @@ function pacMan(){
 	mange();
 	
 	window.onkeypress = function(e){
-		alert(e.keyCode);
+		console.log(e.key);
 		var sens  = e.keyCode;
-		if(sens==37){
+		if(e.key=="ArrowUp"||e.key=="8"){
 			nextCase = nextCase - nbX-1;
 			d3.select("#bouche").attr("transform","rotate(180)")
-		} else if(sens==40){
+		} else if(e.key=="ArrowRight"||e.key=="6"){
 			nextCase ++;
 			d3.select("#bouche").attr("transform","rotate(90)")
-		} else if(sens==39){
+		} else if(e.key=="ArrowDown"||e.key=="2"){
 			nextCase = parseFloat(nextCase) + parseFloat(nbX) +1;
 			d3.select("#bouche").attr("transform","")
-		} else if(sens==38){
+		} else if(e.key=="ArrowLeft"||e.key=="4"){
 			nextCase = nextCase-1;
 			d3.select("#bouche").attr("transform","rotate(270)")
 		}
