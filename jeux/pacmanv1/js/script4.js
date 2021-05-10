@@ -234,16 +234,16 @@ function pacMan(){
 	window.onkeypress = function(e){
 		console.log(e.key);
 		var sens  = e.keyCode;
-		if(e.key=="ArrowUp"||e.key=="8"){
+		if(e.key=="ArrowLeft"||e.key=="4"){
 			nextCase = nextCase - nbX-1;
 			d3.select("#bouche").attr("transform","rotate(180)")
-		} else if(e.key=="ArrowRight"||e.key=="6"){
+		} else if(e.key=="ArrowDown"||e.key=="2"){
 			nextCase ++;
 			d3.select("#bouche").attr("transform","rotate(90)")
-		} else if(e.key=="ArrowDown"||e.key=="2"){
+		} else if(e.key=="ArrowRight"||e.key=="6"){
 			nextCase = parseFloat(nextCase) + parseFloat(nbX) +1;
 			d3.select("#bouche").attr("transform","")
-		} else if(e.key=="ArrowLeft"||e.key=="4"){
+		} else if(e.key=="ArrowUp"||e.key=="8"){
 			nextCase = nextCase-1;
 			d3.select("#bouche").attr("transform","rotate(270)")
 		}
