@@ -230,6 +230,7 @@ function pacMan(){
 		.attr("class","clignote")
 	
 	mange();
+	alert(e.keyCode);
 	window.onkeypress = function(e){
 		var sens  = e.keyCode;
 		if(sens==37){
