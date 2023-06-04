@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+  		<meta charset="utf-8">
+		<title>Est-ce que mon propriétaire est un rat?</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="ressources/Bibliotheques/d3.js"></script>
+		<!-- <script src="ressources/Bibliotheques/topojson.js"></script> -->
+		<script src="ressources/Bibliotheques/queue.js"></script>
+		
+		<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/> -->
+		<!-- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="  crossorigin=""></script> -->
+	
+		<!-- <link  rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.css"/> -->
+		<!-- <script src="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.umd.js"></script> -->
+	
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+		<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+
+		<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+		<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>     
+
+	
+	</head>		
+	<body>
+		
+		<div id="map">
+		</div>
+		<div id="entete">
+			<h1>Est-ce que mon propriétaire est un gros rat?</h1>
+			<h1 id="reponse"></div>
+		</div>
+		<div id="form">
+			<fieldset>
+				<legend>Zone</legend>
+				 <p id="zone_form"></p>
+			</fieldset>
+			<fieldset id="nb_piece">
+				<legend>Nombre de pièces</legend>
+
+				<div>
+				  <input type="radio" id="piece_1" name="nb_piece" value="piece_1">
+				  <label for="piece_1">1</label>
+				</div>
+				<div>
+				  <input type="radio" id="piece_2" name="nb_piece" value="piece_2">
+				  <label for="piece_2">2</label>
+				</div>
+				<div>
+				  <input type="radio" id="piece_3" name="nb_piece" value="piece_3">
+				  <label for="piece_3">3</label>
+				</div>
+				<div>
+				  <input type="radio" id="piece_4" name="nb_piece" value="piece_4">
+				  <label for="piece_4">4 et plus</label>
+				</div>
+				
+
+			</fieldset>
+			
+			<fieldset>
+				<legend>Epoque de construction du bâtiment:</legend>
+
+				<div>
+				  <input type="radio" id="avant_1946" name="epoque_const" value="avant_1946">
+				  <label for="avant_1946">Avant 1946</label>
+				</div>
+
+				<div>
+				  <input type="radio" id="e_1946_1970" name="epoque_const" value="e_1946_1970">
+				  <label for="e_1946_1970">1946 - 1970</label>
+				</div>
+				
+				<div>
+				  <input type="radio" id="e_1971_1990" name="epoque_const" value="e_1971_1990">
+				  <label for="e_1971_1990">1971 - 1990</label>
+				</div>
+
+				<div>
+				  <input type="radio" id="apres_1990" name="epoque_const" value="apres_1990">
+				  <label for="apres_1990">Après 1990</label>
+				</div>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Type de location</legend>
+
+				<div>
+				  <input type="radio" id="meuble" name="type_loc" value="meuble">
+				  <label for="meuble">Meublé</label>
+				</div>
+				<div>
+				  <input type="radio" id="non_meuble" name="type_loc" value="non_meuble">
+				  <label for="non_meuble">Non meublé</label>
+				</div>
+
+				
+			</fieldset>
+		</div>
+		<script type = "text/javascript" src="data/encadrement-des-loyers-a-lille-lomme-et-hellemmes-zonage.js"></script>
+		<script type = "text/javascript" src="js/script.js"></script>
+	</body>
+</html>
