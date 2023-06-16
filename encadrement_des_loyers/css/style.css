@@ -10,9 +10,48 @@
 
 body{
 	font-family: Roboto, helvetica, arial, sans-serif;
+	text-align:center;
 }
 
+h1,h2{
+	text-align:center;
+}
 
 #map { 
 	height: 180px; 
+}
+
+.parent_flex{
+	display :flex;
+	text-align:center;
+}
+.div_loyer_flex{
+    margin-left: 3%;
+    width: 30%;
+}
+
+#loyers_reference,#mon_loyer,#calcul_reference{
+	border : thick double #32a1ce;
+	margin-bottom : 1em;
+}
+
+input{
+	text-align:center;
+}
+
+#loyer_m2:hover,#loyers_reference:hover,#titre_question:hover{
+	font-weight : 800;
+	color:blue;
+	cursor : pointer;
+}
+
+#entete{
+	display : inline;
+	width:70%;
+}
+
+#zone_form_plus{
+    font-style: italic;
+    margin-top: -2%;
+    font-size: 0.8em;
 }
