@@ -1,0 +1,145 @@
+
+@font-face {
+    font-family: 'Roboto';
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'RobotoBold';
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+
+body{
+	font-family: Roboto, helvetica, arial, sans-serif;
+	text-align:center;
+}
+
+h1,h2{
+	text-align:center;
+}
+
+#map { 
+	height: 500px; 
+}
+
+.parent_flex{
+	display :flex;
+	text-align:center;
+}
+.div_loyer_flex{
+    margin-left: 3%;
+    width: 30%;
+}
+
+#loyers_reference,#mon_loyer,#calcul_reference{
+	border : thick double #7695FF;
+	padding : 0.3em;
+	margin-bottom : 1em;
+}
+
+input{
+	text-align:center;
+}
+
+/* #loyer_m2:hover,#loyers_reference:hover,#titre_question:hover{ */
+	/* font-weight : 800; */
+	/* color:blue; */
+	/* cursor : pointer; */
+/* } */
+
+#entete{
+	display : inline;
+	width:70%;
+}
+
+#zone_form_plus{
+    font-style: italic;
+    margin-top: -1em;
+    font-size: 0.8em;
+}
+
+.bouton{
+	border-radius:50px;
+	height: auto;
+	margin: auto;
+	padding: 0.5em 1em;
+	font-size: 0.9em;
+	margin-top:0.5%;
+	border-style : solid;
+	border-width : 3px;
+	border-color : #BACAFF;
+	background: #7695FF;
+	color: #ffffff;
+	transition-duration:.2s;
+	transition-property: background;
+	-moz-transition-duration:.2s;
+	-moz-transition-property: background;
+	-webkit-transition-duration:.2s;
+	-webkit-transition-property: background;
+	font-family: Walbaumgrot, helvetica, arial, sans-serif;
+}
+
+
+.bouton:hover{
+	background: #222222 !important;
+	border-color : #000000 !important;
+	cursor:pointer !important;
+}
+
+#bouton_suivant{
+	font-size: 1.2em;
+	background : 00A6FF;
+	border-color : 6CD9FF;
+}
+
+#bouton_loyer_ref:disabled,#bouton_suivant:disabled{
+	background: #CCCCCC !important;
+	border-color : #EEEEEE !important;
+	animation : none;
+}
+
+#bouton_loyer_ref:disabled:hover,,#bouton_suivant:disabled:hover{
+	background: #CCCCCC !important;
+	border-color : #EEEEEE !important;
+	cursor:default !important;
+}
+
+#loyers_reference,#loyer_m2,#bouton_taille_carte,#fd_nb_piece,#fd_epoque_construction,#fd_zone,#mon_loyer,#plus_infos{
+	display:none;
+}
+
+#div_loyer_majore{
+	font-weight:800;
+}
+
+.clignote  {
+   animation-duration: .8s;
+   animation-name: clignoter;
+   animation-iteration-count: 5;
+   transition: none;
+}
+@keyframes clignoter {
+  0%   { opacity:1; }
+  40%   {opacity:0; }
+  100% { opacity:1; }
+}
+
+#sources_infos{
+	text-align:right;
+	cursor:pointer;
+	font-style : italic;
+}
+
+/* #plus_infos{ */
+	/* font-style : italic; */
+/* } */
+
+#a{
+	font-weight:bold;
+	color : blue;
+	cursor:pointer;
+}
+
+#loyer_trop{
+	width:90%;
+	margin-left:5%;
+}

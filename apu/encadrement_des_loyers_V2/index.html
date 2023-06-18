@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+  		<meta charset="utf-8">
+		<title>Est-ce que ton propriétaire est un rat?</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="ressources/Bibliotheques/d3.js"></script>
+		<!-- <script src="ressources/Bibliotheques/topojson.js"></script> -->
+		<script src="ressources/Bibliotheques/queue.js"></script>
+		
+		<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/> -->
+		<!-- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="  crossorigin=""></script> -->
+	
+		<!-- <link  rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.css"/> -->
+		<!-- <script src="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.umd.js"></script> -->
+	
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+		<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+
+		<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+		<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>  
+
+<script src="https://cdn.rawgit.com/hayeswise/Leaflet.PointInPolygon/v1.0.0/wise-leaflet-pip.js"></script>
+<script src="https://rawgit.com/hayeswise/Leaflet.PointInPolygon/master/wise-leaflet-pip.js"></script>		
+
+	
+	</head>		
+	<body>
+		<p>Texte de présentation ici</p>
+		
+		<div class="parent_flex" id="div_resultat">
+			<img class="imgPolitique" src="img/point_interrogation.jfif" alt="hihi" width="15%"/>
+			<div id="entete">
+				<h1 id="titre_question">Est-ce que ton propriétaire est un gros rat?)</h1>
+				<h1 id="reponse"></h1>
+				<p id="reponse_detail"></p>
+				<p id="loyer_trop"></p>
+			</div>
+			<img class="imgPolitique" src="img/point_interrogation.jfif"  alt="hihi" width="15%"/>
+		</div>
+		<p><a target="_blank" href="https://www.clcv.org/locataires-prive/non-respect-de-lencadrement-des-loyers-quels-sont-les-recours">Ici la procédure si ton propriétaire dépasse l'encadrement des loyers (page CLCV, a voir si on en fait une nous-même</a></p>
+		<input class="bouton" id="bouton_suivant" type="button" value = "Suivant"/>
+		
+		
+		
+		<!-- <div id="infos_saisir"> -->
+		<div id="mon_loyer">
+			<h2>Ton loyer</h2>
+			
+			<div class="parent_flex" id="div_loyer">
+				
+				<div class="div_loyer_flex">
+					<p>Loyer mensuel (€)</p>
+					<input id="loyer_mensuel" class="calc_loyer" type="number" min="0" ></input>
+				</div>
+				<div class="div_loyer_flex">
+					<p>Surface (m²)</p>
+					<input id="surface" class="calc_loyer" type="number"  min="0" ></input>
+				</div>
+				<div class="div_loyer_flex" id="loyer_m2" >
+					<p id="valeur_loyer_lab">Loyer au m²</p>
+					<p id="valeur_loyer_m2">343</p>
+					
+					<!-- <input class="bouton" id="bouton_loyer_m2" type="button" value = "Recalculer"/> -->
+				</div>
+				
+			</div>
+		</div>
+	
+		<!-- <input class="bouton" id="bouton_loyer_ref" type="button" value = "Recalculer"/> -->
+		<div id="loyers_reference">
+			<h2>Ton loyer de référence</h2>
+			<p>Ton propriétaire n'a pas le droit de dépasser le loyer de référence majoré</p>
+			<div class="parent_flex">
+				<div class="div_loyer_flex">
+					<p>Loyer de référence minoré</p>
+					<p cible="Loyer de référence minoré"></p>
+					<p cible="Loyer de référence minoré - surface"></p>
+				</div>
+				<div class="div_loyer_flex">
+					<p>Loyer de référence</p>
+					<p cible="Loyer de référence"></p>
+					<p cible="Loyer de référence - surface"></p>
+				</div>
+				<div id="div_loyer_majore" class="div_loyer_flex">
+					<p>Loyer de référence majoré </p>
+					<p cible="Loyer de référence majoré"></p>
+					<p cible="Loyer de référence majoré - surface"></p>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		
+		<div id="calcul_reference">
+			<!-- <h2>Les éléments définis dans l'encadrement des loyer</h2> -->
+			<h2>Ton logement</h2>
+			
+			<div id="form">
+				<fieldset id="fd_zone">
+					<legend>Zone</legend>
+					 <p id="zone_form">?</p>
+					<p id="zone_form_plus">Cliquer sur une zone dans la carte ou utiliser la loupe pour chercher une adresse</p>
+					 
+					<p id="legend"></p>
+					<div id="map"></div>
+					
+					<input class="bouton" id="bouton_taille_carte" type="button" value = "Agrandir la carte"/>
+				</fieldset>
+				<fieldset id="fd_nb_piece">
+					<legend>Nombre de pièces</legend>
+
+					<div>
+					  <input type="radio" id="piece_1" name="nb_piece" value="1">
+					  <label for="piece_1">1</label>
+					</div>
+					<div>
+					  <input type="radio" id="piece_2" name="nb_piece" value="2">
+					  <label for="piece_2">2</label>
+					</div>
+					<div>
+					  <input type="radio" id="piece_3" name="nb_piece" value="3">
+					  <label for="piece_3">3</label>
+					</div>
+					<div>
+					  <input type="radio" id="piece_4" name="nb_piece" value="4">
+					  <label for="piece_4">4 et plus</label>
+					</div>
+					
+
+				</fieldset>
+				
+				<fieldset id="fd_epoque_construction">
+					<legend>Epoque de construction du bâtiment:</legend>
+
+					<div>
+					  <input type="radio" id="avant_1946" name="epoque_const" value="< 1946">
+					  <label for="avant_1946">Avant 1946</label>
+					</div>
+
+					<div>
+					  <input type="radio" id="e_1946_1970" name="epoque_const" value="1946 - 1970">
+					  <label for="e_1946_1970">1946 - 1970</label>
+					</div>
+					
+					<div>
+					  <input type="radio" id="e_1971_1990" name="epoque_const" value="1971 - 1990">
+					  <label for="e_1971_1990">1971 - 1990</label>
+					</div>
+
+					<div>
+					  <input type="radio" id="apres_1990" name="epoque_const" value="> 1990">
+					  <label for="apres_1990">Après 1990</label>
+					</div>
+				</fieldset>
+				
+				<fieldset id="fd_type_de_location">
+					<legend>Type de location</legend>
+
+					<div>
+					  <input type="radio" id="meuble" name="type_loc" value="Locations meublées">
+					  <label for="meuble">Meublé</label>
+					</div>
+					<div>
+					  <input type="radio" id="non_meuble" name="type_loc" value="Locations non meublées">
+					  <label for="non_meuble">Non meublé</label>
+					</div>
+
+					
+				</fieldset>
+			
+				
+				
+			</div>
+		</div>
+		
+		<p id="sources_infos">Plus d'infos ici...</p>
+		<div id="plus_infos">
+			<p>Les données utilisées pour réaliser le simulateur</p>
+			<p> Actuellement, le site web de la mairie qui proposait un simulateur est en panne, mais vous vous pouvez trouver des infos relatives à l'encadrement des loyers 
+				<a target="_blank" href="https://www.lille.fr/Vivre-a-Lille/Mon-logement/L-encadrement-des-loyers">ici</a>
+			</p>
+			<p>Si vous avez besoin d'aide pour contester votre loyer, vous pouvez contacter l'apu Fives (lien interne site web)</p>
+		</div>
+			
+		<script type = "text/javascript" src="data/encadrement-des-loyers-a-lille-lomme-et-hellemmes-zonage.js"></script>
+		<script type = "text/javascript" src="data/encadrement-des-loyers-a-lille-lomme-et-hellemmes-referentiel.js"></script>
+		<script type = "text/javascript" src="js/script.js"></script>
+	</body>
+</html>
