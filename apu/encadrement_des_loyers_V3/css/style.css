@@ -1,0 +1,165 @@
+
+@font-face {
+    font-family: 'Roboto';
+    src:url("../ressources/polices/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: 'RobotoBold';
+    src:url("../ressources/polices/Roboto-BoldCondensed.ttf");
+}
+
+body{
+	font-family:  "Bitter", Arial, Verdana;
+	/* font-family: Roboto, helvetica, arial, sans-serif; */
+	text-align:center;
+	font-size : 1.1em;
+	width : 90%;
+	margin-left:5%;
+}
+
+h1,h2{
+	text-align:center;
+}
+
+#map { 
+	height: 180px; 
+}
+
+.parent_flex{
+	display :flex;
+	text-align:center;
+}
+.div_loyer_flex{
+    margin-left: 3%;
+    width: 30%;
+}
+
+#loyers_reference,#mon_loyer,#calcul_reference{
+	/* border : thick double #7695FF; */
+	padding : 0.3em;
+	margin-bottom : 1em;
+}
+
+fieldset,#loyers_reference,#mon_loyer{
+	border-width: 1px;
+    border-style: groove;
+    border-color: #AAAAAA;
+    /* border-image: initial; */
+}
+
+input{
+	text-align:center;
+}
+
+/* #loyer_m2:hover,#loyers_reference:hover,#titre_question:hover{ */
+	/* font-weight : 800; */
+	/* color:blue; */
+	/* cursor : pointer; */
+/* } */
+
+#entete{
+	display : inline;
+}
+
+#zone_form_plus{
+    font-style: italic;
+    margin-top: -1em;
+    margin-bottom: 0;
+}
+
+#legend{
+	margin-top : 0;
+}
+
+.bouton{
+	border-radius:50px;
+	height: auto;
+	margin: auto;
+	padding: 0.5em 1em;
+	margin-top:0.5%;
+	border-style : solid;
+	border-width : 3px;
+	border-color : #BACAFF;
+	background: #7695FF;
+	color: #ffffff;
+	transition-duration:.2s;
+	transition-property: background;
+	-moz-transition-duration:.2s;
+	-moz-transition-property: background;
+	-webkit-transition-duration:.2s;
+	-webkit-transition-property: background;
+	font-family: Walbaumgrot, helvetica, arial, sans-serif;
+}
+
+
+.bouton:hover{
+	background: #222222 !important;
+	border-color : #000000 !important;
+	cursor:pointer !important;
+}
+
+#bouton_suivant{
+	font-size: 1.4em;
+	background : 00A6FF;
+	border-color : 6CD9FF;
+}
+
+#bouton_loyer_ref:disabled,#bouton_suivant:disabled{
+	background: #CCCCCC !important;
+	border-color : #EEEEEE !important;
+	animation : none;
+}
+
+#bouton_loyer_ref:disabled:hover,,#bouton_suivant:disabled:hover{
+	background: #CCCCCC !important;
+	border-color : #EEEEEE !important;
+	cursor:default !important;
+}
+
+#loyers_reference,#div_resultat,#loyer_m2,#fd_nb_piece,#fd_epoque_construction,#fd_zone,#mon_loyer{
+	display:none;
+}
+
+#div_loyer_majore{
+	font-weight:800;
+}
+
+.clignote  {
+   animation-duration: .8s;
+   animation-name: clignoter;
+   animation-iteration-count: 5;
+   transition: none;
+}
+@keyframes clignoter {
+  0%   { opacity:1; }
+  40%   {opacity:0; }
+  100% { opacity:1; }
+}
+
+/* #sources_infos{ */
+	/* text-align:right; */
+	/* cursor:pointer; */
+	/* font-style : italic; */
+/* } */
+
+#plus_infos{
+	margin-top: 5%;
+	text-align:left;
+	font-size : 0.8em;
+	font-style : italic; 
+}
+
+#a{
+	font-weight:bold;
+	color : blue;
+	cursor:pointer;
+}
+
+#loyer_trop{
+	width:90%;
+	margin-left:5%;
+}
+
+label,input[type=radio]{
+	cursor:pointer;
+}
