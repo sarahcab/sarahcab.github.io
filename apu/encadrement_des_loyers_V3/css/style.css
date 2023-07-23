@@ -10,11 +10,22 @@
 
 body{
 	font-family:  "Bitter", Arial, Verdana;
-	/* font-family: Roboto, helvetica, arial, sans-serif; */
 	text-align:center;
 	font-size : 1.1em;
-	width : 90%;
-	margin-left:5%;
+	/* width : 90%; */
+	/* margin-left:5%; */
+}
+
+
+#colonne_gauche,#colonne_droite{
+	padding : 2.5%;
+}
+
+#colonne_gauche{
+	width : 100%;
+}
+#colonne_droite{
+	width : 0%;
 }
 
 h1,h2{
@@ -22,7 +33,7 @@ h1,h2{
 }
 
 #map { 
-	height: 180px; 
+	height: 500px; 
 }
 
 .parent_flex{
@@ -35,7 +46,7 @@ h1,h2{
 }
 
 #loyers_reference,#mon_loyer,#calcul_reference{
-	/* border : thick double #7695FF; */
+
 	padding : 0.3em;
 	margin-bottom : 1em;
 }
@@ -44,18 +55,12 @@ fieldset,#loyers_reference,#mon_loyer{
 	border-width: 1px;
     border-style: groove;
     border-color: #AAAAAA;
-    /* border-image: initial; */
 }
 
 input{
 	text-align:center;
 }
 
-/* #loyer_m2:hover,#loyers_reference:hover,#titre_question:hover{ */
-	/* font-weight : 800; */
-	/* color:blue; */
-	/* cursor : pointer; */
-/* } */
 
 #entete{
 	display : inline;
@@ -116,7 +121,7 @@ input{
 	cursor:default !important;
 }
 
-#loyers_reference,#div_resultat,#loyer_m2,#fd_nb_piece,#fd_epoque_construction,#fd_zone,#mon_loyer{
+#loyers_reference,#div_resultat,#plus_infos,#loyer_m2,#fd_nb_piece,#fd_epoque_construction,#fd_zone,#mon_loyer{
 	display:none;
 }
 
@@ -135,12 +140,6 @@ input{
   40%   {opacity:0; }
   100% { opacity:1; }
 }
-
-/* #sources_infos{ */
-	/* text-align:right; */
-	/* cursor:pointer; */
-	/* font-style : italic; */
-/* } */
 
 #plus_infos{
 	margin-top: 5%;
@@ -163,3 +162,13 @@ input{
 label,input[type=radio]{
 	cursor:pointer;
 }
+
+#info_coloc{
+	text-align:right;
+	font-size:0.7em;
+}
+
+.calc_loyer{
+	width : 90%;
+}
+
